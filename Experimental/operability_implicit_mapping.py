@@ -9,6 +9,8 @@ from jax import lax, jacfwd, jacrev
 from jax.numpy.linalg import pinv
 config.update("jax_enable_x64", True)
 
+from scipy.integrate import odeint as odeintscipy
+from numpy.linalg import norm 
 import jax.numpy as jnp
 import numpy as np
 from jax.experimental.ode import odeint
@@ -80,7 +82,8 @@ def implicit_map(f_model,
     dFdi = jacrev(F, 0)
     dFdo = jacrev(F, 1)
     dodi = lambda ii,oo: -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
-
+    
+    dods = lambda oo, s, s_length, i0, iplus: dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
     # %% Initializing
     sol = root(F_io, image_init,args=domain_bound[:,0])
     
@@ -160,7 +163,7 @@ def implicit_map(f_model,
                     V_domain_id[:,k] = domain_k
                     
                     #sol = root(F_io, image_0,args=domain_k)
-                    print('root')
+                    # print('root')
                     sol = root(F_io, image_0, args=domain_k)
 
                     image_k = predict_eEuler(dodi,domain_0,domain_k,image_0)
@@ -168,17 +171,20 @@ def implicit_map(f_model,
                     image_set[ID_cell] = sol.x
                     V_image_id[:,k] = sol.x
                     
-                    # print('Explicit solution')
-                    # print(shower(domain_k))
+                    print('Explicit solution')
+                    print(shower(domain_k))
                     
                     print('Implicit solution')
                     print(sol.x)
                     
-                    print('Estimated Euler implicit solution')
-                    print(image_k)
+                    print('Estimated odeint implicit solution')
+                    print(predict_odeint(dods,domain_0,domain_k,image_0))
                     
                     print('Estimated RK4 implicit solution')
                     print(predict_RK4(dodi,domain_0,domain_k,image_0))
+                    
+                    print('Estimated Euler implicit solution')
+                    print(image_k)
                     
                     print()
             domain_polyhedra.append(V_domain_id)
@@ -186,10 +192,12 @@ def implicit_map(f_model,
     return domain_set, image_set, domain_polyhedra, image_polyhedra
 
 # %% Continuation methods
-def predict_odeint(dodi, i0, iplus ,o0):
-    k = np.sqrt((i0 - iplus)**2 )
-    output_plus = 0
-    return output_plus
+def predict_odeint(dods, i0, iplus ,o0):
+    s_length = norm(iplus - i0)
+    s_span = jnp.linspace(0.0, s_length, 10)
+    sol = odeintscipy(dods, o0, s_span, args=(s_length, i0, iplus))
+    # sol = odeint(dods, o0, s_span, s_length, i0, iplus)
+    return sol[-1,:]
 
 def predict_RK4(dodi,i0, iplus ,o0):
     h = iplus -i0
@@ -207,10 +215,15 @@ def shower_implicit(u,y):
     d = jnp.zeros(2)
     LHS1 = y[0] - (u[0]+u[1])
     # LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    if y[0]!=0:
-        LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    else:
-        LHS2 = y[1] - (60+120)/2
+    y0_aux = y[0]
+    
+    LHS2_AX = y[1] - (60+120)/2
+    
+    LHS2 = jnp.where(y0_aux !=0, y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1]), LHS2_AX)
+    # if y[0]!=0:
+    #     LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
+    # else:
+        
     
     return jnp.array([LHS1, LHS2])
 def shower(u):
@@ -239,18 +252,18 @@ def FF1_implicit(u,y):
     return jnp.array([LHS0, LHS1])
 
 #%% Test DMA-MR inverse
-DOS_bound = np.array([[22.4, 22.8],
-                    [39.4, 40.0]])
+# DOS_bound = np.array([[22.4, 22.8],
+#                     [39.4, 40.0]])
 
-DOSresolution = [10, 10]
+# DOSresolution = [10, 10]
 
-output_init = np.array([20.0, 0.9])
+# output_init = np.array([20.0, 0.9])
 
-DOS, DIS, DOS_poly, DIS_poly = implicit_map(F_DMA_MR_eqn, 
-                                            DOS_bound, 
-                                            DOSresolution, 
-                                            output_init, 
-                                            direction = 'inverse')
+# DOS, DIS, DOS_poly, DIS_poly = implicit_map(F_DMA_MR_eqn, 
+#                                             DOS_bound, 
+#                                             DOSresolution, 
+#                                             output_init, 
+#                                             direction = 'inverse')
 
 # %% Test shower forward
 AIS_bound = np.array([[10.0, 100.0],
