@@ -87,6 +87,15 @@ def implicit_map(f_model,
     # %% Initializing
     sol = root(F_io, image_init,args=domain_bound[:,0])
     
+    # %% Predictor selection
+    if continuation == 'Explicit RK4':
+        predict = predict_RK4
+    elif continuation == 'Explicit Euler':
+        predict = predict_eEuler
+    elif continuation == 'odeint':
+        predict = predict_odeint
+    else:
+        predict = predict_odeint
     # %% Pre-alocating the domain set
     numInput = np.prod(domain_resolution)
     nInput = domain_bound.shape[0]
@@ -167,9 +176,10 @@ def implicit_map(f_model,
                     sol = root(F_io, image_0, args=domain_k)
 
                     image_k = predict_eEuler(dodi,domain_0,domain_k,image_0)
-
-                    image_set[ID_cell] = sol.x
-                    V_image_id[:,k] = sol.x
+                    
+                    sol_x = predict(dods,domain_0,domain_k,image_0)
+                    image_set[ID_cell] = sol_x
+                    V_image_id[:,k] = sol_x
                     
                     print('Explicit solution')
                     print(shower(domain_k))
@@ -177,8 +187,8 @@ def implicit_map(f_model,
                     print('Implicit solution')
                     print(sol.x)
                     
-                    print('Estimated odeint implicit solution')
-                    print(predict_odeint(dods,domain_0,domain_k,image_0))
+                    print('Estimated odeint solution')
+                    print(predict(dods,domain_0,domain_k,image_0))
                     
                     print('Estimated RK4 implicit solution')
                     print(predict_RK4(dodi,domain_0,domain_k,image_0))
@@ -194,9 +204,9 @@ def implicit_map(f_model,
 # %% Continuation methods
 def predict_odeint(dods, i0, iplus ,o0):
     s_length = norm(iplus - i0)
-    s_span = jnp.linspace(0.0, s_length, 10)
-    sol = odeintscipy(dods, o0, s_span, args=(s_length, i0, iplus))
-    # sol = odeint(dods, o0, s_span, s_length, i0, iplus)
+    s_span = jnp.linspace(0.0, s_length, 100)
+    # sol = odeintscipy(dods, o0, s_span, args=(s_length, i0, iplus))
+    sol = odeint(dods, o0, s_span, s_length, i0, iplus)
     return sol[-1,:]
 
 def predict_RK4(dodi,i0, iplus ,o0):
@@ -214,12 +224,12 @@ def predict_eEuler(dodi,i0, iplus ,o0):
 def shower_implicit(u,y):
     d = jnp.zeros(2)
     LHS1 = y[0] - (u[0]+u[1])
-    # LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    y0_aux = y[0]
+    LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
+    # y0_aux = y[0]
     
-    LHS2_AX = y[1] - (60+120)/2
+    # LHS2_AX = y[1] - (60+120)/2
+    # LHS2 = jnp.where(y0_aux !=0, y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1]), LHS2_AX)
     
-    LHS2 = jnp.where(y0_aux !=0, y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1]), LHS2_AX)
     # if y[0]!=0:
     #     LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
     # else:
@@ -266,10 +276,10 @@ def FF1_implicit(u,y):
 #                                             direction = 'inverse')
 
 # %% Test shower forward
-AIS_bound = np.array([[10.0, 100.0],
-                    [0.5, 2.0]])
+AIS_bound = np.array([[0.5, 10.0],
+                    [0.5, 10.0]])
 
-AISresolution = [10, 10]
+AISresolution = [2, 2]
 
 output_init = np.array([00.0, 10])
 
