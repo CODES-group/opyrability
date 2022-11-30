@@ -80,12 +80,7 @@ def implicit_map(f_model,
     dFdi = jacrev(F, 0)
     dFdo = jacrev(F, 1)
     dodi = lambda ii,oo: -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
-    # dodi = lambda ii,oo: -pinv(dFdi(ii,oo)) @ dFdo(ii,oo)
-    # dodi = lambda ii,oo: np.array(-dFdo(ii,oo)).squeeze() @ np.array(pinv(dFdi(ii,oo))).squeeze()
-    # slack_in = domain_bound[:,0]
-    # slack_out = np.array([32.00,32.00])
-    # return dodi(np.array([1.0,2.0]), np.array([32.00,32.00]))
-    
+
     # %% Initializing
     sol = root(F_io, image_init,args=domain_bound[:,0])
     
@@ -125,6 +120,7 @@ def implicit_map(f_model,
                                np.binary_repr(n, width=nInput)])
     
     domain_polyhedra = list()
+    image_polyhedra = list()
     for i in range(numInput):
         inputID[0] = int(np.mod(i, domain_resolution[0]))
         
@@ -164,6 +160,7 @@ def implicit_map(f_model,
                     V_domain_id[:,k] = domain_k
                     
                     #sol = root(F_io, image_0,args=domain_k)
+                    print('root')
                     sol = root(F_io, image_0, args=domain_k)
 
                     image_k = predict_eEuler(dodi,domain_0,domain_k,image_0)
@@ -171,8 +168,8 @@ def implicit_map(f_model,
                     image_set[ID_cell] = sol.x
                     V_image_id[:,k] = sol.x
                     
-                    print('Explicit solution')
-                    print(shower(domain_k))
+                    # print('Explicit solution')
+                    # print(shower(domain_k))
                     
                     print('Implicit solution')
                     print(sol.x)
@@ -185,7 +182,8 @@ def implicit_map(f_model,
                     
                     print()
             domain_polyhedra.append(V_domain_id)
-    return image_set
+            image_polyhedra.append(V_domain_id)
+    return domain_set, image_set, domain_polyhedra, image_polyhedra
 
 # %% Continuation methods
 def predict_odeint(dodi, i0, iplus ,o0):
@@ -195,11 +193,10 @@ def predict_odeint(dodi, i0, iplus ,o0):
 
 def predict_RK4(dodi,i0, iplus ,o0):
     h = iplus -i0
-
     k1 = dodi( i0          , o0           )
     k2 = dodi( i0 + (1/2)*h, o0 + (h/2)@k1)
     k3 = dodi( i0 + (1/2)*h, o0 + (h/2)@k1)
-    k4 = dodi( i0 +       h, o0 +       h@k3)
+    k4 = dodi( jnp.array(i0 +       h), o0 +       (h)@k3)
     return o0 + (1/6)*(k1 + 2*k2 + 2*k3 + k4)@h
 
 def predict_eEuler(dodi,i0, iplus ,o0):
@@ -240,16 +237,30 @@ def FF1_implicit(u,y):
     LHS0 = y[0] - (u[0] - 2*u[1])
     LHS1 = y[1] - (3*u[0] + 4*u[1])
     return jnp.array([LHS0, LHS1])
-#%% Test run
-AIS_bound = np.array([[1.0, 10],
-                    [1.0, 10]])
 
-# AIS_bound = np.array([[10.0, 100.0],
-#                     [0.5, 2.0]])
+#%% Test DMA-MR inverse
+DOS_bound = np.array([[22.4, 22.8],
+                    [39.4, 40.0]])
+
+DOSresolution = [10, 10]
+
+output_init = np.array([20.0, 0.9])
+
+DOS, DIS, DOS_poly, DIS_poly = implicit_map(F_DMA_MR_eqn, 
+                                            DOS_bound, 
+                                            DOSresolution, 
+                                            output_init, 
+                                            direction = 'inverse')
+
+# %% Test shower forward
+AIS_bound = np.array([[10.0, 100.0],
+                    [0.5, 2.0]])
 
 AISresolution = [10, 10]
 
-output_init = np.array([0.0, 10.0])
-slack = implicit_map(shower_implicit, AIS_bound, AISresolution, output_init)
+output_init = np.array([00.0, 10])
 
-print(slack)
+AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
+                                            AIS_bound, 
+                                            AISresolution, 
+                                            output_init)
