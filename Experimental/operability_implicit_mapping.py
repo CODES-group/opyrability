@@ -150,7 +150,6 @@ def implicit_map(f_model,
                     V_image_id[:,k] = image_0
                     # print('Domain 0')
                     # print(domain_0)
-                    
                     # print('image 0')
                     # print(image_0)
                     # print('dFdi')
@@ -197,11 +196,11 @@ def predict_odeint(dodi, i0, iplus ,o0):
 def predict_RK4(dodi,i0, iplus ,o0):
     h = iplus -i0
 
-    k1 = h@dodi( i0          , o0           )
-    k2 = h@dodi( i0 + (1/2)*h, o0 + (1/2)*k1)
-    k3 = h@dodi( i0 + (1/2)*h, o0 + (1/2)*k1)
-    k4 = h@dodi( i0 +       h, o0 +       k3)
-    return o0 + (1/6)*(k1 + 2*k2 + 2*k3 + k4)
+    k1 = dodi( i0          , o0           )
+    k2 = dodi( i0 + (1/2)*h, o0 + (h/2)@k1)
+    k3 = dodi( i0 + (1/2)*h, o0 + (h/2)@k1)
+    k4 = dodi( i0 +       h, o0 +       h@k3)
+    return o0 + (1/6)*(k1 + 2*k2 + 2*k3 + k4)@h
 
 def predict_eEuler(dodi,i0, iplus ,o0):
     return o0 + dodi(i0,o0)@(iplus -i0)
@@ -248,7 +247,7 @@ AIS_bound = np.array([[1.0, 10],
 # AIS_bound = np.array([[10.0, 100.0],
 #                     [0.5, 2.0]])
 
-AISresolution = [5, 5]
+AISresolution = [10, 10]
 
 output_init = np.array([0.0, 10.0])
 slack = implicit_map(shower_implicit, AIS_bound, AISresolution, output_init)
