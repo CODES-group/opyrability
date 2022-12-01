@@ -4,6 +4,8 @@ Created on Mon Nov 28 14:31:26 2022
 
 @author: sqd0001
 """
+import time
+import jax
 from jax.config import config
 from jax import lax, jacfwd, jacrev
 from jax.numpy.linalg import pinv
@@ -79,23 +81,37 @@ def implicit_map(f_model,
     else:
         print('Invalid Mapping Selected. Please select the direction to be either "forward" or "inverse"')
     
+    
+   
     dFdi = jacrev(F, 0)
     dFdo = jacrev(F, 1)
-    dodi = lambda ii,oo: -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
+    # dodi = lambda ii,oo: -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
     
-    dods = lambda oo, s, s_length, i0, iplus: dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
+    @jax.jit
+    def dodi(ii,oo):
+        return -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
+    
+    
+    
+    # dods = lambda oo, s, s_length, i0, iplus: dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
+    @jax.jit
+    def dods(oo,s, s_length, i0, iplus):
+        return dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
     # %% Initializing
     sol = root(F_io, image_init,args=domain_bound[:,0])
     
     # %% Predictor selection
     if continuation == 'Explicit RK4':
         predict = predict_RK4
+        do_predict = dodi
     elif continuation == 'Explicit Euler':
         predict = predict_eEuler
+        do_predict = dodi
     elif continuation == 'odeint':
         predict = predict_odeint
+        do_predict = dods
     else:
-        predict = predict_odeint
+        print('Incorrect continuation method')
     # %% Pre-alocating the domain set
     numInput = np.prod(domain_resolution)
     nInput = domain_bound.shape[0]
@@ -173,41 +189,45 @@ def implicit_map(f_model,
                     
                     #sol = root(F_io, image_0,args=domain_k)
                     # print('root')
-                    sol = root(F_io, image_0, args=domain_k)
+                    # sol = root(F_io, image_0, args=domain_k)
 
-                    image_k = predict_eEuler(dodi,domain_0,domain_k,image_0)
                     
-                    sol_x = predict(dods,domain_0,domain_k,image_0)
+                    
+                    sol_x = predict(do_predict,domain_0,domain_k,image_0)
                     image_set[ID_cell] = sol_x
                     V_image_id[:,k] = sol_x
                     
-                    print('Explicit solution')
-                    print(shower(domain_k))
+                    # print('Explicit solution')
+                    # print(shower(domain_k))
                     
-                    print('Implicit solution')
-                    print(sol.x)
+                    # print('Implicit solution')
+                    # print(sol.x)
                     
-                    print('Estimated odeint solution')
-                    print(predict(dods,domain_0,domain_k,image_0))
+                    # print('Estimated odeint solution')
+                    # print(predict(dods,domain_0,domain_k,image_0))
                     
-                    print('Estimated RK4 implicit solution')
-                    print(predict_RK4(dodi,domain_0,domain_k,image_0))
+                    # print('Estimated RK4 implicit solution')
+                    # print(predict_RK4(dodi,domain_0,domain_k,image_0))
                     
-                    print('Estimated Euler implicit solution')
-                    print(image_k)
                     
-                    print()
+                    # image_k = predict_eEuler(dodi,domain_0,domain_k,image_0)
+                    # print('Estimated Euler implicit solution')
+                    # print(image_k)
+                    
+                    # print()
             domain_polyhedra.append(V_domain_id)
-            image_polyhedra.append(V_domain_id)
+            image_polyhedra.append(V_image_id)
     return domain_set, image_set, domain_polyhedra, image_polyhedra
 
 # %% Continuation methods
+
 def predict_odeint(dods, i0, iplus ,o0):
     s_length = norm(iplus - i0)
     s_span = jnp.linspace(0.0, s_length, 100)
     # sol = odeintscipy(dods, o0, s_span, args=(s_length, i0, iplus))
     sol = odeint(dods, o0, s_span, s_length, i0, iplus)
     return sol[-1,:]
+
 
 def predict_RK4(dodi,i0, iplus ,o0):
     h = iplus -i0
@@ -223,12 +243,18 @@ def predict_eEuler(dodi,i0, iplus ,o0):
 # %% Test area! REMOVE BEFORE RELEASE!!!!
 def shower_implicit(u,y):
     d = jnp.zeros(2)
+    y0_aux = (u[0]+u[1])
+    
+    y0_aux= jnp.where(y0_aux <= 1e-9, 1e-16, y0_aux)
+    
+    
     LHS1 = y[0] - (u[0]+u[1])
-    LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    # y0_aux = y[0]
+    LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(y0_aux)
+    
     
     # LHS2_AX = y[1] - (60+120)/2
-    # LHS2 = jnp.where(y0_aux !=0, y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1]), LHS2_AX)
+    LHS2_AX = y[1] - (60+120)/2
+    LHS2 = jnp.where(y0_aux <= 1e-9, LHS2_AX, LHS2)
     
     # if y[0]!=0:
     #     LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
@@ -276,14 +302,84 @@ def FF1_implicit(u,y):
 #                                             direction = 'inverse')
 
 # %% Test shower forward
-AIS_bound = np.array([[0.5, 10.0],
-                    [0.5, 10.0]])
+# AIS_bound = np.array([[0.1, 10.0],
+#                     [0.1, 10.0]])
 
-AISresolution = [2, 2]
+# # AIS_bound =  np.array([[5.0, 10.0],
+# #                       [80.0, 100.0]])
 
-output_init = np.array([00.0, 10])
+# AISresolution = [5, 5]
 
-AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
-                                            AIS_bound, 
-                                            AISresolution, 
-                                            output_init)
+# output_init = np.array([0.0, 10.0])
+
+# t1 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
+#                                             AIS_bound, 
+#                                             AISresolution, 
+#                                             output_init,
+#                                             continuation='odeint')
+
+# elapsed_odeint = time.time() -  t1
+
+# print('ODEINT time (s)')
+# print(elapsed_odeint)
+
+
+# t2 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
+#                                             AIS_bound, 
+#                                             AISresolution, 
+#                                             output_init,
+#                                             continuation='Explicit RK4')
+
+# elapsed_RK4 = time.time() -  t2
+
+# print('RK4 time (s)')
+# print(elapsed_RK4)
+
+# from pyprop import *
+# Polytope = list()
+
+# for i in range(len(AOS_poly)):
+#      Vertices = AOS_poly[i].T
+     
+#      Polytope.append(pc.qhull(Vertices))
+     
+     
+# overlapped_region = pc.Region(Polytope[0:])
+
+# %%
+DOS_bound = np.array([[22.4, 22.8],
+                    [39.4, 40.0]])
+
+DOSresolution = [3, 3]
+
+output_init = np.array([20.0, 0.9])
+
+
+t1 = time.time()
+AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
+                                            DOS_bound, 
+                                            DOSresolution , 
+                                            output_init,
+                                            continuation='odeint',
+                                            direction= 'inverse')
+
+elapsed_odeint = time.time() -  t1
+
+print('ODEINT time (s)')
+print(elapsed_odeint)
+
+# %%
+t2 = time.time()
+AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
+                                            DOS_bound, 
+                                            DOSresolution , 
+                                            output_init,
+                                            continuation='Explicit RK4',
+                                            direction='inverse')
+
+elapsed_RK4 = time.time() -  t2
+
+print('RK4 time (s)')
+print(elapsed_RK4)
