@@ -18,6 +18,7 @@ import numpy as np
 from jax.experimental.ode import odeint
 
 from scipy.optimize import root, fsolve
+from tqdm import tqdm
 # %% REMOVE THIS BEFORE RELEASE
 from DMA_MR_ss import *
 
@@ -86,14 +87,11 @@ def implicit_map(f_model,
     dFdi = jacrev(F, 0)
     dFdo = jacrev(F, 1)
     # dodi = lambda ii,oo: -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
-    
+    # dods = lambda oo, s, s_length, i0, iplus: dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
     @jax.jit
     def dodi(ii,oo):
         return -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
     
-    
-    
-    # dods = lambda oo, s, s_length, i0, iplus: dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
     @jax.jit
     def dods(oo,s, s_length, i0, iplus):
         return dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
@@ -149,7 +147,7 @@ def implicit_map(f_model,
     
     domain_polyhedra = list()
     image_polyhedra = list()
-    for i in range(numInput):
+    for i in tqdm(range(numInput)):
         inputID[0] = int(np.mod(i, domain_resolution[0]))
         
         
@@ -184,37 +182,25 @@ def implicit_map(f_model,
                     # print(dodi(domain_0,image_0))
                     
                 else:
-                    domain_k = domain_set[ID_cell]
-                    V_domain_id[:,k] = domain_k
-                    
-                    #sol = root(F_io, image_0,args=domain_k)
-                    # print('root')
-                    # sol = root(F_io, image_0, args=domain_k)
-
-                    
-                    
-                    sol_x = predict(do_predict,domain_0,domain_k,image_0)
-                    image_set[ID_cell] = sol_x
-                    V_image_id[:,k] = sol_x
-                    
-                    # print('Explicit solution')
-                    # print(shower(domain_k))
-                    
-                    # print('Implicit solution')
-                    # print(sol.x)
-                    
-                    # print('Estimated odeint solution')
-                    # print(predict(dods,domain_0,domain_k,image_0))
-                    
-                    # print('Estimated RK4 implicit solution')
-                    # print(predict_RK4(dodi,domain_0,domain_k,image_0))
-                    
-                    
-                    # image_k = predict_eEuler(dodi,domain_0,domain_k,image_0)
-                    # print('Estimated Euler implicit solution')
-                    # print(image_k)
-                    
-                    # print()
+                    if np.isnan(np.prod(image_set[ID_cell])):
+                        domain_k = domain_set[ID_cell]
+                        V_domain_id[:,k] = domain_k
+                        
+                        sol_x = predict(do_predict,domain_0,domain_k,image_0)
+                        image_set[ID_cell] = sol_x
+                        V_image_id[:,k] = sol_x
+                        
+                        # print('Explicit solution')
+                        # print(shower(domain_k))
+                        # print('root')
+                        # sol = root(F_io, image_0, args=domain_k)
+                        # print('Implicit solution')
+                        # print(sol.x)
+                        
+                        # print('Estimated solution')
+                        # print(sol_x)
+                        
+                        # print()
             domain_polyhedra.append(V_domain_id)
             image_polyhedra.append(V_image_id)
     return domain_set, image_set, domain_polyhedra, image_polyhedra
@@ -223,7 +209,7 @@ def implicit_map(f_model,
 
 def predict_odeint(dods, i0, iplus ,o0):
     s_length = norm(iplus - i0)
-    s_span = jnp.linspace(0.0, s_length, 100)
+    s_span = jnp.linspace(0.0, s_length, 10)
     # sol = odeintscipy(dods, o0, s_span, args=(s_length, i0, iplus))
     sol = odeint(dods, o0, s_span, s_length, i0, iplus)
     return sol[-1,:]
@@ -337,38 +323,14 @@ def FF1_implicit(u,y):
 # print('RK4 time (s)')
 # print(elapsed_RK4)
 
-# from pyprop import *
-# Polytope = list()
-
-# for i in range(len(AOS_poly)):
-#      Vertices = AOS_poly[i].T
-     
-#      Polytope.append(pc.qhull(Vertices))
-     
-     
-# overlapped_region = pc.Region(Polytope[0:])
 
 # %%
 DOS_bound = np.array([[22.4, 22.8],
                     [39.4, 40.0]])
 
-DOSresolution = [3, 3]
+DOSresolution = [20, 20]
 
 output_init = np.array([20.0, 0.9])
-
-
-t1 = time.time()
-AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
-                                            DOS_bound, 
-                                            DOSresolution , 
-                                            output_init,
-                                            continuation='odeint',
-                                            direction= 'inverse')
-
-elapsed_odeint = time.time() -  t1
-
-print('ODEINT time (s)')
-print(elapsed_odeint)
 
 # %%
 t2 = time.time()
@@ -383,3 +345,17 @@ elapsed_RK4 = time.time() -  t2
 
 print('RK4 time (s)')
 print(elapsed_RK4)
+
+t1 = time.time()
+AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
+                                            DOS_bound, 
+                                            DOSresolution , 
+                                            output_init,
+                                            continuation='odeint',
+                                            direction= 'inverse')
+
+elapsed_odeint = time.time() -  t1
+
+print('ODEINT time (s)')
+print(elapsed_odeint)
+
