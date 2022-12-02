@@ -29,9 +29,10 @@ def implicit_map(f_model,
                  image_init,
                  direction = 'forward', 
                  validation = 'predictor-corrector', 
-                 tol_cor = 1e-8, 
-                 continuation = 'odeint',
-                 derivative = 'jax'):
+                 tol_cor = 1e-5, 
+                 continuation = 'Explicit RK4',
+                 derivative = 'jax',
+                 jit = True):
     '''
     @author: San Dinh
 
@@ -88,13 +89,17 @@ def implicit_map(f_model,
     dFdo = jacrev(F, 1)
     # dodi = lambda ii,oo: -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
     # dods = lambda oo, s, s_length, i0, iplus: dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
-    @jax.jit
-    def dodi(ii,oo):
-        return -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
-    
-    @jax.jit
-    def dods(oo,s, s_length, i0, iplus):
-        return dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
+    if jit:
+        @jax.jit
+        def dodi(ii,oo):
+            return -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
+        
+        @jax.jit
+        def dods(oo,s, s_length, i0, iplus):
+            return dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )
+    else:
+        dodi = lambda ii,oo: -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
+        dods = lambda oo, s, s_length, i0, iplus: dodi( i0 + (s/s_length)*(iplus - i0), oo)@( (iplus - i0)/s_length )   
     # %% Initializing
     sol = root(F_io, image_init,args=domain_bound[:,0])
     
@@ -182,25 +187,52 @@ def implicit_map(f_model,
                     # print(dodi(domain_0,image_0))
                     
                 else:
-                    if np.isnan(np.prod(image_set[ID_cell])):
+                    if validation == 'predictor-corrector':
+                        if np.isnan(np.prod(image_set[ID_cell])):
+                            domain_k = domain_set[ID_cell]
+                            V_domain_id[:,k] = domain_k
+                            
+                            image_k = predict(do_predict,domain_0,domain_k,image_0)
+                            
+                            max_residual = max(abs(F(domain_k, image_k)))
+                            
+                            if max_residual > tol_cor:
+                                sol = root(F_io, image_0, args=domain_k)
+                                image_k = sol.x
+                                
+                            image_set[ID_cell] = image_k
+                            V_image_id[:,k] = image_k
+                            
+                            # print('Explicit solution')
+                            # print(shower(domain_k))
+                            # print('root')
+                            # sol = root(F_io, image_0, args=domain_k)
+                            # print('Implicit solution')
+                            # print(sol.x)
+                            
+                            # print('Estimated solution')
+                            # print(sol_x)
+                            
+                            # print()
+                    elif validation == 'predictor': 
+                        if np.isnan(np.prod(image_set[ID_cell])):
+                            domain_k = domain_set[ID_cell]
+                            V_domain_id[:,k] = domain_k
+                            
+                            image_k = predict(do_predict,domain_0,domain_k,image_0)
+                                                                                     
+                            image_set[ID_cell] = image_k
+                            V_image_id[:,k] = image_k
+                    elif validation == 'predictor':     
                         domain_k = domain_set[ID_cell]
                         V_domain_id[:,k] = domain_k
                         
-                        sol_x = predict(do_predict,domain_0,domain_k,image_0)
-                        image_set[ID_cell] = sol_x
-                        V_image_id[:,k] = sol_x
+                        sol = root(F_io, image_0, args=domain_k)
+                        image_k = sol.x
                         
-                        # print('Explicit solution')
-                        # print(shower(domain_k))
-                        # print('root')
-                        # sol = root(F_io, image_0, args=domain_k)
-                        # print('Implicit solution')
-                        # print(sol.x)
+                        image_set[ID_cell] = image_k
+                        V_image_id[:,k] = image_k
                         
-                        # print('Estimated solution')
-                        # print(sol_x)
-                        
-                        # print()
             domain_polyhedra.append(V_domain_id)
             image_polyhedra.append(V_image_id)
     return domain_set, image_set, domain_polyhedra, image_polyhedra
