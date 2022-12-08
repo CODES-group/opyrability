@@ -21,6 +21,7 @@ from scipy.optimize import root, fsolve
 from tqdm import tqdm
 # %% REMOVE THIS BEFORE RELEASE
 from DMA_MR_ss import *
+import matplotlib.pyplot as plt
 
 # %% Functions
 def implicit_map(f_model, 
@@ -29,7 +30,7 @@ def implicit_map(f_model,
                  image_init,
                  direction = 'forward', 
                  validation = 'predictor-corrector', 
-                 tol_cor = 1e-5, 
+                 tol_cor = 1e-4, 
                  continuation = 'Explicit RK4',
                  derivative = 'jax',
                  jit = True):
@@ -105,12 +106,15 @@ def implicit_map(f_model,
     
     # %% Predictor selection
     if continuation == 'Explicit RK4':
+        print('Selected RK4')
         predict = predict_RK4
         do_predict = dodi
     elif continuation == 'Explicit Euler':
+        print('Selected Euler')
         predict = predict_eEuler
         do_predict = dodi
     elif continuation == 'odeint':
+        print('Selected odeint')
         predict = predict_odeint
         do_predict = dods
     else:
@@ -175,45 +179,67 @@ def implicit_map(f_model,
                     image_0 = image_set[ID_cell]
                     V_domain_id[:,k] = domain_0
                     V_image_id[:,k] = image_0
-                    # print('Domain 0')
-                    # print(domain_0)
-                    # print('image 0')
-                    # print(image_0)
-                    # print('dFdi')
-                    # print(dFdi(domain_0,image_0))
-                    # print('dFdo')
-                    # print(dFdo(domain_0,image_0))
-                    # print('dodi0')
-                    # print(dodi(domain_0,image_0))
                     
                 else:
                     if validation == 'predictor-corrector':
-                        if np.isnan(np.prod(image_set[ID_cell])):
-                            domain_k = domain_set[ID_cell]
-                            V_domain_id[:,k] = domain_k
+                        # print(image_0)
+                        if np.isnan(np.prod(image_0)):
                             
-                            image_k = predict(do_predict,domain_0,domain_k,image_0)
-                            
-                            max_residual = max(abs(F(domain_k, image_k)))
-                            
-                            if max_residual > tol_cor:
-                                sol = root(F_io, image_0, args=domain_k)
-                                image_k = sol.x
+                            print('skip')
+                        else:  
+                            if np.isnan(np.prod(image_set[ID_cell])):
+                                domain_k = domain_set[ID_cell]
+                                V_domain_id[:,k] = domain_k
+                                # %%
+                                test_img_k =  predict_eEuler(do_predict, domain_0,
+                                                              domain_k, image_0)
+                                domain_k_test = domain_k
+                                count = 1
+                                condition =  max(abs(F(domain_k_test, test_img_k)))
+                                # print(condition)
+                                while (condition > tol_cor or np.isnan(condition)) and count < 10 :
+                                    
+                                    count = count + 1
+                                    test_img_k =  predict_eEuler(do_predict, domain_0,
+                                                                  domain_k_test, image_0)
+                                    domain_k_test =  (domain_k_test*(count - 1) + domain_0) / count
+                                    
+                                    condition= max(abs(F(domain_k_test, test_img_k)))
+                                    # print(count)
+                                    # print(max(abs(F(domain_k_test, test_img_k))))
+                                    
+                                print('Number of step cut: '+str(count))
+                                domain_k_step_size = domain_k_test
+                                domain_kk_minus = domain_0
+                                image_kk_minus = image_0
+                                if count < 10:
+                                    for kk in range(count):
+                                        domain_kk = domain_0 + domain_k_step_size*count
+                                        image_kk = predict(do_predict,domain_kk_minus,domain_kk,image_kk_minus)
+                                        image_kk_minus = image_kk
+                                    
+                                image_k = image_kk_minus
+                                # %% 
+                                # image_k = predict(do_predict,domain_0,domain_k,image_0)
                                 
-                            image_set[ID_cell] = image_k
-                            V_image_id[:,k] = image_k
-                            
-                            # print('Explicit solution')
-                            # print(shower(domain_k))
-                            # print('root')
-                            # sol = root(F_io, image_0, args=domain_k)
-                            # print('Implicit solution')
-                            # print(sol.x)
-                            
-                            # print('Estimated solution')
-                            # print(sol_x)
-                            
-                            # print()
+                                max_residual = max(abs(F(domain_k, image_k)))
+                                # print(max_residual)
+                                if max_residual**2 > tol_cor or np.isnan(max_residual):
+                                    # print('Corrector')
+                                    sol = root(F_io, image_0, args=domain_k)
+                                    found_sol = sol.success
+                                    # print(found_sol)
+                                    if found_sol:
+                                        # print('Accept Sol')
+                                        image_k = sol.x
+                                        # image_set[ID_cell] = image_k
+                                        # V_image_id[:,k] = image_k
+                                    else:
+                                        # image_k = sol.x
+                                        image_k = np.nan
+                                image_set[ID_cell] = image_k
+                                V_image_id[:,k] = image_k
+                                
                     elif validation == 'predictor': 
                         if np.isnan(np.prod(image_set[ID_cell])):
                             domain_k = domain_set[ID_cell]
@@ -223,7 +249,7 @@ def implicit_map(f_model,
                                                                                      
                             image_set[ID_cell] = image_k
                             V_image_id[:,k] = image_k
-                    elif validation == 'predictor':     
+                    elif validation == 'Corrector':     
                         domain_k = domain_set[ID_cell]
                         V_domain_id[:,k] = domain_k
                         
@@ -250,9 +276,13 @@ def predict_odeint(dods, i0, iplus ,o0):
 def predict_RK4(dodi,i0, iplus ,o0):
     h = iplus -i0
     k1 = dodi( i0          , o0           )
+    # print('k1')
     k2 = dodi( i0 + (1/2)*h, o0 + (h/2)@k1)
+    # print('k2')
     k3 = dodi( i0 + (1/2)*h, o0 + (h/2)@k1)
+    # print('k3')
     k4 = dodi( jnp.array(i0 +       h), o0 +       (h)@k3)
+    # print('k4')
     return o0 + (1/6)*(k1 + 2*k2 + 2*k3 + k4)@h
 
 def predict_eEuler(dodi,i0, iplus ,o0):
@@ -357,10 +387,15 @@ def FF1_implicit(u,y):
 
 
 # %%
-DOS_bound = np.array([[22.4, 22.8],
-                    [39.4, 40.0]])
+# DOS_bound = np.array([[22.4, 23],
+#                     [39.4, 42.0]])
 
-DOSresolution = [20, 20]
+DOS_bound = np.array([[22.0, 25.0],
+                    [39.5, 45.0]])
+
+# DOS_bound = np.array([[22.0, 32.0],
+#                     [39.5, 49.0]])
+DOSresolution =  [25, 25]
 
 output_init = np.array([20.0, 0.9])
 
@@ -371,23 +406,34 @@ AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn,
                                             DOSresolution , 
                                             output_init,
                                             continuation='Explicit RK4',
-                                            direction='inverse')
-
+                                            direction='inverse',
+                                            validation = 'predictor-corrector')
 elapsed_RK4 = time.time() -  t2
 
 print('RK4 time (s)')
 print(elapsed_RK4)
 
-t1 = time.time()
-AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
-                                            DOS_bound, 
-                                            DOSresolution , 
-                                            output_init,
-                                            continuation='odeint',
-                                            direction= 'inverse')
+AIS_plot = np.reshape(AIS,(-1,2))
+AOS_plot = np.reshape(AOS,(-1,2))
 
-elapsed_odeint = time.time() -  t1
+fig1, ax1 = plt.subplots()
+ax1.scatter(AIS_plot[:,0], AIS_plot[:,1])
 
-print('ODEINT time (s)')
-print(elapsed_odeint)
+fig2, ax2 = plt.subplots()
+ax2.scatter(AOS_plot[:,0], AOS_plot[:,1])
+
+# %%
+# # t1 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
+#                                             DOS_bound, 
+#                                             DOSresolution , 
+#                                             output_init,
+#                                             continuation='odeint',
+#                                             direction= 'inverse')
+
+# elapsed_odeint = time.time() -  t1
+
+# print('ODEINT time (s)')
+# print(elapsed_odeint)
+
 

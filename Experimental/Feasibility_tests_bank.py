@@ -11,13 +11,13 @@ import numpy as np
 In this example, the feasible regions is 9*(u[0] - 3)^2 + 2.5 - u[1] >= 0
 '''
 def FeasTest1_implicit(u,y):
-    LHS0 = y[0] - jnp.sqrt(9*(u[0] - 3)**2 + 2.5 - u[1])
+    LHS0 = y[0] - jnp.sqrt(1*(u[0] - 3)**2 + 2.5 - u[1])
     LHS1 = y[1] - (u[0] + u[1]**2)
     return jnp.array([LHS0, LHS1])
 
 def FeasTest1(u):
     y = np.zeros(2)
-    y[0] = jnp.sqrt(9*(u[0] - 3)**2 + 2.5 - u[1])
+    y[0] = jnp.sqrt(1*(u[0] - 3)**2 + 2.5 - u[1])
     y[1] = (u[0] + u[1]**2)
     return jnp.array([y])
 

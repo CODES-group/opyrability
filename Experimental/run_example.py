@@ -6,66 +6,45 @@ Created on Mon Nov 28 14:35:10 2022
 """
 from operability_implicit_mapping import *
 from DMA_MR_ss import *
+from Feasibility_tests_bank import *
+import numpy as np
+import matplotlib.pyplot as plt
 
-# %% Test area! REMOVE BEFORE RELEASE!!!!
-def shower_implicit(u,y):
-    d = jnp.zeros(2)
-    LHS1 = y[0] - (u[0]+u[1])
-    # LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    if y[0]!=0:
-        LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    else:
-        LHS2 = y[1] - (60+120)/2
-    
-    return jnp.array([LHS1, LHS2])
-def shower(u):
-    y = np.zeros(2)
-    d = jnp.zeros(2)
-    y[0] = (u[0]+u[1])
-    # LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    if y[0]!=0:
-        y[1] = (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    else:
-        y[1] = (60+120)/2
-    
-    return jnp.array(y)
+AIS_bound = jnp.array([[0.0, 6.0],
+                    [0.0, 6.0]])
 
-def FF1(u):
-    y = np.zeros(2)
-    # y[0] = u[1]**2*u[0]
-    y[0] = u[0] - 2*u[1]
-    y[1] = 3*u[0] + 4*u[1]
-    return jnp.array(y)
+output_init = np.array([3,3])
+# This resolution does not reveal the infeasibility
+AISresolution_feas = [4, 4]
 
-def FF1_implicit(u,y):
-    # LHS0 = y[0] - u[1]**2*u[0]
-    LHS0 = y[0] - (u[0] - 2*u[1])
-    LHS1 = y[1] - (3*u[0] + 4*u[1])
-    return jnp.array([LHS0, LHS1])
+AIS_feas, AOS_feas, AIS_feas_poly, AOS_feas_poly = implicit_map(FeasTest1_implicit, 
+                                                                AIS_bound, 
+                                                                AISresolution_feas, 
+                                                                output_init,
+                                                                continuation='Explicit RK4')
 
-#%% Test DMA-MR inverse
-DOS_bound = np.array([[22.4, 22.8],
-                    [39.4, 40.0]])
+AIS_feas_plot = np.reshape(AIS_feas,(-1,2))
+AOS_feas_plot = np.reshape(AOS_feas,(-1,2))
 
-DOSresolution = [10, 10]
+fig1, ax1 = plt.subplots()
+ax1.scatter(AIS_feas_plot[:,0], AIS_feas_plot[:,1])
 
-output_init = np.array([20.0, 0.9])
+fig2, ax2 = plt.subplots()
+ax2.scatter(AOS_feas_plot[:,0], AOS_feas_plot[:,1])
 
-DOS, DIS, DOS_poly, DIS_poly = implicit_map(F_DMA_MR_eqn, 
-                                            DOS_bound, 
-                                            DOSresolution, 
-                                            output_init, 
-                                            direction = 'inverse')
+# This resolution reveals the infeasibility
+AISresolution_infeas = [20, 20]
 
-# %% Test shower forward
-AIS_bound = np.array([[10.0, 100.0],
-                    [0.5, 2.0]])
+AIS_infeas, AOS_infeas, AIS_poly_infeas, AOS_poly_infeas = implicit_map(FeasTest1_implicit, 
+                                                                        AIS_bound, 
+                                                                        AISresolution_infeas, 
+                                                                        output_init,
+                                                                        continuation='Explicit RK4')
+AIS_infeas_plot = np.reshape(AIS_infeas,(-1,2))
+AOS_infeas_plot = np.reshape(AOS_infeas,(-1,2))
 
-AISresolution = [10, 10]
+fig3, ax3 = plt.subplots()
+ax3.scatter(AIS_infeas_plot[:,0], AIS_infeas_plot[:,1])
 
-output_init = np.array([00.0, 10])
-
-AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
-                                            AIS_bound, 
-                                            AISresolution, 
-                                            output_init)
+fig4, ax4 = plt.subplots()
+ax4.scatter(AOS_infeas_plot[:,0], AOS_infeas_plot[:,1])
