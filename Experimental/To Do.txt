@@ -1,0 +1,7 @@
+Clean up the code:
++ Merge the 2 "if" statements
++ Fix the compatability of feasibility check with "odeint"
++ Pass the test result directly if the option is "Explicit Euler"
++ Build the pre/post processing filter for constrained systems
++ Pass 2 new set: Unachievable set, infeasible set
++ Build the RK 2 function
