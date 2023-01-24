@@ -1,4 +1,4 @@
-from pyprop import nlp_based_approach
+from   pyprop import nlp_based_approach
 import numpy as np
 import time
 
@@ -31,8 +31,9 @@ fDIS, fDOS, message = nlp_based_approach(DOS_bound,
     
 elapsed = time.time() - t
 # %% DMA-MR - Inverse mapping test using JAX (AD)
-
+from pyprop import nlp_based_approach
 from dma_mr import *
+import time
 import jax.numpy as np
 
 

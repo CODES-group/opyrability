@@ -57,10 +57,10 @@ OI = OI_calc(AOS_region,
 DOS_bounds =  np.array([[10, 20], 
                         [70, 100]])
 
-AIS_bounds =  np.array([[0, 10],
-                        [0, 10]])
+AIS_bounds =  np.array([[1e-6, 10],
+                        [1e-6, 10]])
 
-AIS_resolution =  [5, 5]
+AIS_resolution =  [10, 10]
 
 model =  shower2x2
 
