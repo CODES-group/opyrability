@@ -42,7 +42,9 @@ markersize =  128
 
 def multimodel_rep(AIS_bound: np.ndarray, 
                   resolution: np.ndarray, 
-                  model: Callable[...,Union[float,np.ndarray]]):
+                  model: Callable[...,Union[float,np.ndarray]],
+                  polytopic_trace: str = 'simplices'):
+    
     """
     Obtain a multimodel representation based on polytopes of Process Operability
     sets. This procedure is essential for evaluating the Operability Index (OI).
@@ -67,6 +69,10 @@ def multimodel_rep(AIS_bound: np.ndarray,
     model : Callable[...,Union[float,np.ndarray]]
         Process model that calculates the relationship between inputs (AIS-DIS) 
         and Outputs (AOS-DOS).
+    polytopic_trace: str, Optional.
+        Determines if the polytopes will be constructed using simplices or
+        polyhedrons. Default is 'simplices'. Additional option is 'polyhedra'.
+    
 
     Returns
     -------
@@ -93,15 +99,21 @@ def multimodel_rep(AIS_bound: np.ndarray,
 
     """
     
+    # TODO: Add implicit mapping option to perform any multimodel rep 
+    #(future release).
     # Map AOS from AIS setup.
     AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
     
-    ## TODO: Add option to trace simplices or polyhedrons. 
-    AIS_poly, AOS_poly = points2simplices(AIS,AOS)
     
-    #AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
-    
-    
+    if  polytopic_trace  =='simplices':
+        AIS_poly, AOS_poly = points2simplices(AIS,AOS)
+    elif polytopic_trace =='polyhedra':
+        AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
+    else:
+        print('Invalid option for polytopic tracing. Exiting algorithm.')
+        exit()
+        
+        
     
     # Define empty polyopes list
     Polytope = list()
@@ -150,7 +162,8 @@ def multimodel_rep(AIS_bound: np.ndarray,
 
 
 def OI_calc(AS: pc.Region,
-            DS: np.ndarray, perspective= 'outputs'):
+            DS: np.ndarray, perspective  = 'outputs',
+            hypervol_calc:           str = 'robust'):
     
     '''
     Operability Index (OI) calculation. From a Desired Output
@@ -177,9 +190,17 @@ def OI_calc(AS: pc.Region,
     DS: np.ndarray
         Array containing the desired operation, either in the inputs (DIS) or
         outputs perspective (DOS).
-    perspective: str
+    perspective: str, Optional.
         String that determines in which perspective the OI will be evaluated:
         inputs or outputs. default is 'outputs'.
+    hypervol_calc: str, Optional.
+        Determines how the approach when evaluating hypervolumes. Default is
+        'robust', an implementation that deals better with "thin" polytopic
+        regions and in higher dimensions. 
+        Additional option is 'polytope', Polytope's package own
+        implementation of hypervolumes evaluation. The latter works well 
+        with low-dimension, well-defined polytopes. May be innacurate in higher 
+        dimensions and with polytopes that have 'thin' facets.
 
     Returns
     -------
@@ -215,27 +236,32 @@ def OI_calc(AS: pc.Region,
     intersection = pc.intersect(AS, DS_region)
 
     ## TODO: Different volume approximations
-    # if calc == 'polytope':
-    #     OI =  (intersection.volume/DS_region.volume)*100
+    if hypervol_calc == 'polytope':
+        OI = (intersection.volume/DS_region.volume)*100
 
-    # elif calc=='other':
+    elif hypervol_calc == 'robust':
 
-    #     v_intersect = intersection.vertices
-    #     A_intersect = intersection.A
-    #     b_intersect = intersection.b
+        v_intersect = intersection.vertices
+        A_intersect = intersection.A
+        b_intersect = intersection.b
 
-    #     v_DS =  DS.vertices
-    #     A_DS        =  DS.A
-    #     b_DS        =  DS.b
-
-    #     OI = Dinh_volume(A_intersect,
-    #                      b_intersect, v_intersect) / Dinh_volume(A_DS,
-    #                                                              b_DS, v_DS)
+        v_DS = DS.vertices
+        A_DS = DS.A
+        b_DS = DS.b
+        
+        # Dinh Volume: Small tribute to San's implementation :)
+        OI = Dinh_volume(A_intersect,
+                         b_intersect, v_intersect) / Dinh_volume(A_DS,
+                                                                 b_DS, v_DS)
+        OI = OI*100
+    else:
+        print('Invalid hypervolume calculation option. Exiting algorithm')
+        exit()
 
     # VolumeApprox_fast(A, b, Vertices)
 
     # OI evaluation
-    OI = (intersection.volume/DS_region.volume)*100
+    # OI = (intersection.volume/DS_region.volume)*100
 
     # Perspective switch: This will only affect plotting and legends.
     if perspective == 'outputs':

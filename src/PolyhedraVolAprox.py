@@ -212,15 +212,15 @@ def VolumeApprox_fast(A, b, Vertices, Nsample = 0):
     #Vol = Poly_new.volume
     return Vol/np.linalg.det(L_transform)
 #%% Test the functions
-Vertices = np.array([[100, 100],
-              [1, 0],
-              [0, 0]])
+# Vertices = np.array([[100, 100],
+#               [1, 0],
+#               [0, 0]])
 
-Poly = pc.qhull(Vertices)
+# Poly = pc.qhull(Vertices)
 
-A = Poly.A
-b = Poly.b
+# A = Poly.A
+# b = Poly.b
 
-Volume_VolEsti = VolumeApprox_fast(A, b, Vertices)
-Volume_Polytope = pc.volume(Poly)
+# Volume_VolEsti = VolumeApprox_fast(A, b, Vertices)
+# Volume_Polytope = pc.volume(Poly)
 
