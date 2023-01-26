@@ -1,4 +1,5 @@
 # Basic python tools
+import sys
 from itertools import permutations as perms
 import string
 from typing import Callable,Union
@@ -31,7 +32,7 @@ import matplotlib.patches as mpatches
 # Setting default plot optins and default solver for multimodel approach.
 plt.rcParams['figure.dpi'] = 150
 plt.rcParams['text.usetex'] = True
-solvers.default_solver = 'scipy'
+# solvers.default_solver = 'glpk'
 
 # Plotting defaults
 cmap =  'rainbow'
@@ -111,7 +112,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
         AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
     else:
         print('Invalid option for polytopic tracing. Exiting algorithm.')
-        exit()
+        sys.exit()
         
         
     
@@ -268,8 +269,8 @@ def OI_calc(AS: pc.Region,
             OI = (intersection.volume/DS_region.volume)*100
         
     else:
-        print('Invalid hypervolume calculation option. Exiting algorithm')
-        exit()
+        print('Invalid hypervolume calculation option. Exiting algorithm.')
+        sys.exit()
 
     # VolumeApprox_fast(A, b, Vertices)
 
@@ -1057,7 +1058,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     else:
         print('Currently JAX is the only supported option for \
               calculating derivatives. Exiting code.')
-        exit()
+        sys.exit()
 
                  
 
@@ -1120,7 +1121,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         
     else:
         print('Ivalid continuation method. Exiting algorithm.')
-        exit()
+        sys.exit()
         
     # Pre-alocating the domain set
     numInput = np.prod(domain_resolution)
