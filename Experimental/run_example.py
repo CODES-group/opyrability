@@ -72,22 +72,22 @@ from ultility_set import *
 
 # %% Shower inverse
 
-# AOS_bound =  np.array([[0, 20],
-#                       [60, 120]])
+AOS_bound =  np.array([[0, 20],
+                      [60, 120]])
 
-# AOSresolution = [10, 10]
+AOSresolution = [10, 10]
 
-# input_init =  np.array([0, 0])
+input_init =  np.array([0, 0])
 
 
-# AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
-#                                             AOS_bound, 
-#                                             AOSresolution, 
-#                                             input_init,
-#                                             continuation='odeint',
-#                                             direction = 'inverse')
+AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
+                                            AOS_bound, 
+                                            AOSresolution, 
+                                            input_init,
+                                            continuation='odeint',
+                                            direction = 'inverse')
 
-# makeplot(AOS_poly)
+makeplot(AOS_poly)
 
 
 # %% DMA-MR inverse
@@ -96,24 +96,24 @@ from ultility_set import *
 #                     [35.0, 45.0]])
 
 
-DOS_bound = np.array([[22.4, 23],
-                    [39.4, 42.0]])
+# DOS_bound = np.array([[22.4, 23],
+#                     [39.4, 42.0]])
 
-DOSresolution = [5, 5]
+# DOSresolution = [5, 5]
 
-output_init = np.array([50.0, 2.0])
+# output_init = np.array([50.0, 2.0])
 
-t2 = time.time()
-AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
-                                            DOS_bound, 
-                                            DOSresolution, 
-                                            output_init,
-                                            continuation='Explicit RK4',
-                                            direction='inverse')
+# t2 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
+#                                             DOS_bound, 
+#                                             DOSresolution, 
+#                                             output_init,
+#                                             continuation='Explicit RK4',
+#                                             direction='inverse')
 
-elapsed_RK4 = time.time() -  t2
+# elapsed_RK4 = time.time() -  t2
 
-makeplot(AOS_poly)
+# makeplot(AOS_poly)
 
 # %% DMA-MR forward
 

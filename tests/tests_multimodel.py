@@ -17,7 +17,7 @@ DOS_bounds =  np.array([[20, 25], [35, 45]])
 AIS_bounds =  np.array([[10, 100],
                     [0.5, 2]])
 
-AIS_resolution =  [5, 5]
+AIS_resolution =  [10, 10]
 
 model  = dma_mr_design
 
@@ -60,7 +60,7 @@ DOS_bounds =  np.array([[10, 20],
 AIS_bounds =  np.array([[1e-6, 10],
                         [1e-6, 10]])
 
-AIS_resolution =  [10, 10]
+AIS_resolution =  [5, 5]
 
 model =  shower2x2
 
