@@ -19,7 +19,6 @@ from cyipopt import minimize_ipopt
 import polytope as pc
 from polytope.polytope import region_diff
 from polytope.polytope import _get_patch
-from polytope import solvers
 from src.PolyhedraVolAprox import VolumeApprox_fast as Dinh_volume
 
 
@@ -32,7 +31,6 @@ import matplotlib.patches as mpatches
 # Setting default plot optins and default solver for multimodel approach.
 plt.rcParams['figure.dpi'] = 150
 plt.rcParams['text.usetex'] = True
-# solvers.default_solver = 'glpk'
 
 # Plotting defaults
 cmap =  'rainbow'
@@ -235,7 +233,7 @@ def OI_calc(AS: pc.Region,
 
     intersection = pc.intersect(AS, DS_region)
 
-    ## TODO: Different volume approximations
+    
     if hypervol_calc == 'polytope':
         OI = (intersection.volume/DS_region.volume)*100
 
@@ -249,11 +247,7 @@ def OI_calc(AS: pc.Region,
                 
                 intersect_i = intersection[i]
                 v_intersect = pc.extreme(intersect_i)
-                # A_intersect = intersect_i.A
-                # b_intersect = intersect_i.b
                 each_volume[i] = sp.spatial.ConvexHull(v_intersect).volume
-                # print(each_volume)
-                # print(intersection[i].volume)
             
             intersection_volume = each_volume[0:].sum()
     
@@ -414,6 +408,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
         (Differential evolution from scipy). Set 'ipopt' if CyIpopt is 
         installed and want to use gradient-based solver. Options are:
             For unconstrained problems:
+                
                 -'trust-constr'
                 
                 -'Nelder-Mead'
@@ -423,6 +418,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
                 -'DE'
                 
             For constrained problems:
+                
                 -'ipopt'
                 
                 -'DE'
@@ -467,8 +463,8 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
         from jax.config import config
         config.update("jax_enable_x64", True)
         import jax.numpy as np
-        from jax import jit, grad, jacrev
-        constr['fun'] = jit(constr['fun'])
+        from jax import jit, jacrev, grad, jacfwd
+        # constr['fun'] = jit(constr['fun'])
         # con_jac =  jit(jacrev(constr['fun']))
         # constr['jac']  = jit(jacrev(constr['fun']))
         # constr['hess'] = jit(jacrev(jacrev(constr['fun'])))
@@ -556,12 +552,16 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
         else:
             if method == 'ipopt':
                 if ad is True:
-                    # constr['fun'] = jit(constr['fun'])
-                    # obj_jit = jit(obj)
-                    # obj_grad = jit(grad(obj_jit))
-                    # obj_hess = jit(jacrev(jacrev(obj_jit)))
-                    sol = minimize_ipopt(jit(obj), x0=u0, bounds=bounds,
-                                         constraints=(constr))
+                    constr['fun'] = jit(constr['fun'])
+                    constr['jac'] = jit(jacrev(constr['fun']))
+                    constr['hess'] = jit(jacrev(constr['jac']))
+                    obj_jit = jit(obj)
+                    obj_grad = jit(jacrev(obj_jit))
+                    obj_hess = (jacrev(obj_grad))
+                    
+                    sol = minimize_ipopt(obj_jit, x0=u0, bounds=bounds,
+                                         constraints=(constr), jac=obj_grad,
+                                         hess=obj_hess)
 
                 else:
                     sol = minimize_ipopt(obj, x0=u0, bounds=bounds,

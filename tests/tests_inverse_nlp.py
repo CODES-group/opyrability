@@ -1,39 +1,41 @@
-from   pyprop import nlp_based_approach
+
 import numpy as np
 import time
+
+import sys
+sys.path.append('../')
+from   src.pyprop import nlp_based_approach
 
 
 # %% NLP-Based Approach - Shower inverse mapping test
 
-from shower import shower2x2
+# from shower import shower2x2
 
-u0 = np.array([0, 10])
-lb = np.array([0, 0])
-ub = np.array([100,100])
+# u0 = np.array([0, 10])
+# lb = np.array([0, 0])
+# ub = np.array([100,100])
 
-DOS_bound = np.array([[17.5, 21.0],
-                    [80.0, 100.0]])
+# DOS_bound = np.array([[17.5, 21.0],
+#                     [80.0, 100.0]])
 
-DOSresolution = [10, 10]
+# DOSresolution = [10, 10]
     
 
-t = time.time()
-fDIS, fDOS, message = nlp_based_approach(DOS_bound, 
-                                         DOSresolution, 
-                                         shower2x2, 
-                                         u0, 
-                                         lb,
-                                         ub, 
-                                         method='ipopt', 
-                                         plot=True, 
-                                         ad=False)
+# t = time.time()
+# fDIS, fDOS, message = nlp_based_approach(DOS_bound, 
+#                                          DOSresolution, 
+#                                          shower2x2, 
+#                                          u0, 
+#                                          lb,
+#                                          ub, 
+#                                          method='ipopt', 
+#                                          plot=True, 
+#                                          ad=False)
     
     
-elapsed = time.time() - t
+# elapsed = time.time() - t
 # %% DMA-MR - Inverse mapping test using JAX (AD)
-from pyprop import nlp_based_approach
 from dma_mr import *
-import time
 import jax.numpy as np
 
 
