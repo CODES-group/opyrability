@@ -228,8 +228,8 @@ def OI_calc(AS: pc.Region,
     # applicable.
 
     DS_region = pc.box2poly(DS)
-    # AS = pc.reduce(AS)
-    # DS_region = pc.reduce(DS_region)
+    AS = pc.reduce(AS)
+    DS_region = pc.reduce(DS_region)
 
     intersection = pc.intersect(AS, DS_region)
 
@@ -462,6 +462,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     else:
         from jax.config import config
         config.update("jax_enable_x64", True)
+        config.update('jax_platform_name', 'cpu')
         import jax.numpy as np
         from jax import jit, jacrev, grad, jacfwd
         # constr['fun'] = jit(constr['fun'])
@@ -553,15 +554,18 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
             if method == 'ipopt':
                 if ad is True:
                     constr['fun'] = jit(constr['fun'])
-                    constr['jac'] = jit(jacrev(constr['fun']))
-                    constr['hess'] = jit(jacrev(constr['jac']))
                     obj_jit = jit(obj)
+                    constr['jac'] = jit(jacrev(constr['fun']))
                     obj_grad = jit(jacrev(obj_jit))
-                    obj_hess = (jacrev(obj_grad))
+                    
+                    ##  TODO: Readd automatic derivatives. Currently, a recent
+                    # update of CYIPOPT broke this functionality.
+                    
+                    # constr['hess'] = jit(jacrev(constr['jac']))
+                    # obj_hess = (jacrev(obj_grad))
                     
                     sol = minimize_ipopt(obj_jit, x0=u0, bounds=bounds,
-                                         constraints=(constr), jac=obj_grad,
-                                         hess=obj_hess)
+                                         constraints=(constr), jac=obj_grad)
 
                 else:
                     sol = minimize_ipopt(obj, x0=u0, bounds=bounds,

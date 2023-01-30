@@ -15,20 +15,20 @@ import numpy as np
     
 # Defining DOS bounds
 
-# DOS_bounds =  np.array([[20, 25], [35, 45]])
+DOS_bounds =  np.array([[20, 25], [35, 45]])
 
-# AIS_bounds =  np.array([[10, 100],
-#                     [0.5, 2]])
+AIS_bounds =  np.array([[10, 100],
+                    [0.5, 2]])
 
-# AIS_resolution =  [10, 10]
+AIS_resolution =  [6, 6]
 
-# model  = dma_mr_design
+model  = dma_mr_design
 
-# AOS_region  =  multimodel_rep(AIS_bounds, 
-#                 AIS_resolution, model, polytopic_trace = 'simplices')
+AOS_region  =  multimodel_rep(AIS_bounds, 
+                AIS_resolution, model, polytopic_trace = 'simplices')
 
-# OI = OI_calc(AOS_region,
-#             DOS_bounds, hypervol_calc= 'robust')
+OI = OI_calc(AOS_region,
+            DOS_bounds, hypervol_calc= 'robust')
 
 
 
@@ -36,20 +36,20 @@ import numpy as np
     
 # Defining DOS bounds
 
-DOS_bounds =  np.array([[70, 80], [30, 45]])
+# DOS_bounds =  np.array([[70, 80], [30, 45]])
 
-AIS_bounds =  np.array([[600, 1800],
-                    [600, 1800]])
+# AIS_bounds =  np.array([[600, 1800],
+#                     [600, 1800]])
 
-AIS_resolution =  [5, 5]
+# AIS_resolution =  [5, 5]
 
-model  = dma_mr_mvs
+# model  = dma_mr_mvs
 
-AOS_region  =  multimodel_rep(AIS_bounds, 
-                AIS_resolution, model)
+# AOS_region  =  multimodel_rep(AIS_bounds, 
+#                 AIS_resolution, model, polytopic_trace = 'polyhedra')
 
-OI = OI_calc(AOS_region,
-            DOS_bounds)
+# OI = OI_calc(AOS_region,
+#             DOS_bounds, hypervol_calc= 'robust')
 
 
 
@@ -60,15 +60,15 @@ OI = OI_calc(AOS_region,
 # DOS_bounds =  np.array([[10, 20], 
 #                         [70, 100]])
 
-# AIS_bounds =  np.array([[0, 10],
-#                         [0, 10]])
+# AIS_bounds =  np.array([[0.1, 10],
+#                         [0.1, 10]])
 
-# AIS_resolution =  [5, 5]
+# AIS_resolution =  [15, 15]
 
 # model =  shower2x2
 
 # AOS_region  =  multimodel_rep(AIS_bounds, 
-#                 AIS_resolution, model, polytopic_trace = 'simplices')
+#                 AIS_resolution, model, polytopic_trace = 'polyhedra')
 
 # OI = OI_calc(AOS_region,
 #             DOS_bounds, hypervol_calc= 'robust')
