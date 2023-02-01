@@ -577,11 +577,31 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
                          init='sobol', constraints=(constr),
                          args=(model, DOSPts[i, :]))
 
-            if method == 'SLSQP':
-                sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
-                                           args=(model, DOSPts[i, :]),
-                                           method=method, constraints=(constr),
-                                           options={'xtol': 1e-9, 'ftol': 1e-9})
+            elif method == 'trust-constr':
+                if ad is True:
+                    from scipy.optimize import NonlinearConstraint
+                    # constr['fun'] = jit(constr['fun'])
+                    # model = jit(model)
+                    # obj_jit = jit(p1)
+                    obj_jit = (p1)
+                    con_fun =  constr['fun']
+                    nlc = NonlinearConstraint((con_fun), -np.inf, 0,
+                                              jac= (jacrev(con_fun)),
+                                                       hess=(jacrev(jacrev(con_fun))))
+                    # constr['jac'] = jit(jacrev(constr['fun']))
+                    # constr['jac'] = (jacrev(constr['fun']))
+                    # obj_grad = jit(jacrev(obj_jit))
+                    obj_grad = (jacrev(obj_jit))
+                    # constr['hess'] = jit(jacrev(constr['jac']))
+                    # constr['hess'] = (jacrev(constr['jac']))
+                    # obj_hess = jit(jacrev(obj_grad))
+                    obj_hess = jacrev(jacrev(obj_grad))
+                    
+                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                               args=(model, DOSPts[i, :]),
+                                               method=method, 
+                                               constraints=(nlc),
+                                               jac=obj_grad, hess=obj_hess)
 
         # Append results into fDOS, fDIS and message list for each iteration
 
