@@ -28,7 +28,7 @@ from   src.pyprop import nlp_based_approach
 #                                           u0, 
 #                                           lb,
 #                                           ub, 
-#                                           method='SLSQP', 
+#                                           method='ipopt', 
 #                                           plot=True, 
 #                                           ad=False)
     
@@ -53,7 +53,7 @@ lb = np.array([10,  0.1])
 ub = np.array([300, 2])
 
 # Initial estimate for NLP.
-u0 = np.array([100, 1])
+u0 = np.array([50, 1])
 
 # Plug-flow constraint definition: Length/Diameter >= 30.
 def plug_flow(u):
@@ -69,6 +69,6 @@ fDIS, fDOS, convergence = nlp_based_approach(DOS_bounds, DOS_resolution,
                                 u0, 
                                 lb,ub,
                                 constr=(con),
-                                method='trust-constr', 
+                                method='ipopt', 
                                 plot=True,
                                 ad=True)

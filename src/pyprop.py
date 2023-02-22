@@ -459,17 +459,55 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     # Use JAX.numpy if differentiable programming is available.
     if ad is False:
         import numpy as np
+        
+        def p1(u: np.ndarray,
+               model: Callable[..., Union[float, np.ndarray]],
+               DOSpt: np.ndarray):
+
+            y_found = model(u)
+
+            vector_of_f = np.array([y_found.T, DOSpt.T])
+            f = np.sum(error(*vector_of_f))
+
+            return f
+
+        # Error minimization function
+        def error(y_achieved, y_desired):
+            return ((y_achieved-y_desired)/y_desired)**2
+        
     else:
         from jax.config import config
         config.update("jax_enable_x64", True)
         config.update('jax_platform_name', 'cpu')
         import jax.numpy as np
         from jax import jit, jacrev, grad, jacfwd
-        # constr['fun'] = jit(constr['fun'])
-        # con_jac =  jit(jacrev(constr['fun']))
-        # constr['jac']  = jit(jacrev(constr['fun']))
+        constr['fun'] = jit(constr['fun'])
+        con_jac =  jit(jacrev(constr['fun']))
+        constr['jac']  = jit(jacrev(constr['fun']))
         # constr['hess'] = jit(jacrev(jacrev(constr['fun'])))
+        
+        # Error minimization function
+        def error(y_achieved, y_desired):
+            return ((y_achieved-y_desired)/y_desired)**2
+        
+        def p1(u: np.ndarray,
+               model: Callable[..., Union[float, np.ndarray]],
+               DOSpt: np.ndarray):
 
+            y_found = model(u)
+
+            vector_of_f = np.array([y_found.T, DOSpt.T])
+            f = np.sum(error(*vector_of_f))
+
+            return f
+        
+        grad_ad = grad(p1)
+        # hess_ad = jacrev(grad_ad)
+        
+        
+    
+        
+    
     dimDOS = DOS_bounds.shape[0]
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
     DOSPts = DOSPts.reshape(-1, dimDOS)
@@ -504,27 +542,27 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     if ub.size == 0:
         ub = np.inf
 
-    def p1(u: np.ndarray,
-           model: Callable[..., Union[float, np.ndarray]],
-           DOSpt: np.ndarray):
+    # def p1(u: np.ndarray,
+    #        model: Callable[..., Union[float, np.ndarray]],
+    #        DOSpt: np.ndarray):
 
-        y_found = model(u)
+    #     y_found = model(u)
 
-        vector_of_f = np.array([y_found.T, DOSpt.T])
-        f = np.sum(error(*vector_of_f))
+    #     vector_of_f = np.array([y_found.T, DOSpt.T])
+    #     f = np.sum(error(*vector_of_f))
 
-        return f
+    #     return f
 
-    # Error minimization function
-    def error(y_achieved, y_desired):
-        return ((y_achieved-y_desired)/y_desired)**2
+    # # Error minimization function
+    # def error(y_achieved, y_desired):
+    #     return ((y_achieved-y_desired)/y_desired)**2
 
     # Inverse-mapping: Run for each DOS grid point
     for i in tqdm(range(r)):
 
         # This approach is useful for ipopt
-        def obj(u):
-            return p1(u, model, DOSPts[i, :])
+        # def obj(u):
+        #     return p1(u, model, DOSPts[i, :])
 
         if constr is None:
 
@@ -552,24 +590,16 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
 
         else:
             if method == 'ipopt':
-                if ad is True:
-                    constr['fun'] = jit(constr['fun'])
-                    obj_jit = jit(obj)
-                    constr['jac'] = jit(jacrev(constr['fun']))
-                    obj_grad = jit(jacrev(obj_jit))
-                    
-                    ##  TODO: Readd automatic derivatives. Currently, a recent
-                    # update of CYIPOPT broke this functionality.
-                    
-                    # constr['hess'] = jit(jacrev(constr['jac']))
-                    # obj_hess = (jacrev(obj_grad))
-                    
-                    sol = minimize_ipopt(obj_jit, x0=u0, bounds=bounds,
-                                         constraints=(constr), jac=obj_grad)
+                if ad==True:
+                    sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
+                                         constraints=(constr),
+                                         jac=grad_ad,
+                                         args=(model, DOSPts[i, :]))
 
                 else:
-                    sol = minimize_ipopt(obj, x0=u0, bounds=bounds,
-                                         constraints=(constr))
+                    sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
+                                         constraints=(constr),
+                                         args=(model, DOSPts[i, :]))
 
             elif method == 'DE':
                 sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
@@ -609,7 +639,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
             fDOS = fDOS.at[i, :].set(model(sol.x))
             fDIS = fDIS.at[i, :].set(sol.x)
 
-        else:
+        elif ad is False:
             fDOS[i, :] = model(sol.x)
             fDIS[i, :] = sol.x
 

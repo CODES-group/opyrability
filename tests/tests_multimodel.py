@@ -15,20 +15,20 @@ import numpy as np
     
 # Defining DOS bounds
 
-DOS_bounds =  np.array([[20, 25], [35, 45]])
+# DOS_bounds =  np.array([[20, 25], [35, 45]])
 
-AIS_bounds =  np.array([[10, 100],
-                    [0.5, 2]])
+# AIS_bounds =  np.array([[10, 100],
+#                     [0.5, 2]])
 
-AIS_resolution =  [6, 6]
+# AIS_resolution =  [6, 6]
 
-model  = dma_mr_design
+# model  = dma_mr_design
 
-AOS_region  =  multimodel_rep(AIS_bounds, 
-                AIS_resolution, model, polytopic_trace = 'simplices')
+# AOS_region  =  multimodel_rep(AIS_bounds, 
+#                 AIS_resolution, model, polytopic_trace = 'simplices')
 
-OI = OI_calc(AOS_region,
-            DOS_bounds, hypervol_calc= 'robust')
+# OI = OI_calc(AOS_region,
+#             DOS_bounds, hypervol_calc= 'robust')
 
 
 
@@ -57,18 +57,18 @@ OI = OI_calc(AOS_region,
 
 # %% Shower problem
 
-# DOS_bounds =  np.array([[10, 20], 
-#                         [70, 100]])
+DOS_bounds =  np.array([[10, 20], 
+                        [70, 100]])
 
-# AIS_bounds =  np.array([[0.1, 10],
-#                         [0.1, 10]])
+AIS_bounds =  np.array([[0.1, 10],
+                        [0.1, 10]])
 
-# AIS_resolution =  [15, 15]
+AIS_resolution =  [5, 5]
 
-# model =  shower2x2
+model =  shower2x2
 
-# AOS_region  =  multimodel_rep(AIS_bounds, 
-#                 AIS_resolution, model, polytopic_trace = 'polyhedra')
+AOS_region  =  multimodel_rep(AIS_bounds, 
+                AIS_resolution, model, polytopic_trace = 'polyhedra')
 
-# OI = OI_calc(AOS_region,
-#             DOS_bounds, hypervol_calc= 'robust')
+OI = OI_calc(AOS_region,
+            DOS_bounds, hypervol_calc= 'robust')
