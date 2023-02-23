@@ -1,5 +1,5 @@
 
-import numpy as np
+
 import time
 
 import sys
@@ -8,7 +8,7 @@ from   src.pyprop import nlp_based_approach
 
 
 # %% NLP-Based Approach - Shower inverse mapping test
-
+#import numpy as np
 # from shower import shower2x2
 
 # u0 = np.array([0, 10])
@@ -63,7 +63,8 @@ con= {'type': 'ineq', 'fun': plug_flow}
 
 # Model assignment: Design Problem - Inverse mapping
 model          = dma_mr_design
-# Obtain inverse mapping.                                                  
+# Obtain inverse mapping.
+t = time.time()                                                  
 fDIS, fDOS, convergence = nlp_based_approach(DOS_bounds, DOS_resolution,
                                 model, 
                                 u0, 
@@ -71,4 +72,6 @@ fDIS, fDOS, convergence = nlp_based_approach(DOS_bounds, DOS_resolution,
                                 constr=(con),
                                 method='ipopt', 
                                 plot=True,
-                                ad=True)
+                                ad=True,
+                                warmstart=True)
+elapsed = time.time() - t

@@ -365,7 +365,10 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
                        lb: np.ndarray,
                        ub: np.ndarray,
                        constr=None,
-                       method: str = 'DE', plot: bool = True, ad: bool = False) -> Union[np.ndarray, np.ndarray, list]:
+                       method: str = 'ipopt', 
+                       plot: bool = True, 
+                       ad: bool = False,
+                       warmstart: bool = True) -> Union[np.ndarray, np.ndarray, list]:
     '''
     Inverse mapping for Process Operability calculations. From a Desired Output
     Set (DOS) defined by the user, this function calculates the closest
@@ -455,7 +458,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     vol. 105, pp. 246-258, 2017.
 
     '''
-   
+    from scipy.optimize import NonlinearConstraint
     # Use JAX.numpy if differentiable programming is available.
     if ad is False:
         import numpy as np
@@ -480,10 +483,11 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
         config.update("jax_enable_x64", True)
         config.update('jax_platform_name', 'cpu')
         import jax.numpy as np
-        from jax import jit, jacrev, grad, jacfwd
-        constr['fun'] = jit(constr['fun'])
-        con_jac =  jit(jacrev(constr['fun']))
-        constr['jac']  = jit(jacrev(constr['fun']))
+        from jax import jit, jacrev, grad
+        # constr['fun'] = jit(constr['fun'])
+        constr['jac']  = (jacrev(constr['fun']))
+        
+        # AD-based hessians are deactivated for now due to Cyipopt`s bug.
         # constr['hess'] = jit(jacrev(jacrev(constr['fun'])))
         
         # Error minimization function
@@ -502,7 +506,8 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
             return f
         
         grad_ad = grad(p1)
-        # hess_ad = jacrev(grad_ad)
+        # AD-based hessians are deactivated in ipopt for now due to Cyipopt`s bug.
+        hess_ad = jacrev(grad_ad)
         
         
     
@@ -511,7 +516,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     dimDOS = DOS_bounds.shape[0]
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
     DOSPts = DOSPts.reshape(-1, dimDOS)
-
+    u00    = u0
     # Initialization of variables
     m = len(u0)
     r, c = np.shape(DOSPts)
@@ -542,27 +547,8 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     if ub.size == 0:
         ub = np.inf
 
-    # def p1(u: np.ndarray,
-    #        model: Callable[..., Union[float, np.ndarray]],
-    #        DOSpt: np.ndarray):
-
-    #     y_found = model(u)
-
-    #     vector_of_f = np.array([y_found.T, DOSpt.T])
-    #     f = np.sum(error(*vector_of_f))
-
-    #     return f
-
-    # # Error minimization function
-    # def error(y_achieved, y_desired):
-    #     return ((y_achieved-y_desired)/y_desired)**2
-
     # Inverse-mapping: Run for each DOS grid point
     for i in tqdm(range(r)):
-
-        # This approach is useful for ipopt
-        # def obj(u):
-        #     return p1(u, model, DOSPts[i, :])
 
         if constr is None:
 
@@ -609,32 +595,35 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
 
             elif method == 'trust-constr':
                 if ad is True:
-                    from scipy.optimize import NonlinearConstraint
-                    # constr['fun'] = jit(constr['fun'])
-                    # model = jit(model)
-                    # obj_jit = jit(p1)
-                    obj_jit = (p1)
                     con_fun =  constr['fun']
                     nlc = NonlinearConstraint((con_fun), -np.inf, 0,
                                               jac= (jacrev(con_fun)),
-                                                       hess=(jacrev(jacrev(con_fun))))
-                    # constr['jac'] = jit(jacrev(constr['fun']))
-                    # constr['jac'] = (jacrev(constr['fun']))
-                    # obj_grad = jit(jacrev(obj_jit))
-                    obj_grad = (jacrev(obj_jit))
-                    # constr['hess'] = jit(jacrev(constr['jac']))
-                    # constr['hess'] = (jacrev(constr['jac']))
-                    # obj_hess = jit(jacrev(obj_grad))
-                    obj_hess = jacrev(jacrev(obj_grad))
-                    
+                                              hess=(jacrev(jacrev(con_fun))))
                     sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
                                                args=(model, DOSPts[i, :]),
                                                method=method, 
                                                constraints=(nlc),
-                                               jac=obj_grad, hess=obj_hess)
+                                               jac=grad_ad, hess=hess_ad)
+                else:
+                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                               args=(model, DOSPts[i, :]),
+                                               method=method, 
+                                               constraints=(nlc))
 
+        
+        
         # Append results into fDOS, fDIS and message list for each iteration
-
+        
+        if warmstart is True:
+            if sol.success is True:
+                # print(u0)
+                u0 = sol.x
+            else:
+                u0 = u00 # Reboot to first initial estimate
+        else:
+            u0 = u00 # Reboot to first initial estimate
+            
+        
         if ad is True:
             fDOS = fDOS.at[i, :].set(model(sol.x))
             fDIS = fDIS.at[i, :].set(sol.x)
