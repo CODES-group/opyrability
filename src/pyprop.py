@@ -479,20 +479,14 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
             return ((y_achieved-y_desired)/y_desired)**2
         
     else:
+        raise Warning('You have selected automatic differentiation as a method for \
+              obtaining higher-order data (Jacobians/Hessian). Make sure your \
+              process model is JAX-compatible implementation-wise.')
         from jax.config import config
         config.update("jax_enable_x64", True)
         config.update('jax_platform_name', 'cpu')
         import jax.numpy as np
         from jax import jit, jacrev, grad
-        # constr['fun'] = jit(constr['fun'])
-        constr['jac']  = (jacrev(constr['fun']))
-        
-        # AD-based hessians are deactivated for now due to Cyipopt`s bug.
-        # constr['hess'] = jit(jacrev(jacrev(constr['fun'])))
-        
-        # Error minimization function
-        def error(y_achieved, y_desired):
-            return ((y_achieved-y_desired)/y_desired)**2
         
         def p1(u: np.ndarray,
                model: Callable[..., Union[float, np.ndarray]],
@@ -504,14 +498,27 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
             f = np.sum(error(*vector_of_f))
 
             return f
+
+        # Error minimization function
+        def error(y_achieved, y_desired):
+            return ((y_achieved-y_desired)/y_desired)**2
         
+        # Take gradient and hessian of Objective function
         grad_ad = grad(p1)
-        # AD-based hessians are deactivated in ipopt for now due to Cyipopt`s bug.
         hess_ad = jacrev(grad_ad)
+        # BUG: AD-based hessians are deactivated in ipopt for now due to 
+        # Cyipopt`s bug.
         
-        
-    
-        
+        if constr is not None:
+            constr['jac']  = (jacrev(constr['fun']))
+            # constr['fun'] = jit(constr['fun'])
+            # BUG: AD-based hessians are deactivated for in ipopt now 
+            # due to Cyipopt`s bug.
+            # constr['hess'] = jit(jacrev(jacrev(constr['fun'])))
+        else:
+            pass
+
+            
     
     dimDOS = DOS_bounds.shape[0]
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
@@ -551,28 +558,57 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     for i in tqdm(range(r)):
 
         if constr is None:
+            
+            if ad is True:
+                if method == 'trust-constr':
+                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                               args=(model, DOSPts[i, :]),
+                                               method=method,
+                                               options={'xtol': 1e-10},
+                                               jac=grad_ad, hess = hess_ad)
 
-            if method == 'trust-constr':
-                sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
-                                           args=(model, DOSPts[i, :]),
-                                           method=method,
-                                           options={'xtol': 1e-10})
+                elif method == 'Nelder-Mead':
+                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                               args=(model, DOSPts[i, :]),
+                                               method=method,
+                                               options={'fatol': 1e-10,
+                                                        'xatol': 1e-10},
+                                               jac=grad_ad, hess = hess_ad)
 
-            elif method == 'Nelder-Mead':
-                sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
-                                           args=(model, DOSPts[i, :]),
-                                           method=method,
-                                           options={'fatol': 1e-10,
-                                                    'xatol': 1e-10})
+                elif method == 'ipopt':
+                    sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
+                                         args=(model, DOSPts[i, :]),
+                                         jac=grad_ad, hess = hess_ad)
 
-            elif method == 'ipopt':
-                sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
-                                     args=(model, DOSPts[i, :]))
+                elif method == 'DE':
+                    sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
+                             maxiter=2000, workers=-1, updating='deferred',
+                             init='sobol', args=(model, DOSPts[i, :]))
+            else:
+                if method == 'trust-constr':
+                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                               args=(model, DOSPts[i, :]),
+                                               method=method,
+                                               options={'xtol': 1e-10})
 
-            elif method == 'DE':
-                sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
-                         maxiter=2000, workers=-1, updating='deferred',
-                         init='sobol', args=(model, DOSPts[i, :]))
+                elif method == 'Nelder-Mead':
+                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                               args=(model, DOSPts[i, :]),
+                                               method=method,
+                                               options={'fatol': 1e-10,
+                                                        'xatol': 1e-10})
+
+                elif method == 'ipopt':
+                    sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
+                                         args=(model, DOSPts[i, :]))
+
+                elif method == 'DE':
+                    sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
+                             maxiter=2000, workers=-1, updating='deferred',
+                             init='sobol', args=(model, DOSPts[i, :]))
+                
+
+            
 
         else:
             if method == 'ipopt':
@@ -987,8 +1023,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     input/output space. The
     mapping "direction" can be set by changing the 'direction' parameter.
     
-    Author: San Dinh
-    Coauthor: Victor Alves
+    Authors: San Dinh & Victor Alves
     
 
     Parameters
