@@ -30,16 +30,15 @@ fDIS, fDOS, message = nlp_based_approach(DOS_bound,
                                           ub, 
                                           method='ipopt', 
                                           plot=True, 
-                                          ad=True,
-                                          warmstart=True)
+                                          ad=False,
+                                          warmstart=False)
     
     
-# elapsed = time.time() - t
+elapsed = time.time() - t
 # %% DMA-MR - Inverse mapping test using JAX (AD)
 # from dma_mr import *
 # import jax.numpy as np
-# # config.update("jax_enable_x64", True)
-# # config.update('jax_platform_name', 'cpu')
+
 
 
 # # Lower and upper bounds for DOS definition

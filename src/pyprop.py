@@ -479,14 +479,15 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
             return ((y_achieved-y_desired)/y_desired)**2
         
     else:
-        raise Warning('You have selected automatic differentiation as a method for \
-              obtaining higher-order data (Jacobians/Hessian). Make sure your \
-              process model is JAX-compatible implementation-wise.')
+        print(" You have selected automatic differentiation as a method for"
+       " obtaining higher-order data (Jacobians/Hessian). Make sure your"
+       " process model is JAX-compatible implementation-wise.")
         from jax.config import config
         config.update("jax_enable_x64", True)
         config.update('jax_platform_name', 'cpu')
         import jax.numpy as np
-        from jax import jit, jacrev, grad
+        from jax import jacrev, grad
+        
         
         def p1(u: np.ndarray,
                model: Callable[..., Union[float, np.ndarray]],
@@ -500,20 +501,26 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
             return f
 
         # Error minimization function
+        
         def error(y_achieved, y_desired):
             return ((y_achieved-y_desired)/y_desired)**2
         
         # Take gradient and hessian of Objective function
         grad_ad = grad(p1)
-        hess_ad = jacrev(grad_ad)
+        # hess_ad = jacrev(grad_ad)
         # BUG: AD-based hessians are deactivated in ipopt for now due to 
         # Cyipopt`s bug.
+        # https://github.com/mechmotum/cyipopt/issues/175
+        # https://github.com/mechmotum/cyipopt/pull/176
         
         if constr is not None:
             constr['jac']  = (jacrev(constr['fun']))
             # constr['fun'] = jit(constr['fun'])
             # BUG: AD-based hessians are deactivated for in ipopt now 
             # due to Cyipopt`s bug.
+            # https://github.com/mechmotum/cyipopt/issues/175
+            # https://github.com/mechmotum/cyipopt/pull/176
+            
             # constr['hess'] = jit(jacrev(jacrev(constr['fun'])))
         else:
             pass
@@ -565,7 +572,8 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
                                                args=(model, DOSPts[i, :]),
                                                method=method,
                                                options={'xtol': 1e-10},
-                                               jac=grad_ad, hess = hess_ad)
+                                               jac=grad_ad)
+                                                # , hess = hess_ad)
 
                 elif method == 'Nelder-Mead':
                     sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
@@ -573,12 +581,14 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
                                                method=method,
                                                options={'fatol': 1e-10,
                                                         'xatol': 1e-10},
-                                               jac=grad_ad, hess = hess_ad)
+                                               jac=grad_ad)
+                                                # , hess = hess_ad)
 
                 elif method == 'ipopt':
                     sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
                                          args=(model, DOSPts[i, :]),
-                                         jac=grad_ad, hess = hess_ad)
+                                         jac=grad_ad)
+                                         #, hess = hess_ad)
 
                 elif method == 'DE':
                     sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
@@ -639,7 +649,8 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
                                                args=(model, DOSPts[i, :]),
                                                method=method, 
                                                constraints=(nlc),
-                                               jac=grad_ad, hess=hess_ad)
+                                               jac=grad_ad)
+                                               # , hess=hess_ad)
                 else:
                     sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
                                                args=(model, DOSPts[i, :]),
