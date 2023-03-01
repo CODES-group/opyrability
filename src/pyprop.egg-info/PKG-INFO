@@ -7,6 +7,6 @@ Author: Victor Alves
 Author-email: None
 Maintainer: None
 Maintainer-email: None
-Requires-Python: >=3.9,<4.0
+Requires-Python: >=3.9.0,<4.0.0
 
 # DUMMY README FILE
