@@ -12,6 +12,13 @@ Download the files from the repo, extract them to any location on your PC. Then 
 ```console
 pip install -e . 
 ```
+
+Then install [Cyipopt](https://github.com/mechmotum/cyipopt) which is the only non-automated dependency:
+
+```console
+conda install -c conda-forge cyipopt
+```
+
 Online Pip and Conda packages coming soon.
 
 
