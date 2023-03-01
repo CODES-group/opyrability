@@ -1,0 +1,46 @@
+[build-system]
+#requires = [setuptools=61.2.0, wheel, pkg-config]
+requires = [setuptools]
+build-backend = setuptools.build_meta
+
+[project]
+name = pyprop
+version = 0.0.1
+description = Process Operability Calculations in Python
+authors = [{name = Victor Alves, email = vc00004@mix.wvu.edu }
+]
+license = {file = LICENSE}
+readme = README.md
+classifiers = [
+    Operating System  OS Independent,
+    Topic  ScientificEngineeringProcess Systems Engineering,
+]
+#packages = [{ include = pyprop.py, from = src },
+#			{include =   PolyhedraVolAprox.py, from=src}]
+#exclude = [.tests, .tests., tests., tests, .obsolete, .obsolete., obsolete., obsolete, ]
+
+
+requires-python = =3.9
+
+
+dependencies = [
+numpy =1.24.1,
+scipy = 1.10.0,
+#polytope = ^0.2.3,
+tqdm =4.64.1,
+matplotlib = 3.6.2,
+cvxopt  = 1.3.0,
+#cyipopt = 1.1.0,
+cyipopt   @  git+httpsgithub.commechmotumcyipopt.git,
+polytope  @  git+httpsgithub.comtulip-controlpolytope.git
+]
+
+
+#[options]
+#packages = [pyprop, PolyhedraVolAprox]
+#package_dir =  = src
+
+
+
+
+
