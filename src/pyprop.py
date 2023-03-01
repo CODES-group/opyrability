@@ -20,17 +20,21 @@ import polytope as pc
 from polytope.polytope import region_diff
 from polytope.polytope import _get_patch
 from src.PolyhedraVolAprox import VolumeApprox_fast as Dinh_volume
+from polytope import solvers
+
 
 
 
 # Plots
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.colors as mcolors
 
 
 # Setting default plot optins and default solver for multimodel approach.
 plt.rcParams['figure.dpi'] = 150
 plt.rcParams['text.usetex'] = True
+solvers.default_solver = 'scipy'
 
 # Plotting defaults
 cmap =  'rainbow'
@@ -285,17 +289,18 @@ def OI_calc(AS: pc.Region,
     # Plotting if 2D/ 3D (Future implementation)
     # TODO: 3D plotting
     if DS_region.dim == 2:
-
+        
+        
         polyplot = []
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        DS_COLOR = "grey"
-        INTERSECT_COLOR = "red"
-        AS_COLOR = 'b'
+        DS_COLOR = '#7f7f7f'
+        INTERSECT_COLOR = '#1f77b4'
+        AS_COLOR = '#2ca02c'
         for i in range(len(AS)):
 
             polyplot = _get_patch(AS[i], linestyle="dashed",
-                                  edgecolor="black", linewidth=3,
+                                  edgecolor=AS_COLOR, linewidth=3,
                                   facecolor=AS_COLOR)
             ax.add_patch(polyplot)
 
@@ -303,12 +308,12 @@ def OI_calc(AS: pc.Region,
         for j in range(len(intersection)):
 
             interplot = _get_patch(intersection[j], linestyle="dashed",
-                                   edgecolor="black", linewidth=3,
-                                   facecolor=INTERSECT_COLOR)
+                                   linewidth=3,
+                                   facecolor=INTERSECT_COLOR, edgecolor=INTERSECT_COLOR)
             ax.add_patch(interplot)
 
         DSplot = _get_patch(DS_region, linestyle="dashed",
-                            edgecolor="black", alpha=0.5, linewidth=3,
+                            edgecolor=DS_COLOR, alpha=0.5, linewidth=3,
                             facecolor=DS_COLOR)
         ax.add_patch(DSplot)
         ax.legend('DOS')
