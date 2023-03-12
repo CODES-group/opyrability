@@ -13,3 +13,19 @@ def shower2x2(u):
     return y
 
 
+
+
+def shower2x3(u):
+    
+    d = np.zeros(2)
+    y = np.zeros(3)
+    y[0]=u[0]+u[1]
+    if y[0]!=0:
+        y[1]=(u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
+    else:
+        y[1]=(60+120)/2
+        
+        
+    y[2] = y[1] + 1
+    return y
+

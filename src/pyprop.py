@@ -29,6 +29,8 @@ from polytope import solvers
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import matplotlib.colors as mcolors
+import pylab as pl
+import mpl_toolkits.mplot3d as a3
 
 
 # Setting default plot optins and default solver for multimodel approach.
@@ -310,6 +312,79 @@ def OI_calc(AS: pc.Region,
             interplot = _get_patch(intersection[j], linestyle="dashed",
                                    linewidth=3,
                                    facecolor=INTERSECT_COLOR, edgecolor=INTERSECT_COLOR)
+            ax.add_patch(interplot)
+
+        DSplot = _get_patch(DS_region, linestyle="dashed",
+                            edgecolor=DS_COLOR, alpha=0.5, linewidth=3,
+                            facecolor=DS_COLOR)
+        ax.add_patch(DSplot)
+        ax.legend('DOS')
+
+        lower_xaxis = min(AS.bounding_box[0][0], DS_region.bounding_box[0][0])
+        upper_xaxis = max(AS.bounding_box[1][0], DS_region.bounding_box[1][0])
+
+        lower_yaxis = min(AS.bounding_box[0][1], DS_region.bounding_box[0][1])
+        upper_yaxis = max(AS.bounding_box[1][1], DS_region.bounding_box[1][1])
+
+        ax.set_xlim(lower_xaxis - 0.05*lower_xaxis,
+                    upper_xaxis + 0.05*upper_xaxis)
+        ax.set_ylim(lower_yaxis - 0.05*lower_yaxis,
+                    upper_yaxis + 0.05*upper_yaxis)
+
+        DS_patch = mpatches.Patch(color=DS_COLOR, label=DS_label)
+        AS_patch = mpatches.Patch(color=AS_COLOR, label=AS_label)
+        INTERSECT_patch = mpatches.Patch(color=INTERSECT_COLOR,
+                                         label=int_label)
+
+
+        OI_str = 'Operability Index = ' + str(round(OI, 2)) + str('\%')
+
+        extra = mpatches.Rectangle((0, 0), 1, 1, fc="w",
+                                   fill=False,
+                                   edgecolor='none',
+                                   linewidth=0, label=OI_str)
+
+        if perspective == 'outputs':
+            str_title = string.capwords(
+                "Operability Index Evaluation - Outputs' perspective")
+            ax.set_title(str_title)
+        else:
+            str_title = string.capwords(
+                "Operability Index Evaluation - Inputs' perspective")
+            ax.set_title(str_title)
+
+        ax.legend(handles=[DS_patch, AS_patch, INTERSECT_patch, extra])
+
+        ax.set_xlabel('$y_{1}$')
+        ax.set_ylabel('$y_{2}$')
+        plt.show()
+    
+    elif DS_region.dim == 3:
+        
+        polyplot = []
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        ax = a3.Axes3D(pl.figure())
+        DS_COLOR = '#7f7f7f'
+        INTERSECT_COLOR = '#1f77b4'
+        AS_COLOR = '#2ca02c'
+        for i in range(len(AS)):
+
+            polyplot = _get_patch(AS[i], 
+                                  linestyle="dashed",
+                                  edgecolor=AS_COLOR, 
+                                  linewidth=3,
+                                  facecolor=AS_COLOR)
+            ax.add_patch(polyplot)
+
+
+        for j in range(len(intersection)):
+
+            interplot = _get_patch(intersection[j], 
+                                   linestyle="dashed",
+                                   linewidth=3,
+                                   facecolor=INTERSECT_COLOR, 
+                                   edgecolor=INTERSECT_COLOR)
             ax.add_patch(interplot)
 
         DSplot = _get_patch(DS_region, linestyle="dashed",

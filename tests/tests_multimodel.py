@@ -1,5 +1,5 @@
 from dma_mr import dma_mr_design, dma_mr_mvs
-from shower import shower2x2
+
 import sys
 sys.path.append('../')
 
@@ -56,7 +56,7 @@ import numpy as np
 
 
 # %% Shower problem
-
+from shower import shower2x3
 DOS_bounds =  np.array([[10, 20], 
                         [70, 100]])
 
@@ -65,7 +65,7 @@ AIS_bounds =  np.array([[0.1, 10],
 
 AIS_resolution =  [5, 5]
 
-model =  shower2x2
+model =  shower2x3
 
 AOS_region  =  multimodel_rep(AIS_bounds, 
                 AIS_resolution, model, polytopic_trace = 'polyhedra')
