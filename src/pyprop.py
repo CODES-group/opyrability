@@ -227,6 +227,22 @@ def OI_calc(AS: pc.Region,
     Operability Algorithms: Past, Present, and Future Developments.
     Industrial & Engineering Chemistry Research 2020 59 (6), 2457-2470
     https://doi.org/10.1021/acs.iecr.9b05181
+
+    Example
+    --------
+    >>> from pyprop import multimodel_rep, OI_calc
+    >>> import numpy as np
+    >>> A = numpy.eye(3)
+    >>> print(A)
+
+    Defining the equations for the shower problem
+
+
+    ..math::
+        $$\sum_{i=1}^{\\infty} x_{i}$$
+
+    foo bar
+
     
     '''
     

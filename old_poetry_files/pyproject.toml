@@ -2,7 +2,7 @@
 requires = ["setuptools>=61.2.0", "poetry-core", "wheel", "setuptools_scm[toml]>=7.1.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.setuptools_scm]
+#[tool.setuptools_scm]
 
 [tool.poetry]
 name = "pyprop"
@@ -29,5 +29,12 @@ matplotlib = "^3.6.2"
 polytope = {git = "https://github.com/tulip-control/polytope.git", branch = "main"}
 
 [tool.poetry.extras]
-#jaxlib   =   {url = "https://whls.blob.core.windows.net/unstable/cpu/jaxlib-0.3.25-cp39-cp39-win_amd64.whl"}
-#jax[cpu]="0.3.25"
+jaxlib      =  {url = "https://whls.blob.core.windows.net/unstable/cpu/jaxlib-0.3.25-cp39-cp39-win_amd64.whl}
+jax[cpu]    = "=0.3.25"
+
+
+
+
+
+
+
