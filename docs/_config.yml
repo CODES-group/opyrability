@@ -38,6 +38,8 @@ sphinx:
   - 'sphinx.ext.napoleon'
   - 'sphinx.ext.viewcode'
   - 'sphinx.ext.autosummary'
+  - 'nbsphinx'
+
   config:
     autosummary_generate: True
 execute:

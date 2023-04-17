@@ -4,6 +4,7 @@ from itertools import permutations as perms
 import string
 from typing import Callable,Union
 from tqdm import tqdm
+from IPython.display import IFrame
 
 # Linear Algebra
 import numpy as np
@@ -230,20 +231,6 @@ def OI_calc(AS: pc.Region,
 
     Example
     --------
-    >>> from pyprop import multimodel_rep, OI_calc
-    >>> import numpy as np
-    >>> A = numpy.eye(3)
-    >>> print(A)
-
-    Defining the equations for the shower problem
-
-
-    ..math::
-        $$\sum_{i=1}^{\\infty} x_{i}$$
-
-    foo bar
-
-    
     '''
     
     # Defining Polytopes for manipulation. Obatining polytopes in min-rep if

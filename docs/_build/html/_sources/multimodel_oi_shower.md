@@ -12,9 +12,10 @@ jupyter:
     name: python3
 ---
 
-# Example
+Example
+-------
 
-```python3
+```python3 tags=["shower1"]
 from pyprop import multimodel_rep, OI_calc
 import numpy as np
 ```
