@@ -1,0 +1,15 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: installation
+- file: operability_overview
+- file: markdown
+- file: notebooks
+- file: markdown-notebooks
+- file: mymarkdownfile
+- file: api
+- file: bibliography
+- file: multimodel_oi_shower.ipynb
