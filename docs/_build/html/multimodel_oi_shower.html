@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Example &#8212; Pypo&#39;s documentation.</title>
+    <title>Example &#8212; PyPO&#39;s documentation.</title>
   
   
   
@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -45,7 +46,6 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
@@ -55,14 +55,13 @@
     <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'multimodel_oi_shower';</script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -429,64 +428,7 @@ if \, y_1 = 0, \\ then \, y_2 = \frac{(60+120)}{2}
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_10744</span>\<span class="mf">3375087089.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">OI</span> <span class="o">=</span> <span class="n">OI_calc</span><span class="p">(</span><span class="n">AOS_region</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">)</span>
-
-<span class="nn">~\Documents\python_operability\python_operability\docs\pyprop.py</span> in <span class="ni">OI_calc</span><span class="nt">(AS, DS, perspective, hypervol_calc)</span>
-<span class="g g-Whitespace">    </span><span class="mi">238</span>     <span class="n">DS_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">DS_region</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">239</span> 
-<span class="ne">--&gt; </span><span class="mi">240</span>     <span class="n">intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">DS_region</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">241</span> 
-<span class="g g-Whitespace">    </span><span class="mi">242</span> 
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">intersect</span><span class="nt">(poly1, poly2, abs_tol)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1501</span>     <span class="c1"># use {Polytope, Region}.intersect instead&#39;)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1502</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">poly1</span><span class="p">,</span> <span class="n">Region</span><span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1503</span>         <span class="k">return</span> <span class="n">poly1</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">poly2</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="n">abs_tol</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1504</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">poly2</span><span class="p">,</span> <span class="n">Region</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1505</span>         <span class="k">return</span> <span class="n">poly2</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">poly1</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="n">abs_tol</span><span class="p">)</span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">intersect</span><span class="nt">(self, other, abs_tol)</span>
-<span class="g g-Whitespace">    </span><span class="mi">823</span>                 <span class="n">rp</span><span class="p">,</span> <span class="n">xp</span> <span class="o">=</span> <span class="n">isect</span><span class="o">.</span><span class="n">cheby</span>
-<span class="g g-Whitespace">    </span><span class="mi">824</span>                 <span class="k">if</span> <span class="n">rp</span> <span class="o">&gt;</span> <span class="n">abs_tol</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">825</span>                     <span class="n">P</span> <span class="o">=</span> <span class="n">union</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">isect</span><span class="p">,</span> <span class="n">check_convex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">826</span>         <span class="k">return</span> <span class="n">P</span>
-<span class="g g-Whitespace">    </span><span class="mi">827</span> 
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">union</span><span class="nt">(polyreg1, polyreg2, check_convex)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1220</span>                 <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1221</span>                     <span class="n">templist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
-<span class="ne">-&gt; </span><span class="mi">1222</span>                     <span class="n">is_conv</span><span class="p">,</span> <span class="n">env</span> <span class="o">=</span> <span class="n">is_convex</span><span class="p">(</span><span class="n">Region</span><span class="p">(</span><span class="n">templist</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1223</span>                     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_conv</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1224</span>                         <span class="n">templist</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">is_convex</span><span class="nt">(reg, abs_tol)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1000</span>         <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
-<span class="g g-Whitespace">   </span><span class="mi">1001</span>     <span class="n">Pl</span><span class="p">,</span> <span class="n">Pu</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">bounding_box</span>
-<span class="ne">-&gt; </span><span class="mi">1002</span>     <span class="n">Ol</span><span class="p">,</span> <span class="n">Ou</span> <span class="o">=</span> <span class="n">outer</span><span class="o">.</span><span class="n">bounding_box</span>
-<span class="g g-Whitespace">   </span><span class="mi">1003</span>     <span class="n">bboxP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">Pl</span><span class="p">,</span> <span class="n">Pu</span><span class="p">])</span>
-<span class="g g-Whitespace">   </span><span class="mi">1004</span>     <span class="n">bboxO</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">Ol</span><span class="p">,</span> <span class="n">Ou</span><span class="p">])</span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">bounding_box</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">417</span>         <span class="s2">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">418</span><span class="s2">         if self.bbox is None:</span>
-<span class="ne">--&gt; </span><span class="mi">419</span><span class="s2">             self.bbox = bounding_box(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">420</span><span class="s2">         return self.bbox</span>
-<span class="g g-Whitespace">    </span><span class="mi">421</span><span class="s2"> </span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">bounding_box</span><span class="nt">(polyreg)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1372</span><span class="s2">             l[i] = x[i]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1373</span><span class="s2">         else:</span>
-<span class="ne">-&gt; </span><span class="mi">1374</span><span class="s2">             raise RuntimeError((</span>
-<span class="g g-Whitespace">   </span><span class="mi">1375</span><span class="s2">                 &#39;`polytope.solvers.lpsolve` returned:  </span><span class="si">{v}</span><span class="se">\n</span><span class="s2">&#39;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1376</span><span class="s2">                 &#39;its docstring describes return values&#39;</span>
-
-<span class="ne">RuntimeError</span>: `polytope.solvers.lpsolve` returned:  {&#39;status&#39;: 3, &#39;x&#39;: None, &#39;fun&#39;: None}
-<span class="s2">its docstring describes return values</span>
-</pre></div>
-</div>
+<img alt="_images/01219fd69ab634ac8fb87801459a5674392318a74e08159bd4b7cdde33f2f551.png" src="_images/01219fd69ab634ac8fb87801459a5674392318a74e08159bd4b7cdde33f2f551.png" />
 </div>
 </div>
 </div>

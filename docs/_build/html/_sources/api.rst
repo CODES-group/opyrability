@@ -29,8 +29,12 @@ Multimodel representation
 --------------------------
 .. autofunction:: pyprop.multimodel_rep
 
-.. doc:: multimodel_oi_shower.ipynb
+Example
+~~~~~~~~
 
+```{code-cell}
+print(2 + 2)
+```
 
 
 

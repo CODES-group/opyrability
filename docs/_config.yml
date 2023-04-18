@@ -1,7 +1,7 @@
 # Book settings
 # Learn more at https://jupyterbook.org/customize/config.html
 
-title: Pypo's documentation.
+title: PyPO's documentation.
 author: Victor Alves @ Control, Optimization and Design for Energy and Sustainability (CODES) Group.  
 logo: pypo_logo.png
 copyright: "2023"  # Copyright year to be placed in the footer
@@ -38,7 +38,7 @@ sphinx:
   - 'sphinx.ext.napoleon'
   - 'sphinx.ext.viewcode'
   - 'sphinx.ext.autosummary'
-  - 'nbsphinx'
+  - 'matplotlib.sphinxext.plot_directive'
 
   config:
     autosummary_generate: True

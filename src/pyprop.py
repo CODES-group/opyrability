@@ -4,7 +4,6 @@ from itertools import permutations as perms
 import string
 from typing import Callable,Union
 from tqdm import tqdm
-from IPython.display import IFrame
 
 # Linear Algebra
 import numpy as np
@@ -49,7 +48,8 @@ markersize =  128
 def multimodel_rep(AIS_bound: np.ndarray, 
                   resolution: np.ndarray, 
                   model: Callable[...,Union[float,np.ndarray]],
-                  polytopic_trace: str = 'simplices'):
+                  polytopic_trace: str = 'simplices',
+                  perspective: str = 'outputs'):
     
     """
     Obtain a multimodel representation based on polytopes of Process Operability
@@ -102,7 +102,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
     Operability Algorithms: Past, Present, and Future Developments.
     Industrial & Engineering Chemistry Research 2020 59 (6), 2457-2470
     https://doi.org/10.1021/acs.iecr.9b05181
-
+                                 
     """
     
     # TODO: Add implicit mapping option to perform any multimodel rep 
@@ -163,6 +163,62 @@ def multimodel_rep(AIS_bound: np.ndarray,
         
     # Generate final (non-overlapped) polytope
     finalpolytope = region_diff(bound_box, RemU)
+
+    # Perspective switch: This will only affect plotting and legends.
+    if perspective == 'outputs':
+        AS_label = 'Achievable Output Set (AOS)'
+
+    else:
+        AS_label = 'Available Input Set (AOS)'
+
+    if finalpolytope.dim == 2:
+        print(finalpolytope.dim)
+        
+        polyplot = []
+        fig = plt.figure()
+        ax = fig.add_subplot(111)
+        AS_COLOR = '#2ca02c'
+        for i in range(len(finalpolytope)):
+
+            polyplot = _get_patch(finalpolytope[i], linestyle="dashed",
+                                  edgecolor=AS_COLOR, linewidth=3,
+                                  facecolor=AS_COLOR)
+            ax.add_patch(polyplot)
+
+
+        lower_xaxis = min(finalpolytope.bounding_box[0][0])
+        upper_xaxis = max(finalpolytope.bounding_box[1][0])
+
+        lower_yaxis = min(finalpolytope.bounding_box[0][1])
+        upper_yaxis = max(finalpolytope.bounding_box[1][1])
+
+        ax.set_xlim(lower_xaxis - 0.05*lower_xaxis,
+                    upper_xaxis + 0.05*upper_xaxis)
+        ax.set_ylim(lower_yaxis - 0.05*lower_yaxis,
+                    upper_yaxis + 0.05*upper_yaxis)
+
+        
+        AS_patch = mpatches.Patch(color=AS_COLOR, label=AS_label)
+
+        extra = mpatches.Rectangle((0, 0), 1, 1, fc="w",
+                                   fill=False,
+                                   edgecolor='none',
+                                   linewidth=0)
+
+        if perspective == 'outputs':
+            str_title = string.capwords(
+                "Achievable Output Set (AOS)")
+            ax.set_title(str_title)
+        else:
+            str_title = string.capwords(
+                "Available Input set (AIS)")
+            ax.set_title(str_title)
+
+        ax.legend(handles=[AS_patch, extra])
+
+        ax.set_xlabel('$y_{1}$')
+        ax.set_ylabel('$y_{2}$')
+        plt.show()
 
     return finalpolytope
 
@@ -229,8 +285,7 @@ def OI_calc(AS: pc.Region,
     Industrial & Engineering Chemistry Research 2020 59 (6), 2457-2470
     https://doi.org/10.1021/acs.iecr.9b05181
 
-    Example
-    --------
+    
     '''
     
     # Defining Polytopes for manipulation. Obatining polytopes in min-rep if

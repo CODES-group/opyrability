@@ -22,6 +22,11 @@ This page shows off a notebook written in MyST Markdown.
 
 With MyST Markdown, you can define code cells with a directive like so:
 
+
+```{eval-rst}
+.. autofunction:: pyprop.AIS2AOS_map
+```
+
 ```{code-cell}
 print(2 + 2)
 ```

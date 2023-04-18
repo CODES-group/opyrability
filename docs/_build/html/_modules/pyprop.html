@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pyprop &#8212; Pypo&#39;s documentation.</title>
+    <title>pyprop &#8212; PyPO&#39;s documentation.</title>
   
   
   
@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -45,7 +46,6 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
     <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
@@ -55,7 +55,6 @@
     <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="../_static/design-tabs.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -322,7 +321,6 @@ document.write(`
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span><span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
-<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">IFrame</span>
 
 <span class="c1"># Linear Algebra</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -367,7 +365,8 @@ document.write(`
 <div class="viewcode-block" id="multimodel_rep"><a class="viewcode-back" href="../api.html#pyprop.multimodel_rep">[docs]</a><span class="k">def</span> <span class="nf">multimodel_rep</span><span class="p">(</span><span class="n">AIS_bound</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
                   <span class="n">resolution</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
                   <span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
-                  <span class="n">polytopic_trace</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;simplices&#39;</span><span class="p">):</span>
+                  <span class="n">polytopic_trace</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;simplices&#39;</span><span class="p">,</span>
+                  <span class="n">perspective</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;outputs&#39;</span><span class="p">):</span>
 <span class="w">    </span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Obtain a multimodel representation based on polytopes of Process Operability</span>
@@ -420,7 +419,7 @@ document.write(`
 <span class="sd">    Operability Algorithms: Past, Present, and Future Developments.</span>
 <span class="sd">    Industrial &amp; Engineering Chemistry Research 2020 59 (6), 2457-2470</span>
 <span class="sd">    https://doi.org/10.1021/acs.iecr.9b05181</span>
-
+<span class="sd">                                 </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="c1"># TODO: Add implicit mapping option to perform any multimodel rep </span>
@@ -481,6 +480,62 @@ document.write(`
         
     <span class="c1"># Generate final (non-overlapped) polytope</span>
     <span class="n">finalpolytope</span> <span class="o">=</span> <span class="n">region_diff</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> <span class="n">RemU</span><span class="p">)</span>
+
+    <span class="c1"># Perspective switch: This will only affect plotting and legends.</span>
+    <span class="k">if</span> <span class="n">perspective</span> <span class="o">==</span> <span class="s1">&#39;outputs&#39;</span><span class="p">:</span>
+        <span class="n">AS_label</span> <span class="o">=</span> <span class="s1">&#39;Achievable Output Set (AOS)&#39;</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">AS_label</span> <span class="o">=</span> <span class="s1">&#39;Available Input Set (AOS)&#39;</span>
+
+    <span class="k">if</span> <span class="n">finalpolytope</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">finalpolytope</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+        
+        <span class="n">polyplot</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">AS_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#2ca02c&#39;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">finalpolytope</span><span class="p">)):</span>
+
+            <span class="n">polyplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">finalpolytope</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+                                  <span class="n">edgecolor</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                  <span class="n">facecolor</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">polyplot</span><span class="p">)</span>
+
+
+        <span class="n">lower_xaxis</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">finalpolytope</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">upper_xaxis</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">finalpolytope</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="n">lower_yaxis</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">finalpolytope</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">upper_yaxis</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">finalpolytope</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">lower_xaxis</span> <span class="o">-</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">lower_xaxis</span><span class="p">,</span>
+                    <span class="n">upper_xaxis</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">upper_xaxis</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">lower_yaxis</span> <span class="o">-</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">lower_yaxis</span><span class="p">,</span>
+                    <span class="n">upper_yaxis</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">upper_yaxis</span><span class="p">)</span>
+
+        
+        <span class="n">AS_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">AS_label</span><span class="p">)</span>
+
+        <span class="n">extra</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+                                   <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                   <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                                   <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">perspective</span> <span class="o">==</span> <span class="s1">&#39;outputs&#39;</span><span class="p">:</span>
+            <span class="n">str_title</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span>
+                <span class="s2">&quot;Achievable Output Set (AOS)&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">str_title</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span>
+                <span class="s2">&quot;Available Input set (AIS)&quot;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">AS_patch</span><span class="p">,</span> <span class="n">extra</span><span class="p">])</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">finalpolytope</span></div>
 
@@ -547,8 +602,7 @@ document.write(`
 <span class="sd">    Industrial &amp; Engineering Chemistry Research 2020 59 (6), 2457-2470</span>
 <span class="sd">    https://doi.org/10.1021/acs.iecr.9b05181</span>
 
-<span class="sd">    Example</span>
-<span class="sd">    --------</span>
+<span class="sd">    </span>
 <span class="sd">    &#39;&#39;&#39;</span>
     
     <span class="c1"># Defining Polytopes for manipulation. Obatining polytopes in min-rep if</span>
@@ -1180,7 +1234,7 @@ document.write(`
     <span class="k">return</span> <span class="n">region_grid</span></div>
 
 
-<div class="viewcode-block" id="AIS2AOS_map"><a class="viewcode-back" href="../api.html#pyprop.AIS2AOS_map">[docs]</a><span class="k">def</span> <span class="nf">AIS2AOS_map</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
+<div class="viewcode-block" id="AIS2AOS_map"><a class="viewcode-back" href="../markdown-notebooks.html#pyprop.AIS2AOS_map">[docs]</a><span class="k">def</span> <span class="nf">AIS2AOS_map</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
      <span class="n">AIS_bound</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
      <span class="n">AIS_resolution</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>

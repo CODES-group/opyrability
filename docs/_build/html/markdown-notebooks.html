@@ -8,7 +8,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Notebooks with MyST Markdown &#8212; Pypo&#39;s documentation.</title>
+    <title>Notebooks with MyST Markdown &#8212; PyPO&#39;s documentation.</title>
   
   
   
@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -45,7 +46,6 @@
     <script src="_static/underscore.js"></script>
     <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
     <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
@@ -55,7 +55,6 @@
     <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
@@ -385,6 +384,38 @@ This page shows off a notebook written in MyST Markdown.</p>
 <div class="section" id="an-example-cell">
 <h2>An example cell<a class="headerlink" href="#an-example-cell" title="Permalink to this heading">#</a></h2>
 <p>With MyST Markdown, you can define code cells with a directive like so:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="pyprop.AIS2AOS_map">
+<span class="sig-prename descclassname"><span class="pre">pyprop.</span></span><span class="sig-name descname"><span class="pre">AIS2AOS_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AIS_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AIS_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="reference internal" href="_modules/pyprop.html#AIS2AOS_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprop.AIS2AOS_map" title="Permalink to this definition">#</a></dt>
+<dd><p>Forward mapping for Process Operability calculations (From AIS to AOS).
+From a Available Input Set (AIS) bounds and discretization resolution both
+defined by the user,
+this function calculates the corresponding discretized
+Available Output Set (AOS).</p>
+<p>This function is part of Python-based Process Operability package.</p>
+<p>Control, Optimization and Design for Energy and Sustainability
+(CODES) Group - West Virginia University - 2022/2023</p>
+<p>Author: San Dinh</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model</strong> (<em>Callable</em><em>[</em><em>...</em><em>,</em><em>Union</em><em>[</em><em>float</em><em>,</em><em>np.ndarray</em><em>]</em><em>]</em>) – Process model that calculates the relationship between inputs (AIS)
+and Outputs (AOS).</p></li>
+<li><p><strong>AIS_bound</strong> (<em>np.ndarray</em>) – Lower and upper bounds for the Available Input Set (AIS).</p></li>
+<li><p><strong>AIS_resolution</strong> (<em>np.ndarray</em>) – Resolution for the Available Input Set (AIS). This will be used to
+discretized the AIS.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>AIS</strong> (<em>np.ndarray</em>) – Discretized Available Input Set (AIS).</p></li>
+<li><p><strong>AOS</strong> (<em>TYPE</em>) – Discretized Available Output Set (AIS).</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
