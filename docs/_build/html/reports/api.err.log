@@ -17,18 +17,18 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-   AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem)
-   AOS_figure = AOS_region.plot()
-   AOS_figure.tight_layout()
+    AIS_poly, AOS_poly = points2simplices(AIS,AOS)
+    print(AIS_poly)
+    print(AOS_poly)
 ------------------
 
 [1;31m---------------------------------------------------------------------------[0m
-[1;31mAttributeError[0m                            Traceback (most recent call last)
-[1;32m~\AppData\Local\Temp\ipykernel_21056\846793232.py[0m in [0;36m<module>[1;34m[0m
-[0;32m      1[0m [0mAOS_region[0m  [1;33m=[0m  [0mmultimodel_rep[0m[1;33m([0m[0mAIS_bounds[0m[1;33m,[0m [0mAIS_resolution[0m[1;33m,[0m [0mshower_problem[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
-[0;32m      2[0m [0mAOS_figure[0m [1;33m=[0m [0mAOS_region[0m[1;33m.[0m[0mplot[0m[1;33m([0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
-[1;32m----> 3[1;33m [0mAOS_figure[0m[1;33m.[0m[0mtight_layout[0m[1;33m([0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
-[0m
-[1;31mAttributeError[0m: 'AxesSubplot' object has no attribute 'tight_layout'
-AttributeError: 'AxesSubplot' object has no attribute 'tight_layout'
+[1;31mNameError[0m                                 Traceback (most recent call last)
+[1;32m~\AppData\Local\Temp\ipykernel_7124\2832571419.py[0m in [0;36m<module>[1;34m[0m
+[1;32m----> 1[1;33m [0mAIS_poly[0m[1;33m,[0m [0mAOS_poly[0m [1;33m=[0m [0mpoints2simplices[0m[1;33m([0m[0mAIS[0m[1;33m,[0m[0mAOS[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m      2[0m [0mprint[0m[1;33m([0m[0mAIS_poly[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0;32m      3[0m [0mprint[0m[1;33m([0m[0mAOS_poly[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+
+[1;31mNameError[0m: name 'points2simplices' is not defined
+NameError: name 'points2simplices' is not defined
 

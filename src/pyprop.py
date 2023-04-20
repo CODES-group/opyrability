@@ -4,6 +4,8 @@ from itertools import permutations as perms
 import string
 from typing import Callable,Union
 from tqdm import tqdm
+# from tqdm import tqdm_notebook as tqdm
+# from tqdm.notebook import tqdm
 
 # Linear Algebra
 import numpy as np
@@ -169,10 +171,10 @@ def multimodel_rep(AIS_bound: np.ndarray,
         AS_label = 'Achievable Output Set (AOS)'
 
     else:
-        AS_label = 'Available Input Set (AOS)'
+        AS_label = 'Available Input Set (AIS)'
 
     if finalpolytope.dim == 2:
-        print(finalpolytope.dim)
+        
         
         polyplot = []
         fig = plt.figure()
@@ -186,11 +188,11 @@ def multimodel_rep(AIS_bound: np.ndarray,
             ax.add_patch(polyplot)
 
 
-        lower_xaxis = min(finalpolytope.bounding_box[0][0])
-        upper_xaxis = max(finalpolytope.bounding_box[1][0])
+        lower_xaxis = finalpolytope.bounding_box[0][0]
+        upper_xaxis = finalpolytope.bounding_box[1][0]
 
-        lower_yaxis = min(finalpolytope.bounding_box[0][1])
-        upper_yaxis = max(finalpolytope.bounding_box[1][1])
+        lower_yaxis = finalpolytope.bounding_box[0][1]
+        upper_yaxis = finalpolytope.bounding_box[1][1]
 
         ax.set_xlim(lower_xaxis - 0.05*lower_xaxis,
                     upper_xaxis + 0.05*upper_xaxis)
@@ -206,8 +208,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
                                    linewidth=0)
 
         if perspective == 'outputs':
-            str_title = string.capwords(
-                "Achievable Output Set (AOS)")
+            str_title = 'Achievable Output Set (AOS)'
             ax.set_title(str_title)
         else:
             str_title = string.capwords(
@@ -219,6 +220,10 @@ def multimodel_rep(AIS_bound: np.ndarray,
         ax.set_xlabel('$y_{1}$')
         ax.set_ylabel('$y_{2}$')
         plt.show()
+        
+
+    else:
+        print('Plotting not supported. Dimension different than 2.')
 
     return finalpolytope
 
@@ -316,8 +321,6 @@ def OI_calc(AS: pc.Region,
             intersection_volume = each_volume[0:].sum()
     
             v_DS = pc.extreme(DS_region)
-            # A_DS = DS_region.A
-            # b_DS = DS_region.b
             
             # Evaluate OI
             OI = (intersection_volume / sp.spatial.ConvexHull(v_DS).volume)*100
@@ -701,7 +704,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
 
     # Inverse-mapping: Run for each DOS grid point
     for i in tqdm(range(r)):
-
+        
         if constr is None:
             
             if ad is True:

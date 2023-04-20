@@ -2,10 +2,10 @@
 
 import time
 
-import sys
-sys.path.append('../')
-from   src.pyprop import nlp_based_approach
-#from   pyprop import nlp_based_approach
+# import sys
+# sys.path.append('../')
+# from   src.pyprop import nlp_based_approach
+from   pyprop import nlp_based_approach
 
 
 # %% NLP-Based Approach - Shower inverse mapping test

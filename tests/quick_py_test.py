@@ -27,4 +27,4 @@ model =  shower_problem_2x2
 AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, model)
 
 
-OI = OI_calc(AOS_region, DOS_bounds)
+# OI = OI_calc(AOS_region, DOS_bounds)
