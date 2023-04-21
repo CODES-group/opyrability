@@ -5,9 +5,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.setuptools_scm]
 
 [tool.poetry]
-name = "pyprop"
+name = "codes-pypo"
 version = "0.0.1"
-description = "Process Operability Calculations in Python"
+description = "Python-based process operability package"
 authors = ["Victor Alves"]
 license = "GPL-3.0-or-later"
 readme = "README.md"
@@ -15,7 +15,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering/Process Systems Engineering",
 ]
-packages = [{ include = "pyprop.py", from = "src" },
+packages = [{ include = "pypo.py", from = "src" },
 			{include =   "PolyhedraVolAprox.py", from="src"}]
 exclude = ["*.tests", "*.tests.*", "tests.*", "tests", "*.obsolete", "*.obsolete.*", "obsolete.*", "obsolete", ]
 

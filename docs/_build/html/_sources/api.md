@@ -21,7 +21,7 @@ separted below based on their functionality.
 ### Forward mapping
 
 ```{eval-rst}
-.. autofunction:: pyprop.AIS2AOS_map
+.. autofunction:: pypo.AIS2AOS_map
 ```
 
 ###### Example
@@ -29,7 +29,7 @@ Obtaining the Achievable Output Set (AOS) for the shower problem.
 
 Importing PyPO and Numpy:
 ```{code-cell} 
-    from pyprop import AIS2AOS_map
+    from pypo import AIS2AOS_map
     import numpy as np
 ```
 Defining the equations that describe the process:
@@ -72,7 +72,7 @@ Obtain discretized AIS/AOS.
 ### NLP-Based
 
 ```{eval-rst}
-.. autofunction:: pyprop.nlp_based_approach
+.. autofunction:: pypo.nlp_based_approach
 ```
 
 ###### Example
@@ -82,7 +82,7 @@ Importing PyPO and Numpy:
 
 ```{code-cell}
     import numpy as np
-    from pyprop import nlp_based_approach
+    from pypo import nlp_based_approach
 ```
 
 Defining lower and upper bound for the AIS/DIS inverse map:
@@ -146,13 +146,13 @@ NLP and using finite-differences:
 ## Implicit mapping
 
 ```{eval-rst}
-.. autofunction:: pyprop.implicit_map
+.. autofunction:: pypo.implicit_map
 ```
 
 ## Multimodel representation
 
 ```{eval-rst}
-.. autofunction:: pyprop.multimodel_rep
+.. autofunction:: pypo.multimodel_rep
 ```
 
 ###### Example
@@ -160,7 +160,7 @@ Obtaining the Achievable Output Set (AOS) for the shower problem.
 
 Importing PyPO and Numpy:
 ```{code-cell} 
-    from pyprop import multimodel_rep
+    from pypo import multimodel_rep
     import numpy as np
 ```
 Defining the equations that describe the process:
@@ -200,7 +200,7 @@ Obtaining multimodel representation of paired polytopes for the AOS:
 ## OI evaluation
 
 ```{eval-rst}
-.. autofunction:: pyprop.OI_calc
+.. autofunction:: pypo.OI
 ```
 
 ###### Example
@@ -208,7 +208,7 @@ Evaluating the OI for the shower problem for a given DOS.
 
 Importing PyPO and Numpy:
 ```{code-cell} 
-    from pyprop import multimodel_rep, OI_calc
+    from pypo import multimodel_rep, OI
     import numpy as np
 ```
 Defining the equations that describe the process:
@@ -236,7 +236,7 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}
 Defining the AIS bounds and the discretization resolution:
 ```{code-cell}
     AIS_bounds =  np.array([[0, 10], [0, 10]])
-    AIS_resolution =  [5, 5]
+    AIS_resolution =  [10, 10]
 ```
 
 Obtaining multimodel representation of paired polytopes for the AOS:
@@ -253,22 +253,25 @@ Defining a DOS region between $y_1 =[10-20], y_2=[70-100]$
 
 Evaluating the OI and seeing the intersection between the operability sets:
 ```{code-cell} 
-    OI = OI_calc(AOS_region, DOS_bounds)
+    OI = OI(AOS_region, DOS_bounds)
 ```
 ## Utilities
 
 ```{eval-rst}
-.. autofunction:: pyprop.create_grid
+.. autofunction:: pypo.create_grid
 ```
 ###### Example
 Creating a 2-dimensional discretized rectangular grid for given DOS bounds.
 
 ```{code-cell} 
-    from pyprop import create_grid
+    from pypo import create_grid
     DOS_bounds =  np.array([[10, 20], 
                             [70, 100]])
+
     DOS_resolution =  [5, 5]
+
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
+
     print(DOSPts)
 ```
 Visualizing this grid:
@@ -280,7 +283,7 @@ Visualizing this grid:
 
 
 ```{eval-rst}
-.. autofunction:: pyprop.points2simplices
+.. autofunction:: pypo.points2simplices
 ```
 
 ###### Example
@@ -288,16 +291,16 @@ Generating paired simplicial polytopes for the AIS/AOS generated for the
 shower problem example.
 
 ```{code-cell}
-    from pyprop import points2simplices
+    from pypo import points2simplices
     AIS_poly, AOS_poly = points2simplices(AIS,AOS)
-    print('AIS Simplices', AIS_poly)
-    print('AOS Simplices', AOS_poly)
+    print('AIS Simplices \n', AIS_poly)
+    print('AOS Simplices \n', AOS_poly)
 ```
 
 
 
 ```{eval-rst}
-.. autofunction:: pyprop.points2polyhedra
+.. autofunction:: pypo.points2polyhedra
 
 
 ```
@@ -307,6 +310,6 @@ shower problem example.
    :toctree: _autosummary
    :recursive:
 
-   pyprop
+   pypo
 ```
 

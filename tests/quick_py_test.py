@@ -1,4 +1,4 @@
-from pyprop import multimodel_rep, OI_calc
+from pypo import multimodel_rep, OI
 import numpy as np
 
 
@@ -24,7 +24,7 @@ AIS_resolution =  [5, 5]
 model =  shower_problem_2x2
 
 
-AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, model)
+AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, model, plotting=True)
 
 
-# OI = OI_calc(AOS_region, DOS_bounds)
+OI = OI(AOS_region, DOS_bounds, plotting=True)

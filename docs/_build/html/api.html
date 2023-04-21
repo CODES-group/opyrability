@@ -66,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'api';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="pyprop" href="_autosummary/pyprop.html" />
+    <link rel="next" title="pypo" href="_autosummary/pypo.html" />
     <link rel="prev" title="Here’s my sample title" href="mymarkdownfile.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="None"/>
@@ -166,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mymarkdownfile.html">Here’s my sample title</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="_autosummary/pyprop.html">pyprop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/pypo.html">pypo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
@@ -410,8 +410,8 @@ separted below based on their functionality.</p>
 <section id="forward-mapping">
 <h3>Forward mapping<a class="headerlink" href="#forward-mapping" title="Permalink to this headline">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyprop.AIS2AOS_map">
-<span class="sig-prename descclassname"><span class="pre">pyprop.</span></span><span class="sig-name descname"><span class="pre">AIS2AOS_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AIS_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AIS_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/pyprop.html#AIS2AOS_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprop.AIS2AOS_map" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pypo.AIS2AOS_map">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">AIS2AOS_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AIS_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AIS_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/pypo.html#AIS2AOS_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.AIS2AOS_map" title="Permalink to this definition">#</a></dt>
 <dd><p>Forward mapping for Process Operability calculations (From AIS to AOS).
 From a Available Input Set (AIS) bounds and discretization resolution both
 defined by the user,
@@ -447,7 +447,7 @@ discretized the AIS.</p></li>
 <p>Importing PyPO and Numpy:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pyprop</span> <span class="kn">import</span> <span class="n">AIS2AOS_map</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">AIS2AOS_map</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
@@ -535,8 +535,8 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <section id="nlp-based">
 <h3>NLP-Based<a class="headerlink" href="#nlp-based" title="Permalink to this headline">#</a></h3>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyprop.nlp_based_approach">
-<span class="sig-prename descclassname"><span class="pre">pyprop.</span></span><span class="sig-name descname"><span class="pre">nlp_based_approach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DOS_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DOS_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ub</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ipopt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warmstart</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pyprop.html#nlp_based_approach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprop.nlp_based_approach" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pypo.nlp_based_approach">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">nlp_based_approach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">DOS_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DOS_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">u0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lb</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ub</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">constr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ipopt'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">warmstart</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/pypo.html#nlp_based_approach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.nlp_based_approach" title="Permalink to this definition">#</a></dt>
 <dd><p>Inverse mapping for Process Operability calculations. From a Desired Output
 Set (DOS) defined by the user, this function calculates the closest
 Feasible Desired Ouput set (DOS*) from the AOS and its respective Feasible
@@ -616,7 +616,7 @@ vol. 105, pp. 246-258, 2017.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-    <span class="kn">from</span> <span class="nn">pyprop</span> <span class="kn">import</span> <span class="n">nlp_based_approach</span>
+    <span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">nlp_based_approach</span>
 </pre></div>
 </div>
 </div>
@@ -684,160 +684,160 @@ NLP and using finite-differences:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                | 0/100 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                               | 0/100 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|██▍                                                                                                                     | 2/100 [00:00&lt;00:07, 13.02it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|██▋                                                                                                                                    | 2/100 [00:00&lt;00:08, 12.20it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|████▊                                                                                                                   | 4/100 [00:00&lt;00:07, 13.63it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|█████▍                                                                                                                                 | 4/100 [00:00&lt;00:07, 12.85it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|███████▏                                                                                                                | 6/100 [00:00&lt;00:07, 13.35it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|████████                                                                                                                               | 6/100 [00:00&lt;00:07, 12.54it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|█████████▌                                                                                                              | 8/100 [00:00&lt;00:06, 13.61it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████████▊                                                                                                                            | 8/100 [00:00&lt;00:07, 12.65it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|███████████▉                                                                                                           | 10/100 [00:00&lt;00:06, 13.76it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|█████████████▍                                                                                                                        | 10/100 [00:00&lt;00:07, 12.80it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|██████████████▎                                                                                                        | 12/100 [00:00&lt;00:06, 13.53it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|████████████████                                                                                                                      | 12/100 [00:00&lt;00:07, 12.51it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|████████████████▋                                                                                                      | 14/100 [00:01&lt;00:06, 13.42it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|██████████████████▊                                                                                                                   | 14/100 [00:01&lt;00:06, 12.31it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|███████████████████                                                                                                    | 16/100 [00:01&lt;00:06, 13.31it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|█████████████████████▍                                                                                                                | 16/100 [00:01&lt;00:06, 12.37it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|█████████████████████▍                                                                                                 | 18/100 [00:01&lt;00:06, 13.52it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|████████████████████████                                                                                                              | 18/100 [00:01&lt;00:06, 12.73it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|███████████████████████▊                                                                                               | 20/100 [00:01&lt;00:05, 13.98it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|██████████████████████████▊                                                                                                           | 20/100 [00:01&lt;00:06, 13.23it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|██████████████████████████▏                                                                                            | 22/100 [00:01&lt;00:05, 13.69it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████████████████▍                                                                                                        | 22/100 [00:01&lt;00:06, 12.77it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|████████████████████████████▌                                                                                          | 24/100 [00:01&lt;00:05, 13.53it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|████████████████████████████████▏                                                                                                     | 24/100 [00:01&lt;00:06, 12.47it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|██████████████████████████████▉                                                                                        | 26/100 [00:01&lt;00:05, 13.42it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|██████████████████████████████████▊                                                                                                   | 26/100 [00:02&lt;00:05, 12.48it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|█████████████████████████████████▎                                                                                     | 28/100 [00:02&lt;00:05, 13.50it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|█████████████████████████████████████▌                                                                                                | 28/100 [00:02&lt;00:05, 12.71it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|███████████████████████████████████▋                                                                                   | 30/100 [00:02&lt;00:05, 13.99it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|████████████████████████████████████████▏                                                                                             | 30/100 [00:02&lt;00:05, 13.15it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 32%|██████████████████████████████████████                                                                                 | 32/100 [00:02&lt;00:05, 13.59it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 32%|██████████████████████████████████████████▉                                                                                           | 32/100 [00:02&lt;00:05, 12.80it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|████████████████████████████████████████▍                                                                              | 34/100 [00:02&lt;00:05, 13.12it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|█████████████████████████████████████████████▌                                                                                        | 34/100 [00:02&lt;00:05, 12.22it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 36%|██████████████████████████████████████████▊                                                                            | 36/100 [00:02&lt;00:04, 12.85it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 36%|████████████████████████████████████████████████▏                                                                                     | 36/100 [00:02&lt;00:05, 12.02it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38%|█████████████████████████████████████████████▏                                                                         | 38/100 [00:02&lt;00:04, 12.97it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38%|██████████████████████████████████████████████████▉                                                                                   | 38/100 [00:03&lt;00:05, 12.16it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|███████████████████████████████████████████████▌                                                                       | 40/100 [00:02&lt;00:04, 13.56it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|█████████████████████████████████████████████████████▌                                                                                | 40/100 [00:03&lt;00:04, 12.90it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|█████████████████████████████████████████████████▉                                                                     | 42/100 [00:03&lt;00:04, 13.15it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|████████████████████████████████████████████████████████▎                                                                             | 42/100 [00:03&lt;00:04, 12.66it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|████████████████████████████████████████████████████▎                                                                  | 44/100 [00:03&lt;00:04, 12.95it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|██████████████████████████████████████████████████████████▉                                                                           | 44/100 [00:03&lt;00:04, 12.47it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 46%|██████████████████████████████████████████████████████▋                                                                | 46/100 [00:03&lt;00:04, 12.52it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 46%|█████████████████████████████████████████████████████████████▋                                                                        | 46/100 [00:03&lt;00:04, 12.21it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|█████████████████████████████████████████████████████████                                                              | 48/100 [00:03&lt;00:04, 12.73it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|████████████████████████████████████████████████████████████████▎                                                                     | 48/100 [00:03&lt;00:04, 12.41it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|███████████████████████████████████████████████████████████▌                                                           | 50/100 [00:03&lt;00:03, 13.30it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|███████████████████████████████████████████████████████████████████                                                                   | 50/100 [00:03&lt;00:03, 12.77it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 52%|█████████████████████████████████████████████████████████████▉                                                         | 52/100 [00:03&lt;00:03, 12.82it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 52%|█████████████████████████████████████████████████████████████████████▋                                                                | 52/100 [00:04&lt;00:03, 12.18it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 54%|████████████████████████████████████████████████████████████████▎                                                      | 54/100 [00:04&lt;00:03, 12.70it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 54%|████████████████████████████████████████████████████████████████████████▎                                                             | 54/100 [00:04&lt;00:03, 12.35it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56%|██████████████████████████████████████████████████████████████████▋                                                    | 56/100 [00:04&lt;00:03, 12.72it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56%|███████████████████████████████████████████████████████████████████████████                                                           | 56/100 [00:04&lt;00:03, 12.35it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 58%|█████████████████████████████████████████████████████████████████████                                                  | 58/100 [00:04&lt;00:03, 13.00it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 58%|█████████████████████████████████████████████████████████████████████████████▋                                                        | 58/100 [00:04&lt;00:03, 12.61it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|███████████████████████████████████████████████████████████████████████▍                                               | 60/100 [00:04&lt;00:03, 13.23it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|████████████████████████████████████████████████████████████████████████████████▍                                                     | 60/100 [00:04&lt;00:03, 13.12it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|█████████████████████████████████████████████████████████████████████████▊                                             | 62/100 [00:04&lt;00:02, 12.73it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|███████████████████████████████████████████████████████████████████████████████████                                                   | 62/100 [00:04&lt;00:03, 12.52it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|████████████████████████████████████████████████████████████████████████████▏                                          | 64/100 [00:04&lt;00:02, 12.61it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|█████████████████████████████████████████████████████████████████████████████████████▊                                                | 64/100 [00:05&lt;00:02, 12.31it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 66%|██████████████████████████████████████████████████████████████████████████████▌                                        | 66/100 [00:05&lt;00:02, 12.40it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 66%|████████████████████████████████████████████████████████████████████████████████████████▍                                             | 66/100 [00:05&lt;00:02, 11.55it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68%|████████████████████████████████████████████████████████████████████████████████▉                                      | 68/100 [00:05&lt;00:02, 12.62it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68%|███████████████████████████████████████████████████████████████████████████████████████████                                           | 68/100 [00:05&lt;00:02, 11.99it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|███████████████████████████████████████████████████████████████████████████████████▎                                   | 70/100 [00:05&lt;00:02, 13.05it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|█████████████████████████████████████████████████████████████████████████████████████████████▊                                        | 70/100 [00:05&lt;00:02, 12.39it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72%|█████████████████████████████████████████████████████████████████████████████████████▋                                 | 72/100 [00:05&lt;00:02, 12.38it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72%|████████████████████████████████████████████████████████████████████████████████████████████████▍                                     | 72/100 [00:05&lt;00:02, 11.94it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74%|████████████████████████████████████████████████████████████████████████████████████████                               | 74/100 [00:05&lt;00:02, 12.40it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74%|███████████████████████████████████████████████████████████████████████████████████████████████████▏                                  | 74/100 [00:05&lt;00:02, 11.95it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 76%|██████████████████████████████████████████████████████████████████████████████████████████▍                            | 76/100 [00:05&lt;00:01, 12.41it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 76%|█████████████████████████████████████████████████████████████████████████████████████████████████████▊                                | 76/100 [00:06&lt;00:01, 12.11it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|████████████████████████████████████████████████████████████████████████████████████████████▊                          | 78/100 [00:05&lt;00:01, 12.65it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|████████████████████████████████████████████████████████████████████████████████████████████████████████▌                             | 78/100 [00:06&lt;00:01, 12.43it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|███████████████████████████████████████████████████████████████████████████████████████████████▏                       | 80/100 [00:06&lt;00:01, 13.13it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|███████████████████████████████████████████████████████████████████████████████████████████████████████████▏                          | 80/100 [00:06&lt;00:01, 12.91it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 82%|█████████████████████████████████████████████████████████████████████████████████████████████████▌                     | 82/100 [00:06&lt;00:01, 12.52it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 82%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████▉                        | 82/100 [00:06&lt;00:01, 12.23it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 84%|███████████████████████████████████████████████████████████████████████████████████████████████████▉                   | 84/100 [00:06&lt;00:01, 12.47it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 84%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                     | 84/100 [00:06&lt;00:01, 12.29it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86%|██████████████████████████████████████████████████████████████████████████████████████████████████████▎                | 86/100 [00:06&lt;00:01, 12.34it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                  | 86/100 [00:06&lt;00:01, 11.91it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|████████████████████████████████████████████████████████████████████████████████████████████████████████▋              | 88/100 [00:06&lt;00:00, 12.87it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▉                | 88/100 [00:07&lt;00:00, 12.51it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 90%|███████████████████████████████████████████████████████████████████████████████████████████████████████████            | 90/100 [00:06&lt;00:00, 13.27it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 90%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌             | 90/100 [00:07&lt;00:00, 13.03it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 92%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████▍         | 92/100 [00:07&lt;00:00, 12.68it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 92%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎          | 92/100 [00:07&lt;00:00, 12.67it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████▊       | 94/100 [00:07&lt;00:00, 12.68it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▉        | 94/100 [00:07&lt;00:00, 12.57it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏    | 96/100 [00:07&lt;00:00, 12.72it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋     | 96/100 [00:07&lt;00:00, 12.55it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 98%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌  | 98/100 [00:07&lt;00:00, 13.26it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 98%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎  | 98/100 [00:07&lt;00:00, 13.05it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:07&lt;00:00, 13.61it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:07&lt;00:00, 13.40it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:07&lt;00:00, 13.06it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:07&lt;00:00, 12.53it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
@@ -852,8 +852,8 @@ NLP and using finite-differences:</p>
 <section id="implicit-mapping">
 <h2>Implicit mapping<a class="headerlink" href="#implicit-mapping" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyprop.implicit_map">
-<span class="sig-prename descclassname"><span class="pre">pyprop.</span></span><span class="sig-name descname"><span class="pre">implicit_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_init</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'forward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'predictor-corrector'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol_cor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continuation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Explicit</span> <span class="pre">RK4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'jax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_cutting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprop.html#implicit_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprop.implicit_map" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pypo.implicit_map">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">implicit_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">domain_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">image_init</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">direction</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'forward'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'predictor-corrector'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol_cor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continuation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Explicit</span> <span class="pre">RK4'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">derivative</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'jax'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">step_cutting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypo.html#implicit_map"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.implicit_map" title="Permalink to this definition">#</a></dt>
 <dd><p>Performs implicit mapping of a implicitly defined process F(u,y) = 0.
 F can be a vector-valued, multivariable function, which is typically the
 case for chemical processes studied in Process Operability.
@@ -934,8 +934,8 @@ evaluation.</p></li>
 <section id="multimodel-representation">
 <h2>Multimodel representation<a class="headerlink" href="#multimodel-representation" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyprop.multimodel_rep">
-<span class="sig-prename descclassname"><span class="pre">pyprop.</span></span><span class="sig-name descname"><span class="pre">multimodel_rep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AIS_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polytopic_trace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'simplices'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perspective</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'outputs'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprop.html#multimodel_rep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprop.multimodel_rep" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pypo.multimodel_rep">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">multimodel_rep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AIS_bound</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">polytopic_trace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'simplices'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perspective</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'outputs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypo.html#multimodel_rep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.multimodel_rep" title="Permalink to this definition">#</a></dt>
 <dd><p>Obtain a multimodel representation based on polytopes of Process Operability
 sets. This procedure is essential for evaluating the Operability Index (OI).</p>
 <p>This function is part of Python-based Process Operability package.</p>
@@ -955,12 +955,16 @@ dimensionality of the AIS).</p></li>
 and Outputs (AOS-DOS).</p></li>
 <li><p><strong>polytopic_trace</strong> (<em>str</em><em>, </em><em>Optional.</em>) – Determines if the polytopes will be constructed using simplices or
 polyhedrons. Default is ‘simplices’. Additional option is ‘polyhedra’.</p></li>
+<li><p><strong>perspective</strong> (<em>str</em><em>, </em><em>Optional.</em>) – Defines if the calculation is to be done from the inputs/outputs
+perspective. Affects only labels in plots. Default is ‘outputs’.</p></li>
+<li><p><strong>plotting</strong> (<em>str</em><em>, </em><em>Optional.</em>) – Defines if the plotting of operability sets is desired (If the dimension
+is &lt;= 3). Default is ‘True’.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>finalpolytope</strong> – Convex polytope or collection of convex polytopes (named as Region)
 that describes the AOS. Can be used to calculate the Operability Index
-using <code class="docutils literal notranslate"><span class="pre">OI_Calc</span></code>.</p>
+using <code class="docutils literal notranslate"><span class="pre">OI</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>polytope.Region</p>
@@ -985,7 +989,7 @@ Industrial &amp; Engineering Chemistry Research 2020 59 (6), 2457-2470
 <p>Importing PyPO and Numpy:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pyprop</span> <span class="kn">import</span> <span class="n">multimodel_rep</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">multimodel_rep</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
@@ -1031,7 +1035,7 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/d67dba4f5e2a8898c130805de9a200012ecc9c7b3f7cd8579e88825837d4760e.png" src="_images/d67dba4f5e2a8898c130805de9a200012ecc9c7b3f7cd8579e88825837d4760e.png" />
+<img alt="_images/b6ce04363583aeec11463e058416232da43188b86cd040e92f0a0f294c35c7e7.png" src="_images/b6ce04363583aeec11463e058416232da43188b86cd040e92f0a0f294c35c7e7.png" />
 </div>
 </div>
 </section>
@@ -1039,8 +1043,8 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <section id="oi-evaluation">
 <h2>OI evaluation<a class="headerlink" href="#oi-evaluation" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyprop.OI_calc">
-<span class="sig-prename descclassname"><span class="pre">pyprop.</span></span><span class="sig-name descname"><span class="pre">OI_calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">polytope.polytope.Region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perspective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outputs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hypervol_calc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'robust'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprop.html#OI_calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprop.OI_calc" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pypo.OI">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">OI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">polytope.polytope.Region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perspective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outputs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hypervol_calc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'robust'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypo.html#OI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.OI" title="Permalink to this definition">#</a></dt>
 <dd><p>Operability Index (OI) calculation. From a Desired Output
 Set (DOS) defined by the user, this function calculates the intersection
 between achieable (AOS) and desired output operation (DOS). Similarly, the
@@ -1097,7 +1101,7 @@ Industrial &amp; Engineering Chemistry Research 2020 59 (6), 2457-2470
 <p>Importing PyPO and Numpy:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pyprop</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_calc</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
@@ -1130,7 +1134,7 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">AIS_bounds</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
-    <span class="n">AIS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="n">AIS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1143,7 +1147,35 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/405ff0af2740e3e89588e97d6399ec4b358aeec5ea93b5576c2585b49f290d80.png" src="_images/405ff0af2740e3e89588e97d6399ec4b358aeec5ea93b5576c2585b49f290d80.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_15396</span>\<span class="mf">65153246.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">AOS_region</span>  <span class="o">=</span>  <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">,</span> <span class="n">shower_problem</span><span class="p">)</span>
+
+<span class="nn">~\Documents\python_operability\python_operability\src\pypo.py</span> in <span class="ni">multimodel_rep</span><span class="nt">(AIS_bound, resolution, model, polytopic_trace, perspective, plotting)</span>
+<span class="g g-Whitespace">    </span><span class="mi">171</span> 
+<span class="g g-Whitespace">    </span><span class="mi">172</span>     <span class="c1"># Generate final (non-overlapped) polytope</span>
+<span class="ne">--&gt; </span><span class="mi">173</span>     <span class="n">finalpolytope</span> <span class="o">=</span> <span class="n">region_diff</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> <span class="n">RemU</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">174</span> 
+<span class="g g-Whitespace">    </span><span class="mi">175</span>     <span class="c1"># Perspective switch: This will only affect plotting and legends.</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">region_diff</span><span class="nt">(poly, reg, abs_tol, intersect_tol, save)</span>
+<span class="g g-Whitespace">   </span><span class="mi">2201</span>                 <span class="n">Adummy</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">auxINDICES</span><span class="p">,</span> <span class="p">:]</span>
+<span class="g g-Whitespace">   </span><span class="mi">2202</span>                 <span class="n">bdummy</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">auxINDICES</span><span class="p">]</span>
+<span class="ne">-&gt; </span><span class="mi">2203</span>                 <span class="n">R</span><span class="p">,</span> <span class="n">xopt</span> <span class="o">=</span> <span class="n">cheby_ball</span><span class="p">(</span><span class="n">Polytope</span><span class="p">(</span><span class="n">Adummy</span><span class="p">,</span> <span class="n">bdummy</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">2204</span>                 <span class="k">if</span> <span class="n">R</span> <span class="o">&gt;</span> <span class="n">abs_tol</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">2205</span>                     <span class="n">level</span> <span class="o">=</span> <span class="n">j</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">__init__</span><span class="nt">(self, A, b, minrep, chebR, chebX, fulldim, volume, vertices, normalize)</span>
+<span class="g g-Whitespace">    </span><span class="mi">135</span>             <span class="n">mult</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">Anorm</span>
+<span class="g g-Whitespace">    </span><span class="mi">136</span>             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+<span class="ne">--&gt; </span><span class="mi">137</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">mult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span>             <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">*</span> <span class="n">mult</span>
+<span class="g g-Whitespace">    </span><span class="mi">139</span>         <span class="bp">self</span><span class="o">.</span><span class="n">minrep</span> <span class="o">=</span> <span class="n">minrep</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
 </div>
 </div>
 <p>Defining a DOS region between <span class="math notranslate nohighlight">\(y_1 =[10-20], y_2=[70-100]\)</span></p>
@@ -1158,12 +1190,9 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <p>Evaluating the OI and seeing the intersection between the operability sets:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">OI</span> <span class="o">=</span> <span class="n">OI_calc</span><span class="p">(</span><span class="n">AOS_region</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">OI</span> <span class="o">=</span> <span class="n">OI</span><span class="p">(</span><span class="n">AOS_region</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/2563b48de48fe0c220c2d67a8cf8736e55924a3df52e9839e40296e9676bdf99.png" src="_images/2563b48de48fe0c220c2d67a8cf8736e55924a3df52e9839e40296e9676bdf99.png" />
 </div>
 </div>
 </section>
@@ -1171,8 +1200,8 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <section id="utilities">
 <h2>Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyprop.create_grid">
-<span class="sig-prename descclassname"><span class="pre">pyprop.</span></span><span class="sig-name descname"><span class="pre">create_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyprop.html#create_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprop.create_grid" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pypo.create_grid">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">create_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">region_bounds</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">region_resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypo.html#create_grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.create_grid" title="Permalink to this definition">#</a></dt>
 <dd><p>Create a multidimensional, discretized grid, given the bounds and the
 resolution.</p>
 <p>This function is part of Python-based Process Operability package.</p>
@@ -1206,45 +1235,15 @@ region in Euclidean coordinates.</p>
 <p>Creating a 2-dimensional discretized rectangular grid for given DOS bounds.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pyprop</span> <span class="kn">import</span> <span class="n">create_grid</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">create_grid</span>
     <span class="n">DOS_bounds</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> 
                             <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">100</span><span class="p">]])</span>
+
     <span class="n">DOS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
     <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">create_grid</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">)</span>
+
     <span class="nb">print</span><span class="p">(</span><span class="n">DOSPts</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[[ 10.   70. ]
-  [ 10.   77.5]
-  [ 10.   85. ]
-  [ 10.   92.5]
-  [ 10.  100. ]]
-
- [[ 12.5  70. ]
-  [ 12.5  77.5]
-  [ 12.5  85. ]
-  [ 12.5  92.5]
-  [ 12.5 100. ]]
-
- [[ 15.   70. ]
-  [ 15.   77.5]
-  [ 15.   85. ]
-  [ 15.   92.5]
-  [ 15.  100. ]]
-
- [[ 17.5  70. ]
-  [ 17.5  77.5]
-  [ 17.5  85. ]
-  [ 17.5  92.5]
-  [ 17.5 100. ]]
-
- [[ 20.   70. ]
-  [ 20.   77.5]
-  [ 20.   85. ]
-  [ 20.   92.5]
-  [ 20.  100. ]]]
 </pre></div>
 </div>
 </div>
@@ -1258,16 +1257,10 @@ region in Euclidean coordinates.</p>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x1ad62b4af70&gt;
-</pre></div>
-</div>
-<img alt="_images/b1ef2d25c49b747ef520fd509db443f6e7e6f076ad1bbf4d50b1d6531c6d3fa3.png" src="_images/b1ef2d25c49b747ef520fd509db443f6e7e6f076ad1bbf4d50b1d6531c6d3fa3.png" />
-</div>
 </div>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyprop.points2simplices">
-<span class="sig-prename descclassname"><span class="pre">pyprop.</span></span><span class="sig-name descname"><span class="pre">points2simplices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AIS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AOS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/pyprop.html#points2simplices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprop.points2simplices" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pypo.points2simplices">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">points2simplices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AIS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AOS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/pypo.html#points2simplices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.points2simplices" title="Permalink to this definition">#</a></dt>
 <dd><p>Generation of connected simplices (k+1 convex hull of k+1 vertices)
 based on the AIS/AOS points.</p>
 <p>This function is part of Python-based Process Operability package.</p>
@@ -1300,87 +1293,17 @@ of an array.</p></li>
 shower problem example.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pyprop</span> <span class="kn">import</span> <span class="n">points2simplices</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">points2simplices</span>
     <span class="n">AIS_poly</span><span class="p">,</span> <span class="n">AOS_poly</span> <span class="o">=</span> <span class="n">points2simplices</span><span class="p">(</span><span class="n">AIS</span><span class="p">,</span><span class="n">AOS</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;AIS Simplices&#39;</span><span class="p">,</span> <span class="n">AIS_poly</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;AOS Simplices&#39;</span><span class="p">,</span> <span class="n">AOS_poly</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIS Simplices [array([[2.5, 0. , 0. ],
-       [2.5, 2.5, 0. ]]), array([[2.5, 2.5, 0. ],
-       [2.5, 0. , 0. ]]), array([[5. , 2.5, 2.5],
-       [2.5, 2.5, 0. ]]), array([[5. , 5. , 2.5],
-       [2.5, 0. , 0. ]]), array([[7.5, 5. , 5. ],
-       [2.5, 2.5, 0. ]]), array([[7.5, 7.5, 5. ],
-       [2.5, 0. , 0. ]]), array([[10. ,  7.5,  7.5],
-       [ 2.5,  2.5,  0. ]]), array([[10. , 10. ,  7.5],
-       [ 2.5,  0. ,  0. ]]), array([[2.5, 0. , 0. ],
-       [5. , 5. , 2.5]]), array([[2.5, 2.5, 0. ],
-       [5. , 2.5, 2.5]]), array([[5. , 2.5, 2.5],
-       [5. , 5. , 2.5]]), array([[5. , 5. , 2.5],
-       [5. , 2.5, 2.5]]), array([[7.5, 5. , 5. ],
-       [5. , 5. , 2.5]]), array([[7.5, 7.5, 5. ],
-       [5. , 2.5, 2.5]]), array([[10. ,  7.5,  7.5],
-       [ 5. ,  5. ,  2.5]]), array([[10. , 10. ,  7.5],
-       [ 5. ,  2.5,  2.5]]), array([[2.5, 0. , 0. ],
-       [7.5, 7.5, 5. ]]), array([[2.5, 2.5, 0. ],
-       [7.5, 5. , 5. ]]), array([[5. , 2.5, 2.5],
-       [7.5, 7.5, 5. ]]), array([[5. , 5. , 2.5],
-       [7.5, 5. , 5. ]]), array([[7.5, 5. , 5. ],
-       [7.5, 7.5, 5. ]]), array([[7.5, 7.5, 5. ],
-       [7.5, 5. , 5. ]]), array([[10. ,  7.5,  7.5],
-       [ 7.5,  7.5,  5. ]]), array([[10. , 10. ,  7.5],
-       [ 7.5,  5. ,  5. ]]), array([[ 2.5,  0. ,  0. ],
-       [10. , 10. ,  7.5]]), array([[ 2.5,  2.5,  0. ],
-       [10. ,  7.5,  7.5]]), array([[ 5. ,  2.5,  2.5],
-       [10. , 10. ,  7.5]]), array([[ 5. ,  5. ,  2.5],
-       [10. ,  7.5,  7.5]]), array([[ 7.5,  5. ,  5. ],
-       [10. , 10. ,  7.5]]), array([[ 7.5,  7.5,  5. ],
-       [10. ,  7.5,  7.5]]), array([[10. ,  7.5,  7.5],
-       [10. , 10. ,  7.5]]), array([[10. , 10. ,  7.5],
-       [10. ,  7.5,  7.5]])]
-AOS Simplices [array([[  5. ,   2.5,   0. ],
-       [ 90. , 120. ,  90. ]]), array([[ 5. ,  2.5,  0. ],
-       [90. , 60. , 90. ]]), array([[ 7.5,  5. ,  2.5],
-       [80. , 90. , 60. ]]), array([[ 7.5,  5. ,  2.5],
-       [80. , 60. , 60. ]]), array([[10. ,  7.5,  5. ],
-       [75. , 80. , 60. ]]), array([[10. ,  7.5,  5. ],
-       [75. , 60. , 60. ]]), array([[12.5, 10. ,  7.5],
-       [72. , 75. , 60. ]]), array([[12.5, 10. ,  7.5],
-       [72. , 60. , 60. ]]), array([[  7.5,   5. ,   2.5],
-       [100. , 120. , 120. ]]), array([[  7.5,   5. ,   2.5],
-       [100. ,  90. , 120. ]]), array([[ 10. ,   7.5,   5. ],
-       [ 90. , 100. ,  90. ]]), array([[10. ,  7.5,  5. ],
-       [90. , 80. , 90. ]]), array([[12.5, 10. ,  7.5],
-       [84. , 90. , 80. ]]), array([[12.5, 10. ,  7.5],
-       [84. , 75. , 80. ]]), array([[15. , 12.5, 10. ],
-       [80. , 84. , 75. ]]), array([[15. , 12.5, 10. ],
-       [80. , 72. , 75. ]]), array([[ 10. ,   7.5,   5. ],
-       [105. , 120. , 120. ]]), array([[ 10. ,   7.5,   5. ],
-       [105. , 100. , 120. ]]), array([[ 12.5,  10. ,   7.5],
-       [ 96. , 105. , 100. ]]), array([[ 12.5,  10. ,   7.5],
-       [ 96. ,  90. , 100. ]]), array([[15. , 12.5, 10. ],
-       [90. , 96. , 90. ]]), array([[15. , 12.5, 10. ],
-       [90. , 84. , 90. ]]), array([[17.5    , 15.     , 12.5    ],
-       [85.71429, 90.     , 84.     ]]), array([[17.5    , 15.     , 12.5    ],
-       [85.71429, 80.     , 84.     ]]), array([[ 12.5,  10. ,   7.5],
-       [108. , 120. , 120. ]]), array([[ 12.5,  10. ,   7.5],
-       [108. , 105. , 120. ]]), array([[ 15. ,  12.5,  10. ],
-       [100. , 108. , 105. ]]), array([[ 15. ,  12.5,  10. ],
-       [100. ,  96. , 105. ]]), array([[ 17.5    ,  15.     ,  12.5    ],
-       [ 94.28571, 100.     ,  96.     ]]), array([[17.5    , 15.     , 12.5    ],
-       [94.28571, 90.     , 96.     ]]), array([[20.     , 17.5    , 15.     ],
-       [90.     , 94.28571, 90.     ]]), array([[20.     , 17.5    , 15.     ],
-       [90.     , 85.71429, 90.     ]])]
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;AIS Simplices </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">AIS_poly</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;AOS Simplices </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">AOS_poly</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <dl class="py function">
-<dt class="sig sig-object py" id="pyprop.points2polyhedra">
-<span class="sig-prename descclassname"><span class="pre">pyprop.</span></span><span class="sig-name descname"><span class="pre">points2polyhedra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AIS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AOS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/pyprop.html#points2polyhedra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyprop.points2polyhedra" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pypo.points2polyhedra">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">points2polyhedra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AIS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">AOS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/pypo.html#points2polyhedra"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.points2polyhedra" title="Permalink to this definition">#</a></dt>
 <dd><p>Generation of connected polyhedra based on the AIS/AOS points.</p>
 <p>This function is part of Python-based Process Operability package.</p>
 <p>Control, Optimization and Design for Energy and Sustainability
@@ -1411,7 +1334,7 @@ of an array.</p></li>
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pyprop.html#module-pyprop" title="pyprop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pyprop</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="_autosummary/pypo.html#module-pypo" title="pypo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pypo</span></code></a></p></td>
 <td><p></p></td>
 </tr>
 </tbody>
@@ -1461,11 +1384,11 @@ of an array.</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="_autosummary/pyprop.html"
+       href="_autosummary/pypo.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">pyprop</p>
+        <p class="prev-next-title">pypo</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

@@ -1,7 +1,0 @@
-cvxopt<2.0.0,>=1.3.0
-cyipopt@ git+https://github.com/mechmotum/cyipopt.git@master
-matplotlib<4.0.0,>=3.6.2
-numpy<2.0.0,>=1.24.1
-polytope@ git+https://github.com/tulip-control/polytope.git@main
-scipy<2.0.0,>=1.10.0
-tqdm<5.0.0,>=4.64.1

@@ -64,8 +64,6 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/pyprop';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Bibliography" href="../bibliography.html" />
-    <link rel="prev" title="API documentation" href="../api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="None"/>
   </head>
@@ -156,15 +154,15 @@ const thebe_selector_output = ".output, .cell_output"
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../markdown.html">Markdown Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Content with notebooks</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../mymarkdownfile.html">Here’s my sample title</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api.html">API documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">pyprop</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="pypo.html">pypo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
@@ -364,41 +362,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="module-pyprop">
-<span id="pyprop"></span><h1>pyprop<a class="headerlink" href="#module-pyprop" title="Permalink to this headline">#</a></h1>
-<p class="rubric">Functions</p>
-<table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="../markdown-notebooks.html#pyprop.AIS2AOS_map" title="pyprop.AIS2AOS_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AIS2AOS_map</span></code></a>(model, AIS_bound, AIS_resolution)</p></td>
-<td><p>Forward mapping for Process Operability calculations (From AIS to AOS).</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#pyprop.OI_calc" title="pyprop.OI_calc"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OI_calc</span></code></a>(AS, DS[, perspective, hypervol_calc])</p></td>
-<td><p>Operability Index (OI) calculation.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pyprop.create_grid" title="pyprop.create_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_grid</span></code></a>(region_bounds, region_resolution)</p></td>
-<td><p>Create a multidimensional, discretized grid, given the bounds and the resolution.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#pyprop.implicit_map" title="pyprop.implicit_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implicit_map</span></code></a>(model, domain_bound, ...[, ...])</p></td>
-<td><p>Performs implicit mapping of a implicitly defined process F(u,y) = 0.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pyprop.multimodel_rep" title="pyprop.multimodel_rep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multimodel_rep</span></code></a>(AIS_bound, resolution, model)</p></td>
-<td><p>Obtain a multimodel representation based on polytopes of Process Operability sets.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#pyprop.nlp_based_approach" title="pyprop.nlp_based_approach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nlp_based_approach</span></code></a>(DOS_bounds, ...[, ...])</p></td>
-<td><p>Inverse mapping for Process Operability calculations.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pyprop.points2polyhedra" title="pyprop.points2polyhedra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2polyhedra</span></code></a>(AIS, AOS)</p></td>
-<td><p>Generation of connected polyhedra based on the AIS/AOS points.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#pyprop.points2simplices" title="pyprop.points2simplices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2simplices</span></code></a>(AIS, AOS)</p></td>
-<td><p>Generation of connected simplices (k+1 convex hull of k+1 vertices) based on the AIS/AOS points.</p></td>
-</tr>
-</tbody>
-</table>
+  <section id="pyprop">
+<h1>pyprop<a class="headerlink" href="#pyprop" title="Permalink to this headline">#</a></h1>
 </section>
 
     <script type="text/x-thebe-config">
@@ -432,24 +397,6 @@ document.write(`
   
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="../api.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">API documentation</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="../bibliography.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Bibliography</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div></div>
   
 </div>
