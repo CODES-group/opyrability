@@ -96,7 +96,7 @@ Defining DOS bounds and resolution to obtain the inverse map:
 ```{code-cell}
     DOS_bound = np.array([[17.5, 21.0],
                           [80.0, 100.0]])
-    resolution = [10, 10]
+    resolution = [5, 5]
 ```
 
 Defining the equations that describe the process:
@@ -187,7 +187,7 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}
 ```
 Defining the AIS bounds and the discretization resolution:
 ```{code-cell}
-    AIS_bounds =  np.array([[0, 10], [0, 10]])
+    AIS_bounds =  np.array([[1, 10], [1, 10]])
     AIS_resolution =  [5, 5]
 ```
 
@@ -200,15 +200,17 @@ Obtaining multimodel representation of paired polytopes for the AOS:
 ## OI evaluation
 
 ```{eval-rst}
-.. autofunction:: pypo.OI
+.. autofunction:: pypo.OI_eval
 ```
 
 ###### Example
 Evaluating the OI for the shower problem for a given DOS.
 
+
+
 Importing PyPO and Numpy:
 ```{code-cell} 
-    from pypo import multimodel_rep, OI
+    from pypo import multimodel_rep, OI_eval
     import numpy as np
 ```
 Defining the equations that describe the process:
@@ -235,14 +237,15 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}
 ```
 Defining the AIS bounds and the discretization resolution:
 ```{code-cell}
-    AIS_bounds =  np.array([[0, 10], [0, 10]])
-    AIS_resolution =  [10, 10]
+    AIS_bounds =  np.array([[1, 10], [1, 10]])
+    AIS_resolution =  [5, 5]
 ```
 
 Obtaining multimodel representation of paired polytopes for the AOS:
 
 ```{code-cell} 
-    AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem)
+    AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem,
+    plotting=False)
 ```
 
 Defining a DOS region between $y_1 =[10-20], y_2=[70-100]$
@@ -253,7 +256,7 @@ Defining a DOS region between $y_1 =[10-20], y_2=[70-100]$
 
 Evaluating the OI and seeing the intersection between the operability sets:
 ```{code-cell} 
-    OI = OI(AOS_region, DOS_bounds)
+    OI = OI_eval(AOS_region, DOS_bounds)
 ```
 ## Utilities
 
@@ -268,7 +271,7 @@ Creating a 2-dimensional discretized rectangular grid for given DOS bounds.
     DOS_bounds =  np.array([[10, 20], 
                             [70, 100]])
 
-    DOS_resolution =  [5, 5]
+    DOS_resolution =  [3, 3]
 
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
 
@@ -301,8 +304,16 @@ shower problem example.
 
 ```{eval-rst}
 .. autofunction:: pypo.points2polyhedra
+```
+###### Example
+Generating paired simplicial polyhedrons for the AIS/AOS generated for the
+shower problem example.
 
-
+```{code-cell}
+    from pypo import points2polyhedra
+    AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
+    print('AIS Polyhedrons \n', AIS_poly)
+    print('AOS Polyhedrons \n', AOS_poly)
 ```
 
 ```{eval-rst}

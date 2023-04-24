@@ -14,7 +14,7 @@
    .. autosummary::
    
       AIS2AOS_map
-      OI
+      OI_eval
       create_grid
       implicit_map
       multimodel_rep

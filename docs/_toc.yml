@@ -13,3 +13,4 @@ chapters:
 - file: api
 - file: bibliography
 - file: multimodel_oi_shower.ipynb
+- file: examples_gallery/index_example_gallery.ipynb

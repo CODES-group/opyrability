@@ -36,6 +36,7 @@
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -55,13 +56,14 @@
     <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api';</script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -171,6 +173,7 @@ const thebe_selector_output = ".output, .cell_output"
 </li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="multimodel_oi_shower.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
 </ul>
 
     </div>
@@ -388,6 +391,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utilities">Utilities</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -635,7 +639,7 @@ vol. 105, pp. 246-258, 2017.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">DOS_bound</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">17.5</span><span class="p">,</span> <span class="mf">21.0</span><span class="p">],</span>
                           <span class="p">[</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">]])</span>
-    <span class="n">resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+    <span class="n">resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -684,166 +688,52 @@ NLP and using finite-differences:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                               | 0/100 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                                | 0/25 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|██▋                                                                                                                                    | 2/100 [00:00&lt;00:08, 12.20it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████████▉                                                                                                                             | 2/25 [00:00&lt;00:02,  9.82it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|█████▍                                                                                                                                 | 4/100 [00:00&lt;00:07, 12.85it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|█████████████████████▊                                                                                                                  | 4/25 [00:00&lt;00:01, 10.95it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  6%|████████                                                                                                                               | 6/100 [00:00&lt;00:07, 12.54it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|████████████████████████████████▋                                                                                                       | 6/25 [00:00&lt;00:01, 11.83it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████████▊                                                                                                                            | 8/100 [00:00&lt;00:07, 12.65it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 32%|███████████████████████████████████████████▌                                                                                            | 8/25 [00:00&lt;00:01, 12.09it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 10%|█████████████▍                                                                                                                        | 10/100 [00:00&lt;00:07, 12.80it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|██████████████████████████████████████████████████████                                                                                 | 10/25 [00:00&lt;00:01, 12.65it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 12%|████████████████                                                                                                                      | 12/100 [00:00&lt;00:07, 12.51it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|████████████████████████████████████████████████████████████████▊                                                                      | 12/25 [00:00&lt;00:01, 12.50it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 14%|██████████████████▊                                                                                                                   | 14/100 [00:01&lt;00:06, 12.31it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56%|███████████████████████████████████████████████████████████████████████████▌                                                           | 14/25 [00:01&lt;00:00, 12.63it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|█████████████████████▍                                                                                                                | 16/100 [00:01&lt;00:06, 12.37it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|██████████████████████████████████████████████████████████████████████████████████████▍                                                | 16/25 [00:01&lt;00:00, 12.77it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 18%|████████████████████████                                                                                                              | 18/100 [00:01&lt;00:06, 12.73it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72%|█████████████████████████████████████████████████████████████████████████████████████████████████▏                                     | 18/25 [00:01&lt;00:00, 12.78it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 20%|██████████████████████████▊                                                                                                           | 20/100 [00:01&lt;00:06, 13.23it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|████████████████████████████████████████████████████████████████████████████████████████████████████████████                           | 20/25 [00:01&lt;00:00, 13.19it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 22%|█████████████████████████████▍                                                                                                        | 22/100 [00:01&lt;00:06, 12.77it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▊                | 22/25 [00:01&lt;00:00, 12.67it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|████████████████████████████████▏                                                                                                     | 24/100 [00:01&lt;00:06, 12.47it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌     | 24/25 [00:01&lt;00:00, 13.11it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 26%|██████████████████████████████████▊                                                                                                   | 26/100 [00:02&lt;00:05, 12.48it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 28%|█████████████████████████████████████▌                                                                                                | 28/100 [00:02&lt;00:05, 12.71it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 30%|████████████████████████████████████████▏                                                                                             | 30/100 [00:02&lt;00:05, 13.15it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 32%|██████████████████████████████████████████▉                                                                                           | 32/100 [00:02&lt;00:05, 12.80it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 34%|█████████████████████████████████████████████▌                                                                                        | 34/100 [00:02&lt;00:05, 12.22it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 36%|████████████████████████████████████████████████▏                                                                                     | 36/100 [00:02&lt;00:05, 12.02it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 38%|██████████████████████████████████████████████████▉                                                                                   | 38/100 [00:03&lt;00:05, 12.16it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|█████████████████████████████████████████████████████▌                                                                                | 40/100 [00:03&lt;00:04, 12.90it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 42%|████████████████████████████████████████████████████████▎                                                                             | 42/100 [00:03&lt;00:04, 12.66it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 44%|██████████████████████████████████████████████████████████▉                                                                           | 44/100 [00:03&lt;00:04, 12.47it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 46%|█████████████████████████████████████████████████████████████▋                                                                        | 46/100 [00:03&lt;00:04, 12.21it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|████████████████████████████████████████████████████████████████▎                                                                     | 48/100 [00:03&lt;00:04, 12.41it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 50%|███████████████████████████████████████████████████████████████████                                                                   | 50/100 [00:03&lt;00:03, 12.77it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 52%|█████████████████████████████████████████████████████████████████████▋                                                                | 52/100 [00:04&lt;00:03, 12.18it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 54%|████████████████████████████████████████████████████████████████████████▎                                                             | 54/100 [00:04&lt;00:03, 12.35it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56%|███████████████████████████████████████████████████████████████████████████                                                           | 56/100 [00:04&lt;00:03, 12.35it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 58%|█████████████████████████████████████████████████████████████████████████████▋                                                        | 58/100 [00:04&lt;00:03, 12.61it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 60%|████████████████████████████████████████████████████████████████████████████████▍                                                     | 60/100 [00:04&lt;00:03, 13.12it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 62%|███████████████████████████████████████████████████████████████████████████████████                                                   | 62/100 [00:04&lt;00:03, 12.52it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|█████████████████████████████████████████████████████████████████████████████████████▊                                                | 64/100 [00:05&lt;00:02, 12.31it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 66%|████████████████████████████████████████████████████████████████████████████████████████▍                                             | 66/100 [00:05&lt;00:02, 11.55it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 68%|███████████████████████████████████████████████████████████████████████████████████████████                                           | 68/100 [00:05&lt;00:02, 11.99it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 70%|█████████████████████████████████████████████████████████████████████████████████████████████▊                                        | 70/100 [00:05&lt;00:02, 12.39it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72%|████████████████████████████████████████████████████████████████████████████████████████████████▍                                     | 72/100 [00:05&lt;00:02, 11.94it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 74%|███████████████████████████████████████████████████████████████████████████████████████████████████▏                                  | 74/100 [00:05&lt;00:02, 11.95it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 76%|█████████████████████████████████████████████████████████████████████████████████████████████████████▊                                | 76/100 [00:06&lt;00:01, 12.11it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 78%|████████████████████████████████████████████████████████████████████████████████████████████████████████▌                             | 78/100 [00:06&lt;00:01, 12.43it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|███████████████████████████████████████████████████████████████████████████████████████████████████████████▏                          | 80/100 [00:06&lt;00:01, 12.91it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 82%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████▉                        | 82/100 [00:06&lt;00:01, 12.23it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 84%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                     | 84/100 [00:06&lt;00:01, 12.29it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 86%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                  | 86/100 [00:06&lt;00:01, 11.91it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▉                | 88/100 [00:07&lt;00:00, 12.51it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 90%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌             | 90/100 [00:07&lt;00:00, 13.03it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 92%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎          | 92/100 [00:07&lt;00:00, 12.67it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 94%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▉        | 94/100 [00:07&lt;00:00, 12.57it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋     | 96/100 [00:07&lt;00:00, 12.55it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 98%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▎  | 98/100 [00:07&lt;00:00, 13.05it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:07&lt;00:00, 13.40it/s]
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 100/100 [00:07&lt;00:00, 12.53it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 25/25 [00:01&lt;00:00, 12.57it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
-<img alt="_images/d9899f1442096e8ae48b3d67518496c73a2ff08f5fe5065e74bf4034a50ff225.png" src="_images/d9899f1442096e8ae48b3d67518496c73a2ff08f5fe5065e74bf4034a50ff225.png" />
+<img alt="_images/2fa7a5a437f82dd65e63aa8c996e8195d9cb4092ea95b79ce13d87f8eef980ac.png" src="_images/2fa7a5a437f82dd65e63aa8c996e8195d9cb4092ea95b79ce13d87f8eef980ac.png" />
 </div>
 </div>
 </section>
@@ -964,7 +854,7 @@ is &lt;= 3). Default is ‘True’.</p></li>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><strong>finalpolytope</strong> – Convex polytope or collection of convex polytopes (named as Region)
 that describes the AOS. Can be used to calculate the Operability Index
-using <code class="docutils literal notranslate"><span class="pre">OI</span></code>.</p>
+using <code class="docutils literal notranslate"><span class="pre">OI_eval</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>polytope.Region</p>
@@ -1021,7 +911,7 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <p>Defining the AIS bounds and the discretization resolution:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">AIS_bounds</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">AIS_bounds</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
     <span class="n">AIS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -1035,7 +925,7 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/b6ce04363583aeec11463e058416232da43188b86cd040e92f0a0f294c35c7e7.png" src="_images/b6ce04363583aeec11463e058416232da43188b86cd040e92f0a0f294c35c7e7.png" />
+<img alt="_images/bd55932a9d86aa006ec59e579aab4e6c87fdacbc50932ebc110ad3a360a53828.png" src="_images/bd55932a9d86aa006ec59e579aab4e6c87fdacbc50932ebc110ad3a360a53828.png" />
 </div>
 </div>
 </section>
@@ -1043,8 +933,8 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <section id="oi-evaluation">
 <h2>OI evaluation<a class="headerlink" href="#oi-evaluation" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
-<dt class="sig sig-object py" id="pypo.OI">
-<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">OI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">polytope.polytope.Region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perspective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outputs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hypervol_calc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'robust'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypo.html#OI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.OI" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pypo.OI_eval">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">OI_eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">AS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">polytope.polytope.Region</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">DS</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">perspective</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'outputs'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hypervol_calc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'robust'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotting</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypo.html#OI_eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.OI_eval" title="Permalink to this definition">#</a></dt>
 <dd><p>Operability Index (OI) calculation. From a Desired Output
 Set (DOS) defined by the user, this function calculates the intersection
 between achieable (AOS) and desired output operation (DOS). Similarly, the
@@ -1101,7 +991,7 @@ Industrial &amp; Engineering Chemistry Research 2020 59 (6), 2457-2470
 <p>Importing PyPO and Numpy:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
@@ -1133,8 +1023,8 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <p>Defining the AIS bounds and the discretization resolution:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">AIS_bounds</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
-    <span class="n">AIS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">AIS_bounds</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
+    <span class="n">AIS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -1142,38 +1032,13 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <p>Obtaining multimodel representation of paired polytopes for the AOS:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">AOS_region</span>  <span class="o">=</span>  <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">,</span> <span class="n">shower_problem</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">AOS_region</span>  <span class="o">=</span>  <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">,</span> <span class="n">shower_problem</span><span class="p">,</span>
+    <span class="n">plotting</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_15396</span>\<span class="mf">65153246.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">AOS_region</span>  <span class="o">=</span>  <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">,</span> <span class="n">shower_problem</span><span class="p">)</span>
-
-<span class="nn">~\Documents\python_operability\python_operability\src\pypo.py</span> in <span class="ni">multimodel_rep</span><span class="nt">(AIS_bound, resolution, model, polytopic_trace, perspective, plotting)</span>
-<span class="g g-Whitespace">    </span><span class="mi">171</span> 
-<span class="g g-Whitespace">    </span><span class="mi">172</span>     <span class="c1"># Generate final (non-overlapped) polytope</span>
-<span class="ne">--&gt; </span><span class="mi">173</span>     <span class="n">finalpolytope</span> <span class="o">=</span> <span class="n">region_diff</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> <span class="n">RemU</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">174</span> 
-<span class="g g-Whitespace">    </span><span class="mi">175</span>     <span class="c1"># Perspective switch: This will only affect plotting and legends.</span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">region_diff</span><span class="nt">(poly, reg, abs_tol, intersect_tol, save)</span>
-<span class="g g-Whitespace">   </span><span class="mi">2201</span>                 <span class="n">Adummy</span> <span class="o">=</span> <span class="n">A</span><span class="p">[</span><span class="n">auxINDICES</span><span class="p">,</span> <span class="p">:]</span>
-<span class="g g-Whitespace">   </span><span class="mi">2202</span>                 <span class="n">bdummy</span> <span class="o">=</span> <span class="n">B</span><span class="p">[</span><span class="n">auxINDICES</span><span class="p">]</span>
-<span class="ne">-&gt; </span><span class="mi">2203</span>                 <span class="n">R</span><span class="p">,</span> <span class="n">xopt</span> <span class="o">=</span> <span class="n">cheby_ball</span><span class="p">(</span><span class="n">Polytope</span><span class="p">(</span><span class="n">Adummy</span><span class="p">,</span> <span class="n">bdummy</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">2204</span>                 <span class="k">if</span> <span class="n">R</span> <span class="o">&gt;</span> <span class="n">abs_tol</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">2205</span>                     <span class="n">level</span> <span class="o">=</span> <span class="n">j</span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">__init__</span><span class="nt">(self, A, b, minrep, chebR, chebX, fulldim, volume, vertices, normalize)</span>
-<span class="g g-Whitespace">    </span><span class="mi">135</span>             <span class="n">mult</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">Anorm</span>
-<span class="g g-Whitespace">    </span><span class="mi">136</span>             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-<span class="ne">--&gt; </span><span class="mi">137</span>                 <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*</span> <span class="n">mult</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">138</span>             <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span> <span class="o">*</span> <span class="n">mult</span>
-<span class="g g-Whitespace">    </span><span class="mi">139</span>         <span class="bp">self</span><span class="o">.</span><span class="n">minrep</span> <span class="o">=</span> <span class="n">minrep</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Either plotting is not possible (dimension &gt; 3) or you have chosen plotting=False. The operability set is still returned as a polytopic region of general dimension.
 </pre></div>
 </div>
 </div>
@@ -1190,9 +1055,12 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 <p>Evaluating the OI and seeing the intersection between the operability sets:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">OI</span> <span class="o">=</span> <span class="n">OI</span><span class="p">(</span><span class="n">AOS_region</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="n">OI</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_region</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2adf854d15ee33665b73ee1975fb826a813012b1c99e01ffdccc3adce0e77d1e.png" src="_images/2adf854d15ee33665b73ee1975fb826a813012b1c99e01ffdccc3adce0e77d1e.png" />
 </div>
 </div>
 </section>
@@ -1239,11 +1107,26 @@ region in Euclidean coordinates.</p>
     <span class="n">DOS_bounds</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> 
                             <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">100</span><span class="p">]])</span>
 
-    <span class="n">DOS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="n">DOS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
 
     <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">create_grid</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span><span class="n">DOSPts</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[[ 10.  70.]
+  [ 10.  85.]
+  [ 10. 100.]]
+
+ [[ 15.  70.]
+  [ 15.  85.]
+  [ 15. 100.]]
+
+ [[ 20.  70.]
+  [ 20.  85.]
+  [ 20. 100.]]]
 </pre></div>
 </div>
 </div>
@@ -1256,6 +1139,12 @@ region in Euclidean coordinates.</p>
     <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">DOSPts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">DOSPts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x1948ae10cd0&gt;
+</pre></div>
+</div>
+<img alt="_images/b0c15c9c401a79c748a5402ba548e01e22fa87014be37897d5a16c32bd4d9f14.png" src="_images/b0c15c9c401a79c748a5402ba548e01e22fa87014be37897d5a16c32bd4d9f14.png" />
 </div>
 </div>
 <dl class="py function">
@@ -1300,6 +1189,78 @@ shower problem example.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIS Simplices 
+ [array([[2.5, 0. , 0. ],
+       [2.5, 2.5, 0. ]]), array([[2.5, 2.5, 0. ],
+       [2.5, 0. , 0. ]]), array([[5. , 2.5, 2.5],
+       [2.5, 2.5, 0. ]]), array([[5. , 5. , 2.5],
+       [2.5, 0. , 0. ]]), array([[7.5, 5. , 5. ],
+       [2.5, 2.5, 0. ]]), array([[7.5, 7.5, 5. ],
+       [2.5, 0. , 0. ]]), array([[10. ,  7.5,  7.5],
+       [ 2.5,  2.5,  0. ]]), array([[10. , 10. ,  7.5],
+       [ 2.5,  0. ,  0. ]]), array([[2.5, 0. , 0. ],
+       [5. , 5. , 2.5]]), array([[2.5, 2.5, 0. ],
+       [5. , 2.5, 2.5]]), array([[5. , 2.5, 2.5],
+       [5. , 5. , 2.5]]), array([[5. , 5. , 2.5],
+       [5. , 2.5, 2.5]]), array([[7.5, 5. , 5. ],
+       [5. , 5. , 2.5]]), array([[7.5, 7.5, 5. ],
+       [5. , 2.5, 2.5]]), array([[10. ,  7.5,  7.5],
+       [ 5. ,  5. ,  2.5]]), array([[10. , 10. ,  7.5],
+       [ 5. ,  2.5,  2.5]]), array([[2.5, 0. , 0. ],
+       [7.5, 7.5, 5. ]]), array([[2.5, 2.5, 0. ],
+       [7.5, 5. , 5. ]]), array([[5. , 2.5, 2.5],
+       [7.5, 7.5, 5. ]]), array([[5. , 5. , 2.5],
+       [7.5, 5. , 5. ]]), array([[7.5, 5. , 5. ],
+       [7.5, 7.5, 5. ]]), array([[7.5, 7.5, 5. ],
+       [7.5, 5. , 5. ]]), array([[10. ,  7.5,  7.5],
+       [ 7.5,  7.5,  5. ]]), array([[10. , 10. ,  7.5],
+       [ 7.5,  5. ,  5. ]]), array([[ 2.5,  0. ,  0. ],
+       [10. , 10. ,  7.5]]), array([[ 2.5,  2.5,  0. ],
+       [10. ,  7.5,  7.5]]), array([[ 5. ,  2.5,  2.5],
+       [10. , 10. ,  7.5]]), array([[ 5. ,  5. ,  2.5],
+       [10. ,  7.5,  7.5]]), array([[ 7.5,  5. ,  5. ],
+       [10. , 10. ,  7.5]]), array([[ 7.5,  7.5,  5. ],
+       [10. ,  7.5,  7.5]]), array([[10. ,  7.5,  7.5],
+       [10. , 10. ,  7.5]]), array([[10. , 10. ,  7.5],
+       [10. ,  7.5,  7.5]])]
+AOS Simplices 
+ [array([[  5. ,   2.5,   0. ],
+       [ 90. , 120. ,  90. ]]), array([[ 5. ,  2.5,  0. ],
+       [90. , 60. , 90. ]]), array([[ 7.5,  5. ,  2.5],
+       [80. , 90. , 60. ]]), array([[ 7.5,  5. ,  2.5],
+       [80. , 60. , 60. ]]), array([[10. ,  7.5,  5. ],
+       [75. , 80. , 60. ]]), array([[10. ,  7.5,  5. ],
+       [75. , 60. , 60. ]]), array([[12.5, 10. ,  7.5],
+       [72. , 75. , 60. ]]), array([[12.5, 10. ,  7.5],
+       [72. , 60. , 60. ]]), array([[  7.5,   5. ,   2.5],
+       [100. , 120. , 120. ]]), array([[  7.5,   5. ,   2.5],
+       [100. ,  90. , 120. ]]), array([[ 10. ,   7.5,   5. ],
+       [ 90. , 100. ,  90. ]]), array([[10. ,  7.5,  5. ],
+       [90. , 80. , 90. ]]), array([[12.5, 10. ,  7.5],
+       [84. , 90. , 80. ]]), array([[12.5, 10. ,  7.5],
+       [84. , 75. , 80. ]]), array([[15. , 12.5, 10. ],
+       [80. , 84. , 75. ]]), array([[15. , 12.5, 10. ],
+       [80. , 72. , 75. ]]), array([[ 10. ,   7.5,   5. ],
+       [105. , 120. , 120. ]]), array([[ 10. ,   7.5,   5. ],
+       [105. , 100. , 120. ]]), array([[ 12.5,  10. ,   7.5],
+       [ 96. , 105. , 100. ]]), array([[ 12.5,  10. ,   7.5],
+       [ 96. ,  90. , 100. ]]), array([[15. , 12.5, 10. ],
+       [90. , 96. , 90. ]]), array([[15. , 12.5, 10. ],
+       [90. , 84. , 90. ]]), array([[17.5    , 15.     , 12.5    ],
+       [85.71429, 90.     , 84.     ]]), array([[17.5    , 15.     , 12.5    ],
+       [85.71429, 80.     , 84.     ]]), array([[ 12.5,  10. ,   7.5],
+       [108. , 120. , 120. ]]), array([[ 12.5,  10. ,   7.5],
+       [108. , 105. , 120. ]]), array([[ 15. ,  12.5,  10. ],
+       [100. , 108. , 105. ]]), array([[ 15. ,  12.5,  10. ],
+       [100. ,  96. , 105. ]]), array([[ 17.5    ,  15.     ,  12.5    ],
+       [ 94.28571, 100.     ,  96.     ]]), array([[17.5    , 15.     , 12.5    ],
+       [94.28571, 90.     , 96.     ]]), array([[20.     , 17.5    , 15.     ],
+       [90.     , 94.28571, 90.     ]]), array([[20.     , 17.5    , 15.     ],
+       [90.     , 85.71429, 90.     ]])]
+</pre></div>
+</div>
+</div>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="pypo.points2polyhedra">
@@ -1328,6 +1289,61 @@ of an array.</p></li>
 </dl>
 </dd></dl>
 
+</section>
+<section id="id6">
+<h3>Example<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<p>Generating paired simplicial polyhedrons for the AIS/AOS generated for the
+shower problem example.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">points2polyhedra</span>
+    <span class="n">AIS_poly</span><span class="p">,</span> <span class="n">AOS_poly</span> <span class="o">=</span> <span class="n">points2polyhedra</span><span class="p">(</span><span class="n">AIS</span><span class="p">,</span><span class="n">AOS</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;AIS Polyhedrons </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">AIS_poly</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;AOS Polyhedrons </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">AOS_poly</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIS Polyhedrons 
+ [array([[0. , 0. , 2.5, 2.5],
+       [0. , 2.5, 0. , 2.5]]), array([[2.5, 2.5, 5. , 5. ],
+       [0. , 2.5, 0. , 2.5]]), array([[5. , 5. , 7.5, 7.5],
+       [0. , 2.5, 0. , 2.5]]), array([[ 7.5,  7.5, 10. , 10. ],
+       [ 0. ,  2.5,  0. ,  2.5]]), array([[0. , 0. , 2.5, 2.5],
+       [2.5, 5. , 2.5, 5. ]]), array([[2.5, 2.5, 5. , 5. ],
+       [2.5, 5. , 2.5, 5. ]]), array([[5. , 5. , 7.5, 7.5],
+       [2.5, 5. , 2.5, 5. ]]), array([[ 7.5,  7.5, 10. , 10. ],
+       [ 2.5,  5. ,  2.5,  5. ]]), array([[0. , 0. , 2.5, 2.5],
+       [5. , 7.5, 5. , 7.5]]), array([[2.5, 2.5, 5. , 5. ],
+       [5. , 7.5, 5. , 7.5]]), array([[5. , 5. , 7.5, 7.5],
+       [5. , 7.5, 5. , 7.5]]), array([[ 7.5,  7.5, 10. , 10. ],
+       [ 5. ,  7.5,  5. ,  7.5]]), array([[ 0. ,  0. ,  2.5,  2.5],
+       [ 7.5, 10. ,  7.5, 10. ]]), array([[ 2.5,  2.5,  5. ,  5. ],
+       [ 7.5, 10. ,  7.5, 10. ]]), array([[ 5. ,  5. ,  7.5,  7.5],
+       [ 7.5, 10. ,  7.5, 10. ]]), array([[ 7.5,  7.5, 10. , 10. ],
+       [ 7.5, 10. ,  7.5, 10. ]])]
+AOS Polyhedrons 
+ [array([[  0. ,   2.5,   2.5,   5. ],
+       [ 90. , 120. ,  60. ,  90. ]]), array([[ 2.5,  5. ,  5. ,  7.5],
+       [60. , 90. , 60. , 80. ]]), array([[ 5. ,  7.5,  7.5, 10. ],
+       [60. , 80. , 60. , 75. ]]), array([[ 7.5, 10. , 10. , 12.5],
+       [60. , 75. , 60. , 72. ]]), array([[  2.5,   5. ,   5. ,   7.5],
+       [120. , 120. ,  90. , 100. ]]), array([[  5. ,   7.5,   7.5,  10. ],
+       [ 90. , 100. ,  80. ,  90. ]]), array([[ 7.5, 10. , 10. , 12.5],
+       [80. , 90. , 75. , 84. ]]), array([[10. , 12.5, 12.5, 15. ],
+       [75. , 84. , 72. , 80. ]]), array([[  5. ,   7.5,   7.5,  10. ],
+       [120. , 120. , 100. , 105. ]]), array([[  7.5,  10. ,  10. ,  12.5],
+       [100. , 105. ,  90. ,  96. ]]), array([[10. , 12.5, 12.5, 15. ],
+       [90. , 96. , 84. , 90. ]]), array([[12.5    , 15.     , 15.     , 17.5    ],
+       [84.     , 90.     , 80.     , 85.71429]]), array([[  7.5,  10. ,  10. ,  12.5],
+       [120. , 120. , 105. , 108. ]]), array([[ 10. ,  12.5,  12.5,  15. ],
+       [105. , 108. ,  96. , 100. ]]), array([[ 12.5    ,  15.     ,  15.     ,  17.5    ],
+       [ 96.     , 100.     ,  90.     ,  94.28571]]), array([[15.     , 17.5    , 17.5    , 20.     ],
+       [90.     , 94.28571, 85.71429, 90.     ]])]
+</pre></div>
+</div>
+</div>
+</div>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -1434,6 +1450,7 @@ of an array.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#utilities">Utilities</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Example</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
 </ul>
 </li>
 </ul>

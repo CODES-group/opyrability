@@ -93,7 +93,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
     finalpolytope : polytope.Region
         Convex polytope or collection of convex polytopes (named as Region) 
         that describes the AOS. Can be used to calculate the Operability Index 
-        using ``OI``.
+        using ``OI_eval``.
         
     
     References
@@ -242,7 +242,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
     return finalpolytope
 
 
-def OI(AS: pc.Region,
+def OI_eval(AS: pc.Region,
        DS: np.ndarray, perspective  = 'outputs',
        hypervol_calc:           str = 'robust',
        plotting:                str = True):

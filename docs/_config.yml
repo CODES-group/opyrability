@@ -39,6 +39,8 @@ sphinx:
   - 'sphinx.ext.viewcode'
   - 'sphinx.ext.autosummary'
   - 'matplotlib.sphinxext.plot_directive'
+  - 'nbsphinx'
+  - 'sphinx_gallery.load_style'
 
   config:
     autosummary_generate: True

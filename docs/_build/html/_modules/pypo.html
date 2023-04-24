@@ -409,7 +409,7 @@ document.write(`
 <span class="sd">    finalpolytope : polytope.Region</span>
 <span class="sd">        Convex polytope or collection of convex polytopes (named as Region) </span>
 <span class="sd">        that describes the AOS. Can be used to calculate the Operability Index </span>
-<span class="sd">        using ``OI``.</span>
+<span class="sd">        using ``OI_eval``.</span>
 <span class="sd">        </span>
 <span class="sd">    </span>
 <span class="sd">    References</span>
@@ -558,7 +558,7 @@ document.write(`
     <span class="k">return</span> <span class="n">finalpolytope</span></div>
 
 
-<span class="k">def</span> <span class="nf">OI</span><span class="p">(</span><span class="n">AS</span><span class="p">:</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">OI_eval</span><span class="p">(</span><span class="n">AS</span><span class="p">:</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">,</span>
        <span class="n">DS</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">perspective</span>  <span class="o">=</span> <span class="s1">&#39;outputs&#39;</span><span class="p">,</span>
        <span class="n">hypervol_calc</span><span class="p">:</span>           <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;robust&#39;</span><span class="p">,</span>
        <span class="n">plotting</span><span class="p">:</span>                <span class="nb">str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
@@ -1256,7 +1256,7 @@ document.write(`
     <span class="k">return</span> <span class="n">region_grid</span></div>
 
 
-<div class="viewcode-block" id="AIS2AOS_map"><a class="viewcode-back" href="../api.html#pypo.AIS2AOS_map">[docs]</a><span class="k">def</span> <span class="nf">AIS2AOS_map</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
+<div class="viewcode-block" id="AIS2AOS_map"><a class="viewcode-back" href="../markdown-notebooks.html#pypo.AIS2AOS_map">[docs]</a><span class="k">def</span> <span class="nf">AIS2AOS_map</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
      <span class="n">AIS_bound</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
      <span class="n">AIS_resolution</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&#39;&#39;&#39;</span>
