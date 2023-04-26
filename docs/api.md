@@ -306,7 +306,7 @@ shower problem example.
 .. autofunction:: pypo.points2polyhedra
 ```
 ###### Example
-Generating paired simplicial polyhedrons for the AIS/AOS generated for the
+Generating paired polyhedrons for the AIS/AOS generated for the
 shower problem example.
 
 ```{code-cell}

@@ -1,0 +1,906 @@
+
+
+<!DOCTYPE html>
+
+
+<html >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Operability Analysis of a Membrane Reactor for Methane Aromatizaion and Hydrogen Production &#8212; PyPO&#39;s documentation.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/membrane_reactor';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="None"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pypo_logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/pypo_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    PyPO Documentation 1.0.0
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown.html">Markdown Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Content with notebooks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../mymarkdownfile.html">Here’s my sample title</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_autosummary/pypo.html">pypo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../multimodel_oi_shower.html">Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_example_gallery.html">Examples Gallery</a></li>
+
+
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/victoraalves/python_operability" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/victoraalves/python_operability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/membrane_reactor.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples_gallery/membrane_reactor.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Operability Analysis of a Membrane Reactor for Methane Aromatizaion and Hydrogen Production</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-a-modular-design-region-using-operability-inverse-mapping">Analyzing a modular design region using operability inverse mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-the-operability-index-oi-for-operational-changes-manipulated-variables">Analyzing the Operability Index (OI) for operational changes (manipulated variables)</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="operability-analysis-of-a-membrane-reactor-for-methane-aromatizaion-and-hydrogen-production">
+<h1>Operability Analysis of a Membrane Reactor for Methane Aromatizaion and Hydrogen Production<a class="headerlink" href="#operability-analysis-of-a-membrane-reactor-for-methane-aromatizaion-and-hydrogen-production" title="Permalink to this headline">#</a></h1>
+<p>This case study consists of a membrane reactor for direct methane aromatization (DMA-MR)
+that allows hydrogen and benzene production from natural gas. This single unit operation
+is capable of performing reaction and separation simultaneously, allowing for achieving
+higher conversion of hydrogen due to Le’Chatelier’s principle.</p>
+<p>The DMA-MR model has been extensively studied in process operability analysis due to
+its particular potential for system modularization and process intensification, as well as
+the challenging modeling due to its inherent nonlinearity.</p>
+<p>In this case study, some of pypo’s feature are highlighted, such as:</p>
+<ul class="simple">
+<li><p>Inverse mapping using state-of-the-art nonlinear programming solvers (e.g., Ipopt)</p></li>
+<li><p>Support for automatic differentiation</p></li>
+<li><p>Evaluation of operability sets for design and control objectives.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">jax.numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">jax.experimental.ode</span> <span class="kn">import</span> <span class="n">odeint</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Defining the Kinetic and general parameters for the DMA-MR model</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Kinetic and general parameters</span>
+
+<span class="n">R</span> <span class="o">=</span> <span class="mf">8.314e6</span>                 <span class="c1"># [Pa.cm³/(K.mol.)]</span>
+<span class="n">k1</span> <span class="o">=</span> <span class="mf">0.04</span>                   <span class="c1"># [s-¹]</span>
+<span class="n">k1_Inv</span> <span class="o">=</span> <span class="mf">6.40e6</span>             <span class="c1"># [cm³/s-mol]</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="mf">4.20</span>                   <span class="c1"># [s-¹]</span>
+<span class="n">k2_Inv</span> <span class="o">=</span> <span class="mf">56.38</span>              <span class="c1"># [cm³/s-mol]</span>
+
+    
+<span class="c1"># Molecular weights</span>
+<span class="n">MM_B</span> <span class="o">=</span> <span class="mf">78.00</span>     <span class="c1">#[g/mol] </span>
+
+<span class="c1"># Fixed Reactor Values</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">1173.15</span>                 <span class="c1"># Temperature[K]  =900[°C] (Isothermal)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mf">0.01e-4</span>          <span class="c1"># [mol/(h.cm².atm1/4)]</span>
+<span class="n">selec</span> <span class="o">=</span> <span class="mi">1500</span>
+
+<span class="c1"># Tube side</span>
+<span class="n">Pt</span> <span class="o">=</span> <span class="mf">101325.0</span>               <span class="c1"># Pressure [Pa](1atm)</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">15</span><span class="p">)</span>        <span class="c1"># Vol. Flowrate [cm³ h-¹]</span>
+<span class="n">Ft0</span> <span class="o">=</span> <span class="n">Pt</span> <span class="o">*</span> <span class="n">v0</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>     <span class="c1"># Initial molar flowrate[mol/h] - Pure CH4</span>
+
+<span class="c1"># Shell side</span>
+<span class="n">Ps</span> <span class="o">=</span> <span class="mf">101325.0</span>               <span class="c1"># Pressure [Pa](1atm)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="mi">3</span>                      <span class="c1"># Diameter[cm]</span>
+<span class="n">v_He</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>       <span class="c1"># Vol. flowrate[cm³/h]</span>
+<span class="n">F_He</span> <span class="o">=</span> <span class="n">Ps</span> <span class="o">*</span> <span class="n">v_He</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>  <span class="c1"># Sweep gas molar flowrate [mol/h]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Defining the DMA-MR Model equations (mol balances), compatible with Google’s JAX:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dma_mr_model</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+
+    <span class="n">At</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Cross sectional area[cm³]</span>
+    
+    <span class="c1"># Avoid negative flows that can happen in the first integration steps.</span>
+    <span class="c1"># Consequently this avoids that any molar balance (^ 1/4 terms) generates</span>
+    <span class="c1"># complex numbers.</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+    
+
+    
+    <span class="c1"># Evaluate total flowrate in tube &amp; shell.</span>
+    <span class="n">Ft</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">Fs</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">F_He</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft</span> <span class="o">/</span> <span class="n">Ft0</span><span class="p">)</span>
+
+    <span class="c1"># Concentrations from molar flowrates [mol/cm3]</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">F</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="n">v</span>
+    <span class="c1"># Partial pressures - Tube &amp; Shell [mol/cm3]</span>
+
+    <span class="n">P0t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P1t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P2t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P3t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+
+    <span class="n">P0s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    <span class="n">P1s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    <span class="n">P2s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    <span class="n">P3s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    
+    
+
+    
+    <span class="n">r0</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k1_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> 
+                                  <span class="p">(</span><span class="n">k1</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="p">)))</span>
+    
+
+    <span class="c1"># This replicates an if statement whenever the concentrations are near zero</span>
+    <span class="n">C0_aux</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">r0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">C0_aux</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r0</span><span class="p">)</span>
+    
+    <span class="n">r1</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k2_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> 
+                                  <span class="p">(</span><span class="n">k2</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">3</span> <span class="p">)))</span>
+    
+
+    <span class="c1"># Same as before</span>
+    <span class="n">C1_aux</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">r1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">C1_aux</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span> <span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>  
+
+    <span class="c1"># Molar balances adjustment with experimental data.</span>
+    <span class="n">eff</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">vb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">Cat</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">vb</span><span class="p">)</span> <span class="o">*</span> <span class="n">eff</span>
+
+    <span class="c1"># Molar balances dFdz - Tube (0 to 3) &amp; Shell (4 to 7)</span>
+    <span class="n">dF0</span> <span class="o">=</span> <span class="o">-</span><span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P0t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P0s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P1t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P1s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF2</span> <span class="o">=</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">+</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span><span class="o">-</span> <span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P2t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P2s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P3t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P3s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF4</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P0t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P0s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF5</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P1t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P1s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF6</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P2t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P2s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF7</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P3t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P3s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    
+    <span class="n">dFdz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="n">dF0</span><span class="p">,</span> <span class="n">dF1</span><span class="p">,</span> <span class="n">dF2</span><span class="p">,</span> <span class="n">dF3</span><span class="p">,</span> <span class="n">dF4</span><span class="p">,</span> <span class="n">dF5</span><span class="p">,</span> <span class="n">dF6</span><span class="p">,</span> <span class="n">dF7</span> <span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">dFdz</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="analyzing-a-modular-design-region-using-operability-inverse-mapping">
+<h2>Analyzing a modular design region using operability inverse mapping<a class="headerlink" href="#analyzing-a-modular-design-region-using-operability-inverse-mapping" title="Permalink to this headline">#</a></h2>
+<p>Defining the outputs based on the integration of the DMA-MR model equations.</p>
+<p>AIS/DIS Variables:</p>
+<ul class="simple">
+<li><p>Length [cm]</p></li>
+<li><p>Diameter [cm]</p></li>
+</ul>
+<p>AOS/DOS Variables:</p>
+<ul class="simple">
+<li><p>Methane conversion [%]</p></li>
+<li><p>Benzene production [mg/h]</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+
+    <span class="n">L</span> <span class="o">=</span>  <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Initial conditions</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Ft0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">)))</span>
+    <span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-10</span>
+
+    <span class="c1"># Integration of mol balances using Jax&#39;s Dormand Prince</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">dma_mr_model</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span>
+    
+    <span class="c1"># Calculating outputs (AOS/DOS) from states.</span>
+    <span class="n">F_C6H6</span> <span class="o">=</span> <span class="p">((</span><span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">MM_B</span><span class="p">)</span>
+    <span class="n">X_CH4</span>  <span class="o">=</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft0</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="n">Ft0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">F_C6H6</span><span class="p">,</span> <span class="n">X_CH4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Importing pypo’s inverse mapping (NLP-based)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">nlp_based_approach</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Definition of operability sets and its bounds</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Lower and upper bounds for DOS definition</span>
+<span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">15</span><span class="p">,</span><span class="mi">25</span><span class="p">],</span>
+                       <span class="p">[</span><span class="mi">35</span><span class="p">,</span><span class="mi">45</span><span class="p">]])</span>
+
+<span class="c1"># Discretization Grid - 10x10 grid for DOS.</span>
+<span class="n">DOS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="c1"># Lower and upper bounds of AIS design variables.</span>
+<span class="n">lb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span>  <span class="mf">0.1</span><span class="p">])</span>
+<span class="n">ub</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">300</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># Initial estimate for NLP.</span>
+<span class="n">u0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:absl:No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Defining a nonlinear constraint <span class="math notranslate nohighlight">\(L/D \geq 30 \)</span> to the inverse mapping to guarantee
+plug-flow operation</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plug-flow constraint definition: Length/Diameter &gt;= 30.</span>
+<span class="k">def</span> <span class="nf">plug_flow</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">30.0</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">con</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ineq&#39;</span><span class="p">,</span> <span class="s1">&#39;fun&#39;</span><span class="p">:</span> <span class="n">plug_flow</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Obtaining the feasible desired input/output sets <span class="math notranslate nohighlight">\((DIS^*/DOS^*)\)</span> at each discretized point</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Model assignment: Design Problem - Inverse mapping</span>
+<span class="c1"># model          = dma_mr_design</span>
+<span class="c1"># Obtain inverse mapping.</span>
+<span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>                                                  
+<span class="n">fDIS</span><span class="p">,</span> <span class="n">fDOS</span><span class="p">,</span> <span class="n">convergence</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> 
+                                             <span class="n">DOS_resolution</span><span class="p">,</span>
+                                             <span class="n">dma_mr_design</span><span class="p">,</span> 
+                                             <span class="n">u0</span><span class="p">,</span>
+                                             <span class="n">lb</span><span class="p">,</span>
+                                             <span class="n">ub</span><span class="p">,</span>
+                                             <span class="n">constr</span><span class="o">=</span><span class="p">(</span><span class="n">con</span><span class="p">),</span>
+                                             <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span>
+                                             <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                             <span class="n">ad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                             <span class="n">warmstart</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> You have selected automatic differentiation as a method for obtaining higher-order data (Jacobians/Hessian). Make sure your process model is JAX-compatible implementation-wise.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                          | 0/100 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  1%|▊                                                                                 | 1/100 [00:13&lt;23:05, 14.00s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  2%|█▋                                                                                | 2/100 [00:20&lt;16:03,  9.83s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  3%|██▍                                                                               | 3/100 [00:24&lt;10:57,  6.78s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  4%|███▎                                                                              | 4/100 [00:25&lt;07:40,  4.80s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|████                                                                              | 5/100 [00:27&lt;06:00,  3.79s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  5%|████                                                                              | 5/100 [00:29&lt;09:27,  5.97s/it]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_18440</span>\<span class="mf">3735784662.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># Obtain inverse mapping.</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="ne">----&gt; </span><span class="mi">5</span> <span class="n">fDIS</span><span class="p">,</span> <span class="n">fDOS</span><span class="p">,</span> <span class="n">convergence</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> 
+<span class="g g-Whitespace">      </span><span class="mi">6</span>                                              <span class="n">DOS_resolution</span><span class="p">,</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span>                                              <span class="n">dma_mr_design</span><span class="p">,</span>
+
+<span class="nn">~\Documents\python_operability\python_operability\src\pypo.py</span> in <span class="ni">nlp_based_approach</span><span class="nt">(DOS_bounds, DOS_resolution, model, u0, lb, ub, constr, method, plot, ad, warmstart)</span>
+<span class="g g-Whitespace">    </span><span class="mi">785</span>             <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s1">&#39;ipopt&#39;</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">786</span>                 <span class="k">if</span> <span class="n">ad</span><span class="o">==</span><span class="kc">True</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">787</span>                     <span class="n">sol</span> <span class="o">=</span> <span class="n">minimize_ipopt</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">x0</span><span class="o">=</span><span class="n">u0</span><span class="p">,</span> <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">788</span>                                          <span class="n">constraints</span><span class="o">=</span><span class="p">(</span><span class="n">constr</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">789</span>                                          <span class="n">jac</span><span class="o">=</span><span class="n">grad_ad</span><span class="p">,</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\cyipopt\scipy_interface.py</span> in <span class="ni">minimize_ipopt</span><span class="nt">(fun, x0, args, kwargs, method, jac, hess, hessp, bounds, constraints, tol, callback, options)</span>
+<span class="g g-Whitespace">    </span><span class="mi">312</span>             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">option</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
+<span class="g g-Whitespace">    </span><span class="mi">313</span> 
+<span class="ne">--&gt; </span><span class="mi">314</span>     <span class="n">x</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">nlp</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">_x0</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">315</span> 
+<span class="g g-Whitespace">    </span><span class="mi">316</span>     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">():</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\cyipopt\cython\ipopt_wrapper.pyx</span> in <span class="ni">ipopt_wrapper.Problem.solve</span><span class="nt">()</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\cyipopt\cython\ipopt_wrapper.pyx</span> in <span class="ni">ipopt_wrapper.objective_cb</span><span class="nt">()</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\cyipopt\scipy_interface.py</span> in <span class="ni">objective</span><span class="nt">(self, x)</span>
+<span class="g g-Whitespace">    </span><span class="mi">143</span>     <span class="k">def</span> <span class="nf">objective</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>         <span class="bp">self</span><span class="o">.</span><span class="n">nfev</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="ne">--&gt; </span><span class="mi">145</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span> 
+<span class="g g-Whitespace">    </span><span class="mi">147</span>     <span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<span class="nn">~\Documents\python_operability\python_operability\src\pypo.py</span> in <span class="ni">p1</span><span class="nt">(u, model, DOSpt)</span>
+<span class="g g-Whitespace">    </span><span class="mi">655</span>                <span class="n">DOSpt</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">656</span> 
+<span class="ne">--&gt; </span><span class="mi">657</span>             <span class="n">y_found</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">658</span> 
+<span class="g g-Whitespace">    </span><span class="mi">659</span>             <span class="n">vector_of_f</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y_found</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">DOSpt</span><span class="o">.</span><span class="n">T</span><span class="p">])</span>
+
+<span class="nn">~\AppData\Local\Temp\ipykernel_18440\2790093821.py</span> in <span class="ni">dma_mr_design</span><span class="nt">(u)</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> 
+<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="c1"># Calculating outputs (AOS/DOS) from states.</span>
+<span class="ne">---&gt; </span><span class="mi">15</span>     <span class="n">F_C6H6</span> <span class="o">=</span> <span class="p">((</span><span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">MM_B</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">X_CH4</span>  <span class="o">=</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft0</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="n">Ft0</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> 
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\_src\numpy\lax_numpy.py</span> in <span class="ni">_rewriting_take</span><span class="nt">(arr, idx, indices_are_sorted, unique_indices, mode, fill_value)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3568</span> 
+<span class="g g-Whitespace">   </span><span class="mi">3569</span>   <span class="n">treedef</span><span class="p">,</span> <span class="n">static_idx</span><span class="p">,</span> <span class="n">dynamic_idx</span> <span class="o">=</span> <span class="n">_split_index_for_jit</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3570</span>   <span class="k">return</span> <span class="n">_gather</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">treedef</span><span class="p">,</span> <span class="n">static_idx</span><span class="p">,</span> <span class="n">dynamic_idx</span><span class="p">,</span> <span class="n">indices_are_sorted</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">3571</span>                  <span class="n">unique_indices</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3572</span> 
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\_src\numpy\lax_numpy.py</span> in <span class="ni">_gather</span><span class="nt">(arr, treedef, static_idx, dynamic_idx, indices_are_sorted, unique_indices, mode, fill_value)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3577</span>             <span class="n">unique_indices</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">fill_value</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">3578</span>   <span class="n">idx</span> <span class="o">=</span> <span class="n">_merge_static_and_dynamic_indices</span><span class="p">(</span><span class="n">treedef</span><span class="p">,</span> <span class="n">static_idx</span><span class="p">,</span> <span class="n">dynamic_idx</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3579</span>   <span class="n">indexer</span> <span class="o">=</span> <span class="n">_index_to_gather</span><span class="p">(</span><span class="n">shape</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="n">idx</span><span class="p">)</span>  <span class="c1"># shared with _scatter_update</span>
+<span class="g g-Whitespace">   </span><span class="mi">3580</span>   <span class="n">y</span> <span class="o">=</span> <span class="n">arr</span>
+<span class="g g-Whitespace">   </span><span class="mi">3581</span> 
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\_src\numpy\lax_numpy.py</span> in <span class="ni">_index_to_gather</span><span class="nt">(x_shape, idx, normalize_indices)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3777</span>         <span class="c1"># XLA gives error when indexing into an axis of size 0</span>
+<span class="g g-Whitespace">   </span><span class="mi">3778</span>         <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;index is out of bounds for axis </span><span class="si">{</span><span class="n">x_axis</span><span class="si">}</span><span class="s2"> with size 0&quot;</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3779</span>       <span class="n">i</span> <span class="o">=</span> <span class="n">_normalize_index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x_shape</span><span class="p">[</span><span class="n">x_axis</span><span class="p">])</span> <span class="k">if</span> <span class="n">normalize_indices</span> <span class="k">else</span> <span class="n">i</span>
+<span class="g g-Whitespace">   </span><span class="mi">3780</span>       <span class="n">i</span> <span class="o">=</span> <span class="n">lax</span><span class="o">.</span><span class="n">convert_element_type</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">index_dtype</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3781</span>       <span class="n">gather_indices</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">gather_indices_shape</span><span class="p">)))</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\_src\numpy\lax_numpy.py</span> in <span class="ni">_normalize_index</span><span class="nt">(index, axis_size)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3451</span>                                              <span class="n">_dtype</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+<span class="g g-Whitespace">   </span><span class="mi">3452</span>   <span class="k">return</span> <span class="n">lax</span><span class="o">.</span><span class="n">select</span><span class="p">(</span>
+<span class="ne">-&gt; </span><span class="mi">3453</span>     <span class="n">lax</span><span class="o">.</span><span class="n">lt</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">_lax_const</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span>
+<span class="g g-Whitespace">   </span><span class="mi">3454</span>     <span class="n">lax</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">axis_size_val</span><span class="p">),</span>
+<span class="g g-Whitespace">   </span><span class="mi">3455</span>     <span class="n">index</span><span class="p">)</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\_src\lax\lax.py</span> in <span class="ni">lt</span><span class="nt">(x, y)</span>
+<span class="g g-Whitespace">    </span><span class="mi">466</span> <span class="k">def</span> <span class="nf">lt</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">Array</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">467</span>   <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Elementwise less-than: :math:`x &lt; y`.&quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">468</span>   <span class="k">return</span> <span class="n">lt_p</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">469</span> 
+<span class="g g-Whitespace">    </span><span class="mi">470</span> <span class="k">def</span> <span class="nf">convert_element_type</span><span class="p">(</span><span class="n">operand</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">new_dtype</span><span class="p">:</span> <span class="n">DType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Array</span><span class="p">:</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\core.py</span> in <span class="ni">bind</span><span class="nt">(self, *args, **params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">325</span>     <span class="k">assert</span> <span class="p">(</span><span class="ow">not</span> <span class="n">config</span><span class="o">.</span><span class="n">jax_enable_checks</span> <span class="ow">or</span>
+<span class="g g-Whitespace">    </span><span class="mi">326</span>             <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">Tracer</span><span class="p">)</span> <span class="ow">or</span> <span class="n">valid_jaxtype</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)),</span> <span class="n">args</span>
+<span class="ne">--&gt; </span><span class="mi">327</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bind_with_trace</span><span class="p">(</span><span class="n">find_top_trace</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">328</span> 
+<span class="g g-Whitespace">    </span><span class="mi">329</span>   <span class="k">def</span> <span class="nf">bind_with_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\core.py</span> in <span class="ni">bind_with_trace</span><span class="nt">(self, trace, args, params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">328</span> 
+<span class="g g-Whitespace">    </span><span class="mi">329</span>   <span class="k">def</span> <span class="nf">bind_with_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">330</span>     <span class="n">out</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">process_primitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="n">trace</span><span class="o">.</span><span class="n">full_raise</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span> <span class="n">params</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">331</span>     <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="n">full_lower</span><span class="p">,</span> <span class="n">out</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiple_results</span> <span class="k">else</span> <span class="n">full_lower</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">332</span> 
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\core.py</span> in <span class="ni">process_primitive</span><span class="nt">(self, primitive, tracers, params)</span>
+<span class="g g-Whitespace">    </span><span class="mi">678</span> 
+<span class="g g-Whitespace">    </span><span class="mi">679</span>   <span class="k">def</span> <span class="nf">process_primitive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primitive</span><span class="p">,</span> <span class="n">tracers</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">680</span>     <span class="k">return</span> <span class="n">primitive</span><span class="o">.</span><span class="n">impl</span><span class="p">(</span><span class="o">*</span><span class="n">tracers</span><span class="p">,</span> <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">681</span> 
+<span class="g g-Whitespace">    </span><span class="mi">682</span>   <span class="k">def</span> <span class="nf">process_call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">primitive</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">tracers</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\_src\dispatch.py</span> in <span class="ni">apply_primitive</span><span class="nt">(prim, *args, **params)</span>
+<span class="g g-Whitespace">     </span><span class="mi">99</span>   <span class="n">compiled_fun</span> <span class="o">=</span> <span class="n">xla_primitive_callable</span><span class="p">(</span><span class="n">prim</span><span class="p">,</span> <span class="o">*</span><span class="n">unsafe_map</span><span class="p">(</span><span class="n">arg_spec</span><span class="p">,</span> <span class="n">args</span><span class="p">),</span>
+<span class="g g-Whitespace">    </span><span class="mi">100</span>                                         <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">101</span>   <span class="k">return</span> <span class="n">compiled_fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">102</span> 
+<span class="g g-Whitespace">    </span><span class="mi">103</span> <span class="c1"># TODO(phawkins): update code referring to xla.apply_primitive to point here.</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\_src\dispatch.py</span> in <span class="ni">&lt;lambda&gt;</span><span class="nt">(*args, **kw)</span>
+<span class="g g-Whitespace">    </span><span class="mi">165</span>                                     <span class="n">prim</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">donated_invars</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">arg_specs</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">166</span>   <span class="k">if</span> <span class="ow">not</span> <span class="n">prim</span><span class="o">.</span><span class="n">multiple_results</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">167</span>     <span class="k">return</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">compiled</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">168</span>   <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">169</span>     <span class="k">return</span> <span class="n">compiled</span>
+
+<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\jax\_src\dispatch.py</span> in <span class="ni">_execute_compiled</span><span class="nt">(name, compiled, input_handler, output_buffer_counts, result_handler, has_unordered_effects, ordered_effects, kept_var_idx, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">715</span>     <span class="n">in_flat</span><span class="p">,</span> <span class="n">token_handler</span> <span class="o">=</span> <span class="n">_add_tokens</span><span class="p">(</span><span class="n">has_unordered_effects</span><span class="p">,</span> <span class="n">ordered_effects</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">716</span>                                          <span class="n">device</span><span class="p">,</span> <span class="n">in_flat</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">717</span>   <span class="n">out_flat</span> <span class="o">=</span> <span class="n">compiled</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">in_flat</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">718</span>   <span class="n">check_special</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">out_flat</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">719</span>   <span class="n">out_bufs</span> <span class="o">=</span> <span class="n">unflatten</span><span class="p">(</span><span class="n">out_flat</span><span class="p">,</span> <span class="n">output_buffer_counts</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+<p>The inverse mapping shows that there is a design region of tube length around  0.5cm and tube
+diameter of 17cm that can still attains to the requirement of the DOS.</p>
+</section>
+<section id="analyzing-the-operability-index-oi-for-operational-changes-manipulated-variables">
+<h2>Analyzing the Operability Index (OI) for operational changes (manipulated variables)<a class="headerlink" href="#analyzing-the-operability-index-oi-for-operational-changes-manipulated-variables" title="Permalink to this headline">#</a></h2>
+<p>With a fixed modular design of</p>
+<ul class="simple">
+<li><p>Tube length = 17 cm</p></li>
+<li><p>Tube diameter = 0.5 cm</p></li>
+</ul>
+<p>The manipulated variables of the DMA-MR (namely, shell and tube flow rates) are
+to be analyzed, being the AIS variables for this analysis. As before, the same
+AOS/DOS variables will be kept to observe if the system is operable under the fixed
+modular design and varying the manipulated variable throughout their available range.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./examples_gallery"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-a-modular-design-region-using-operability-inverse-mapping">Analyzing a modular design region using operability inverse mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyzing-the-operability-index-oi-for-operational-changes-manipulated-variables">Analyzing the Operability Index (OI) for operational changes (manipulated variables)</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Victor Alves @ Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
