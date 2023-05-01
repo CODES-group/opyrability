@@ -215,6 +215,54 @@ in both input and output spaces:
 
    Intersection between available/achievable and desired operation.
 
+
+The Expected Disturbance Set (DIS)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Lastly, process disturbances may be present in a system. To represent this, we
+define the Expected Disturbance Set (EDS). This is composed as the disturbance
+variables :math:`d \in R^q` that can represent process uncertainties and variabilities.
+The effect of the EDS in the AOS is to shift it throughout the disturbance range:
+
+.. figure:: ./images/eds-aos.gif
+   :align: center
+
+   Expected Disturbance Set (EDS) effect in the AOS.
+
+Mathematically, the EDS is defined as:
+
+.. math::
+   \mathrm{EDS}=\left\{d \mid d_i^{\min } \leq d_i \leq d_i^{\max } ; 1 \leq i \leq q\right\}
+
+The same effect is present in the input space, shifting the DIS for each disturbance
+scenario:
+
+.. figure:: ./images/eds-dis.gif
+   :align: center
+
+   Expected Disturbance Set (EDS) effect in the DIS.
+
+Because of this shift, the AOS needs to be rewritten to reflect the **intersection**
+of each disturbance scenarios:
+
+.. math::
+   \operatorname{AOS}=\bigcap_{d \in E D S} \operatorname{AOS}_u(d)
+
+and as a realization of the union of each DIS for each disturbance scenario:
+
+.. math::
+   \text { DIS }=\bigcup_{\mathbf{d} \in \mathrm{EDS}} \operatorname{DIS}_{\mathbf{y}}(\mathbf{d})
+
+
+In general, the overall effect of the EDS in both input and outputs can be visualized
+in the animation below:
+
+
+.. figure:: ./images/eds-overall.gif
+   :align: center
+
+   Expected Disturbance Set (EDS) effect in the overall process model.
+
 Due to the region-based (or geometric-based if you prefer) inherent nature of
 the operability sets, we are able to **quantify achievability** for any given
 process region, either in the inputs or outputs perspectives. This is represented
@@ -281,5 +329,3 @@ The OI has interesting properties such as:
    the OI is independent of the controller type and it can be interpreted as a fundamental
    characteristic of the system studied, the OI will give the best-case disturbance rejection 
    scenario (if any) when one is accounting for disturbances in an operability analysis.
-
-Speaking of disturbances...

@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'operability_overview';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Markdown Files" href="markdown.html" />
+    <link rel="next" title="API documentation" href="api.html" />
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="None"/>
@@ -163,18 +163,12 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Process Operability Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="markdown.html">Markdown Files</a></li>
-<li class="toctree-l1"><a class="reference internal" href="notebooks.html">Content with notebooks</a></li>
-<li class="toctree-l1"><a class="reference internal" href="markdown-notebooks.html">Notebooks with MyST Markdown</a></li>
-<li class="toctree-l1"><a class="reference internal" href="mymarkdownfile.html">Here’s my sample title</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="_autosummary/pypo.html">pypo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
-<li class="toctree-l1"><a class="reference internal" href="multimodel_oi_shower.html">Example</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
-
 
 </ul>
 
@@ -378,6 +372,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-achievable-output-set-ais">The Achievable Output Set (AIS)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-desired-output-set-dos">The Desired Output Set (DOS)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-desired-input-set-dis">The Desired Input Set (DIS)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-expected-disturbance-set-dis">The Expected Disturbance Set (DIS)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-operability-index-oi">The Operability Index (OI)</a><ul class="nav section-nav flex-column">
@@ -426,7 +421,7 @@ yield a process that is designed in a way that its operability capabilities
 are severely mitigated. In other words, because the control objectives were
 not considered early in the design phase, the process itself might be not
 controlled or operable at all. To give you perspective or how challenging this
-problem is, there are reports dating back to the 40’s from Ziegler and Nichols <span id="id1">[<a class="reference internal" href="markdown.html#id40" title="JG Ziegler and NB Nichols. Process lags in automatic-control circuits. Transactions of the American Society of Mechanical Engineers, 65(5):433–440, 1943.">ZN43</a>]</span>
+problem is, there are reports dating back to the 40’s from Ziegler and Nichols <span id="id1">[<a class="reference internal" href="bibliography.html#id39" title="JG Ziegler and NB Nichols. Process lags in automatic-control circuits. Transactions of the American Society of Mechanical Engineers, 65(5):433–440, 1943.">1</a>]</span>
 (The same ones from the controller tuning laws) stressing out about this problem,
 mentioning the importance of interconnecting design and control.</p>
 <p>With this in mind, the need of quantifying achievability of a general nonlinear
@@ -584,6 +579,45 @@ in both input and output spaces:</p>
 <p><span class="caption-number">Fig. 7 </span><span class="caption-text">Intersection between available/achievable and desired operation.</span><a class="headerlink" href="#id11" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
+</section>
+<section id="the-expected-disturbance-set-dis">
+<h3>The Expected Disturbance Set (DIS)<a class="headerlink" href="#the-expected-disturbance-set-dis" title="Permalink to this headline">#</a></h3>
+<p>Lastly, process disturbances may be present in a system. To represent this, we
+define the Expected Disturbance Set (EDS). This is composed as the disturbance
+variables <span class="math notranslate nohighlight">\(d \in R^q\)</span> that can represent process uncertainties and variabilities.
+The effect of the EDS in the AOS is to shift it throughout the disturbance range:</p>
+<figure class="align-center" id="id12">
+<img alt="_images/eds-aos.gif" src="_images/eds-aos.gif" />
+<figcaption>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Expected Disturbance Set (EDS) effect in the AOS.</span><a class="headerlink" href="#id12" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Mathematically, the EDS is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\mathrm{EDS}=\left\{d \mid d_i^{\min } \leq d_i \leq d_i^{\max } ; 1 \leq i \leq q\right\}\]</div>
+<p>The same effect is present in the input space, shifting the DIS for each disturbance
+scenario:</p>
+<figure class="align-center" id="id13">
+<img alt="_images/eds-dis.gif" src="_images/eds-dis.gif" />
+<figcaption>
+<p><span class="caption-number">Fig. 9 </span><span class="caption-text">Expected Disturbance Set (EDS) effect in the DIS.</span><a class="headerlink" href="#id13" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Because of this shift, the AOS needs to be rewritten to reflect the <strong>intersection</strong>
+of each disturbance scenarios:</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{AOS}=\bigcap_{d \in E D S} \operatorname{AOS}_u(d)\]</div>
+<p>and as a realization of the union of each DIS for each disturbance scenario:</p>
+<div class="math notranslate nohighlight">
+\[\text { DIS }=\bigcup_{\mathbf{d} \in \mathrm{EDS}} \operatorname{DIS}_{\mathbf{y}}(\mathbf{d})\]</div>
+<p>In general, the overall effect of the EDS in both input and outputs can be visualized
+in the animation below:</p>
+<figure class="align-center" id="id14">
+<img alt="_images/eds-overall.gif" src="_images/eds-overall.gif" />
+<figcaption>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">Expected Disturbance Set (EDS) effect in the overall process model.</span><a class="headerlink" href="#id14" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>Due to the region-based (or geometric-based if you prefer) inherent nature of
 the operability sets, we are able to <strong>quantify achievability</strong> for any given
 process region, either in the inputs or outputs perspectives. This is represented
@@ -615,11 +649,11 @@ hypervolumes.</p>
 of operation. This makes the OI to range between 0 or 0% when a process is not operable at all
 to 1 or 100% when a process is fully operable. The animation below illustrates
 a situation in which the process is not fully operable and 100% operable:</p>
-<figure class="align-center" id="id12">
+<figure class="align-center" id="id15">
 <img alt="_images/oi_animation.gif" src="_images/oi_animation.gif" />
 <figcaption>
-<p><span class="caption-number">Fig. 8 </span><span class="caption-text">Operability Index (OI) in different scenarios: not fully operable <span class="math notranslate nohighlight">\(vs\)</span>
-fully operable.</span><a class="headerlink" href="#id12" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 11 </span><span class="caption-text">Operability Index (OI) in different scenarios: not fully operable <span class="math notranslate nohighlight">\(vs\)</span>
+fully operable.</span><a class="headerlink" href="#id15" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
 <section id="important-features-of-the-oi">
@@ -641,7 +675,6 @@ the OI is independent of the controller type and it can be interpreted as a fund
 characteristic of the system studied, the OI will give the best-case disturbance rejection
 scenario (if any) when one is accounting for disturbances in an operability analysis.</p></li>
 </ol>
-<p>Speaking of disturbances…</p>
 </section>
 </section>
 </section>
@@ -687,11 +720,11 @@ scenario (if any) when one is accounting for disturbances in an operability anal
       </div>
     </a>
     <a class="right-next"
-       href="markdown.html"
+       href="api.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Markdown Files</p>
+        <p class="prev-next-title">API documentation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -722,6 +755,7 @@ scenario (if any) when one is accounting for disturbances in an operability anal
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-achievable-output-set-ais">The Achievable Output Set (AIS)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-desired-output-set-dos">The Desired Output Set (DOS)</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-desired-input-set-dis">The Desired Input Set (DIS)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-expected-disturbance-set-dis">The Expected Disturbance Set (DIS)</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-operability-index-oi">The Operability Index (OI)</a><ul class="nav section-nav flex-column">
