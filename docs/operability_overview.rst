@@ -26,7 +26,7 @@ or energy:
 	That is, the process can "reach" its maximum capacity, given the 
 	ranges of the manipulated/input variables?
 
-Classically, tasks 1 and 2 were performed in a sequential approach:
+Historically, tasks 1 and 2 were performed in a sequential approach:
 Firstly, an engineer/practitioner would come up with the design decisions, 
 and only then the control objectives are assessed. Unfortunately, this can 
 yield a process that is designed in a way that its operability capabilities
@@ -207,14 +207,6 @@ then the evaluation of the DIS follows the schematic:
 
    Inverse mapping from the DOS to the DIS
 
-Now let's take a closer look to available, achievable and desired operability sets, 
-in both input and output spaces:
-
-.. figure:: ./images/AIS-AOS-intersection.jpg
-   :align: center
-
-   Intersection between available/achievable and desired operation.
-
 
 The Expected Disturbance Set (DIS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -263,7 +255,18 @@ in the animation below:
 
    Expected Disturbance Set (EDS) effect in the overall process model.
 
-Due to the region-based (or geometric-based if you prefer) inherent nature of
+
+Now let's go back and take a closer look to available, achievable and desired operability sets, 
+in both input and output spaces:
+
+.. figure:: ./images/AIS-AOS-intersection.jpg
+   :align: center
+
+   Intersection between available/achievable and desired operation.
+
+
+By inspecting the figure above, we can see that due to the region-based (or geometric-based 
+if you prefer) inherent nature of
 the operability sets, we are able to **quantify achievability** for any given
 process region, either in the inputs or outputs perspectives. This is represented
 in the figure above as the red-shaded area. 

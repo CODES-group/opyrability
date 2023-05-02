@@ -7,6 +7,6 @@ chapters:
 - file: installation
 - file: operability_overview
 - file: api
-- file: bibliography
 - file: examples_gallery/index_example_gallery.ipynb
+- file: bibliography
 

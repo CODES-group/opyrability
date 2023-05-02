@@ -35,8 +35,6 @@
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -56,14 +54,13 @@
     <script src="_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script src="_static/design-tabs.js"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api';</script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -167,9 +164,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l2"><a class="reference internal" href="_autosummary/pypo.html">pypo</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
 
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
     </div>
@@ -390,6 +387,7 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-documentation-list">API documentation list</a></li>
 </ul>
             </nav>
         </div>
@@ -684,46 +682,46 @@ NLP and using finite-differences:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                                | 0/25 [00:00&lt;?, ?it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|                                                                                                                                                                                      | 0/25 [00:00&lt;?, ?it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|██████████▉                                                                                                                             | 2/25 [00:00&lt;00:01, 12.80it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  8%|█████████████▉                                                                                                                                                                | 2/25 [00:00&lt;00:02, 11.06it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|█████████████████████▊                                                                                                                  | 4/25 [00:00&lt;00:01, 12.80it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 16%|███████████████████████████▊                                                                                                                                                  | 4/25 [00:00&lt;00:01, 10.98it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|████████████████████████████████▋                                                                                                       | 6/25 [00:00&lt;00:01, 13.41it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 24%|█████████████████████████████████████████▊                                                                                                                                    | 6/25 [00:00&lt;00:01, 11.02it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 32%|███████████████████████████████████████████▌                                                                                            | 8/25 [00:00&lt;00:01, 13.16it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 32%|███████████████████████████████████████████████████████▋                                                                                                                      | 8/25 [00:00&lt;00:01, 10.03it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|██████████████████████████████████████████████████████                                                                                 | 10/25 [00:00&lt;00:01, 13.53it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 40%|█████████████████████████████████████████████████████████████████████▏                                                                                                       | 10/25 [00:00&lt;00:01, 10.49it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|████████████████████████████████████████████████████████████████▊                                                                      | 12/25 [00:00&lt;00:00, 13.27it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 48%|███████████████████████████████████████████████████████████████████████████████████                                                                                          | 12/25 [00:01&lt;00:01, 10.49it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56%|███████████████████████████████████████████████████████████████████████████▌                                                           | 14/25 [00:01&lt;00:00, 12.69it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 56%|████████████████████████████████████████████████████████████████████████████████████████████████▉                                                                            | 14/25 [00:01&lt;00:01, 10.56it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|██████████████████████████████████████████████████████████████████████████████████████▍                                                | 16/25 [00:01&lt;00:00, 12.72it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 64%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████▋                                                              | 16/25 [00:01&lt;00:00, 10.44it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72%|█████████████████████████████████████████████████████████████████████████████████████████████████▏                                     | 18/25 [00:01&lt;00:00, 12.75it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 72%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌                                                | 18/25 [00:01&lt;00:00, 10.24it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|████████████████████████████████████████████████████████████████████████████████████████████████████████████                           | 20/25 [00:01&lt;00:00, 13.17it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 80%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▍                                  | 20/25 [00:01&lt;00:00, 10.36it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▊                | 22/25 [00:01&lt;00:00, 12.79it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 88%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▏                    | 22/25 [00:02&lt;00:00, 10.63it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▌     | 24/25 [00:01&lt;00:00, 12.79it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 96%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████       | 24/25 [00:02&lt;00:00, 11.12it/s]
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 25/25 [00:01&lt;00:00, 12.91it/s]
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 25/25 [00:02&lt;00:00, 10.78it/s]
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
@@ -921,7 +919,7 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/0cb45a7f7c318c619444678e1c71fc3f1cc6c7a40f58835397167acfc63d9639.png" src="_images/0cb45a7f7c318c619444678e1c71fc3f1cc6c7a40f58835397167acfc63d9639.png" />
+<img alt="_images/86354c80adca4bb3734aed11eb2a991ac4c71929af97d8093213dea6bda7a8cd.png" src="_images/86354c80adca4bb3734aed11eb2a991ac4c71929af97d8093213dea6bda7a8cd.png" />
 </div>
 </div>
 </section>
@@ -1056,64 +1054,7 @@ y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}\end{split}\]</div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
-<span class="o">~</span>\<span class="n">AppData</span>\<span class="n">Local</span>\<span class="n">Temp</span>\<span class="n">ipykernel_30612</span>\<span class="mf">2603228593.</span><span class="n">py</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">OI</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_region</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">)</span>
-
-<span class="nn">~\Documents\python_operability\python_operability\src\pypo.py</span> in <span class="ni">OI_eval</span><span class="nt">(AS, DS, perspective, hypervol_calc, plotting)</span>
-<span class="g g-Whitespace">    </span><span class="mi">316</span>     <span class="n">DS_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">DS_region</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">317</span> 
-<span class="ne">--&gt; </span><span class="mi">318</span>     <span class="n">intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">DS_region</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">319</span> 
-<span class="g g-Whitespace">    </span><span class="mi">320</span> 
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">intersect</span><span class="nt">(poly1, poly2, abs_tol)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1501</span>     <span class="c1"># use {Polytope, Region}.intersect instead&#39;)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1502</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">poly1</span><span class="p">,</span> <span class="n">Region</span><span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1503</span>         <span class="k">return</span> <span class="n">poly1</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">poly2</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="n">abs_tol</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1504</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">poly2</span><span class="p">,</span> <span class="n">Region</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1505</span>         <span class="k">return</span> <span class="n">poly2</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">poly1</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="n">abs_tol</span><span class="p">)</span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">intersect</span><span class="nt">(self, other, abs_tol)</span>
-<span class="g g-Whitespace">    </span><span class="mi">823</span>                 <span class="n">rp</span><span class="p">,</span> <span class="n">xp</span> <span class="o">=</span> <span class="n">isect</span><span class="o">.</span><span class="n">cheby</span>
-<span class="g g-Whitespace">    </span><span class="mi">824</span>                 <span class="k">if</span> <span class="n">rp</span> <span class="o">&gt;</span> <span class="n">abs_tol</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">825</span>                     <span class="n">P</span> <span class="o">=</span> <span class="n">union</span><span class="p">(</span><span class="n">P</span><span class="p">,</span> <span class="n">isect</span><span class="p">,</span> <span class="n">check_convex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">826</span>         <span class="k">return</span> <span class="n">P</span>
-<span class="g g-Whitespace">    </span><span class="mi">827</span> 
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">union</span><span class="nt">(polyreg1, polyreg2, check_convex)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1220</span>                 <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1221</span>                     <span class="n">templist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
-<span class="ne">-&gt; </span><span class="mi">1222</span>                     <span class="n">is_conv</span><span class="p">,</span> <span class="n">env</span> <span class="o">=</span> <span class="n">is_convex</span><span class="p">(</span><span class="n">Region</span><span class="p">(</span><span class="n">templist</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1223</span>                     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_conv</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1224</span>                         <span class="n">templist</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">lst</span><span class="p">[</span><span class="n">ii</span><span class="p">])</span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">is_convex</span><span class="nt">(reg, abs_tol)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1000</span>         <span class="k">return</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">None</span>
-<span class="g g-Whitespace">   </span><span class="mi">1001</span>     <span class="n">Pl</span><span class="p">,</span> <span class="n">Pu</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">bounding_box</span>
-<span class="ne">-&gt; </span><span class="mi">1002</span>     <span class="n">Ol</span><span class="p">,</span> <span class="n">Ou</span> <span class="o">=</span> <span class="n">outer</span><span class="o">.</span><span class="n">bounding_box</span>
-<span class="g g-Whitespace">   </span><span class="mi">1003</span>     <span class="n">bboxP</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">Pl</span><span class="p">,</span> <span class="n">Pu</span><span class="p">])</span>
-<span class="g g-Whitespace">   </span><span class="mi">1004</span>     <span class="n">bboxO</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">Ol</span><span class="p">,</span> <span class="n">Ou</span><span class="p">])</span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">bounding_box</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">417</span>         <span class="s2">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">418</span><span class="s2">         if self.bbox is None:</span>
-<span class="ne">--&gt; </span><span class="mi">419</span><span class="s2">             self.bbox = bounding_box(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">420</span><span class="s2">         return self.bbox</span>
-<span class="g g-Whitespace">    </span><span class="mi">421</span><span class="s2"> </span>
-
-<span class="nn">~\Anaconda3\envs\operability\lib\site-packages\polytope\polytope.py</span> in <span class="ni">bounding_box</span><span class="nt">(polyreg)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1372</span><span class="s2">             l[i] = x[i]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1373</span><span class="s2">         else:</span>
-<span class="ne">-&gt; </span><span class="mi">1374</span><span class="s2">             raise RuntimeError((</span>
-<span class="g g-Whitespace">   </span><span class="mi">1375</span><span class="s2">                 &#39;`polytope.solvers.lpsolve` returned:  </span><span class="si">{v}</span><span class="se">\n</span><span class="s2">&#39;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1376</span><span class="s2">                 &#39;its docstring describes return values&#39;</span>
-
-<span class="ne">RuntimeError</span>: `polytope.solvers.lpsolve` returned:  {&#39;status&#39;: 3, &#39;x&#39;: None, &#39;fun&#39;: None}
-<span class="s2">its docstring describes return values</span>
-</pre></div>
-</div>
+<img alt="_images/ce31b9c81a7f95d4b28a31462fff22ba530746a02df36e58f88b3d935a28d910.png" src="_images/ce31b9c81a7f95d4b28a31462fff22ba530746a02df36e58f88b3d935a28d910.png" />
 </div>
 </div>
 </section>
@@ -1168,6 +1109,21 @@ region in Euclidean coordinates.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[[ 10.  70.]
+  [ 10.  85.]
+  [ 10. 100.]]
+
+ [[ 15.  70.]
+  [ 15.  85.]
+  [ 15. 100.]]
+
+ [[ 20.  70.]
+  [ 20.  85.]
+  [ 20. 100.]]]
+</pre></div>
+</div>
+</div>
 </div>
 <p>Visualizing this grid:</p>
 <div class="cell docutils container">
@@ -1177,6 +1133,12 @@ region in Euclidean coordinates.</p>
     <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">DOSPts</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">DOSPts</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x181a9de96a0&gt;
+</pre></div>
+</div>
+<img alt="_images/b0c15c9c401a79c748a5402ba548e01e22fa87014be37897d5a16c32bd4d9f14.png" src="_images/b0c15c9c401a79c748a5402ba548e01e22fa87014be37897d5a16c32bd4d9f14.png" />
 </div>
 </div>
 <dl class="py function">
@@ -1218,6 +1180,78 @@ shower problem example.</p>
     <span class="n">AIS_poly</span><span class="p">,</span> <span class="n">AOS_poly</span> <span class="o">=</span> <span class="n">points2simplices</span><span class="p">(</span><span class="n">AIS</span><span class="p">,</span><span class="n">AOS</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;AIS Simplices </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">AIS_poly</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;AOS Simplices </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">AOS_poly</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIS Simplices 
+ [array([[2.5, 0. , 0. ],
+       [2.5, 2.5, 0. ]]), array([[2.5, 2.5, 0. ],
+       [2.5, 0. , 0. ]]), array([[5. , 2.5, 2.5],
+       [2.5, 2.5, 0. ]]), array([[5. , 5. , 2.5],
+       [2.5, 0. , 0. ]]), array([[7.5, 5. , 5. ],
+       [2.5, 2.5, 0. ]]), array([[7.5, 7.5, 5. ],
+       [2.5, 0. , 0. ]]), array([[10. ,  7.5,  7.5],
+       [ 2.5,  2.5,  0. ]]), array([[10. , 10. ,  7.5],
+       [ 2.5,  0. ,  0. ]]), array([[2.5, 0. , 0. ],
+       [5. , 5. , 2.5]]), array([[2.5, 2.5, 0. ],
+       [5. , 2.5, 2.5]]), array([[5. , 2.5, 2.5],
+       [5. , 5. , 2.5]]), array([[5. , 5. , 2.5],
+       [5. , 2.5, 2.5]]), array([[7.5, 5. , 5. ],
+       [5. , 5. , 2.5]]), array([[7.5, 7.5, 5. ],
+       [5. , 2.5, 2.5]]), array([[10. ,  7.5,  7.5],
+       [ 5. ,  5. ,  2.5]]), array([[10. , 10. ,  7.5],
+       [ 5. ,  2.5,  2.5]]), array([[2.5, 0. , 0. ],
+       [7.5, 7.5, 5. ]]), array([[2.5, 2.5, 0. ],
+       [7.5, 5. , 5. ]]), array([[5. , 2.5, 2.5],
+       [7.5, 7.5, 5. ]]), array([[5. , 5. , 2.5],
+       [7.5, 5. , 5. ]]), array([[7.5, 5. , 5. ],
+       [7.5, 7.5, 5. ]]), array([[7.5, 7.5, 5. ],
+       [7.5, 5. , 5. ]]), array([[10. ,  7.5,  7.5],
+       [ 7.5,  7.5,  5. ]]), array([[10. , 10. ,  7.5],
+       [ 7.5,  5. ,  5. ]]), array([[ 2.5,  0. ,  0. ],
+       [10. , 10. ,  7.5]]), array([[ 2.5,  2.5,  0. ],
+       [10. ,  7.5,  7.5]]), array([[ 5. ,  2.5,  2.5],
+       [10. , 10. ,  7.5]]), array([[ 5. ,  5. ,  2.5],
+       [10. ,  7.5,  7.5]]), array([[ 7.5,  5. ,  5. ],
+       [10. , 10. ,  7.5]]), array([[ 7.5,  7.5,  5. ],
+       [10. ,  7.5,  7.5]]), array([[10. ,  7.5,  7.5],
+       [10. , 10. ,  7.5]]), array([[10. , 10. ,  7.5],
+       [10. ,  7.5,  7.5]])]
+AOS Simplices 
+ [array([[  5. ,   2.5,   0. ],
+       [ 90. , 120. ,  90. ]]), array([[ 5. ,  2.5,  0. ],
+       [90. , 60. , 90. ]]), array([[ 7.5,  5. ,  2.5],
+       [80. , 90. , 60. ]]), array([[ 7.5,  5. ,  2.5],
+       [80. , 60. , 60. ]]), array([[10. ,  7.5,  5. ],
+       [75. , 80. , 60. ]]), array([[10. ,  7.5,  5. ],
+       [75. , 60. , 60. ]]), array([[12.5, 10. ,  7.5],
+       [72. , 75. , 60. ]]), array([[12.5, 10. ,  7.5],
+       [72. , 60. , 60. ]]), array([[  7.5,   5. ,   2.5],
+       [100. , 120. , 120. ]]), array([[  7.5,   5. ,   2.5],
+       [100. ,  90. , 120. ]]), array([[ 10. ,   7.5,   5. ],
+       [ 90. , 100. ,  90. ]]), array([[10. ,  7.5,  5. ],
+       [90. , 80. , 90. ]]), array([[12.5, 10. ,  7.5],
+       [84. , 90. , 80. ]]), array([[12.5, 10. ,  7.5],
+       [84. , 75. , 80. ]]), array([[15. , 12.5, 10. ],
+       [80. , 84. , 75. ]]), array([[15. , 12.5, 10. ],
+       [80. , 72. , 75. ]]), array([[ 10. ,   7.5,   5. ],
+       [105. , 120. , 120. ]]), array([[ 10. ,   7.5,   5. ],
+       [105. , 100. , 120. ]]), array([[ 12.5,  10. ,   7.5],
+       [ 96. , 105. , 100. ]]), array([[ 12.5,  10. ,   7.5],
+       [ 96. ,  90. , 100. ]]), array([[15. , 12.5, 10. ],
+       [90. , 96. , 90. ]]), array([[15. , 12.5, 10. ],
+       [90. , 84. , 90. ]]), array([[17.5    , 15.     , 12.5    ],
+       [85.71429, 90.     , 84.     ]]), array([[17.5    , 15.     , 12.5    ],
+       [85.71429, 80.     , 84.     ]]), array([[ 12.5,  10. ,   7.5],
+       [108. , 120. , 120. ]]), array([[ 12.5,  10. ,   7.5],
+       [108. , 105. , 120. ]]), array([[ 15. ,  12.5,  10. ],
+       [100. , 108. , 105. ]]), array([[ 15. ,  12.5,  10. ],
+       [100. ,  96. , 105. ]]), array([[ 17.5    ,  15.     ,  12.5    ],
+       [ 94.28571, 100.     ,  96.     ]]), array([[17.5    , 15.     , 12.5    ],
+       [94.28571, 90.     , 96.     ]]), array([[20.     , 17.5    , 15.     ],
+       [90.     , 94.28571, 90.     ]]), array([[20.     , 17.5    , 15.     ],
+       [90.     , 85.71429, 90.     ]])]
 </pre></div>
 </div>
 </div>
@@ -1263,7 +1297,51 @@ shower problem example.</p>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AIS Polyhedrons 
+ [array([[0. , 0. , 2.5, 2.5],
+       [0. , 2.5, 0. , 2.5]]), array([[2.5, 2.5, 5. , 5. ],
+       [0. , 2.5, 0. , 2.5]]), array([[5. , 5. , 7.5, 7.5],
+       [0. , 2.5, 0. , 2.5]]), array([[ 7.5,  7.5, 10. , 10. ],
+       [ 0. ,  2.5,  0. ,  2.5]]), array([[0. , 0. , 2.5, 2.5],
+       [2.5, 5. , 2.5, 5. ]]), array([[2.5, 2.5, 5. , 5. ],
+       [2.5, 5. , 2.5, 5. ]]), array([[5. , 5. , 7.5, 7.5],
+       [2.5, 5. , 2.5, 5. ]]), array([[ 7.5,  7.5, 10. , 10. ],
+       [ 2.5,  5. ,  2.5,  5. ]]), array([[0. , 0. , 2.5, 2.5],
+       [5. , 7.5, 5. , 7.5]]), array([[2.5, 2.5, 5. , 5. ],
+       [5. , 7.5, 5. , 7.5]]), array([[5. , 5. , 7.5, 7.5],
+       [5. , 7.5, 5. , 7.5]]), array([[ 7.5,  7.5, 10. , 10. ],
+       [ 5. ,  7.5,  5. ,  7.5]]), array([[ 0. ,  0. ,  2.5,  2.5],
+       [ 7.5, 10. ,  7.5, 10. ]]), array([[ 2.5,  2.5,  5. ,  5. ],
+       [ 7.5, 10. ,  7.5, 10. ]]), array([[ 5. ,  5. ,  7.5,  7.5],
+       [ 7.5, 10. ,  7.5, 10. ]]), array([[ 7.5,  7.5, 10. , 10. ],
+       [ 7.5, 10. ,  7.5, 10. ]])]
+AOS Polyhedrons 
+ [array([[  0. ,   2.5,   2.5,   5. ],
+       [ 90. , 120. ,  60. ,  90. ]]), array([[ 2.5,  5. ,  5. ,  7.5],
+       [60. , 90. , 60. , 80. ]]), array([[ 5. ,  7.5,  7.5, 10. ],
+       [60. , 80. , 60. , 75. ]]), array([[ 7.5, 10. , 10. , 12.5],
+       [60. , 75. , 60. , 72. ]]), array([[  2.5,   5. ,   5. ,   7.5],
+       [120. , 120. ,  90. , 100. ]]), array([[  5. ,   7.5,   7.5,  10. ],
+       [ 90. , 100. ,  80. ,  90. ]]), array([[ 7.5, 10. , 10. , 12.5],
+       [80. , 90. , 75. , 84. ]]), array([[10. , 12.5, 12.5, 15. ],
+       [75. , 84. , 72. , 80. ]]), array([[  5. ,   7.5,   7.5,  10. ],
+       [120. , 120. , 100. , 105. ]]), array([[  7.5,  10. ,  10. ,  12.5],
+       [100. , 105. ,  90. ,  96. ]]), array([[10. , 12.5, 12.5, 15. ],
+       [90. , 96. , 84. , 90. ]]), array([[12.5    , 15.     , 15.     , 17.5    ],
+       [84.     , 90.     , 80.     , 85.71429]]), array([[  7.5,  10. ,  10. ,  12.5],
+       [120. , 120. , 105. , 108. ]]), array([[ 10. ,  12.5,  12.5,  15. ],
+       [105. , 108. ,  96. , 100. ]]), array([[ 12.5    ,  15.     ,  15.     ,  17.5    ],
+       [ 96.     , 100.     ,  90.     ,  94.28571]]), array([[15.     , 17.5    , 17.5    , 20.     ],
+       [90.     , 94.28571, 85.71429, 90.     ]])]
+</pre></div>
 </div>
+</div>
+</div>
+</section>
+</section>
+<section id="api-documentation-list">
+<h2>API documentation list<a class="headerlink" href="#api-documentation-list" title="Permalink to this headline">#</a></h2>
 <table class="longtable table autosummary">
 <colgroup>
 <col style="width: 10%" />
@@ -1275,7 +1353,6 @@ shower problem example.</p>
 </tr>
 </tbody>
 </table>
-</section>
 </section>
 </section>
 
@@ -1373,6 +1450,7 @@ shower problem example.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Example</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-documentation-list">API documentation list</a></li>
 </ul>
   </nav></div>
 
