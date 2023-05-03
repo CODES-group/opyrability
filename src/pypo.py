@@ -1,10 +1,10 @@
 # Basic python tools
 import sys
+import warnings
 from itertools import permutations as perms
 import string
 from typing import Callable,Union
-# from tqdm import tqdm
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 
 # Linear Algebra
@@ -21,9 +21,9 @@ from cyipopt import minimize_ipopt
 import polytope as pc
 from polytope.polytope import region_diff
 from polytope.polytope import _get_patch
-#from src.PolyhedraVolAprox import VolumeApprox_fast as Dinh_volume
-from polytope import solvers
-
+from polytope import solvers as polsolvers
+polsolvers.default_solver = 'scipy'
+warnings.filterwarnings('ignore', module='polsolvers')
 
 
 
@@ -35,10 +35,10 @@ import pylab as pl
 import mpl_toolkits.mplot3d as a3
 
 
-# Setting default plot optins and default solver for multimodel approach.
+# Setting default plot options and default solver for multimodel approach.
 plt.rcParams['figure.dpi'] = 150
 plt.rcParams['text.usetex'] = True
-solvers.default_solver = 'scipy'
+# solvers.default_solver = 'scipy'
 
 # Plotting defaults
 cmap =  'rainbow'
@@ -250,11 +250,11 @@ def OI_eval(AS: pc.Region,
     '''
     Operability Index (OI) calculation. From a Desired Output
     Set (DOS) defined by the user, this function calculates the intersection
-    between achieable (AOS) and desired output operation (DOS). Similarly, the 
+    between achievable (AOS) and desired output operation (DOS). Similarly, the 
     OI can be also calculated from the inputs' perspective, as an intersection
-    between desired input (DIS) and availabe input (AIS). This function is able
+    between desired input (DIS) and available input (AIS). This function is able
     to  evaluate the OI in any dimension, ranging from 1-d (length) up to
-    higher dimensions (Hypervolumes, > 3-d), adided by the Polytope package.
+    higher dimensions (Hypervolumes, > 3-d), aided by the Polytope package.
     
     This function is part of Python-based Process Operability package.
     
@@ -646,6 +646,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
         from jax.config import config
         config.update("jax_enable_x64", True)
         config.update('jax_platform_name', 'cpu')
+        warnings.filterwarnings('ignore', module='jax._src.lib.xla_bridge')
         import jax.numpy as np
         from jax import jacrev, grad
         

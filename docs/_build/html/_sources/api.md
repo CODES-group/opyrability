@@ -13,8 +13,8 @@ kernelspec:
 
 # API documentation
 
-The functions below are part of the pypo module and are
-separted below based on their functionality.
+The functions described below are part of the PyPO and are
+classified based on their functionality.
 
 ## Conventional mapping (AIS to AOS)
 
@@ -28,7 +28,8 @@ separted below based on their functionality.
 Obtaining the Achievable Output Set (AOS) for the shower problem.
 
 Importing PyPO and Numpy:
-```{code-cell} 
+```{code-cell}
+    :tags: ["remove-output"]
     from pypo import AIS2AOS_map
     import numpy as np
 ```

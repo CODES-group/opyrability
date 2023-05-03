@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
@@ -43,6 +43,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -63,7 +64,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -312,11 +313,11 @@ document.write(`
   <h1>Source code for pypo</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Basic python tools</span>
 <span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">permutations</span> <span class="k">as</span> <span class="n">perms</span>
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span><span class="n">Union</span>
-<span class="c1"># from tqdm import tqdm</span>
-<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 
 <span class="c1"># Linear Algebra</span>
@@ -333,9 +334,9 @@ document.write(`
 <span class="kn">import</span> <span class="nn">polytope</span> <span class="k">as</span> <span class="nn">pc</span>
 <span class="kn">from</span> <span class="nn">polytope.polytope</span> <span class="kn">import</span> <span class="n">region_diff</span>
 <span class="kn">from</span> <span class="nn">polytope.polytope</span> <span class="kn">import</span> <span class="n">_get_patch</span>
-<span class="c1">#from src.PolyhedraVolAprox import VolumeApprox_fast as Dinh_volume</span>
-<span class="kn">from</span> <span class="nn">polytope</span> <span class="kn">import</span> <span class="n">solvers</span>
-
+<span class="kn">from</span> <span class="nn">polytope</span> <span class="kn">import</span> <span class="n">solvers</span> <span class="k">as</span> <span class="n">polsolvers</span>
+<span class="n">polsolvers</span><span class="o">.</span><span class="n">default_solver</span> <span class="o">=</span> <span class="s1">&#39;scipy&#39;</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s1">&#39;polsolvers&#39;</span><span class="p">)</span>
 
 
 
@@ -347,10 +348,10 @@ document.write(`
 <span class="kn">import</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">as</span> <span class="nn">a3</span>
 
 
-<span class="c1"># Setting default plot optins and default solver for multimodel approach.</span>
+<span class="c1"># Setting default plot options and default solver for multimodel approach.</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">150</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">solvers</span><span class="o">.</span><span class="n">default_solver</span> <span class="o">=</span> <span class="s1">&#39;scipy&#39;</span>
+<span class="c1"># solvers.default_solver = &#39;scipy&#39;</span>
 
 <span class="c1"># Plotting defaults</span>
 <span class="n">cmap</span> <span class="o">=</span>  <span class="s1">&#39;rainbow&#39;</span>
@@ -562,11 +563,11 @@ document.write(`
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Operability Index (OI) calculation. From a Desired Output</span>
 <span class="sd">    Set (DOS) defined by the user, this function calculates the intersection</span>
-<span class="sd">    between achieable (AOS) and desired output operation (DOS). Similarly, the </span>
+<span class="sd">    between achievable (AOS) and desired output operation (DOS). Similarly, the </span>
 <span class="sd">    OI can be also calculated from the inputs&#39; perspective, as an intersection</span>
-<span class="sd">    between desired input (DIS) and availabe input (AIS). This function is able</span>
+<span class="sd">    between desired input (DIS) and available input (AIS). This function is able</span>
 <span class="sd">    to  evaluate the OI in any dimension, ranging from 1-d (length) up to</span>
-<span class="sd">    higher dimensions (Hypervolumes, &gt; 3-d), adided by the Polytope package.</span>
+<span class="sd">    higher dimensions (Hypervolumes, &gt; 3-d), aided by the Polytope package.</span>
 <span class="sd">    </span>
 <span class="sd">    This function is part of Python-based Process Operability package.</span>
 <span class="sd">    </span>
@@ -958,6 +959,7 @@ document.write(`
         <span class="kn">from</span> <span class="nn">jax.config</span> <span class="kn">import</span> <span class="n">config</span>
         <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;jax_platform_name&#39;</span><span class="p">,</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s1">&#39;jax._src.lib.xla_bridge&#39;</span><span class="p">)</span>
         <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
         <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">jacrev</span><span class="p">,</span> <span class="n">grad</span>
         
