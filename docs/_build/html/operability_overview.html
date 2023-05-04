@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Process Operability Overview &#8212; PyPO&#39;s documentation.</title>
   
@@ -44,7 +44,6 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
@@ -66,10 +65,10 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'operability_overview';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="API documentation" href="api.html" />
+    <link rel="next" title="Process Operability Algorithms" href="algorithms.html" />
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:language" content="None"/>
   </head>
   
   
@@ -161,12 +160,12 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Process Operability Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Process Operability Algorithms</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="_autosummary/pypo.html">pypo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
-
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
@@ -389,11 +388,11 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="process-operability-overview">
-<h1>Process Operability Overview<a class="headerlink" href="#process-operability-overview" title="Permalink to this heading">#</a></h1>
+<h1>Process Operability Overview<a class="headerlink" href="#process-operability-overview" title="Permalink to this headline">#</a></h1>
 <section id="what-is-process-operability">
-<h2>What is process operability?<a class="headerlink" href="#what-is-process-operability" title="Permalink to this heading">#</a></h2>
+<h2>What is process operability?<a class="headerlink" href="#what-is-process-operability" title="Permalink to this headline">#</a></h2>
 <section id="the-underlying-problem-design-and-control">
-<h3>The underlying problem: Design and control<a class="headerlink" href="#the-underlying-problem-design-and-control" title="Permalink to this heading">#</a></h3>
+<h3>The underlying problem: Design and control<a class="headerlink" href="#the-underlying-problem-design-and-control" title="Permalink to this headline">#</a></h3>
 <p>This question must be properly assessed before
 diving into the nitty gritty details that involve
 operability analysis.</p>
@@ -418,7 +417,7 @@ and only then the control objectives are assessed. Unfortunately, this can
 yield a process that is designed in a way that its operability capabilities
 are severely mitigated. In other words, because the control objectives were
 not considered early in the design phase, the process itself might be not
-controlled or operable at all. To give you perspective or how challenging this
+controlled or operable at all. To give you perspective on how challenging this
 problem is, there are reports dating back to the 40’s from Ziegler and Nichols <span id="id1">[<a class="reference internal" href="bibliography.html#id39" title="JG Ziegler and NB Nichols. Process lags in automatic-control circuits. Transactions of the American Society of Mechanical Engineers, 65(5):433–440, 1943.">1</a>]</span>
 (The same ones from the controller tuning laws) stressing out about this problem,
 mentioning the importance of interconnecting design and control.</p>
@@ -463,13 +462,13 @@ the <strong>operability sets</strong></p>
 </section>
 </section>
 <section id="operability-sets">
-<h2>Operability sets<a class="headerlink" href="#operability-sets" title="Permalink to this heading">#</a></h2>
-<p>For the sake of illustration, the operability sets will be shown in the two
-dimensional space <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>. However, all definitions carry over to any
+<h2>Operability sets<a class="headerlink" href="#operability-sets" title="Permalink to this headline">#</a></h2>
+<p>For the sake of illustration, the operability sets will be shown in the two-dimensional
+space <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>. However, all definitions carry over to any
 general dimension.</p>
 <section id="the-available-input-set-ais">
-<h3>The Available Input Set (AIS)<a class="headerlink" href="#the-available-input-set-ais" title="Permalink to this heading">#</a></h3>
-<p>The available input set (AIS) is defined as the region that encapsulate the
+<h3>The Available Input Set (AIS)<a class="headerlink" href="#the-available-input-set-ais" title="Permalink to this headline">#</a></h3>
+<p>The available input set (AIS) is defined as the region that encapsulates the
 lower and upper bounds for the input variables available in the system. These
 can be either design of manipulated variables. In short, they are the manipulated inputs
 (<span class="math notranslate nohighlight">\(u  \in \mathbb{R}^m\)</span>)
@@ -486,11 +485,11 @@ by the process constraints</p>
 </figure>
 </section>
 <section id="the-achievable-output-set-ais">
-<h3>The Achievable Output Set (AIS)<a class="headerlink" href="#the-achievable-output-set-ais" title="Permalink to this heading">#</a></h3>
+<h3>The Achievable Output Set (AIS)<a class="headerlink" href="#the-achievable-output-set-ais" title="Permalink to this headline">#</a></h3>
 <p>The Achievable Output Set (AOS) is defined as being the range of the outputs (<span class="math notranslate nohighlight">\(y \in \mathbb{R}^n\)</span>)
-that can be achieved using the inputs inside the AIS. In plain english, it
+that can be achieved using the inputs inside the AIS. In plain English, it
 corresponds “to everything that can be done given the ranges of the AIS”.
-In math world, for a given fixed disturbance:</p>
+In the math world, for a given fixed disturbance:</p>
 <div class="math notranslate nohighlight">
 \[\operatorname{AOS}(d)=\{y \mid y=M(u, d) ; u \in \operatorname{AIS}, d \text { is fixed }\}\]</div>
 <p>Visually:</p>
@@ -502,7 +501,7 @@ In math world, for a given fixed disturbance:</p>
 </figure>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>Note that the pictorial representation of the AOS is intentionally of a non-convex
+<p>Note that the pictorial representation of the AOS is intentional of a non-convex
 region. This is a result of the process model <span class="math notranslate nohighlight">\((M)\)</span>
 being potentially nonlinear: A convex
 AIS may lead to a nonlinear and vice-versa!</p>
@@ -517,16 +516,16 @@ figure below:</p>
 </figure>
 </section>
 <section id="the-desired-output-set-dos">
-<h3>The Desired Output Set (DOS)<a class="headerlink" href="#the-desired-output-set-dos" title="Permalink to this heading">#</a></h3>
+<h3>The Desired Output Set (DOS)<a class="headerlink" href="#the-desired-output-set-dos" title="Permalink to this headline">#</a></h3>
 <p>Despite the fact that the AOS can inform us what we can do with the current AIS
 region, we might <strong>desire</strong> to operate at a certain region given a variety of
-reasons, such as: Market demands, product purity specification, maximum pollutant
+reasons, such as market demands, product purity specification, maximum pollutant
 emissions imposed by legislation and so on. Given this, the Desired Output Set
 (DOS) naturally arises to represent exactly that: It represents production/target/efficiency
 requirements for the outputs that do not necessarily meet the ranges of the AOS.</p>
 <div class="math notranslate nohighlight">
 \[\mathrm{DOS}=\left\{y \mid y_i^{\min } \leq y_i \leq y_i^{\max } ; 1 \leq i \leq n\right\}\]</div>
-<p>Visually, highlighted in red the intersection between achievable and desired
+<p>Visually, highlighted in red is the intersection between achievable and desired
 operation:</p>
 <figure class="align-center" id="id8">
 <a class="reference internal image-reference" href="_images/DOS.jpg"><img alt="_images/DOS.jpg" src="_images/DOS.jpg" style="width: 607.5px; height: 397.5px;" /></a>
@@ -536,15 +535,15 @@ operation:</p>
 </figure>
 </section>
 <section id="the-desired-input-set-dis">
-<h3>The Desired Input Set (DIS)<a class="headerlink" href="#the-desired-input-set-dis" title="Permalink to this heading">#</a></h3>
+<h3>The Desired Input Set (DIS)<a class="headerlink" href="#the-desired-input-set-dis" title="Permalink to this headline">#</a></h3>
 <p>If there is a desired region of operation in the output space, there has to be
 a desired region of operation in the input space that guarantees that the DOS
-is achieved. This is denominated as the Desired Input Set (DIS): Set of inputs
+is achieved. This is denominated as the Desired Input Set (DIS): A set of inputs
 required to reach the entire DOS,
 given a disturbance vector :<span class="math notranslate nohighlight">\(d\)</span>.</p>
 <div class="math notranslate nohighlight">
 \[\operatorname{DIS}(d)=\left\{u \mid u=M^{-1}(y, d) ; y \in \mathrm{DOS}, d \text { is fixed }\right\}\]</div>
-<p>Visually, highlighted in red the intersection between available and desired
+<p>Visually, highlighted in red is the intersection between available and desired
 operation in the input space:</p>
 <figure class="align-center" id="id9">
 <a class="reference internal image-reference" href="_images/DIS.jpg"><img alt="_images/DIS.jpg" src="_images/DIS.jpg" style="width: 398.5px; height: 340.0px;" /></a>
@@ -555,7 +554,7 @@ operation in the input space:</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Note that the DIS is not fully contained within the original AIS. This is
-expected, since the DOS was not fully contained within the AOS for this
+expected since the DOS was not fully contained within the AOS for this
 pictorial example.</p>
 </div>
 <p>In order to obtain the DIS, it is necessary to perform an inverse mapping: That is,
@@ -571,9 +570,9 @@ then the evaluation of the DIS follows the schematic:</p>
 </figure>
 </section>
 <section id="the-expected-disturbance-set-dis">
-<h3>The Expected Disturbance Set (DIS)<a class="headerlink" href="#the-expected-disturbance-set-dis" title="Permalink to this heading">#</a></h3>
+<h3>The Expected Disturbance Set (DIS)<a class="headerlink" href="#the-expected-disturbance-set-dis" title="Permalink to this headline">#</a></h3>
 <p>Lastly, process disturbances may be present in a system. To represent this, we
-define the Expected Disturbance Set (EDS). This is composed as the disturbance
+define the Expected Disturbance Set (EDS). This is composed of the disturbance
 variables <span class="math notranslate nohighlight">\(d \in R^q\)</span> that can represent process uncertainties and variabilities.
 The effect of the EDS in the AOS is to shift it throughout the disturbance range:</p>
 <figure class="align-center" id="id11">
@@ -594,7 +593,7 @@ scenario:</p>
 </figcaption>
 </figure>
 <p>Because of this shift, the AOS needs to be rewritten to reflect the <strong>intersection</strong>
-of each disturbance scenarios:</p>
+of each disturbance scenario:</p>
 <div class="math notranslate nohighlight">
 \[\operatorname{AOS}=\bigcap_{d \in E D S} \operatorname{AOS}_u(d)\]</div>
 <p>and as a realization of the union of each DIS for each disturbance scenario:</p>
@@ -608,7 +607,7 @@ in the animation below:</p>
 <p><span class="caption-number">Fig. 9 </span><span class="caption-text">Expected Disturbance Set (EDS) effect in the overall process model.</span><a class="headerlink" href="#id13" title="Permalink to this image">#</a></p>
 </figcaption>
 </figure>
-<p>Now let’s go back and take a closer look to available, achievable and desired operability sets,
+<p>Now let’s go back and take a closer look at available, achievable and desired operability sets,
 in both input and output spaces:</p>
 <figure class="align-center" id="id14">
 <img alt="_images/AIS-AOS-intersection.jpg" src="_images/AIS-AOS-intersection.jpg" />
@@ -628,9 +627,9 @@ we can quantify the intersection of such areas and it will yield a metric!</p>
 </section>
 </section>
 <section id="the-operability-index-oi">
-<h2>The Operability Index (OI)<a class="headerlink" href="#the-operability-index-oi" title="Permalink to this heading">#</a></h2>
+<h2>The Operability Index (OI)<a class="headerlink" href="#the-operability-index-oi" title="Permalink to this headline">#</a></h2>
 <p>The Operability Index is defined as the metric that quantifies achievability via
-the intersection of available or achievable operation with the desired regions.
+the intersection of available or achievable operations with the desired regions.
 Mathematically this can be expressed as follows:</p>
 <div class="math notranslate nohighlight">
 \[\mathrm{OI}=\frac{\mu(\mathrm{AOS} \cap \mathrm{DOS})}{\mu(\mathrm{DOS})}\]</div>
@@ -641,11 +640,11 @@ Mathematically this can be expressed as follows:</p>
 <span class="math notranslate nohighlight">\(\mu\)</span> indicates a measure of regions that varies depending on the
 dimensionality of the considered sets <span id="id3">[]</span>. If in our example we
 had a 1D system, <span class="math notranslate nohighlight">\(\mu\)</span> would indicate length. Since we are in the <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>
-space, it corresponds to a quantification of area. For 3D systems it would be the
+space, it corresponds to quantification of area. For 3D systems it would be the
 intersection between the volumes of the regions and for higher dimensional cases,
 hypervolumes.</p>
 <p>Note that in both cases, we normalized the OI with respect to the desired region
-of operation. This makes the OI to range between 0 or 0% when a process is not operable at all
+of operation. This makes the OI range between 0 or 0% when a process is not operable at all
 to 1 or 100% when a process is fully operable. The animation below illustrates
 a situation in which the process is not fully operable and 100% operable:</p>
 <figure class="align-center" id="id15">
@@ -656,15 +655,15 @@ fully operable.</span><a class="headerlink" href="#id15" title="Permalink to thi
 </figcaption>
 </figure>
 <section id="important-features-of-the-oi">
-<h3>Important features of the OI<a class="headerlink" href="#important-features-of-the-oi" title="Permalink to this heading">#</a></h3>
+<h3>Important features of the OI<a class="headerlink" href="#important-features-of-the-oi" title="Permalink to this headline">#</a></h3>
 <p>The OI has interesting properties such as:</p>
 <ol class="arabic simple">
 <li><p><strong>It corresponds to an inherently nonlinear measure.</strong> This was, in fact, one of
-the original motivations of formalizing process operability analysis: To have a
+the original motivations for formalizing process operability analysis: To have a
 nonlinear measure of output controllability of any general chemical process, as
 a counterpart to measures of controllability that are classically available in
 the literature for linear systems control theory.</p></li>
-<li><p><strong>The OI is independent from the type of controller used</strong> <span id="id4">[]</span>. This
+<li><p><strong>The OI is independent of the type of controller used</strong> <span id="id4">[]</span>. This
 might be one of the most important properties of the OI: we can analyze “everything
 that a given system can do” without inferring anything about how the controllers
 will be implemented (decentralized PIDs, MPC, etc.). This property is particularly
@@ -674,6 +673,9 @@ the OI is independent of the controller type and it can be interpreted as a fund
 characteristic of the system studied, the OI will give the best-case disturbance rejection
 scenario (if any) when one is accounting for disturbances in an operability analysis.</p></li>
 </ol>
+<p>The next section will cover briefly the main algorithms that were developed in
+CODES research group to perform the main operability tasks: inverse mapping and
+operability sets’ manipulation.</p>
 </section>
 </section>
 </section>
@@ -719,11 +721,11 @@ scenario (if any) when one is accounting for disturbances in an operability anal
       </div>
     </a>
     <a class="right-next"
-       href="api.html"
+       href="algorithms.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">API documentation</p>
+        <p class="prev-next-title">Process Operability Algorithms</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

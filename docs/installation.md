@@ -1,6 +1,6 @@
 ## Installation
 
-Download the files from our [repository](https://github.com/victoraalves/python_operability), extract them to any location on your PC. Then from the terminal (or cmd if you are using Windows) navigate to the location and execute:
+Download the files from our [repository](https://github.com/victoraalves/python_operability), and extract them to any location on your PC. Then from the terminal (or cmd if you are using Windows) navigate to the location and execute:
 
 ```console
 pip install -e . 

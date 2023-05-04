@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Bibliography &#8212; PyPO&#39;s documentation.</title>
+    <title>Process Operability Algorithms &#8212; PyPO&#39;s documentation.</title>
   
   
   
@@ -60,10 +60,13 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'bibliography';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Examples Gallery" href="examples_gallery/index_example_gallery.html" />
+    <link rel="next" title="API documentation" href="api.html" />
+    <link rel="prev" title="Process Operability Overview" href="operability_overview.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="None"/>
   </head>
@@ -157,13 +160,13 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="operability_overview.html">Process Operability Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Process Operability Algorithms</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Process Operability Algorithms</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="_autosummary/pypo.html">pypo</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Bibliography</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
 
     </div>
@@ -235,7 +238,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/victoraalves/python_operability/issues/new?title=Issue%20on%20page%20%2Fbibliography.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/victoraalves/python_operability/issues/new?title=Issue%20on%20page%20%2Falgorithms.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -265,7 +268,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/bibliography.rst" target="_blank"
+      <li><a href="_sources/algorithms.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -334,7 +337,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -345,11 +350,20 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Bibliography</h1>
+    <h1>Process Operability Algorithms</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multimodel-approach">The multimodel approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nonlinear-programming-based-nlp-based-approach">The nonlinear programming-based (NLP-based) approach</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -359,15 +373,105 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="bibliography">
-<h1>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">#</a></h1>
-<div class="docutils container" id="id1">
-<dl class="citation">
-<dt class="label" id="id39"><span class="brackets">1</span></dt>
-<dd><p>JG Ziegler and NB Nichols. Process lags in automatic-control circuits. <em>Transactions of the American Society of Mechanical Engineers</em>, 65(5):433–440, 1943.</p>
-</dd>
-</dl>
-</div>
+  <section id="process-operability-algorithms">
+<h1>Process Operability Algorithms<a class="headerlink" href="#process-operability-algorithms" title="Permalink to this headline">#</a></h1>
+<p>There are two main operations that may be needed to be performed to perform an
+operability analysis.</p>
+<ol class="arabic simple">
+<li><p><strong>Operability sets quantification:</strong> Obtaining and quantifying the AIS, AOS, DOS,
+DIS, EDS, and so on. This yields insights into the achievability of a given process.
+If the analysis is in low dimensions (<span class="math notranslate nohighlight">\(dimension \leq 3\)</span>) the analysis can
+even be visual. In higher dimensions, the OI still serves as a valuable metric to
+assess the operability of a process. Irrespective of dimensionality, computational
+geometry algorithms and polytopic calculations are necessary.</p></li>
+<li><p><strong>Inverse mapping:</strong> From a DOS, evaluate the corresponding DIS. For a general nonlinear
+process model, frequently represented in mathematical terms as a nonlinear system of
+equation as a vector-valued function, this may be a non-trivial task.</p></li>
+</ol>
+<p>Luckily, algorithms have been developed in the literature to address these challenges:
+For quantification of the operability sets and thus, the OI itself, the multimodel approach
+has been developed. For inverse mapping, the nonlinear programming-based (NLP-based) approach
+and the implicit mapping approach have been successfully employed to evaluate the inverse map
+of a given process model. This section will go briefly over these methods but the
+reader is encouraged to go over the literature for a more thorough explanation of them.</p>
+<section id="the-multimodel-approach">
+<h2>The multimodel approach<a class="headerlink" href="#the-multimodel-approach" title="Permalink to this headline">#</a></h2>
+<p>The multimodel approach employs the paradigm of a series of polytopes being able
+to represent any nonlinear space as a collection of such polytopes. This approach
+simplifies the obtainment of operability sets since polytopes are by definition convex and,
+therefore, can be represented in half-space representation (<span class="math notranslate nohighlight">\(\mathcal{H}-rep\)</span>) or in
+vertex representation (<span class="math notranslate nohighlight">\(\mathcal{V}-rep\)</span>), being a system of linear
+inequality constraints as a direct consequence of this.</p>
+<p><strong>Pictorial Example</strong></p>
+<p>Let’s consider the schematic below, in which each point corresponds to a coordinate
+in the input space and their respective coordinate in the output space, obtained
+through the process model <span class="math notranslate nohighlight">\(M\)</span>. Paired polytopes can be “drawn” to represent
+the AOS accordingly:</p>
+<figure class="align-center" id="id1">
+<img alt="_images/multimodel_01.gif" src="_images/multimodel_01.gif" />
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">AIS-AOS representation using paired polytopes.</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In the animation above, <span class="math notranslate nohighlight">\(P_1^u\)</span> is paired with <span class="math notranslate nohighlight">\(P_1^y\)</span> and so on, in
+the general form <span class="math notranslate nohighlight">\(P_k = \{P_k^u,P_k^y\}\)</span></p>
+<p>Another example in which the non-convex AOS is approximated as a series of paired
+polytopes can be depicted in the animation below, in which one can see that the
+polytopes approximate the overall non-convex AOS region with relative accuracy,
+as well as the DOS and DIS:</p>
+<figure class="align-center" id="id2">
+<img alt="_images/multimodel_02.gif" src="_images/multimodel_02.gif" />
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">AIS-AOS polytopic approximation.</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Due to its intrinsic roots in computational geometry and linear programming,
+the multimodel approach is a suitable process operability algorithm for</p>
+<ol class="arabic simple">
+<li><p><strong>Replacement of non-convex regions with paired polytopes</strong>, allowing efficient OI
+computation and representation of the operability sets.</p></li>
+<li><p><strong>OI evaluation</strong>, in which the multimodel approach allows to rank
+competing designs and control structures.</p></li>
+</ol>
+</section>
+<section id="the-nonlinear-programming-based-nlp-based-approach">
+<h2>The nonlinear programming-based (NLP-based) approach<a class="headerlink" href="#the-nonlinear-programming-based-nlp-based-approach" title="Permalink to this headline">#</a></h2>
+<p>The NLP-based approach converts the inverse mapping task into a nonlinear program.
+The premise of this algorithm is that the DOS can be discretized into a series of
+coordinate points in the output space (AOS/DOS) and that an objective function of
+error minimization nature (or sort of Euclidean distance if you prefer) is posed
+between the feasible operation and desired operation (DOS). The solution of the
+nonlinear program at each discretized point is the DIS that attains the operation
+of the DOS. Mathematically, this can be posed as the following optimization problem:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gathered}
+\emptyset_{\mathrm{k}}=\min _{\mathrm{u}_k^*} \sum_{j=1}^n\left(\left(\mathrm{y}_{j, k}-\mathrm{y}_{j, k}^*\right) / \mathrm{y}_{j, k}\right)^2 \\
+\text { s.t: Process model } (M) \\
+\mathrm{u}_k^{\min } \leq \mathrm{u}_k^* \leq \mathrm{u}_k^{\max } \\
+\mathbf{c}_1\left(\mathrm{u}_k^*\right) \leq 0
+\end{gathered}\end{split}\]</div>
+<p>for <span class="math notranslate nohighlight">\(j=1:n\)</span> output variables in the AOS/DOS, and  <span class="math notranslate nohighlight">\(k\)</span> discretized points.
+Lastly, nonlinear constraints <span class="math notranslate nohighlight">\(c\)</span>  might be imposed to the inverse map problem if
+needed: These can be a result of product specifications, equipment limitations and so on.</p>
+<p><strong>Pictorial Example</strong></p>
+<p>In the animation below, the optimization problem is posed for each discretized DOS
+point. Then, for each point, a corresponding feasible DIS solution is obtained.
+Due to the nature of the objective function (error/distance minimization) the DOS
+points will be shifted as close as possible to feasible operation:</p>
+<figure class="align-center" id="id3">
+<img alt="_images/nlp_01.gif" src="_images/nlp_01.gif" />
+<figcaption>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Inverse mapping using NLP-based approach.</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The main features of the NLP-based approach are</p>
+<ol class="arabic simple">
+<li><p>Feasible operability sets, since the output points are shifted to be as close as possible to
+feasible operation.</p></li>
+<li><p>Useful to search for new AIS unexplored regions, giving insights about process feasibility</p></li>
+<li><p>Imposing constraints to the inverse mapping operation.</p></li>
+</ol>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -402,13 +506,22 @@ document.write(`
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="examples_gallery/index_example_gallery.html"
+       href="operability_overview.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Examples Gallery</p>
+        <p class="prev-next-title">Process Operability Overview</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API documentation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   
@@ -419,6 +532,21 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multimodel-approach">The multimodel approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-nonlinear-programming-based-nlp-based-approach">The nonlinear programming-based (NLP-based) approach</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
