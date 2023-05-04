@@ -194,8 +194,8 @@ def dma_mr_mvs(u):
     MM_B = 78.00     #[g/mol] 
     MM_H = 2.00      #[g/mol]
     
-    L  = 30              # Tube length [cm]
-    dt = 1               # Tube diameter [cm]
+    L  = 17.00              # Tube length [cm]
+    dt = 0.56             # Tube diameter [cm]
     # Fixed Reactor Values 
     T = 1173.15               # Temperature[K]  =900[°C] (Isothermal)
     Q = 3600*0.01e-4          # [mol/(h.cm².atm1/4)]
