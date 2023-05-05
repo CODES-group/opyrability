@@ -14,7 +14,8 @@ kernelspec:
 # API documentation
 
 The functions described below are part of the PyPO and are
-classified based on their functionality.
+classified based on their functionality. Each function also contains a worked
+example based on the famous [Shower Problem](examples_gallery/operability_index_shower.ipynb){cite}`vinson00`
 
 ## Conventional mapping (AIS to AOS)
 
@@ -41,7 +42,7 @@ y_1=u_1+u_2 \\
 y_2=\frac{\left(60 u_1+120 u_2\right)}{\left(u_1+u_2\right)}
 \end{array}\right. \\
 \\
-y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}
+y_1 = 0\rightarrow y_2 = 90
 ```
 
 ```{code-cell}
@@ -108,7 +109,7 @@ y_1=u_1+u_2 \\
 y_2=\frac{\left(60 u_1+120 u_2\right)}{\left(u_1+u_2\right)}
 \end{array}\right. \\
 \\
-y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}
+y_1 = 0\rightarrow y_2 = 90
 ```
 
 ```{code-cell}
@@ -172,7 +173,7 @@ y_1=u_1+u_2 \\
 y_2=\frac{\left(60 u_1+120 u_2\right)}{\left(u_1+u_2\right)}
 \end{array}\right. \\
 \\
-y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}
+y_1 = 0\rightarrow y_2 = 90
 ```
 
 ```{code-cell}
@@ -222,7 +223,7 @@ y_1=u_1+u_2 \\
 y_2=\frac{\left(60 u_1+120 u_2\right)}{\left(u_1+u_2\right)}
 \end{array}\right. \\
 \\
-y_1 = 0\rightarrow y_2 = \frac{(60+120)}{2}
+y_1 = 0\rightarrow y_2 = 90
 ```
 
 ```{code-cell}
@@ -317,7 +318,8 @@ shower problem example.
     print('AOS Polyhedrons \n', AOS_poly)
 ```
 
-## API documentation list
+
+### API documentation list
 ```{eval-rst}
 .. autosummary::
    :toctree: _autosummary

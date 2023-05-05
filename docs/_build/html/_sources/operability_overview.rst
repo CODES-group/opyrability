@@ -7,7 +7,7 @@ What is process operability?
 The underlying problem: Design and control
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 This question must be properly assessed before
-diving into the nitty gritty details that involve
+diving into the nitty-gritty details that involve
 operability analysis.
 
 When designing a chemical process/plant, two main tasks
@@ -23,7 +23,7 @@ or energy:
 
 #.	**Control objectives assessment**: Which variables
 	should be controlled, yielding the maximum operability of this process?
-	That is, the process can "reach" its maximum capacity, given the 
+	That is, can the process "reach" its maximum capacity, given the 
 	ranges of the manipulated/input variables?
 
 Historically, tasks 1 and 2 were performed in a sequential approach:
@@ -178,7 +178,7 @@ If there is a desired region of operation in the output space, there has to be
 a desired region of operation in the input space that guarantees that the DOS 
 is achieved. This is denominated as the Desired Input Set (DIS): A set of inputs 
 required to reach the entire DOS,
-given a disturbance vector ::math:`d`.
+given a disturbance vector :math:`d`.
 
 .. math::
 	\operatorname{DIS}(d)=\left\{u \mid u=M^{-1}(y, d) ; y \in \mathrm{DOS}, d \text { is fixed }\right\}
@@ -199,8 +199,8 @@ operation in the input space:
 
 In order to obtain the DIS, it is necessary to perform an inverse mapping: That is,
 from a defined DOS, calculate the correspondent DIS in the input space. This is
-an inverse problem that may be challenging to tackle. As a visual representation, 
-let the inverse map of the process model :math:`(M)` be represented as :math:`M^{-1}`,
+an inverse problem :cite:`alves22` that may be challenging to tackle. As a visual representation, 
+let the inverse map of the process model :math:`M` be represented as :math:`M^{-1}`,
 then the evaluation of the DIS follows the schematic:
 
 .. figure:: ./images/inverse_map.jpg
@@ -297,7 +297,7 @@ or
 
 From the outputs and inputs perspectives respectively. In the definition above,
 :math:`\mu` indicates a measure of regions that varies depending on the
-dimensionality of the considered sets :cite:`alves2022`. If in our example we
+dimensionality of the considered sets :cite:`lima10,gazzaneo20`. If in our example we
 had a 1D system, :math:`\mu` would indicate length. Since we are in the :math:`\mathbb{R}^2`
 space, it corresponds to quantification of area. For 3D systems it would be the
 intersection between the volumes of the regions and for higher dimensional cases,

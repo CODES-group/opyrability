@@ -22,10 +22,11 @@ of a given process model. This section will go briefly over these methods but th
 reader is encouraged to go over the literature for a more thorough explanation of them.
 
 
-The multimodel approach :cite:`gazzaneo18,gazzaneo19,gazzaneo20`
----------------------------------------------------------------
+The multimodel approach 
+------------------------
 
-The multimodel approach employs the paradigm of a series of polytopes being able
+The multimodel approach :cite:`gazzaneo18,gazzaneo19,gazzaneo20` employs 
+the paradigm of a series of polytopes being able
 to represent any nonlinear space as a collection of such polytopes. This approach 
 simplifies the obtainment of operability sets since polytopes are by definition convex and,
 therefore, can be represented in half-space representation (:math:`\mathcal{H}-rep`) or in
@@ -66,10 +67,11 @@ the multimodel approach is a suitable process operability algorithm for
 #. **OI evaluation**, in which the multimodel approach allows to rank 
    competing designs and control structures.
 
-The nonlinear programming-based (NLP-based) approach :cite:`carrasco16,carrasco2017`
------------------------------------------------------------------------------------
+The nonlinear programming-based (NLP-based) approach 
+-----------------------------------------------------
 
-The NLP-based approach converts the inverse mapping task into a nonlinear program.
+The NLP-based approach :cite:`carrasco16,carrasco2017` converts the inverse mapping 
+task into a nonlinear program.
 The premise of this algorithm is that the DOS can be discretized into a series of
 coordinate points in the output space (AOS/DOS) and that an objective function of 
 error minimization nature (or sort of Euclidean distance if you prefer) is posed 
@@ -108,6 +110,10 @@ The main features of the NLP-based approach are
    feasible operation.
 #. Useful to search for new AIS unexplored regions, giving insights about process feasibility.
 #. Imposing constraints to the inverse mapping operation.
+
+Since a sucessfull solution of an NLP is always feasible, the DOS and DIS that achieve
+the error minimzation between feasible and desired operation are named slightly different as
+the Feasible Desired Output Set (DOS*) and Feasible Desired Input Set (DIS*).
 
 Lastly, the NLP-based approach can be extended to encompass the search for intensified
 and/or modular designs, as proposed in the literature :cite:`carrasco2017`.
