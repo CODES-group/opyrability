@@ -40,7 +40,8 @@ mentioning the importance of interconnecting design and control.
 With this in mind, the need of quantifying achievability of a general nonlinear
 process also naturally arises. The looming question: "Can one quantify achievability
 of process design and control objectives simultaneously?" was the underlying motivation
-for Prof. Christos Georgakis and his collaborators to formally define **process operability**
+for Prof. Christos Georgakis and his collaborators :cite:`georgakis00,vinson00,siva05,lima10` 
+to formally define **process operability**
 and define a metric called the **Operability Index**.
 
 .. IMPORTANT::
@@ -62,7 +63,7 @@ In order to formalize this in mathematical terms, one requirement of process
 operability analysis is to have a process model :math:`(M)` readily available. This model
 can be derived from first principles, by using a process simulator platform or
 machine learning (surrogate-based). It is up to you how to define this model,
-as long as it can be represented as follows: Following :cite:`alves2022`
+as long as it can be represented as follows: Following :cite:`georgakis00`
 let's define a process model :math:`M` with :math:`m` inputs, :math:`p` outputs, 
 :math:`q` disturbances and :math:`n` states as:
 
@@ -318,12 +319,13 @@ Important features of the OI
 
 The OI has interesting properties such as:
 
-#. **It corresponds to an inherently nonlinear measure.** This was, in fact, one of
+#. **It corresponds to an inherently nonlinear measure** :cite:`vinson00`. This was, 
+   in fact, one of
    the original motivations for formalizing process operability analysis: To have a 
    nonlinear measure of output controllability of any general chemical process, as
    a counterpart to measures of controllability that are classically available in 
    the literature for linear systems control theory.
-#. **The OI is independent of the type of controller used** :cite:`vinson2002`. This
+#. **The OI is independent of the type of controller used** :cite:`vinson02`. This
    might be one of the most important properties of the OI: we can analyze "everything 
    that a given system can do" without inferring anything about how the controllers 
    will be implemented (decentralized PIDs, MPC, etc.). This property is particularly 

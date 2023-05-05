@@ -5,6 +5,9 @@ encapsulates the main operability algorithms and analysis, allowing
 simultaneous design and control objectives assessment earlier in the
 conceptual phase.
 
+
+![](pypo_overview.PNG)
+
 PyPO is developed by the Control, Optimization and Design for Energy and Sustainability (CODES) Group at West Virginia University 
 under Dr. Fernando V. Lima's supervision.
 

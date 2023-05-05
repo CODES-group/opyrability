@@ -6,7 +6,7 @@ operability analysis.
 
 #. **Operability sets quantification:** Obtaining and quantifying the AIS, AOS, DOS,
    DIS, EDS, and so on. This yields insights into the achievability of a given process.
-   If the analysis is in low dimensions (:math:`dimension \leq 3`) the analysis can 
+   If the analysis is in low dimensions (:math:`\leq3`) the analysis can 
    even be visual. In higher dimensions, the OI still serves as a valuable metric to 
    assess the operability of a process. Irrespective of dimensionality, computational
    geometry algorithms and polytopic calculations are necessary.
@@ -22,8 +22,8 @@ of a given process model. This section will go briefly over these methods but th
 reader is encouraged to go over the literature for a more thorough explanation of them.
 
 
-The multimodel approach
------------------------
+The multimodel approach :cite:`gazzaneo18,gazzaneo19,gazzaneo20`
+---------------------------------------------------------------
 
 The multimodel approach employs the paradigm of a series of polytopes being able
 to represent any nonlinear space as a collection of such polytopes. This approach 
@@ -66,8 +66,8 @@ the multimodel approach is a suitable process operability algorithm for
 #. **OI evaluation**, in which the multimodel approach allows to rank 
    competing designs and control structures.
 
-The nonlinear programming-based (NLP-based) approach
-----------------------------------------------------
+The nonlinear programming-based (NLP-based) approach :cite:`carrasco16,carrasco2017`
+-----------------------------------------------------------------------------------
 
 The NLP-based approach converts the inverse mapping task into a nonlinear program.
 The premise of this algorithm is that the DOS can be discretized into a series of
@@ -110,4 +110,4 @@ The main features of the NLP-based approach are
 #. Imposing constraints to the inverse mapping operation.
 
 Lastly, the NLP-based approach can be extended to encompass the search for intensified
-and/or modular designs, as proposed in the literature (carrasco's citation).
+and/or modular designs, as proposed in the literature :cite:`carrasco2017`.

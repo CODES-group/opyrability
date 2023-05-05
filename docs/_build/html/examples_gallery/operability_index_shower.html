@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Evaluation of the OI for the Shower Problem &#8212; PyPO&#39;s documentation.</title>
   
@@ -44,7 +44,6 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -67,7 +66,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:language" content="None"/>
   </head>
   
   
@@ -362,16 +361,19 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="evaluation-of-the-oi-for-the-shower-problem">
-<h1>Evaluation of the OI for the Shower Problem<a class="headerlink" href="#evaluation-of-the-oi-for-the-shower-problem" title="Permalink to this heading">#</a></h1>
-<div class="cell tag_remove-output docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>Defining the equations for the shower problem</p>
+<h1>Evaluation of the OI for the Shower Problem<a class="headerlink" href="#evaluation-of-the-oi-for-the-shower-problem" title="Permalink to this headline">#</a></h1>
+<p>As an introductory example, the shower problem will be assessed. Since its initial
+formulation <span id="id1">[<a class="reference internal" href="../bibliography.html#id21" title="David R Vinson and Christos Georgakis. A new measure of process output controllability. Journal of Process Control, 10(2):185 - 194, 2000. URL: http://www.sciencedirect.com/science/article/pii/S0959152499000451, doi:https://doi.org/10.1016/S0959-1524(99)00045-1.">9</a>]</span> it has been used thoroughly <span id="id2">[<a class="reference internal" href="../bibliography.html#id32" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">3</a>, <a class="reference internal" href="../bibliography.html#id4" title="Vitor Gazzaneo, Juan C. Carrasco, David R. Vinson, and Fernando V. Lima. Process operability algorithms: past, present, and future developments. Industrial &amp; Engineering Chemistry Research, 59(6):2457-2470, 2020. URL: https://doi.org/10.1021/acs.iecr.9b05181, arXiv:https://doi.org/10.1021/acs.iecr.9b05181, doi:10.1021/acs.iecr.9b05181.">4</a>, <a class="reference internal" href="../bibliography.html#id6" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">5</a>, <a class="reference internal" href="../bibliography.html#id14" title="Christos Georgakis, Derya Uztürk, Sivakumar Subramanian, and David R. Vinson. On the operability of continuous processes. Control Engineering Practice, 11(8):859 - 869, 2003. Process Dynamics and Control. URL: http://www.sciencedirect.com/science/article/pii/S0967066102002174, doi:https://doi.org/10.1016/S0967-0661(02)00217-4.">6</a>, <a class="reference internal" href="../bibliography.html#id28" title="Fernando V. Lima and Christos Georgakis. Input-output operability of control systems: the steady-state case. Journal of Process Control, 20(6):769-776, 2010. URL: https://www.sciencedirect.com/science/article/pii/S095915241000079X, doi:https://doi.org/10.1016/j.jprocont.2010.04.008.">7</a>]</span> in process operability research as a benchmark
+to either illustrate operability concepts or test new algorithms and approaches.</p>
+<p>The shower problem is easy to grasp but has an acceptable level of nonlinearity to be used as an illustrative example: The AIS/DIS variables corresponds to hot and cold flow rates from your shower knobs. The AOS/DOS
+variables are the total flow rate of your shower and its temperature. It is desired, in general:</p>
+<ul class="simple">
+<li><p>A sufficient amount of flow rate for the shower</p></li>
+<li><p>A comfortable temperature (neither too cold nor too hot).</p></li>
+</ul>
+<p>A simple schematic is found below:</p>
+<p><img alt="" src="../_images/shower_oi_schematic.gif" /></p>
+<p>In the most simple “variation” of the shower problem, the model (algebraic) equations that define the process model <span class="math notranslate nohighlight">\(M\)</span> <span id="id3">[<a class="reference internal" href="../bibliography.html#id32" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">3</a>]</span> are:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}
 \left\{\begin{array}{c}
@@ -380,6 +382,16 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 \text { if } y_1=0 \rightarrow y_2=90
 \end{array}\right.
 \end{split}\]</div>
+<p>With the essentials covered, let’s start import PyPO’s modules:</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And defining the equations for the shower problem as a function:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">shower_problem_2x2</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
@@ -395,7 +407,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 </div>
 </div>
 </div>
-<p>Defining The AIS and DOS Bounds</p>
+<p>Defining the AIS and DOS Bounds:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DOS_bounds</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> 
@@ -411,7 +423,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 </div>
 </div>
 </div>
-<p>Obtaining the AOS from the AIS</p>
+<p>Then, obtaining the AOS from the AIS using the multimodel approach:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">AOS_region</span>  <span class="o">=</span>  <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
@@ -422,6 +434,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 <img alt="../_images/3aedf762962f37c0da9f13d370f971c5dffe8235c5c98b45cf4a26c478a61fa0.png" src="../_images/3aedf762962f37c0da9f13d370f971c5dffe8235c5c98b45cf4a26c478a61fa0.png" />
 </div>
 </div>
+<p>Lastly, let’s evaluate how operable the shower problem is, using the OI as a metric:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OI</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_region</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">)</span>
@@ -432,6 +445,8 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 <img alt="../_images/b6e6df7fc5c0c0dab06b0074c22b4b77e5f1192be8dfb23dd2d99ce92e58559b.png" src="../_images/b6e6df7fc5c0c0dab06b0074c22b4b77e5f1192be8dfb23dd2d99ce92e58559b.png" />
 </div>
 </div>
+<p>The OI of <span class="math notranslate nohighlight">\(60.24\%\)</span> indicates that with the current limits of the AIS variables (hot and cold flow rates),
+the process is not fully operable!</p>
 </section>
 
     <script type="text/x-thebe-config">
