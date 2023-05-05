@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Operability Analysis of a Membrane Reactor for Methane Aromatizaion and Hydrogen Production &#8212; PyPO&#39;s documentation.</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -62,14 +63,14 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script type="application/vnd.jupyter.widget-state+json">{"state": {"bd31dcab89144b20adbaeae4c379930d": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "0afaf97f6a9749ac8189c26708f845c9": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "e345b3f77b634f13b45d28bbeb975838": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_bd31dcab89144b20adbaeae4c379930d", "max": 100.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_0afaf97f6a9749ac8189c26708f845c9", "tabbable": null, "tooltip": null, "value": 100.0}}, "d308e387a28e4b1aba314b01d84e9e55": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e0a00541cd3b4e7ea409b847dbb7a172": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "4f586991ee234b1c9c6f64e3fafd0976": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_d308e387a28e4b1aba314b01d84e9e55", "placeholder": "\u200b", "style": "IPY_MODEL_e0a00541cd3b4e7ea409b847dbb7a172", "tabbable": null, "tooltip": null, "value": "100%"}}, "71ede2b93ecd4435921e20a1ea1e0c24": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "549b536bda7441ceb505ad2cecf34570": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "59e27232b137447189c3f12eac353e3d": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_71ede2b93ecd4435921e20a1ea1e0c24", "placeholder": "\u200b", "style": "IPY_MODEL_549b536bda7441ceb505ad2cecf34570", "tabbable": null, "tooltip": null, "value": " 100/100 [04:44&lt;00:00,  1.14it/s]"}}, "34b8056e06b849ac97c4e2d21ae1fb5c": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "45a6fec6da8a4a8888fb80b57cddc706": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_4f586991ee234b1c9c6f64e3fafd0976", "IPY_MODEL_e345b3f77b634f13b45d28bbeb975838", "IPY_MODEL_59e27232b137447189c3f12eac353e3d"], "layout": "IPY_MODEL_34b8056e06b849ac97c4e2d21ae1fb5c", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}</script>
+    <script type="application/vnd.jupyter.widget-state+json">{"state": {"3ce64380d0a24f1490e8224ff3d35c8b": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7f897c5eaed54afa8c52bfa170e18482": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e4573ba316bc4195b43b437159023dac": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "722fbeae8d044ea9b5dc6f7021b38403": {"model_name": "ProgressStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "b0e33fae65d54b8ca50b7baf0cd97c9f": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_7f897c5eaed54afa8c52bfa170e18482", "max": 100.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_722fbeae8d044ea9b5dc6f7021b38403", "tabbable": null, "tooltip": null, "value": 0.0}}, "f5634d1f57124f75bf4ad00651b84310": {"model_name": "FloatProgressModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_7f897c5eaed54afa8c52bfa170e18482", "max": 100.0, "min": 0.0, "orientation": "horizontal", "style": "IPY_MODEL_722fbeae8d044ea9b5dc6f7021b38403", "tabbable": null, "tooltip": null, "value": 100.0}}, "7bbcf19b196c493fbb34a965642bd6ff": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "cc1613d4ae264ac29f864f0a695f7ffa": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "0f9a3954912d4db2bcf2b982dac7573b": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "ccee3bdabe44415296a3019345018b96": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "a8a67d85f9204d1bac405c3300703174": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_cc1613d4ae264ac29f864f0a695f7ffa", "placeholder": "\u200b", "style": "IPY_MODEL_ccee3bdabe44415296a3019345018b96", "tabbable": null, "tooltip": null, "value": ""}}, "b9c6b423b51a4bf685c20b194ead1508": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_cc1613d4ae264ac29f864f0a695f7ffa", "placeholder": "\u200b", "style": "IPY_MODEL_ccee3bdabe44415296a3019345018b96", "tabbable": null, "tooltip": null, "value": "100%"}}, "53a504d72e004b6eae027da60466acbd": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d28e438212fd46db8b550b6d841e6d1f": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "1b9727531acd4364a1cd2eb8f82b1bd6": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "a452b57e2384458d9a4bf306c9e9e13e": {"model_name": "HTMLStyleModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "ac6770cf942b4e87bbe747b7befe9616": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_d28e438212fd46db8b550b6d841e6d1f", "placeholder": "\u200b", "style": "IPY_MODEL_a452b57e2384458d9a4bf306c9e9e13e", "tabbable": null, "tooltip": null, "value": ""}}, "4a71e885e3e34f1083f0682a76b5f328": {"model_name": "HTMLModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_d28e438212fd46db8b550b6d841e6d1f", "placeholder": "\u200b", "style": "IPY_MODEL_a452b57e2384458d9a4bf306c9e9e13e", "tabbable": null, "tooltip": null, "value": " 100/100 [02:33&lt;00:00,  1.95it/s]"}}, "cb22976889004215b2cc6f1c2b1fb3c0": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "8150b21a2874488282cc807b4cde1de2": {"model_name": "LayoutModel", "model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "abb5d379a8054fd5ab111dddf97c1dcb": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_b9c6b423b51a4bf685c20b194ead1508", "IPY_MODEL_f5634d1f57124f75bf4ad00651b84310", "IPY_MODEL_4a71e885e3e34f1083f0682a76b5f328"], "layout": "IPY_MODEL_8150b21a2874488282cc807b4cde1de2", "tabbable": null, "tooltip": null}}, "9ce479f6ef1e4603a514bf0e6a35abc0": {"model_name": "HBoxModel", "model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_b9c6b423b51a4bf685c20b194ead1508", "IPY_MODEL_f5634d1f57124f75bf4ad00651b84310", "IPY_MODEL_4a71e885e3e34f1083f0682a76b5f328"], "layout": "IPY_MODEL_8150b21a2874488282cc807b4cde1de2", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}</script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script crossorigin="anonymous" data-jupyter-widgets-cdn="https://cdn.jsdelivr.net/npm/" src="https://unpkg.com/@jupyter-widgets/html-manager@^0.20.0/dist/embed-amd.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/membrane_reactor';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -375,7 +376,7 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="operability-analysis-of-a-membrane-reactor-for-methane-aromatizaion-and-hydrogen-production">
-<h1>Operability Analysis of a Membrane Reactor for Methane Aromatizaion and Hydrogen Production<a class="headerlink" href="#operability-analysis-of-a-membrane-reactor-for-methane-aromatizaion-and-hydrogen-production" title="Permalink to this headline">#</a></h1>
+<h1>Operability Analysis of a Membrane Reactor for Methane Aromatizaion and Hydrogen Production<a class="headerlink" href="#operability-analysis-of-a-membrane-reactor-for-methane-aromatizaion-and-hydrogen-production" title="Permalink to this heading">#</a></h1>
 <p>This case study consists of a membrane reactor for direct methane aromatization (DMA-MR)
 that allows hydrogen and benzene production from natural gas. This single-unit operation is capable of performing reaction and separation simultaneously, allowing for achieving
 higher conversion of hydrogen due to Le’Chatelier’s principle.</p>
@@ -388,6 +389,32 @@ the challenging modeling due to its inherent nonlinearity.</p>
 <li><p>Support for automatic differentiation</p></li>
 <li><p>Evaluation of operability sets for design and control objectives.</p></li>
 </ul>
+<p>The schematic below [ref alves2022] depicts the membrane reactor in a nutshell:</p>
+<p><img alt="" src="../_images/dma-schematic.PNG" /></p>
+<p>Which has the following component mole balances developed [Carrasco ref 2016]:</p>
+<p>For the tube side in which the reaction takes place:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} 
+\begin{gathered}
+    \frac{d F_{t, C H_4}}{d z}= \eta \, r_1 A_t-\frac{Q}{\alpha_{H_2 / C H_4}}\left(P_{t, C H_4}^{1 / 4}-P_{s, C H_4}^{1 / 4}\right) \pi D_t \\
+    \frac{d F_{t, C_2 H_4}}{d z}=-\eta\,\frac{r_1}{2} A_t+\eta \, r_2 A_t-\frac{Q}{\alpha_{H_2 / C_2 H_4}}\left(P_{t, C_2 H_4}^{1 / 4}-P_{s, C_2 H_4}^{1 / 4}\right) \pi D_t \\
+    \frac{d F_{t, H_2}}{d z}=-\eta \, r_1 A_t- \eta \, r_2 A_t-Q\left(P_{t, H_2}^{1 / 4}-P_{s, H_2}^{1 / 4}\right) \pi D_t \\
+    \frac{d F_{t, C_6 H_6}}{d z}=-\eta \, \frac{r_1}{3} A_t-\frac{Q}{\alpha_{H_2 / C_6 H_6}}\left(P_{t, C_6 H_6}^{1 / 4}-P_{s, C_6 H_6}^{1 / 4}\right) \pi D_t
+    \end{gathered}
+\end{split}\]</div>
+<p>And for the shell side, in which mainly <span class="math notranslate nohighlight">\(H_{2}\)</span> permeates to:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{gathered}
+    \frac{d F_{s, C H_4}}{d z}=\frac{Q}{\alpha_{H_2 / C H_4}}\left(P_{t, C H_4}^{1 / 4}-P_{s, C H_4}^{1 / 4}\right) \pi D_t \\
+    \frac{d F_{s, C_2 H_4}}{d z}=\frac{Q}{\alpha_{H_2 / C_2 H_4}}\left(P_{t, C_2 H_4}^{1 / 4}-P_{s, C_2 H_4}^{1 / 4}\right) \pi D_t \\
+    \frac{d F_{s, H_2}}{d z}=Q\left(P_{t, H_2}^{1 / 4}-P_{s, H_2}^{1 / 4}\right) \pi D_t \\
+    \frac{d F_{s, C_6 H_6}}{d z}=\frac{Q}{\alpha_{H_2 / C_6 H_6}}\left(P_{t, C_6 H_6}^{1 / 4}-P_{s, C_6 H_6}^{1 / 4}\right) \pi D_t
+    \end{gathered}
+\end{split}\]</div>
+<p>In this case study, an inverse mapping with a plug-flow constraint will be evaluated to obtain a modular design region. Then,
+for a given modular design, the OI will be evaluated for a given AIS composed by manipulated variables.</p>
+<p>With the stage set, let’s start by importing some JAX’s modules since we will be building an automatic differentiation-based process model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -397,7 +424,7 @@ the challenging modeling due to its inherent nonlinearity.</p>
 </div>
 </div>
 </div>
-<p>Defining the Kinetic and general parameters for the DMA-MR model:</p>
+<p>Then, defining the kinetic and general parameters for the DMA-MR model:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Kinetic and general parameters</span>
@@ -410,10 +437,10 @@ the challenging modeling due to its inherent nonlinearity.</p>
 
     
 <span class="c1"># Molecular weights</span>
-<span class="n">MM_B</span> <span class="o">=</span> <span class="mf">78.00</span>     <span class="c1">#[g/mol] </span>
+<span class="n">MM_B</span> <span class="o">=</span> <span class="mf">78.00</span>                <span class="c1"># [g/mol] </span>
 
 <span class="c1"># Fixed Reactor Values</span>
-<span class="n">T</span> <span class="o">=</span> <span class="mf">1173.15</span>                 <span class="c1"># Temperature[K]  =900[°C] (Isothermal)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">1173.15</span>                 <span class="c1"># [K]  =900[°C] (Isothermal)</span>
 <span class="n">Q</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mf">0.01e-4</span>          <span class="c1"># [mol/(h.cm².atm1/4)]</span>
 <span class="n">selec</span> <span class="o">=</span> <span class="mi">1500</span>
 
@@ -426,22 +453,22 @@ the challenging modeling due to its inherent nonlinearity.</p>
 <span class="n">Ps</span> <span class="o">=</span> <span class="mf">101325.0</span>               <span class="c1"># Pressure [Pa](1atm)</span>
 <span class="n">ds</span> <span class="o">=</span> <span class="mi">3</span>                      <span class="c1"># Diameter[cm]</span>
 <span class="n">v_He</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>       <span class="c1"># Vol. flow rate[cm³/h]</span>
-<span class="n">F_He</span> <span class="o">=</span> <span class="n">Ps</span> <span class="o">*</span> <span class="n">v_He</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>  <span class="c1"># Sweep gas molar flow rate [mol/h]</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>Defining the DMA-MR Model equations (mol balances), compatible with Google’s JAX:</p>
+<p>Defining the DMA-MR Model equations (mole balances), compatible with Google’s JAX:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dma_mr_model</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dma_mr_model</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span><span class="n">v_He</span><span class="p">,</span><span class="n">v0</span><span class="p">,</span> <span class="n">F_He</span><span class="p">,</span> <span class="n">Ft0</span><span class="p">):</span>
 
-    <span class="n">At</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Cross sectional area[cm³]</span>
+    <span class="n">At</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Cross sectional area [cm2].</span>
     
     <span class="c1"># Avoid negative flows that can happen in the first integration steps.</span>
     <span class="c1"># Consequently this avoids that any molar balance (^ 1/4 terms) generates</span>
     <span class="c1"># complex numbers.</span>
     <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+    
     
 
     
@@ -450,9 +477,9 @@ the challenging modeling due to its inherent nonlinearity.</p>
     <span class="n">Fs</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">F_He</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">v0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft</span> <span class="o">/</span> <span class="n">Ft0</span><span class="p">)</span>
 
-    <span class="c1"># Concentrations from molar flow rates [mol/cm3]</span>
+    <span class="c1"># Concentrations from molar flow rates [mol/cm3].</span>
     <span class="n">C</span> <span class="o">=</span> <span class="n">F</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="n">v</span>
-    <span class="c1"># Partial pressures - Tube &amp; Shell [mol/cm3]</span>
+    <span class="c1"># Partial pressures - Tube &amp; Shell [mol/cm3].</span>
 
     <span class="n">P0t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
     <span class="n">P1t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
@@ -466,15 +493,18 @@ the challenging modeling due to its inherent nonlinearity.</p>
     
     
 
-    
+    <span class="c1"># First reaction rate.</span>
     <span class="n">r0</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k1_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> 
                                   <span class="p">(</span><span class="n">k1</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="p">)))</span>
     
 
-    <span class="c1"># This replicates an if statement whenever the concentrations are near zero</span>
+    <span class="c1"># This replicates an if statement to avoid division by zero, </span>
+    <span class="c1"># whenever the concentrations are near zero. JAX&#39;s syntax compatible.</span>
     <span class="n">C0_aux</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">r0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">C0_aux</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r0</span><span class="p">)</span>
     
+
+    <span class="c1"># Second reaction rate.</span>
     <span class="n">r1</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k2_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> 
                                   <span class="p">(</span><span class="n">k2</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">3</span> <span class="p">)))</span>
     
@@ -506,7 +536,7 @@ the challenging modeling due to its inherent nonlinearity.</p>
 </div>
 </div>
 <section id="analyzing-a-modular-design-region-using-operability-inverse-mapping">
-<h2>Analyzing a modular design region using operability inverse mapping<a class="headerlink" href="#analyzing-a-modular-design-region-using-operability-inverse-mapping" title="Permalink to this headline">#</a></h2>
+<h2>Analyzing a modular design region using operability inverse mapping<a class="headerlink" href="#analyzing-a-modular-design-region-using-operability-inverse-mapping" title="Permalink to this heading">#</a></h2>
 <p>Defining the outputs based on the integration of the DMA-MR model equations.</p>
 <p>AIS/DIS Variables:</p>
 <ul class="simple">
@@ -518,20 +548,24 @@ the challenging modeling due to its inherent nonlinearity.</p>
 <li><p>Methane conversion [%]</p></li>
 <li><p>Benzene production [mg/h]</p></li>
 </ul>
+<p>Defining a model that takes the ODE system described previously and calculates the AOS variables:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
 
-    <span class="n">L</span> <span class="o">=</span>  <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">dt</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="c1"># Initial conditions</span>
+    <span class="n">L</span> <span class="o">=</span>  <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                   <span class="c1"># Tube length   [cm2]</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>                   <span class="c1"># Tube diameter [cm2]</span>
+
+    <span class="n">F_He</span> <span class="o">=</span> <span class="n">Ps</span> <span class="o">*</span> <span class="n">v_He</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>  <span class="c1"># Sweep gas molar flow rate [mol/h].</span>
+
+    <span class="c1"># Initial conditions.</span>
     <span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Ft0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">)))</span>
     <span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-10</span>
 
-    <span class="c1"># Integration of mol balances using Jax&#39;s Dormand Prince</span>
+    <span class="c1"># Integration of mol balances using Jax&#39;s Dormand Prince.</span>
     <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
-    <span class="n">F</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">dma_mr_model</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">dma_mr_model</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span><span class="n">v_He</span><span class="p">,</span><span class="n">v0</span><span class="p">,</span> <span class="n">F_He</span><span class="p">,</span> <span class="n">Ft0</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span>
     
     <span class="c1"># Calculating outputs (AOS/DOS) from states.</span>
     <span class="n">F_C6H6</span> <span class="o">=</span> <span class="p">((</span><span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">MM_B</span><span class="p">)</span>
@@ -542,7 +576,7 @@ the challenging modeling due to its inherent nonlinearity.</p>
 </div>
 </div>
 </div>
-<p>Importing pypo’s inverse mapping (NLP-based)</p>
+<p>Importing PyPO’s inverse mapping (NLP-based) module:</p>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">nlp_based_approach</span>
@@ -550,11 +584,16 @@ the challenging modeling due to its inherent nonlinearity.</p>
 </div>
 </div>
 </div>
-<p>Definition of operability sets and their bounds:</p>
+<p>Defining the following:</p>
+<ul class="simple">
+<li><p>DOS Bounds.</p></li>
+<li><p>DOS discretization (resolution).</p></li>
+<li><p>lower and upper bound for NLP-based approach.</p></li>
+<li><p>Initial estimate for NLP-based approach.</p></li>
+</ul>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Lower and upper bounds for DOS definition</span>
-<span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">15</span><span class="p">,</span><span class="mi">25</span><span class="p">],</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">15</span><span class="p">,</span><span class="mi">25</span><span class="p">],</span>
                        <span class="p">[</span><span class="mi">35</span><span class="p">,</span><span class="mi">45</span><span class="p">]])</span>
 
 <span class="c1"># Discretization Grid - 10x10 grid for DOS.</span>
@@ -571,11 +610,11 @@ the challenging modeling due to its inherent nonlinearity.</p>
 </div>
 </div>
 <p>Defining a nonlinear constraint <span class="math notranslate nohighlight">\(L/D \geq 30 \)</span> to the inverse mapping to guarantee
-plug-flow operation</p>
+plug-flow operation in the membrane reactor. This will generate an inverse map subject
+to plug flow operation:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plug-flow constraint definition: Length/Diameter &gt;= 30.</span>
-<span class="k">def</span> <span class="nf">plug_flow</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plug_flow</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">30.0</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
 <span class="n">con</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ineq&#39;</span><span class="p">,</span> <span class="s1">&#39;fun&#39;</span><span class="p">:</span> <span class="n">plug_flow</span><span class="p">}</span>
@@ -583,12 +622,10 @@ plug-flow operation</p>
 </div>
 </div>
 </div>
-<p>Obtaining the feasible desired input/output sets <span class="math notranslate nohighlight">\((DIS^*/DOS^*)\)</span> at each discretized point</p>
-<div class="cell tag_remove-stdout docutils container">
+<p>Obtaining the feasible desired input/output sets <span class="math notranslate nohighlight">\((DIS^*/DOS^*)\)</span> at each discretized point:</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Model assignment: Design Problem - Inverse mapping</span>
-<span class="c1"># Obtain inverse mapping.                                                 </span>
-<span class="n">fDIS</span><span class="p">,</span> <span class="n">fDOS</span><span class="p">,</span> <span class="n">convergence</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fDIS</span><span class="p">,</span> <span class="n">fDOS</span><span class="p">,</span> <span class="n">convergence</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> 
                                              <span class="n">DOS_resolution</span><span class="p">,</span>
                                              <span class="n">dma_mr_design</span><span class="p">,</span> 
                                              <span class="n">u0</span><span class="p">,</span>
@@ -603,22 +640,104 @@ plug-flow operation</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "45a6fec6da8a4a8888fb80b57cddc706"}</script><img alt="../_images/65eab3eb4dc96c611c61df070cca58ce2e97dab5c25ea95c4fdb90a3ea3e6e1b.png" src="../_images/65eab3eb4dc96c611c61df070cca58ce2e97dab5c25ea95c4fdb90a3ea3e6e1b.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> You have selected automatic differentiation as a method for obtaining higher-order data (Jacobians/Hessian). Make sure your process model is JAX-compatible implementation-wise.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"version_major": 2, "version_minor": 0, "model_id": "9ce479f6ef1e4603a514bf0e6a35abc0"}</script><img alt="../_images/374e62f871e751255f3d1aba998cff16e042dd314bacbddc19e887de18f69496.png" src="../_images/374e62f871e751255f3d1aba998cff16e042dd314bacbddc19e887de18f69496.png" />
 </div>
 </div>
-<p>The inverse mapping shows that there is a design region of tube length around  0.5cm and a tube diameter of 17cm that can still attain the requirement of the DOS.</p>
+<p>The inverse mapping shows that there is a modular design region of tube length around  <span class="math notranslate nohighlight">\(0.55cm\)</span> and a tube diameter of <span class="math notranslate nohighlight">\(17cm\)</span> that can still attain the requirement of the DOS.</p>
 </section>
 <section id="analyzing-the-operability-index-oi-for-operational-changes-manipulated-variables">
-<h2>Analyzing the Operability Index (OI) for operational changes (manipulated variables)<a class="headerlink" href="#analyzing-the-operability-index-oi-for-operational-changes-manipulated-variables" title="Permalink to this headline">#</a></h2>
+<h2>Analyzing the Operability Index (OI) for operational changes (manipulated variables)<a class="headerlink" href="#analyzing-the-operability-index-oi-for-operational-changes-manipulated-variables" title="Permalink to this heading">#</a></h2>
 <p>With a fixed modular design of</p>
 <ul class="simple">
 <li><p>Tube length = 17 cm</p></li>
-<li><p>Tube diameter = 0.5 cm</p></li>
+<li><p>Tube diameter = 0.55 cm</p></li>
 </ul>
-<p>The manipulated variables of the DMA-MR (namely, shell and tube flow rates) are
+<p>The manipulated variables of the DMA-MR (namely, shell and tube volumetric flow rates) are
 to be analyzed, being the AIS variables for this analysis. As before, the same
 AOS/DOS variables will be kept to observe if the system is operable under the fixed
-modular design and vary the manipulated variable throughout their available range.</p>
+modular design while varying the manipulated variables throughout their available ranges.</p>
+<p>The manipulated variables bounds are both between <span class="math notranslate nohighlight">\(450\)</span> and <span class="math notranslate nohighlight">\(1500\)</span> <span class="math notranslate nohighlight">\([cm³/h]\)</span>.</p>
+<p>Let’s import PyPO’s multimodel approach and OI evaluation modules:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>And define a function to calculate the AIS-AOS for the manipulated variables:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">dma_mr_mvs</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+
+    <span class="n">v0</span>  <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                  <span class="c1"># Vol. flow rate [cm³ h-¹]</span>
+    <span class="n">v_He</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>                 <span class="c1"># Vol. flow rate[cm³/h]</span>
+
+    <span class="c1"># Fixed design variables:</span>
+    <span class="n">L</span> <span class="o">=</span>  <span class="mf">17.00</span>                  <span class="c1"># Tube length   [cm]</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="mf">0.55</span>                   <span class="c1"># Tube diameter [cm]</span>
+
+    <span class="n">Ft0</span> <span class="o">=</span> <span class="n">Pt</span><span class="o">*</span><span class="n">v0</span><span class="o">/</span><span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>           <span class="c1"># Initial molar flow rate [mol/h] - Pure CH4</span>
+    
+    <span class="n">F_He</span> <span class="o">=</span> <span class="n">Ps</span> <span class="o">*</span> <span class="n">v_He</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>  <span class="c1"># Sweep gas molar flow rate [mol/h]</span>
+    
+
+    <span class="c1"># Initial conditions and integrator tolerance.</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Ft0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">)))</span>
+    <span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-10</span>
+
+    <span class="c1"># Integration of mol balances using Jax&#39;s Dormand Prince.</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">dma_mr_model</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">v_He</span><span class="p">,</span><span class="n">v0</span><span class="p">,</span> <span class="n">F_He</span><span class="p">,</span> <span class="n">Ft0</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span>
+    
+    <span class="c1"># Calculating outputs (AOS/DOS) from states.</span>
+    <span class="n">F_C6H6</span> <span class="o">=</span> <span class="p">((</span><span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">MM_B</span><span class="p">)</span>
+    <span class="n">X_CH4</span>  <span class="o">=</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft0</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="n">Ft0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">F_C6H6</span><span class="p">,</span> <span class="n">X_CH4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Obtaining the AOS region using the multimodel representation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">AIS_bounds</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">450</span><span class="p">,</span> <span class="mi">1500</span><span class="p">],</span>
+                        <span class="p">[</span><span class="mi">450</span><span class="p">,</span> <span class="mi">1500</span><span class="p">]])</span>
+
+<span class="n">AIS_resolution</span> <span class="o">=</span>  <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="n">AOS_region</span>  <span class="o">=</span>  <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">,</span> 
+                              <span class="n">dma_mr_mvs</span><span class="p">,</span> <span class="n">plotting</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Either plotting is not possible (dimension &gt; 3) or you have chosen plotting=False. The operability set is still returned as a polytopic region of general dimension.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Evaluation of the OI. The same DOS bounds are used from the inverse mapping task, since our
+objective is still to analyze this membrane reactor to operate between <span class="math notranslate nohighlight">\([15 - 25] mg/h\)</span> for the <span class="math notranslate nohighlight">\(C_{6}H_{6}\)</span> production,
+and <span class="math notranslate nohighlight">\([35-45] \%\)</span> for <span class="math notranslate nohighlight">\(CH_{4}\)</span> conversion:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OI</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_region</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/96732a1dc6fc7420e13d30fc8f2498c143737fe97ec5b5f41674671961ed70d5.png" src="../_images/96732a1dc6fc7420e13d30fc8f2498c143737fe97ec5b5f41674671961ed70d5.png" />
+</div>
+</div>
+<p>We can see that <span class="math notranslate nohighlight">\(28.17\%\)</span> of this DMA-MR modular design is operable when changing the manipulated variables available.
+This result is irrespective of the controller type and assesses, using a steady state process model, the maximum achievability
+of this membrane reactor. In short, the inverse mapping procedure yielded a modular design region given a plug-flow constraint and
+a DOS, and an additional operability analysis for this modular design showed the maximum that it can possible do, under nominal disturbances.</p>
 </section>
 </section>
 

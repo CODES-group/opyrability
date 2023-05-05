@@ -106,5 +106,8 @@ The main features of the NLP-based approach are
 
 #. Feasible operability sets, since the output points are shifted to be as close as possible to 
    feasible operation.
-#. Useful to search for new AIS unexplored regions, giving insights about process feasibility
+#. Useful to search for new AIS unexplored regions, giving insights about process feasibility.
 #. Imposing constraints to the inverse mapping operation.
+
+Lastly, the NLP-based approach can be extended to encompass the search for intensified
+and/or modular designs, as proposed in the literature (carrasco's citation).
