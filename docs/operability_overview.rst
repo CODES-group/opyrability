@@ -299,7 +299,7 @@ From the outputs and inputs perspectives respectively. In the definition above,
 :math:`\mu` indicates a measure of regions that varies depending on the
 dimensionality of the considered sets :cite:`lima10,gazzaneo20`. If in our example we
 had a 1D system, :math:`\mu` would indicate length. Since we are in the :math:`\mathbb{R}^2`
-space, it corresponds to quantification of area. For 3D systems it would be the
+space, it corresponds to ara quantification. For 3D systems it would be the
 intersection between the volumes of the regions and for higher dimensional cases,
 hypervolumes. An additional important note is that due to the possible nonlinearity
 of the underlying process model, the OI value from the inputs' perspective yields

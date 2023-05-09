@@ -111,8 +111,8 @@ The main features of the NLP-based approach are
 #. Useful to search for new AIS unexplored regions, giving insights about process feasibility.
 #. Imposing constraints to the inverse mapping operation.
 
-Since a sucessfull solution of an NLP is always feasible, the DOS and DIS that achieve
-the error minimzation between feasible and desired operation are named slightly different as
+Since a successful solution of an NLP is always feasible, the DOS and DIS that achieve
+the error minimization between feasible and desired operation are named slightly different as
 the Feasible Desired Output Set (DOS*) and Feasible Desired Input Set (DIS*).
 
 Lastly, the NLP-based approach can be extended to encompass the search for intensified
