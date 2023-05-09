@@ -11,7 +11,7 @@ diving into the nitty-gritty details that involve
 operability analysis.
 
 When designing a chemical process/plant, two main tasks
-naturally arise, when bearing in mind the processing of 
+naturally arise, when considering the processing of 
 raw materials into value-added products such as chemicals
 or energy:
 
@@ -77,13 +77,13 @@ let's define a process model :math:`M` with :math:`m` inputs, :math:`p` outputs,
 	\end{array}\right.
 
 In which :math:`u \in \mathbb{R}^m` are the inputs, :math:`y \in \mathbb{R}^p` are the outputs, 
-:math:`d \in \mathbb{R}^q` are the disturbances and are the state variables. 
+:math:`d \in \mathbb{R}^q` are the disturbances and :math:`x \in \mathbb{R}^n` are the state variables. 
 Also, :math:`f` and :math:`g` are nonlinear maps and :math:`h_1` and :math:`h_2` correspond 
 to equality and inequality process 
 constraints, respectively. 
 
 With the appropriate definition of the process model :math:`(M)`, we can start defining
-the **operability sets**
+the **operability sets.**
 
 
 Operability sets
@@ -97,7 +97,7 @@ The Available Input Set (AIS)
 
 The available input set (AIS) is defined as the region that encapsulates the
 lower and upper bounds for the input variables available in the system. These
-can be either design of manipulated variables. In short, they are the manipulated inputs 
+can be either design or manipulated variables. In short, they are the manipulated inputs 
 (:math:`u  \in \mathbb{R}^m`)
 based on the design of the process that is limited
 by the process constraints 
@@ -115,7 +115,7 @@ Visually:
    Available Input Set (AIS)
 
 
-The Achievable Output Set (AIS)
+The Achievable Output Set (AOS)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The Achievable Output Set (AOS) is defined as being the range of the outputs (:math:`y \in \mathbb{R}^n`)
@@ -136,7 +136,7 @@ Visually:
    Achievable Output Set (AOS)
 
 .. IMPORTANT::
-	Note that the pictorial representation of the AOS is intentional of a non-convex
+	Note that the pictorial representation of the AOS drawn intentionally as a non-convex
 	region. This is a result of the process model :math:`(M)`
 	being potentially nonlinear: A convex
 	AIS may lead to a nonlinear and vice-versa!
@@ -301,7 +301,11 @@ dimensionality of the considered sets :cite:`lima10,gazzaneo20`. If in our examp
 had a 1D system, :math:`\mu` would indicate length. Since we are in the :math:`\mathbb{R}^2`
 space, it corresponds to quantification of area. For 3D systems it would be the
 intersection between the volumes of the regions and for higher dimensional cases,
-hypervolumes.
+hypervolumes. An additional important note is that due to the possible nonlinearity
+of the underlying process model, the OI value from the inputs' perspective yields
+a different value from the outputs' perspective and vice-versa. Using the OI from
+either perspective is a matter of convenience and the objective of the operability analysis:
+Analyzing the operability of output space variables or input space ones.
 
 Note that in both cases, we normalized the OI with respect to the desired region
 of operation. This makes the OI range between 0 or 0% when a process is not operable at all
