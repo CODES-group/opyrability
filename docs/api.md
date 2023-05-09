@@ -11,7 +11,7 @@ kernelspec:
 ---
 
 
-# API documentation
+# API Documentation
 
 The functions described below are part of the PyPO and are
 classified based on their functionality. Each function also contains a worked
@@ -125,9 +125,9 @@ y_1 = 0\rightarrow y_2 = 90
 ```
 
 Obtaining the DIS*, DOS* and the convergence for each inverse map run. 
-Additionally, using IPOPT as NLP solver, enabling plotting of the process operability
+Additionally, using IPOPT as the NLP solver, enabling plotting of the process operability
 sets, cold-starting the
-NLP and using finite-differences:
+NLP and using finite differences:
 
 ```{code-cell}
     

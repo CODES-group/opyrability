@@ -19,7 +19,7 @@ For quantification of the operability sets and thus, the OI itself, the multimod
 has been developed. For inverse mapping, the nonlinear programming-based (NLP-based) approach
 and the implicit mapping approach have been successfully employed to evaluate the inverse map
 of a given process model. This section will go briefly over these methods but the
-reader is encouraged to go over the [literature](bibliography.rst) for a more thorough explanation of them.
+reader is encouraged to go over the :ref:`bibliography` for a more thorough explanation of them.
 
 
 The multimodel approach 
