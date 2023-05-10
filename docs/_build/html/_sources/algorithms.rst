@@ -22,7 +22,7 @@ of a given process model. This section will go briefly over these methods but th
 reader is encouraged to go over the :ref:`bibliography` for a more thorough explanation of them.
 
 
-The multimodel approach 
+The Multimodel Approach 
 ------------------------
 
 The multimodel approach :cite:`gazzaneo18,gazzaneo19,gazzaneo20` employs 
@@ -67,7 +67,7 @@ the multimodel approach is a suitable process operability algorithm for
 #. **OI evaluation**, in which the multimodel approach allows to rank 
    competing designs and control structures.
 
-The nonlinear programming-based (NLP-based) approach 
+The Nonlinear Programming-Based (NLP-based) Approach 
 -----------------------------------------------------
 
 The NLP-based approach :cite:`carrasco16,carrasco2017` converts the inverse mapping 
@@ -111,8 +111,8 @@ The main features of the NLP-based approach are
 #. Useful to search for new AIS unexplored regions, giving insights about process feasibility.
 #. Imposing constraints to the inverse mapping operation.
 
-Since a sucessfull solution of an NLP is always feasible, the DOS and DIS that achieve
-the error minimzation between feasible and desired operation are named slightly different as
+Since a successful solution of an NLP is always feasible, the DOS and DIS that achieve
+the error minimization between feasible and desired operation are named slightly different as
 the Feasible Desired Output Set (DOS*) and Feasible Desired Input Set (DIS*).
 
 Lastly, the NLP-based approach can be extended to encompass the search for intensified

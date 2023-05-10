@@ -162,7 +162,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Process Operability Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Process Operability Algorithms</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="_autosummary/pypo.html">pypo</a></li>
 </ul>
 </li>
@@ -427,15 +427,15 @@ process also naturally arises. The looming question: “Can one quantify achieva
 of process design and control objectives simultaneously?” was the underlying motivation
 for Prof. Christos Georgakis and his collaborators <span id="id2">[<a class="reference internal" href="bibliography.html#id15" title="Christos Georgakis, Derya Uztürk, Sivakumar Subramanian, and David R. Vinson. On the operability of continuous processes. Control Engineering Practice, 11(8):859 - 869, 2003. Process Dynamics and Control. URL: http://www.sciencedirect.com/science/article/pii/S0967066102002174, doi:https://doi.org/10.1016/S0967-0661(02)00217-4.">8</a>, <a class="reference internal" href="bibliography.html#id29" title="Fernando V. Lima and Christos Georgakis. Input-output operability of control systems: the steady-state case. Journal of Process Control, 20(6):769-776, 2010. URL: https://www.sciencedirect.com/science/article/pii/S095915241000079X, doi:https://doi.org/10.1016/j.jprocont.2010.04.008.">9</a>, <a class="reference internal" href="bibliography.html#id23" title="Sivakumar Subramanian and Christos Georgakis. Methodology for the steady-state operability analysis of plantwide systems. Industrial &amp; Engineering Chemistry Research, 44(20):7770-7786, 2005. URL: https://doi.org/10.1021/ie0490076, arXiv:https://doi.org/10.1021/ie0490076, doi:10.1021/ie0490076.">11</a>, <a class="reference internal" href="bibliography.html#id22" title="David R Vinson and Christos Georgakis. A new measure of process output controllability. Journal of Process Control, 10(2):185 - 194, 2000. URL: http://www.sciencedirect.com/science/article/pii/S0959152499000451, doi:https://doi.org/10.1016/S0959-1524(99)00045-1.">12</a>]</span>
 to formally define <strong>process operability</strong>
-and define a metric called the <strong>Operability Index</strong>.</p>
+and define a metric called the <strong>operability index</strong>.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Process operability is a systematic framework to simultaneously assess
 design and control objectives early in the conceptual phase of industrial,
 typically large-scale, and nonlinear chemical processes.</p>
 </div>
-<p>In order to achieve the goal of systematically assessing design and control
-simultaneously, process operability defines <strong>operability sets</strong>. These are
+<p>To achieve systematically assessing design and control simultaneously,
+process operability defines <strong>operability sets</strong>. These are
 nothing but spaces in the cartesian system that are defined with respect to
 the <strong>available inputs</strong> of a given process, their respective <strong>achievable outputs</strong>,
 the <strong>desired</strong> regions of operation in the input and output spaces and lastly,
@@ -443,8 +443,8 @@ any <strong>expected disturbances</strong> that may be present.</p>
 <p>In order to formalize this in mathematical terms, one requirement of process
 operability analysis is to have a process model <span class="math notranslate nohighlight">\((M)\)</span> readily available. This model
 can be derived from first principles, by using a process simulator platform or
-machine learning (surrogate-based). It is up to you how to define this model,
-as long as it can be represented as follows: Following <span id="id3">[<a class="reference internal" href="bibliography.html#id15" title="Christos Georgakis, Derya Uztürk, Sivakumar Subramanian, and David R. Vinson. On the operability of continuous processes. Control Engineering Practice, 11(8):859 - 869, 2003. Process Dynamics and Control. URL: http://www.sciencedirect.com/science/article/pii/S0967066102002174, doi:https://doi.org/10.1016/S0967-0661(02)00217-4.">8</a>]</span>
+machine learning (surrogate-based). The process model can be defined in many ways, so long as it
+meets the following criteria: Following <span id="id3">[<a class="reference internal" href="bibliography.html#id15" title="Christos Georgakis, Derya Uztürk, Sivakumar Subramanian, and David R. Vinson. On the operability of continuous processes. Control Engineering Practice, 11(8):859 - 869, 2003. Process Dynamics and Control. URL: http://www.sciencedirect.com/science/article/pii/S0967066102002174, doi:https://doi.org/10.1016/S0967-0661(02)00217-4.">8</a>]</span>
 let’s define a process model <span class="math notranslate nohighlight">\(M\)</span> with <span class="math notranslate nohighlight">\(m\)</span> inputs, <span class="math notranslate nohighlight">\(p\)</span> outputs,
 <span class="math notranslate nohighlight">\(q\)</span> disturbances and <span class="math notranslate nohighlight">\(n\)</span> states as:</p>
 <div class="math notranslate nohighlight">
@@ -642,7 +642,7 @@ Mathematically this can be expressed as follows:</p>
 <span class="math notranslate nohighlight">\(\mu\)</span> indicates a measure of regions that varies depending on the
 dimensionality of the considered sets <span id="id5">[<a class="reference internal" href="bibliography.html#id5" title="Vitor Gazzaneo, Juan C. Carrasco, David R. Vinson, and Fernando V. Lima. Process operability algorithms: past, present, and future developments. Industrial &amp; Engineering Chemistry Research, 59(6):2457-2470, 2020. URL: https://doi.org/10.1021/acs.iecr.9b05181, arXiv:https://doi.org/10.1021/acs.iecr.9b05181, doi:10.1021/acs.iecr.9b05181.">6</a>, <a class="reference internal" href="bibliography.html#id29" title="Fernando V. Lima and Christos Georgakis. Input-output operability of control systems: the steady-state case. Journal of Process Control, 20(6):769-776, 2010. URL: https://www.sciencedirect.com/science/article/pii/S095915241000079X, doi:https://doi.org/10.1016/j.jprocont.2010.04.008.">9</a>]</span>. If in our example we
 had a 1D system, <span class="math notranslate nohighlight">\(\mu\)</span> would indicate length. Since we are in the <span class="math notranslate nohighlight">\(\mathbb{R}^2\)</span>
-space, it corresponds to quantification of area. For 3D systems it would be the
+space, it corresponds to ara quantification. For 3D systems it would be the
 intersection between the volumes of the regions and for higher dimensional cases,
 hypervolumes. An additional important note is that due to the possible nonlinearity
 of the underlying process model, the OI value from the inputs’ perspective yields

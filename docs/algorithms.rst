@@ -22,7 +22,7 @@ of a given process model. This section will go briefly over these methods but th
 reader is encouraged to go over the :ref:`bibliography` for a more thorough explanation of them.
 
 
-The multimodel approach 
+The Multimodel Approach 
 ------------------------
 
 The multimodel approach :cite:`gazzaneo18,gazzaneo19,gazzaneo20` employs 
@@ -67,7 +67,7 @@ the multimodel approach is a suitable process operability algorithm for
 #. **OI evaluation**, in which the multimodel approach allows to rank 
    competing designs and control structures.
 
-The nonlinear programming-based (NLP-based) approach 
+The Nonlinear Programming-Based (NLP-based) Approach 
 -----------------------------------------------------
 
 The NLP-based approach :cite:`carrasco16,carrasco2017` converts the inverse mapping 

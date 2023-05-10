@@ -6,7 +6,7 @@ Download the files from our [repository](https://github.com/victoraalves/python_
 pip install -e . 
 ```
 
-Then install [Cyipopt](https://github.com/mechmotum/cyipopt) which is the only non-automated dependency:
+Then install [cyipopt](https://github.com/mechmotum/cyipopt) which is the only non-automated dependency:
 
 ```console
 conda install -c conda-forge cyipopt

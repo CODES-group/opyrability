@@ -42,15 +42,15 @@ process also naturally arises. The looming question: "Can one quantify achievabi
 of process design and control objectives simultaneously?" was the underlying motivation
 for Prof. Christos Georgakis and his collaborators :cite:`georgakis00,vinson00,siva05,lima10` 
 to formally define **process operability**
-and define a metric called the **Operability Index**.
+and define a metric called the **operability index**.
 
 .. IMPORTANT::
 	Process operability is a systematic framework to simultaneously assess
 	design and control objectives early in the conceptual phase of industrial,
 	typically large-scale, and nonlinear chemical processes.
 
-In order to achieve the goal of systematically assessing design and control
-simultaneously, process operability defines **operability sets**. These are
+To achieve systematically assessing design and control simultaneously,
+process operability defines **operability sets**. These are
 nothing but spaces in the cartesian system that are defined with respect to
 the **available inputs** of a given process, their respective **achievable outputs**,
 the **desired** regions of operation in the input and output spaces and lastly,
@@ -62,8 +62,8 @@ any **expected disturbances** that may be present.
 In order to formalize this in mathematical terms, one requirement of process
 operability analysis is to have a process model :math:`(M)` readily available. This model
 can be derived from first principles, by using a process simulator platform or
-machine learning (surrogate-based). It is up to you how to define this model,
-as long as it can be represented as follows: Following :cite:`georgakis00`
+machine learning (surrogate-based). The process model can be defined in many ways, so long as it 
+meets the following criteria: Following :cite:`georgakis00`
 let's define a process model :math:`M` with :math:`m` inputs, :math:`p` outputs, 
 :math:`q` disturbances and :math:`n` states as:
 
