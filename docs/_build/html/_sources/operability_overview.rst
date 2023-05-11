@@ -16,8 +16,8 @@ raw materials into value-added products such as chemicals
 or energy:
 
 #.	**Process design**: Which decisions should be
-	made with respect to the design variables of this process,
-	in a way that the overall objectives of the process are
+	made with respect to the design variables of a given process,
+	in a way that its overall objectives process are
 	achieved (economic profitability, constraints related to
 	product purity/pollutant emissions, etc.)?
 
@@ -63,7 +63,7 @@ In order to formalize this in mathematical terms, one requirement of process
 operability analysis is to have a process model :math:`(M)` readily available. This model
 can be derived from first principles, by using a process simulator platform or
 machine learning (surrogate-based). The process model can be defined in many ways, so long as it 
-meets the following criteria: Following :cite:`georgakis00`
+meets the following criteria: Following :cite:`georgakis00`,
 let's define a process model :math:`M` with :math:`m` inputs, :math:`p` outputs, 
 :math:`q` disturbances and :math:`n` states as:
 
@@ -100,7 +100,7 @@ lower and upper bounds for the input variables available in the system. These
 can be either design or manipulated variables. In short, they are the manipulated inputs 
 (:math:`u  \in \mathbb{R}^m`)
 based on the design of the process that is limited
-by the process constraints 
+by the process constraints: 
 
 .. math::
 	\text { AIS }=\left\{u \mid u_i^{\min } \leq u_i \leq u_i^{\max } ; 1 \leq i \leq m\right\}
@@ -136,7 +136,7 @@ Visually:
    Achievable Output Set (AOS)
 
 .. IMPORTANT::
-	Note that the pictorial representation of the AOS drawn intentionally as a non-convex
+	Note that the pictorial representation of the AOS is drawn intentionally as a non-convex
 	region. This is a result of the process model :math:`(M)`
 	being potentially nonlinear: A convex
 	AIS may lead to a nonlinear and vice-versa!
@@ -156,7 +156,7 @@ Despite the fact that the AOS can inform us what we can do with the current AIS
 region, we might **desire** to operate at a certain region given a variety of 
 reasons, such as market demands, product purity specification, maximum pollutant
 emissions imposed by legislation and so on. Given this, the Desired Output Set
-(DOS) naturally arises to represent exactly that: It represents production/target/efficiency
+(DOS) naturally arises to represent the production/target/efficiency
 requirements for the outputs that do not necessarily meet the ranges of the AOS.
 
 .. math::
@@ -178,7 +178,7 @@ If there is a desired region of operation in the output space, there has to be
 a desired region of operation in the input space that guarantees that the DOS 
 is achieved. This is denominated as the Desired Input Set (DIS): A set of inputs 
 required to reach the entire DOS,
-given a disturbance vector :math:`d`.
+given a disturbance vector :math:`d`:
 
 .. math::
 	\operatorname{DIS}(d)=\left\{u \mid u=M^{-1}(y, d) ; y \in \mathrm{DOS}, d \text { is fixed }\right\}
@@ -339,6 +339,6 @@ The OI has interesting properties such as:
    characteristic of the system studied, the OI will give the best-case disturbance rejection 
    scenario (if any) when one is accounting for disturbances in an operability analysis.
 
-The next section will cover briefly the main algorithms that were developed in 
+The next section will briefly cover the main algorithms that were developed in 
 CODES research group to perform the main operability tasks: inverse mapping and
 operability sets' manipulation.
