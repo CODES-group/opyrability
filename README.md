@@ -7,7 +7,7 @@ PyPO is developed by the Control, Optimization and Design for Energy and Sustain
 
 ## Installation
 
-Download the files from the repo, extract them to any location on your PC. Then from the terminal (or cmd if you are using Windows) navigate to the location and execute:
+Download the files from the repo, and extract them to any location on your PC. Then from the terminal (or cmd if you are using Windows) navigate to the location and execute:
 
 ```console
 pip install -e . 

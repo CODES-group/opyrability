@@ -22,8 +22,8 @@ import polytope as pc
 from polytope.polytope import region_diff
 from polytope.polytope import _get_patch
 from polytope import solvers as polsolvers
-polsolvers.default_solver = 'scipy'
-warnings.filterwarnings('ignore', module='polsolvers')
+# polsolvers.default_solver = 'scipy'
+# warnings.filterwarnings('ignore', module='polsolvers')
 
 
 
@@ -33,6 +33,9 @@ import matplotlib.patches as mpatches
 import matplotlib.colors as mcolors
 import pylab as pl
 import mpl_toolkits.mplot3d as a3
+from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+from mpl_toolkits.mplot3d import Axes3D
+# from scipy.spatial import ConvexHull
 
 
 # Setting default plot options and default solver for multimodel approach.
@@ -131,11 +134,11 @@ def multimodel_rep(AIS_bound: np.ndarray,
     
     # Define empty polyopes list
     Polytope = list()
-    
+    Vertices_list = list()
     # Create convex hull using the vertices of the AOS
     for i in range(len(AOS_poly)):
         Vertices = AOS_poly[i].T
-        
+        Vertices_list.append(Vertices)
         Polytope.append(pc.qhull(Vertices))
         
     
@@ -187,6 +190,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
             fig = plt.figure()
             ax = fig.add_subplot(111)
             AS_COLOR = '#2ca02c'
+            AS_coords = np.concatenate(Vertices_list, axis=0)
             for i in range(len(finalpolytope)):
 
                 polyplot = _get_patch(finalpolytope[i], linestyle="dashed",
@@ -228,9 +232,53 @@ def multimodel_rep(AIS_bound: np.ndarray,
             ax.set_ylabel('$y_{2}$')
             plt.show()
             
+        elif finalpolytope.dim == 3:
+            
+            
+            polyplot = []
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection="3d")
+            AS_COLOR = '#2ca02c'
+            AS_coords = np.concatenate(Vertices_list, axis=0)
+            
+            for cube, color in zip([AS_coords], [AS_COLOR]):
+                hull = sp.spatial.ConvexHull(cube)
+                # draw the polygons of the convex hull
+                for s in hull.simplices:
+                    tri = Poly3DCollection([cube[s]])
+                    tri.set_color(color)
+                    tri.set_alpha(0.5)
+                    ax.add_collection3d(tri)
+                # draw the vertices
+                ax.scatter(cube[:, 0], cube[:, 1], cube[:, 2], marker='o', color='None')
+            plt.show()
+
+            
+            AS_patch = mpatches.Patch(color=AS_COLOR, label=AS_label)
+
+            extra = mpatches.Rectangle((0, 0), 1, 1, fc="w",
+                                    fill=False,
+                                    edgecolor='none',
+                                    linewidth=0)
+
+            if perspective == 'outputs':
+                str_title = 'Achievable Output Set (AOS)'
+                ax.set_title(str_title)
+            else:
+                str_title = string.capwords(
+                    "Available Input set (AIS)")
+                ax.set_title(str_title)
+
+            ax.legend(handles=[AS_patch, extra])
+
+            ax.set_xlabel('$y_{1}$')
+            ax.set_ylabel('$y_{2}$')
+            ax.set_zlabel('$y_{3}$')
+            plt.show()
+            
 
         else:
-            print('Plotting not supported. Dimension different than 2.')
+            print('Plotting not supported. Dimension different greater than 3.')
 
     else:
         print('Either plotting is not possible (dimension > 3) or you have',
@@ -238,8 +286,11 @@ def multimodel_rep(AIS_bound: np.ndarray,
               'a polytopic region of general dimension.')
     
     
-
-    return finalpolytope
+    # Small hack: Inject AS coordinates into pc.Region class to be able to
+    # plot 3d region effortlessly.
+    # finalpolytope.AS_coords =  AS_coords
+    finalpolytope_object = [finalpolytope, AS_coords]
+    return finalpolytope_object
 
 
 def OI_eval(AS: pc.Region,
@@ -312,12 +363,15 @@ def OI_eval(AS: pc.Region,
     # applicable.
 
     DS_region = pc.box2poly(DS)
-    AS = pc.reduce(AS)
+    AS_region = pc.reduce(AS[0])
     DS_region = pc.reduce(DS_region)
-
-    intersection = pc.intersect(AS, DS_region)
-
+    inter_list = list()
+    for i in range(len(AS_region)):
+        intersection = pc.intersect(AS_region[i], DS_region)
+        inter_list.append(intersection)
     
+    intersection = pc.Region(inter_list)
+    v_intersect_list = list()
     if hypervol_calc == 'polytope':
         OI = (intersection.volume/DS_region.volume)*100
 
@@ -325,14 +379,22 @@ def OI_eval(AS: pc.Region,
         
         if DS_region.dim < 7:
             intersect_i = []
-            each_volume = np.zeros(len(intersection))
+            # each_volume = np.zeros(len(intersection))
+            each_volume_list = []
             
             for i in range(len(intersection)):
-                
                 intersect_i = intersection[i]
                 v_intersect = pc.extreme(intersect_i)
-                each_volume[i] = sp.spatial.ConvexHull(v_intersect).volume
-            
+                if v_intersect.any() is None:
+                    continue
+                else:
+                    v_intersect_list.append(v_intersect)
+                    print(i)
+                    print(v_intersect)
+                    each_volume_list.append(sp.spatial.ConvexHull(v_intersect).volume)
+                    
+                
+            each_volume = np.array(each_volume_list)
             intersection_volume = each_volume[0:].sum()
     
             v_DS = pc.extreme(DS_region)
@@ -364,8 +426,7 @@ def OI_eval(AS: pc.Region,
         AS_label = 'Available Input Set (AOS)'
         int_label = r'$ AIS \cap DIS$'
 
-    # Plotting if 2D/ 3D (Future implementation)
-    # TODO: 3D plotting
+    # Plotting if 2D/ 3D
     if plotting is True:
         if DS_region.dim == 2:
             
@@ -376,9 +437,9 @@ def OI_eval(AS: pc.Region,
             DS_COLOR = '#7f7f7f'
             INTERSECT_COLOR = '#1f77b4'
             AS_COLOR = '#2ca02c'
-            for i in range(len(AS)):
+            for i in range(len(AS_region)):
 
-                polyplot = _get_patch(AS[i], linestyle="dashed",
+                polyplot = _get_patch(AS_region[i], linestyle="dashed",
                                     edgecolor=AS_COLOR, linewidth=3,
                                     facecolor=AS_COLOR)
                 ax.add_patch(polyplot)
@@ -388,7 +449,8 @@ def OI_eval(AS: pc.Region,
 
                 interplot = _get_patch(intersection[j], linestyle="dashed",
                                     linewidth=3,
-                                    facecolor=INTERSECT_COLOR, edgecolor=INTERSECT_COLOR)
+                                    facecolor=INTERSECT_COLOR, 
+                                    edgecolor=INTERSECT_COLOR)
                 ax.add_patch(interplot)
 
             DSplot = _get_patch(DS_region, linestyle="dashed",
@@ -397,11 +459,15 @@ def OI_eval(AS: pc.Region,
             ax.add_patch(DSplot)
             ax.legend('DOS')
 
-            lower_xaxis = min(AS.bounding_box[0][0], DS_region.bounding_box[0][0])
-            upper_xaxis = max(AS.bounding_box[1][0], DS_region.bounding_box[1][0])
+            lower_xaxis = min(AS_region.bounding_box[0][0], 
+                              DS_region.bounding_box[0][0])
+            upper_xaxis = max(AS_region.bounding_box[1][0], 
+                              DS_region.bounding_box[1][0])
 
-            lower_yaxis = min(AS.bounding_box[0][1], DS_region.bounding_box[0][1])
-            upper_yaxis = max(AS.bounding_box[1][1], DS_region.bounding_box[1][1])
+            lower_yaxis = min(AS_region.bounding_box[0][1], 
+                              DS_region.bounding_box[0][1])
+            upper_yaxis = max(AS_region.bounding_box[1][1], 
+                              DS_region.bounding_box[1][1])
 
             ax.set_xlim(lower_xaxis - 0.05*lower_xaxis,
                         upper_xaxis + 0.05*upper_xaxis)
@@ -438,53 +504,49 @@ def OI_eval(AS: pc.Region,
         
         elif DS_region.dim == 3:
             
+            AS_coords = AS[1]
+            DS_coords = get_extreme_vertices(DS)
             polyplot = []
             fig = plt.figure()
-            ax = fig.add_subplot(111)
-            ax = a3.Axes3D(pl.figure())
+            ax = fig.add_subplot(111, projection="3d")
+            AS_COLOR = '#2ca02c'
             DS_COLOR = '#7f7f7f'
             INTERSECT_COLOR = '#1f77b4'
-            AS_COLOR = '#2ca02c'
-            for i in range(len(AS)):
+            intersect_coords = np.concatenate(v_intersect_list,  axis=0)
+           
+            
+            for cube, color in zip([AS_coords, DS_coords, intersect_coords], 
+                                   [AS_COLOR, DS_COLOR, INTERSECT_COLOR]):
+                hull = sp.spatial.ConvexHull(cube)
+                # draw the polygons of the convex hull
+                for s in hull.simplices:
+                    tri = Poly3DCollection([cube[s]])
+                    tri.set_color(color)
+                    tri.set_alpha(0.5)
+                    ax.add_collection3d(tri)
+                # draw the vertices
+                ax.scatter(cube[:, 0], cube[:, 1], cube[:, 2], 
+                           marker='o', color='None')
+            plt.show()
 
-                polyplot = _get_patch(AS[i], 
-                                    linestyle="dashed",
-                                    edgecolor=AS_COLOR, 
-                                    linewidth=3,
-                                    facecolor=AS_COLOR)
-                ax.add_patch(polyplot)
-
-
-            for j in range(len(intersection)):
-
-                interplot = _get_patch(intersection[j], 
-                                    linestyle="dashed",
-                                    linewidth=3,
-                                    facecolor=INTERSECT_COLOR, 
-                                    edgecolor=INTERSECT_COLOR)
-                ax.add_patch(interplot)
-
-            DSplot = _get_patch(DS_region, linestyle="dashed",
-                                edgecolor=DS_COLOR, alpha=0.5, linewidth=3,
-                                facecolor=DS_COLOR)
-            ax.add_patch(DSplot)
-            ax.legend('DOS')
-
-            lower_xaxis = min(AS.bounding_box[0][0], DS_region.bounding_box[0][0])
-            upper_xaxis = max(AS.bounding_box[1][0], DS_region.bounding_box[1][0])
-
-            lower_yaxis = min(AS.bounding_box[0][1], DS_region.bounding_box[0][1])
-            upper_yaxis = max(AS.bounding_box[1][1], DS_region.bounding_box[1][1])
-
-            ax.set_xlim(lower_xaxis - 0.05*lower_xaxis,
-                        upper_xaxis + 0.05*upper_xaxis)
-            ax.set_ylim(lower_yaxis - 0.05*lower_yaxis,
-                        upper_yaxis + 0.05*upper_yaxis)
-
-            DS_patch = mpatches.Patch(color=DS_COLOR, label=DS_label)
+            
             AS_patch = mpatches.Patch(color=AS_COLOR, label=AS_label)
-            INTERSECT_patch = mpatches.Patch(color=INTERSECT_COLOR,
-                                            label=int_label)
+
+            extra = mpatches.Rectangle((0, 0), 1, 1, fc="w",
+                                    fill=False,
+                                    edgecolor='none',
+                                    linewidth=0)
+
+            if perspective == 'outputs':
+                str_title = 'Achievable Output Set (AOS)'
+                ax.set_title(str_title)
+            else:
+                str_title = string.capwords(
+                    "Available Input set (AIS)")
+                ax.set_title(str_title)
+
+            ax.legend(handles=[AS_patch, extra])
+            
 
 
             OI_str = 'Operability Index = ' + str(round(OI, 2)) + str('\%')
@@ -502,11 +564,17 @@ def OI_eval(AS: pc.Region,
                 str_title = string.capwords(
                     "Operability Index Evaluation - Inputs' perspective")
                 ax.set_title(str_title)
+            
+            DS_patch = mpatches.Patch(color=DS_COLOR, label=DS_label)
+            AS_patch = mpatches.Patch(color=AS_COLOR, label=AS_label)
+            INTERSECT_patch = mpatches.Patch(color=INTERSECT_COLOR,
+                                            label=int_label)
 
             ax.legend(handles=[DS_patch, AS_patch, INTERSECT_patch, extra])
 
             ax.set_xlabel('$y_{1}$')
             ax.set_ylabel('$y_{2}$')
+            ax.set_zlabel('$y_{3}$')
             plt.show()
 
         else:
@@ -1198,6 +1266,9 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     
     Authors: San Dinh & Victor Alves
     
+    Control, Optimization and Design for Energy and Sustainability 
+    (CODES) Group - West Virginia University - 2022/2023
+    
 
     Parameters
     ----------
@@ -1542,3 +1613,36 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
             image_polyhedra.append(V_image_id)
             
     return domain_set, image_set, domain_polyhedra, image_polyhedra
+
+
+def get_extreme_vertices(bounds):
+    """
+    Gets the extreme vertices of any D-dimensional hypercube. This is used to
+    plot the DOS in 3d.
+    
+    Author: Victor Alves
+    
+    Control, Optimization and Design for Energy and Sustainability 
+    (CODES) Group - West Virginia University - 2022/2023
+
+    Parameters
+    ----------
+    bounds : np.ndarray
+        Lower and upper bounds for the Desired Output Set (DOS).
+
+    Returns
+    -------
+    extreme_vertices : np.ndarray
+        Extreme vertices for the DOS.
+
+    """
+    num_dimensions = bounds.shape[0]
+    num_points = 2 ** num_dimensions
+
+    extreme_vertices = np.zeros((num_points, num_dimensions))
+
+    for i in range(num_dimensions):
+        indices = np.arange(num_points) // (2 ** i) % 2
+        extreme_vertices[:, i] = bounds[i, indices]
+
+    return extreme_vertices

@@ -9,7 +9,7 @@ name = "codes-pypo"
 version = "0.0.1"
 description = "Python-based process operability package"
 authors = ["Victor Alves"]
-license = "GPL-3.0-or-later"
+license = "MIT License"
 readme = "README.md"
 classifiers = [
     "Operating System :: OS Independent",
@@ -25,7 +25,7 @@ numpy = "^1.24.1"
 scipy = "^1.10.0"
 tqdm = "^4.64.1"
 matplotlib = "^3.6.2"
-#cyipopt = { git = "https://github.com/mechmotum/cyipopt.git", branch = #"master"}
 polytope = {git = "https://github.com/tulip-control/polytope.git", branch = "main"}
 jax = {extras = ["cpu"], version = "^0.4.0"}
+cvxopt = "^1.2.7"
 

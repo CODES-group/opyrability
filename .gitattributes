@@ -1,0 +1,4 @@
+*.html linguist-detectable=false
+*.ipynb linguist-detectable=false
+*.rst linguist-detectable=false
+*.yml linguist-detectable=false
