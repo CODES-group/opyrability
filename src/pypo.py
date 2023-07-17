@@ -21,27 +21,20 @@ from cyipopt import minimize_ipopt
 import polytope as pc
 from polytope.polytope import region_diff
 from polytope.polytope import _get_patch
-from polytope import solvers as polsolvers
-# polsolvers.default_solver = 'scipy'
-# warnings.filterwarnings('ignore', module='polsolvers')
+
 
 
 
 # Plots
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import matplotlib.colors as mcolors
-import pylab as pl
-import mpl_toolkits.mplot3d as a3
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-from mpl_toolkits.mplot3d import Axes3D
-# from scipy.spatial import ConvexHull
+
 
 
 # Setting default plot options and default solver for multimodel approach.
-plt.rcParams['figure.dpi'] = 150
+plt.rcParams['figure.dpi'] = 300
 plt.rcParams['text.usetex'] = True
-# solvers.default_solver = 'scipy'
 
 # Plotting defaults
 cmap =  'rainbow'
@@ -93,10 +86,12 @@ def multimodel_rep(AIS_bound: np.ndarray,
 
     Returns
     -------
-    finalpolytope : polytope.Region
-        Convex polytope or collection of convex polytopes (named as Region) 
+    finalpolytope : list
+        List with first argument being a convex polytope or collection of 
+        convex polytopes (named as Region) 
         that describes the AOS. Can be used to calculate the Operability Index 
-        using ``OI_eval``.
+        using ``OI_eval``. Second argument is the coordinates of the AOS as a
+        numpy array.
         
     
     References
@@ -286,9 +281,8 @@ def multimodel_rep(AIS_bound: np.ndarray,
               'a polytopic region of general dimension.')
     
     
-    # Small hack: Inject AS coordinates into pc.Region class to be able to
+    # Small hack: Inject AS coordinates into return to be able to
     # plot 3d region effortlessly.
-    # finalpolytope.AS_coords =  AS_coords
     finalpolytope_object = [finalpolytope, AS_coords]
     return finalpolytope_object
 
@@ -379,18 +373,15 @@ def OI_eval(AS: pc.Region,
         
         if DS_region.dim < 7:
             intersect_i = []
-            # each_volume = np.zeros(len(intersection))
             each_volume_list = []
             
             for i in range(len(intersection)):
                 intersect_i = intersection[i]
                 v_intersect = pc.extreme(intersect_i)
-                if v_intersect.any() is None:
+                if v_intersect is None:
                     continue
                 else:
                     v_intersect_list.append(v_intersect)
-                    print(i)
-                    print(v_intersect)
                     each_volume_list.append(sp.spatial.ConvexHull(v_intersect).volume)
                     
                 
@@ -410,10 +401,7 @@ def OI_eval(AS: pc.Region,
         print('Invalid hypervolume calculation option. Exiting algorithm.')
         sys.exit()
 
-    # VolumeApprox_fast(A, b, Vertices)
 
-    # OI evaluation
-    # OI = (intersection.volume/DS_region.volume)*100
 
     # Perspective switch: This will only affect plotting and legends.
     if perspective == 'outputs':
@@ -446,12 +434,15 @@ def OI_eval(AS: pc.Region,
 
 
             for j in range(len(intersection)):
-
-                interplot = _get_patch(intersection[j], linestyle="dashed",
-                                    linewidth=3,
-                                    facecolor=INTERSECT_COLOR, 
-                                    edgecolor=INTERSECT_COLOR)
-                ax.add_patch(interplot)
+                if intersection[j] is None:
+                    pass
+                else:
+                    interplot = _get_patch(intersection[j], linestyle="dashed",
+                                        linewidth=3,
+                                        facecolor=INTERSECT_COLOR, 
+                                        edgecolor=INTERSECT_COLOR)
+                    ax.add_patch(interplot)
+                    
 
             DSplot = _get_patch(DS_region, linestyle="dashed",
                                 edgecolor=DS_COLOR, alpha=0.5, linewidth=3,
