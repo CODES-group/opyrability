@@ -33,7 +33,7 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
 # Setting default plot options and default solver for multimodel approach.
-plt.rcParams['figure.dpi'] = 300
+plt.rcParams['figure.dpi'] = 150
 plt.rcParams['text.usetex'] = True
 
 # Plotting defaults

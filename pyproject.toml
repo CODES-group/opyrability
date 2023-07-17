@@ -6,7 +6,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "codes-pypo"
-version = "0.0.1"
+version = "1.0"
 description = "Python-based process operability package"
 authors = ["Victor Alves"]
 license = "MIT License"
