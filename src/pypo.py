@@ -114,7 +114,20 @@ def multimodel_rep(AIS_bound: np.ndarray,
     # TODO: Add implicit mapping option to perform any multimodel rep 
     #(future release).
     # Map AOS from AIS setup.
-    AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
+    
+    
+    if perspective == 'outputs':
+        AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
+    else:
+        u0 = input('Enter an initial estimate for your inverse model')
+        u0 = np.array(u0, dtype=float)
+        AIS, AOS, _ = nlp_based_approach(AIS_bound, resolution, model, 
+                                                  u0, -np.inf, +np.inf, 
+                                                  method='ipopt', 
+                                                  plot=False, 
+                                                  ad=False,
+                                                  warmstart=True)
+        
     
     
     if  polytopic_trace  =='simplices':
