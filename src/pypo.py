@@ -115,18 +115,19 @@ def multimodel_rep(AIS_bound: np.ndarray,
     #(future release).
     # Map AOS from AIS setup.
     
+    AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
     
-    if perspective == 'outputs':
-        AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
-    else:
-        u0 = input('Enter an initial estimate for your inverse model')
-        u0 = np.array(u0, dtype=float)
-        AIS, AOS, _ = nlp_based_approach(AIS_bound, resolution, model, 
-                                                  u0, -np.inf, +np.inf, 
-                                                  method='ipopt', 
-                                                  plot=False, 
-                                                  ad=False,
-                                                  warmstart=True)
+    # if perspective == 'outputs':
+    #     AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
+    # else:
+    #     u0 = input('Enter an initial estimate for your inverse model')
+    #     u0 = np.array(u0, dtype=float)
+    #     AIS, AOS, _ = nlp_based_approach(AIS_bound, resolution, model, 
+    #                                               u0, -np.inf, +np.inf, 
+    #                                               method='ipopt', 
+    #                                               plot=False, 
+    #                                               ad=False,
+    #                                               warmstart=True)
         
     
     
@@ -258,7 +259,8 @@ def multimodel_rep(AIS_bound: np.ndarray,
                     tri.set_alpha(0.5)
                     ax.add_collection3d(tri)
                 # draw the vertices
-                ax.scatter(cube[:, 0], cube[:, 1], cube[:, 2], marker='o', color='None')
+                ax.scatter(cube[:, 0], cube[:, 1], cube[:, 2], marker='o', 
+                           color='None')
             plt.show()
 
             
@@ -423,8 +425,8 @@ def OI_eval(AS: pc.Region,
         int_label = r'$ AOS \cap DOS$'
 
     else:
-        DS_label = 'Desired Input Set (DOS)'
-        AS_label = 'Available Input Set (AOS)'
+        DS_label = 'Desired Input Set (DIS)'
+        AS_label = 'Available Input Set (AIS)'
         int_label = r'$ AIS \cap DIS$'
 
     # Plotting if 2D/ 3D
@@ -1015,7 +1017,7 @@ def create_grid(region_bounds: np.ndarray, region_resolution: tuple):
 
 def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
      AIS_bound: np.ndarray,
-     AIS_resolution: np.ndarray)-> Union[np.ndarray,np.ndarray]:
+     AIS_resolution: np.ndarray, plot: bool = True)-> Union[np.ndarray,np.ndarray]:
     '''
     Forward mapping for Process Operability calculations (From AIS to AOS). 
     From a Available Input Set (AIS) bounds and discretization resolution both
@@ -1028,7 +1030,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
     Control, Optimization and Design for Energy and Sustainability 
     (CODES) Group - West Virginia University - 2022/2023
 
-    Author: San Dinh
+    Authors: San Dinh & Victor Alves
 
     Parameters
     ----------
@@ -1040,6 +1042,10 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
     AIS_resolution : np.ndarray
         Resolution for the Available Input Set (AIS). This will be used to
         discretized the AIS.
+    plot: bool
+        Turn on/off plotting. If dimension is d<=3, plotting is available and
+        both the Achievable Output Set (AOS) and Available Input
+        Set (AIS) are plotted. Default is True.
 
     Returns
     -------
@@ -1080,6 +1086,81 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
 
         AIS[tuple(inputID)] = AIS_val
         AOS[tuple(inputID)] = model(AIS_val)
+        
+    if plot is True:
+        if AOS.shape[-1]==2 and AOS.shape[-1] == 2:
+            
+            AIS_plot = AIS.reshape(AIS.shape[0]*AIS.shape[1], AIS.shape[-1])
+            AOS_plot = AOS.reshape(AOS.shape[0]*AOS.shape[1], AOS.shape[-1])
+            plt.subplot(121)
+
+            plt.rcParams['figure.facecolor'] = 'white'
+            plt.scatter(AIS_plot[:, 0], AIS_plot[:, 1], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='s',
+                        edgecolors=edgecolors)
+            plt.ylabel('$u_{2}$')
+            plt.xlabel('$u_{1}$')
+            plt.title('AIS')
+           
+
+            plt.subplot(122)
+
+            plt.scatter(AOS_plot[:, 0], AOS_plot[:, 1], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='o',
+                        edgecolors=edgecolors)
+            plt.ylabel('$y_{2}$')
+            plt.xlabel('$y_{1}$')
+            
+            plt.title('AOS')
+
+            
+        elif AOS.shape[-1]== 3 and AOS.shape[-1] == 3:
+            
+            AIS_plot = AIS.reshape(AIS.shape[0]*AIS.shape[1]*AIS.shape[2], 
+                                   AIS.shape[-1])
+            AOS_plot = AOS.reshape(AOS.shape[0]*AOS.shape[1]*AOS.shape[2],
+                                   AOS.shape[-1])
+            fig = plt.figure(figsize=plt.figaspect(0.5))
+            ax = fig.add_subplot(1,2,1, projection='3d')
+
+            plt.rcParams['figure.facecolor'] = 'white'
+            ax.scatter(AIS_plot[:, 0], AIS_plot[:, 1], AIS_plot[:,2], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2 +
+                                  AOS_plot[:, 2]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='s',
+                        edgecolors=edgecolors)
+            ax.set_ylabel('$u_{2}$')
+            ax.set_xlabel('$u_{1}$')
+            ax.set_zlabel('$u_{3}$')
+            ax.set_title('AIS')
+            
+
+            
+            ax = fig.add_subplot(1,2,2, projection='3d')
+            ax.scatter(AOS_plot[:, 0], AOS_plot[:, 1], AOS_plot[:, 2], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2 + 
+                                  AOS_plot[:, 2]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='o',
+                        edgecolors=edgecolors)
+            ax.set_ylabel('$y_{2}$')
+            ax.set_xlabel('$y_{1}$')
+            ax.set_zlabel('$y_{3}$')
+            ax.set_title('AOS')
+            
+            
+        else:
+            print('dimension greater than 3, plotting not supported.')
+            
+    else:
+        print('Plotting not supported or set to False.')
+            
+    
     return AIS, AOS
 
 
