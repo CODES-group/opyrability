@@ -302,7 +302,7 @@ shower problem example.
     from pypo import points2simplices
 
     AIS_poly, AOS_poly = points2simplices(AIS,AOS)
-    
+
     print('AIS Simplices \n', AIS_poly)
     print('AOS Simplices \n', AOS_poly)
 ```

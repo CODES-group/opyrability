@@ -32,11 +32,8 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
 
-# Setting default plot options and default solver for multimodel approach.
+# Setting default plot options
 plt.rcParams['figure.dpi'] = 150
-plt.rcParams['text.usetex'] = True
-
-# Plotting defaults
 cmap =  'rainbow'
 lineweight = 1
 edgecolors = 'k'
@@ -488,7 +485,7 @@ def OI_eval(AS: pc.Region,
                                             label=int_label)
 
 
-            OI_str = 'Operability Index = ' + str(round(OI, 2)) + str('\%')
+            OI_str = 'Operability Index = ' + str(round(OI, 2)) + str('%')
 
             extra = mpatches.Rectangle((0, 0), 1, 1, fc="w",
                                     fill=False,
@@ -557,7 +554,7 @@ def OI_eval(AS: pc.Region,
             
 
 
-            OI_str = 'Operability Index = ' + str(round(OI, 2)) + str('\%')
+            OI_str = 'Operability Index = ' + str(round(OI, 2)) + str('%')
 
             extra = mpatches.Rectangle((0, 0), 1, 1, fc="w",
                                     fill=False,
@@ -924,31 +921,34 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     else:
 
         if plot is True:
-            plt.subplot(121)
+            
+            fig = plt.figure(figsize=plt.figaspect(0.5))
+            ax = fig.add_subplot(1,2,1)
+            # plt.subplot(121)
 
-            plt.rcParams['figure.facecolor'] = 'white'
-            plt.scatter(fDIS[:, 0], fDIS[:, 1], s=16,
+            # ax.rcParams['figure.facecolor'] = 'white'
+            ax.scatter(fDIS[:, 0], fDIS[:, 1], s=16,
                         c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            plt.ylabel('$u_{2}$')
-            plt.xlabel('$u_{1}$')
-            plt.title('DIS*')
-            plt.show
+            ax.set_ylabel('$u_{2}$')
+            ax.set_xlabel('$u_{1}$')
+            ax.set_title('DIS*')
+            # plt.show
 
-            plt.subplot(122)
+            ax = fig.add_subplot(1,2,2)
 
-            plt.scatter(fDOS[:, 0], fDOS[:, 1], s=16,
+            ax.scatter(fDOS[:, 0], fDOS[:, 1], s=16,
                         c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='o',
                         edgecolors=edgecolors)
-            plt.ylabel('$y_{2}$')
-            plt.xlabel('$y_{1}$')
-            plt.title('DOS*')
+            ax.set_ylabel('$y_{2}$')
+            ax.set_xlabel('$y_{1}$')
+            ax.set_title('DOS*')
 
-            plt.show
+            # plt.show
 
     return fDIS, fDOS, message_list
 

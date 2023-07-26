@@ -96,31 +96,31 @@ from pypo import multimodel_rep, OI_eval
 # OI = OI_eval(AOS_region, DOS_bounds)
 
 # %% Shower problem 2x2 - analytical inverse map.
-# from shower import inv_shower2x2
-# from pypo import AIS2AOS_map
+from shower import inv_shower2x2
+from pypo import AIS2AOS_map
 
-# AOS_bounds =  np.array([[10, 20], 
-#                         [70, 100]])
+AOS_bounds =  np.array([[10, 20], 
+                        [70, 100]])
 
-# # AIS_bounds =  np.array([[0.1, 10],
-# #                         [0.1, 10]])
+# AIS_bounds =  np.array([[0.1, 10],
+#                         [0.1, 10]])
 
-# AOS_resolution =  [5, 5]
+AOS_resolution =  [5, 5]
 
-# model =  inv_shower2x2
+model =  inv_shower2x2
 
-# DIS_bounds =  np.array([[0, 10.00],
-#                         [0, 10.00]])
-
-
-# AIS, AOS = AIS2AOS_map(model, AOS_bounds, AOS_resolution)
+DIS_bounds =  np.array([[0, 10.00],
+                        [0, 10.00]])
 
 
-# AIS_region  =  multimodel_rep(AOS_bounds, AOS_resolution, model, 
-#                               polytopic_trace = 'polyhedra', 
-#                               perspective = 'inputs')
+AIS, AOS = AIS2AOS_map(model, AOS_bounds, AOS_resolution)
 
-# OI = OI_eval(AIS_region, DIS_bounds, perspective = 'inputs')
+
+AIS_region  =  multimodel_rep(AOS_bounds, AOS_resolution, model, 
+                              polytopic_trace = 'polyhedra', 
+                              perspective = 'inputs')
+
+OI = OI_eval(AIS_region, DIS_bounds, perspective = 'inputs')
 
 
 # %% Shower problem 2x3
@@ -165,21 +165,21 @@ from pypo import multimodel_rep, OI_eval
 # AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
 
 
-def shower_problem(u):
-        y = np.zeros(2)
-        y[0]=u[0]+u[1]
-        if y[0]!=0:
-            y[1]=(u[0]*60+u[1]*120)/(u[0]+u[1])
-        else:
-            y[1]=(60+120)/2
+# def shower_problem(u):
+#         y = np.zeros(2)
+#         y[0]=u[0]+u[1]
+#         if y[0]!=0:
+#             y[1]=(u[0]*60+u[1]*120)/(u[0]+u[1])
+#         else:
+#             y[1]=(60+120)/2
             
-        return y
+#         return y
     
-AIS_bounds =  np.array([[1, 10], [1, 10]])
-AIS_resolution =  [5, 5]
+# AIS_bounds =  np.array([[1, 10], [1, 10]])
+# AIS_resolution =  [5, 5]
 
 
-AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem,
-plotting=False)
+# AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem,
+# plotting=False)
 
 

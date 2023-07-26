@@ -17,24 +17,45 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-    from pypo import create_grid
-    DOS_bounds =  np.array([[10, 20], 
-                            [70, 100]])
-
-    DOS_resolution =  [3, 3]
-
-    DOS_points = create_grid(DOS_bounds, DOS_resolution)
-
-    print(DOSPts)
+    u0 = u0 = np.array([0, 10]) # Initial estimate for inverse mapping.
+    fDIS, fDOS, message = nlp_based_approach(DOS_bound, 
+                                             resolution, 
+                                             shower_problem, 
+                                             u0, 
+                                             lb,
+                                             ub, 
+                                             method='ipopt', 
+                                             plot=True, 
+                                             ad=False,
+                                             warmstart=False)
 ------------------
 
 [1;31m---------------------------------------------------------------------------[0m
-[1;31mNameError[0m                                 Traceback (most recent call last)
-Cell [1;32mIn[20], line 9[0m
-[0;32m      5[0m DOS_resolution [38;5;241m=[39m  [[38;5;241m3[39m, [38;5;241m3[39m]
-[0;32m      7[0m DOS_points [38;5;241m=[39m create_grid(DOS_bounds, DOS_resolution)
-[1;32m----> 9[0m [38;5;28mprint[39m([43mDOSPts[49m)
+[1;31mAttributeError[0m                            Traceback (most recent call last)
+Cell [1;32mIn[9], line 2[0m
+[0;32m      1[0m u0 [38;5;241m=[39m u0 [38;5;241m=[39m np[38;5;241m.[39marray([[38;5;241m0[39m, [38;5;241m10[39m]) [38;5;66;03m# Initial estimate for inverse mapping.[39;00m
+[1;32m----> 2[0m fDIS, fDOS, message [38;5;241m=[39m [43mnlp_based_approach[49m[43m([49m[43mDOS_bound[49m[43m,[49m[43m [49m
+[0;32m      3[0m [43m                                         [49m[43mresolution[49m[43m,[49m[43m [49m
+[0;32m      4[0m [43m                                         [49m[43mshower_problem[49m[43m,[49m[43m [49m
+[0;32m      5[0m [43m                                         [49m[43mu0[49m[43m,[49m[43m [49m
+[0;32m      6[0m [43m                                         [49m[43mlb[49m[43m,[49m
+[0;32m      7[0m [43m                                         [49m[43mub[49m[43m,[49m[43m [49m
+[0;32m      8[0m [43m                                         [49m[43mmethod[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mipopt[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m
+[0;32m      9[0m [43m                                         [49m[43mplot[49m[38;5;241;43m=[39;49m[38;5;28;43;01mTrue[39;49;00m[43m,[49m[43m [49m
+[0;32m     10[0m [43m                                         [49m[43mad[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m[43m,[49m
+[0;32m     11[0m [43m                                         [49m[43mwarmstart[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m
 
-[1;31mNameError[0m: name 'DOSPts' is not defined
-NameError: name 'DOSPts' is not defined
+File [1;32m~\Documents\python_operability\python_operability\src\pypo.py:929[0m, in [0;36mnlp_based_approach[1;34m(DOS_bounds, DOS_resolution, model, u0, lb, ub, constr, method, plot, ad, warmstart)[0m
+[0;32m    926[0m ax [38;5;241m=[39m fig[38;5;241m.[39madd_subplot([38;5;241m1[39m,[38;5;241m2[39m,[38;5;241m1[39m)
+[0;32m    927[0m [38;5;66;03m# plt.subplot(121)[39;00m
+[1;32m--> 929[0m [43max[49m[38;5;241;43m.[39;49m[43mrcParams[49m[[38;5;124m'[39m[38;5;124mfigure.facecolor[39m[38;5;124m'[39m] [38;5;241m=[39m [38;5;124m'[39m[38;5;124mwhite[39m[38;5;124m'[39m
+[0;32m    930[0m ax[38;5;241m.[39mscatter(fDIS[:, [38;5;241m0[39m], fDIS[:, [38;5;241m1[39m], s[38;5;241m=[39m[38;5;241m16[39m,
+[0;32m    931[0m             c[38;5;241m=[39mnp[38;5;241m.[39msqrt(fDOS[:, [38;5;241m0[39m][38;5;241m*[39m[38;5;241m*[39m[38;5;241m1[39m [38;5;241m+[39m fDOS[:, [38;5;241m1[39m][38;5;241m*[39m[38;5;241m*[39m[38;5;241m1[39m),
+[0;32m    932[0m             cmap[38;5;241m=[39mcmap, antialiased[38;5;241m=[39m[38;5;28;01mTrue[39;00m,
+[0;32m    933[0m             lw[38;5;241m=[39mlineweight, marker[38;5;241m=[39m[38;5;124m'[39m[38;5;124ms[39m[38;5;124m'[39m,
+[0;32m    934[0m             edgecolors[38;5;241m=[39medgecolors)
+[0;32m    935[0m ax[38;5;241m.[39mset_ylabel([38;5;124m'[39m[38;5;124m$u_[39m[38;5;132;01m{2}[39;00m[38;5;124m$[39m[38;5;124m'[39m)
+
+[1;31mAttributeError[0m: 'Axes' object has no attribute 'rcParams'
+AttributeError: 'Axes' object has no attribute 'rcParams'
 
