@@ -2,6 +2,7 @@ import numpy as np
 from pypo import multimodel_rep, OI_eval
 
 
+
 # Tests for the multimodel approach - DMA-MR and shower problem
 
 
@@ -145,24 +146,40 @@ from pypo import multimodel_rep, OI_eval
 # %% Shower problem 3x2
 
 
-from shower import shower3x2
-from pypo import AIS2AOS_map
+# from shower import shower3x2
+# from pypo import AIS2AOS_map
 
 
-DOS_bounds =  np.array([[10.00, 20.00], 
-                        [70.00, 100.00]])
+# DOS_bounds =  np.array([[10.00, 20.00], 
+#                         [70.00, 100.00]])
 
 
-AIS_bounds =  np.array([[0.00, 10.00],
-                        [0.00, 10.00],
-                        [-10.00, 10.00]])
+# AIS_bounds =  np.array([[0.00, 10.00],
+#                         [0.00, 10.00],
+#                         [-10.00, 10.00]])
 
-AIS_resolution =  [5, 5, 5]
+# AIS_resolution =  [5, 5, 5]
 
-model =  shower3x2
+# model =  shower3x2
 
-AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
+# AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
 
 
+def shower_problem(u):
+        y = np.zeros(2)
+        y[0]=u[0]+u[1]
+        if y[0]!=0:
+            y[1]=(u[0]*60+u[1]*120)/(u[0]+u[1])
+        else:
+            y[1]=(60+120)/2
+            
+        return y
+    
+AIS_bounds =  np.array([[1, 10], [1, 10]])
+AIS_resolution =  [5, 5]
+
+
+AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem,
+plotting=False)
 
 

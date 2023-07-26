@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html >
+<html lang="en" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>pypo &#8212; PyPO&#39;s documentation.</title>
   
@@ -44,6 +44,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/clipboard.min.js"></script>
     <script src="../_static/copybutton.js"></script>
@@ -64,9 +65,9 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Examples Gallery" href="../examples_gallery/index_example_gallery.html" />
-    <link rel="prev" title="API documentation" href="../api.html" />
+    <link rel="prev" title="API Documentation" href="../api.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="None"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
   
   
@@ -160,7 +161,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api.html">API documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../api.html">API Documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">pypo</a></li>
 </ul>
 </li>
@@ -362,13 +363,9 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section id="module-pypo">
-<span id="pypo"></span><h1>pypo<a class="headerlink" href="#module-pypo" title="Permalink to this headline">#</a></h1>
+<span id="pypo"></span><h1>pypo<a class="headerlink" href="#module-pypo" title="Permalink to this heading">#</a></h1>
 <p class="rubric">Functions</p>
-<table class="longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
+<table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pypo.AIS2AOS_map" title="pypo.AIS2AOS_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AIS2AOS_map</span></code></a>(model, AIS_bound, AIS_resolution)</p></td>
 <td><p>Forward mapping for Process Operability calculations (From AIS to AOS).</p></td>
@@ -379,19 +376,22 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pypo.create_grid" title="pypo.create_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_grid</span></code></a>(region_bounds, region_resolution)</p></td>
 <td><p>Create a multidimensional, discretized grid, given the bounds and the resolution.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#pypo.implicit_map" title="pypo.implicit_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implicit_map</span></code></a>(model, domain_bound, ...[, ...])</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_extreme_vertices</span></code>(bounds)</p></td>
+<td><p>Gets the extreme vertices of any D-dimensional hypercube.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pypo.implicit_map" title="pypo.implicit_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implicit_map</span></code></a>(model, domain_bound, ...[, ...])</p></td>
 <td><p>Performs implicit mapping of a implicitly defined process F(u,y) = 0.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pypo.multimodel_rep" title="pypo.multimodel_rep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multimodel_rep</span></code></a>(AIS_bound, resolution, model)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#pypo.multimodel_rep" title="pypo.multimodel_rep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multimodel_rep</span></code></a>(AIS_bound, resolution, model)</p></td>
 <td><p>Obtain a multimodel representation based on polytopes of Process Operability sets.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#pypo.nlp_based_approach" title="pypo.nlp_based_approach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nlp_based_approach</span></code></a>(DOS_bounds, ...[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pypo.nlp_based_approach" title="pypo.nlp_based_approach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nlp_based_approach</span></code></a>(DOS_bounds, ...[, ...])</p></td>
 <td><p>Inverse mapping for Process Operability calculations.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pypo.points2polyhedra" title="pypo.points2polyhedra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2polyhedra</span></code></a>(AIS, AOS)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#pypo.points2polyhedra" title="pypo.points2polyhedra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2polyhedra</span></code></a>(AIS, AOS)</p></td>
 <td><p>Generation of connected polyhedra based on the AIS/AOS points.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#pypo.points2simplices" title="pypo.points2simplices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2simplices</span></code></a>(AIS, AOS)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#pypo.points2simplices" title="pypo.points2simplices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2simplices</span></code></a>(AIS, AOS)</p></td>
 <td><p>Generation of connected simplices (k+1 convex hull of k+1 vertices) based on the AIS/AOS points.</p></td>
 </tr>
 </tbody>
@@ -435,7 +435,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">API documentation</p>
+        <p class="prev-next-title">API Documentation</p>
       </div>
     </a>
     <a class="right-next"

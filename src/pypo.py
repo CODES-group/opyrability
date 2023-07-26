@@ -97,16 +97,16 @@ def multimodel_rep(AIS_bound: np.ndarray,
     References
     ----------
     [1]  D. R., Vinson and C. Georgakis.  New Measure of Process Output 
-    Controllability. J. Process Control 2000. 
+    Controllability. J. Process Control, 2000. 
     https://doi.org/10.1016/S0959-1524(99)00045-1
     
     [2]  C. Georgakis, D. Uztürk, S. Subramanian, and D. R. Vinson. On the 
-    Operability of Continuous Processes. Control Eng. Pract. 2003. 
+    Operability of Continuous Processes. Control Eng. Pract., 2003. 
     https://doi.org/10.1016/S0967-0661(02)00217-4
     
     [3] V.Gazzaneo, J. C. Carrasco, D. R. Vinson, and F. V. Lima. Process 
     Operability Algorithms: Past, Present, and Future Developments.
-    Industrial & Engineering Chemistry Research 2020 59 (6), 2457-2470
+    Ind. & Eng. Chem. Res. 59 (6), 2457-2470, 2020.
     https://doi.org/10.1021/acs.iecr.9b05181
                                  
     """
@@ -289,11 +289,13 @@ def multimodel_rep(AIS_bound: np.ndarray,
 
         else:
             print('Plotting not supported. Dimension different greater than 3.')
+            AS_coords = np.concatenate(Vertices_list, axis=0)
 
     else:
         print('Either plotting is not possible (dimension > 3) or you have',
               'chosen plotting=False. The operability set is still returned as',
               'a polytopic region of general dimension.')
+        AS_coords = np.concatenate(Vertices_list, axis=0)
     
     
     # Small hack: Inject AS coordinates into return to be able to
@@ -353,16 +355,16 @@ def OI_eval(AS: pc.Region,
     References
     ----------
     [1]  D. R., Vinson and C. Georgakis.  New Measure of Process Output 
-    Controllability. J. Process Control 2000. 
+    Controllability. J. Process Control, 2000. 
     https://doi.org/10.1016/S0959-1524(99)00045-1
     
     [2]  C. Georgakis, D. Uztürk, S. Subramanian, and D. R. Vinson. On the 
-    Operability of Continuous Processes. Control Eng. Pract. 2003. 
+    Operability of Continuous Processes. Control Eng. Pract., 2003. 
     https://doi.org/10.1016/S0967-0661(02)00217-4
     
     [3] V.Gazzaneo, J. C. Carrasco, D. R. Vinson, and F. V. Lima. Process 
     Operability Algorithms: Past, Present, and Future Developments.
-    Industrial & Engineering Chemistry Research 2020 59 (6), 2457-2470
+    Ind. & Eng. Chem. Res. 59 (6), 2457-2470, 2020.
     https://doi.org/10.1021/acs.iecr.9b05181
 
     
@@ -689,8 +691,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     ----------
     [1] J. C. Carrasco and F. V. Lima, “An optimization-based operability 
     framework for process design and intensification of modular natural 
-    gas utilization systems,” Computers & Chemical Engineering, 
-    vol. 105, pp. 246-258, 2017.
+    gas utilization systems,” Comput. & Chem. Eng, 2017. https://doi.org/10.1016/j.compchemeng.2016.12.010
 
     '''
     from scipy.optimize import NonlinearConstraint
@@ -1490,6 +1491,13 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         of the implicit function. Similarly to 'domain_polyhedra', this list can
         be used to construct polytopes for multimodel representation and OI
         evaluation.
+        
+    References
+    ----------
+    V., J. R. Kitchin, and F. V. Lima. "An inverse mapping approach for process
+    systems engineering using automatic differentiation and the implicit 
+    function theorem". AIChE Journal, 2023. 
+    https://doi.org/10.1002/aic.18119
 
     '''
     

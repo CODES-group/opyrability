@@ -13,7 +13,7 @@ kernelspec:
 
 # API Documentation
 
-The functions described below are part of the PyPO and are
+The functions described below are part of PyPO and are
 classified based on their functionality. Each function also contains a worked
 example based on the famous [Shower Problem](examples_gallery/operability_index_shower.ipynb){cite}`vinson00`
 
@@ -65,7 +65,7 @@ Defining the AIS bounds, as well as the discretization resolution:
 Obtain discretized AIS/AOS.
 
 ```{code-cell}
-    AIS, AOS =  AIS2AOS_map(shower_problem, AIS_bounds,  resolution)
+    AIS, AOS =  AIS2AOS_map(shower_problem, AIS_bounds,  resolution, plot = True)
     print(AOS)
 ```
 
@@ -96,8 +96,8 @@ Defining lower and upper bound for the AIS/DIS inverse map:
 Defining DOS bounds and resolution to obtain the inverse map:
 
 ```{code-cell}
-    DOS_bound = np.array([[17.5, 21.0],
-                          [80.0, 100.0]])
+    DOS_bound = np.array([[15, 20],
+                          [80, 100]])
     resolution = [5, 5]
 ```
 
@@ -270,20 +270,23 @@ Creating a 2-dimensional discretized rectangular grid for given DOS bounds.
 
 ```{code-cell} 
     from pypo import create_grid
+
     DOS_bounds =  np.array([[10, 20], 
                             [70, 100]])
 
     DOS_resolution =  [3, 3]
 
-    DOSPts = create_grid(DOS_bounds, DOS_resolution)
+    DOS_points = create_grid(DOS_bounds, DOS_resolution)
 
-    print(DOSPts)
+    print(DOS_points)
 ```
 Visualizing this grid:
 ```{code-cell}
     import matplotlib.pyplot as plt
-    DOSPts = DOSPts.reshape(-1, 2)
-    plt.scatter(DOSPts[:, 0], DOSPts[:, 1])
+
+    DOS_points = DOS_points.reshape(-1, 2)
+
+    plt.scatter(DOS_points[:, 0], DOS_points[:, 1])
 ```
 
 
@@ -297,7 +300,9 @@ shower problem example.
 
 ```{code-cell}
     from pypo import points2simplices
+
     AIS_poly, AOS_poly = points2simplices(AIS,AOS)
+    
     print('AIS Simplices \n', AIS_poly)
     print('AOS Simplices \n', AOS_poly)
 ```
@@ -313,7 +318,9 @@ shower problem example.
 
 ```{code-cell}
     from pypo import points2polyhedra
+
     AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
+
     print('AIS Polyhedrons \n', AIS_poly)
     print('AOS Polyhedrons \n', AOS_poly)
 ```

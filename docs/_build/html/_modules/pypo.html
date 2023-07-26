@@ -158,7 +158,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../_autosummary/pypo.html">pypo</a></li>
 </ul>
 </li>
@@ -335,24 +335,20 @@ document.write(`
 <span class="kn">import</span> <span class="nn">polytope</span> <span class="k">as</span> <span class="nn">pc</span>
 <span class="kn">from</span> <span class="nn">polytope.polytope</span> <span class="kn">import</span> <span class="n">region_diff</span>
 <span class="kn">from</span> <span class="nn">polytope.polytope</span> <span class="kn">import</span> <span class="n">_get_patch</span>
-<span class="kn">from</span> <span class="nn">polytope</span> <span class="kn">import</span> <span class="n">solvers</span> <span class="k">as</span> <span class="n">polsolvers</span>
-<span class="n">polsolvers</span><span class="o">.</span><span class="n">default_solver</span> <span class="o">=</span> <span class="s1">&#39;scipy&#39;</span>
-<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">,</span> <span class="n">module</span><span class="o">=</span><span class="s1">&#39;polsolvers&#39;</span><span class="p">)</span>
+
 
 
 
 <span class="c1"># Plots</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.patches</span> <span class="k">as</span> <span class="nn">mpatches</span>
-<span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="k">as</span> <span class="nn">mcolors</span>
-<span class="kn">import</span> <span class="nn">pylab</span> <span class="k">as</span> <span class="nn">pl</span>
-<span class="kn">import</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">as</span> <span class="nn">a3</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d.art3d</span> <span class="kn">import</span> <span class="n">Poly3DCollection</span>
+
 
 
 <span class="c1"># Setting default plot options and default solver for multimodel approach.</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">150</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="c1"># solvers.default_solver = &#39;scipy&#39;</span>
 
 <span class="c1"># Plotting defaults</span>
 <span class="n">cmap</span> <span class="o">=</span>  <span class="s1">&#39;rainbow&#39;</span>
@@ -367,8 +363,8 @@ document.write(`
                   <span class="n">polytopic_trace</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;simplices&#39;</span><span class="p">,</span>
                   <span class="n">perspective</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;outputs&#39;</span><span class="p">,</span>
                   <span class="n">plotting</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Obtain a multimodel representation based on polytopes of Process Operability</span>
 <span class="sd">    sets. This procedure is essential for evaluating the Operability Index (OI).</span>
 <span class="sd">    </span>
@@ -404,25 +400,27 @@ document.write(`
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    finalpolytope : polytope.Region</span>
-<span class="sd">        Convex polytope or collection of convex polytopes (named as Region) </span>
+<span class="sd">    finalpolytope : list</span>
+<span class="sd">        List with first argument being a convex polytope or collection of </span>
+<span class="sd">        convex polytopes (named as Region) </span>
 <span class="sd">        that describes the AOS. Can be used to calculate the Operability Index </span>
-<span class="sd">        using ``OI_eval``.</span>
+<span class="sd">        using ``OI_eval``. Second argument is the coordinates of the AOS as a</span>
+<span class="sd">        numpy array.</span>
 <span class="sd">        </span>
 <span class="sd">    </span>
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    [1]  D. R., Vinson and C. Georgakis.  New Measure of Process Output </span>
-<span class="sd">    Controllability. J. Process Control 2000. </span>
+<span class="sd">    Controllability. J. Process Control, 2000. </span>
 <span class="sd">    https://doi.org/10.1016/S0959-1524(99)00045-1</span>
 <span class="sd">    </span>
 <span class="sd">    [2]  C. Georgakis, D. Uztürk, S. Subramanian, and D. R. Vinson. On the </span>
-<span class="sd">    Operability of Continuous Processes. Control Eng. Pract. 2003. </span>
+<span class="sd">    Operability of Continuous Processes. Control Eng. Pract., 2003. </span>
 <span class="sd">    https://doi.org/10.1016/S0967-0661(02)00217-4</span>
 <span class="sd">    </span>
 <span class="sd">    [3] V.Gazzaneo, J. C. Carrasco, D. R. Vinson, and F. V. Lima. Process </span>
 <span class="sd">    Operability Algorithms: Past, Present, and Future Developments.</span>
-<span class="sd">    Industrial &amp; Engineering Chemistry Research 2020 59 (6), 2457-2470</span>
+<span class="sd">    Ind. &amp; Eng. Chem. Res. 59 (6), 2457-2470, 2020.</span>
 <span class="sd">    https://doi.org/10.1021/acs.iecr.9b05181</span>
 <span class="sd">                                 </span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -430,7 +428,21 @@ document.write(`
     <span class="c1"># TODO: Add implicit mapping option to perform any multimodel rep </span>
     <span class="c1">#(future release).</span>
     <span class="c1"># Map AOS from AIS setup.</span>
-    <span class="n">AIS</span><span class="p">,</span> <span class="n">AOS</span> <span class="o">=</span>  <span class="n">AIS2AOS_map</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">AIS_bound</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+    
+    <span class="n">AIS</span><span class="p">,</span> <span class="n">AOS</span> <span class="o">=</span>  <span class="n">AIS2AOS_map</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">AIS_bound</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">plot</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+    
+    <span class="c1"># if perspective == &#39;outputs&#39;:</span>
+    <span class="c1">#     AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)</span>
+    <span class="c1"># else:</span>
+    <span class="c1">#     u0 = input(&#39;Enter an initial estimate for your inverse model&#39;)</span>
+    <span class="c1">#     u0 = np.array(u0, dtype=float)</span>
+    <span class="c1">#     AIS, AOS, _ = nlp_based_approach(AIS_bound, resolution, model, </span>
+    <span class="c1">#                                               u0, -np.inf, +np.inf, </span>
+    <span class="c1">#                                               method=&#39;ipopt&#39;, </span>
+    <span class="c1">#                                               plot=False, </span>
+    <span class="c1">#                                               ad=False,</span>
+    <span class="c1">#                                               warmstart=True)</span>
+        
     
     
     <span class="k">if</span>  <span class="n">polytopic_trace</span>  <span class="o">==</span><span class="s1">&#39;simplices&#39;</span><span class="p">:</span>
@@ -445,11 +457,11 @@ document.write(`
     
     <span class="c1"># Define empty polyopes list</span>
     <span class="n">Polytope</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
-    
+    <span class="n">Vertices_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="c1"># Create convex hull using the vertices of the AOS</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">AOS_poly</span><span class="p">)):</span>
         <span class="n">Vertices</span> <span class="o">=</span> <span class="n">AOS_poly</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
-        
+        <span class="n">Vertices_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Vertices</span><span class="p">)</span>
         <span class="n">Polytope</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">qhull</span><span class="p">(</span><span class="n">Vertices</span><span class="p">))</span>
         
     
@@ -501,6 +513,7 @@ document.write(`
             <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
             <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
             <span class="n">AS_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#2ca02c&#39;</span>
+            <span class="n">AS_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">Vertices_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">finalpolytope</span><span class="p">)):</span>
 
                 <span class="n">polyplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">finalpolytope</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
@@ -542,26 +555,75 @@ document.write(`
             <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
             
+        <span class="k">elif</span> <span class="n">finalpolytope</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            
+            
+            <span class="n">polyplot</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+            <span class="n">AS_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#2ca02c&#39;</span>
+            <span class="n">AS_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">Vertices_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            
+            <span class="k">for</span> <span class="n">cube</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">AS_coords</span><span class="p">],</span> <span class="p">[</span><span class="n">AS_COLOR</span><span class="p">]):</span>
+                <span class="n">hull</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+                <span class="c1"># draw the polygons of the convex hull</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">simplices</span><span class="p">:</span>
+                    <span class="n">tri</span> <span class="o">=</span> <span class="n">Poly3DCollection</span><span class="p">([</span><span class="n">cube</span><span class="p">[</span><span class="n">s</span><span class="p">]])</span>
+                    <span class="n">tri</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+                    <span class="n">tri</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">add_collection3d</span><span class="p">(</span><span class="n">tri</span><span class="p">)</span>
+                <span class="c1"># draw the vertices</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cube</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cube</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">cube</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> 
+                           <span class="n">color</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+            
+            <span class="n">AS_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">AS_label</span><span class="p">)</span>
+
+            <span class="n">extra</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+                                    <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                    <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">perspective</span> <span class="o">==</span> <span class="s1">&#39;outputs&#39;</span><span class="p">:</span>
+                <span class="n">str_title</span> <span class="o">=</span> <span class="s1">&#39;Achievable Output Set (AOS)&#39;</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">str_title</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span>
+                    <span class="s2">&quot;Available Input set (AIS)&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">AS_patch</span><span class="p">,</span> <span class="n">extra</span><span class="p">])</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{3}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+            
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Plotting not supported. Dimension different than 2.&#39;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Plotting not supported. Dimension different greater than 3.&#39;</span><span class="p">)</span>
+            <span class="n">AS_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">Vertices_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Either plotting is not possible (dimension &gt; 3) or you have&#39;</span><span class="p">,</span>
               <span class="s1">&#39;chosen plotting=False. The operability set is still returned as&#39;</span><span class="p">,</span>
               <span class="s1">&#39;a polytopic region of general dimension.&#39;</span><span class="p">)</span>
+        <span class="n">AS_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">Vertices_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     
     
-
-    <span class="k">return</span> <span class="n">finalpolytope</span></div>
+    <span class="c1"># Small hack: Inject AS coordinates into return to be able to</span>
+    <span class="c1"># plot 3d region effortlessly.</span>
+    <span class="n">finalpolytope_object</span> <span class="o">=</span> <span class="p">[</span><span class="n">finalpolytope</span><span class="p">,</span> <span class="n">AS_coords</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">finalpolytope_object</span></div>
 
 
 <div class="viewcode-block" id="OI_eval"><a class="viewcode-back" href="../api.html#pypo.OI_eval">[docs]</a><span class="k">def</span> <span class="nf">OI_eval</span><span class="p">(</span><span class="n">AS</span><span class="p">:</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">,</span>
        <span class="n">DS</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">perspective</span>  <span class="o">=</span> <span class="s1">&#39;outputs&#39;</span><span class="p">,</span>
        <span class="n">hypervol_calc</span><span class="p">:</span>           <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;robust&#39;</span><span class="p">,</span>
        <span class="n">plotting</span><span class="p">:</span>                <span class="nb">str</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Operability Index (OI) calculation. From a Desired Output</span>
 <span class="sd">    Set (DOS) defined by the user, this function calculates the intersection</span>
 <span class="sd">    between achievable (AOS) and desired output operation (DOS). Similarly, the </span>
@@ -607,16 +669,16 @@ document.write(`
 <span class="sd">    References</span>
 <span class="sd">    ----------</span>
 <span class="sd">    [1]  D. R., Vinson and C. Georgakis.  New Measure of Process Output </span>
-<span class="sd">    Controllability. J. Process Control 2000. </span>
+<span class="sd">    Controllability. J. Process Control, 2000. </span>
 <span class="sd">    https://doi.org/10.1016/S0959-1524(99)00045-1</span>
 <span class="sd">    </span>
 <span class="sd">    [2]  C. Georgakis, D. Uztürk, S. Subramanian, and D. R. Vinson. On the </span>
-<span class="sd">    Operability of Continuous Processes. Control Eng. Pract. 2003. </span>
+<span class="sd">    Operability of Continuous Processes. Control Eng. Pract., 2003. </span>
 <span class="sd">    https://doi.org/10.1016/S0967-0661(02)00217-4</span>
 <span class="sd">    </span>
 <span class="sd">    [3] V.Gazzaneo, J. C. Carrasco, D. R. Vinson, and F. V. Lima. Process </span>
 <span class="sd">    Operability Algorithms: Past, Present, and Future Developments.</span>
-<span class="sd">    Industrial &amp; Engineering Chemistry Research 2020 59 (6), 2457-2470</span>
+<span class="sd">    Ind. &amp; Eng. Chem. Res. 59 (6), 2457-2470, 2020.</span>
 <span class="sd">    https://doi.org/10.1021/acs.iecr.9b05181</span>
 
 <span class="sd">    </span>
@@ -626,12 +688,15 @@ document.write(`
     <span class="c1"># applicable.</span>
 
     <span class="n">DS_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">box2poly</span><span class="p">(</span><span class="n">DS</span><span class="p">)</span>
-    <span class="n">AS</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">AS</span><span class="p">)</span>
+    <span class="n">AS_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">AS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">DS_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">DS_region</span><span class="p">)</span>
-
-    <span class="n">intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">AS</span><span class="p">,</span> <span class="n">DS_region</span><span class="p">)</span>
-
+    <span class="n">inter_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">AS_region</span><span class="p">)):</span>
+        <span class="n">intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">AS_region</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">DS_region</span><span class="p">)</span>
+        <span class="n">inter_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intersection</span><span class="p">)</span>
     
+    <span class="n">intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">inter_list</span><span class="p">)</span>
+    <span class="n">v_intersect_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">hypervol_calc</span> <span class="o">==</span> <span class="s1">&#39;polytope&#39;</span><span class="p">:</span>
         <span class="n">OI</span> <span class="o">=</span> <span class="p">(</span><span class="n">intersection</span><span class="o">.</span><span class="n">volume</span><span class="o">/</span><span class="n">DS_region</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
 
@@ -639,14 +704,19 @@ document.write(`
         
         <span class="k">if</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">dim</span> <span class="o">&lt;</span> <span class="mi">7</span><span class="p">:</span>
             <span class="n">intersect_i</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">each_volume</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">))</span>
+            <span class="n">each_volume_list</span> <span class="o">=</span> <span class="p">[]</span>
             
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">)):</span>
-                
                 <span class="n">intersect_i</span> <span class="o">=</span> <span class="n">intersection</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">v_intersect</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">extreme</span><span class="p">(</span><span class="n">intersect_i</span><span class="p">)</span>
-                <span class="n">each_volume</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">v_intersect</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span>
-            
+                <span class="k">if</span> <span class="n">v_intersect</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">v_intersect_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v_intersect</span><span class="p">)</span>
+                    <span class="n">each_volume_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">v_intersect</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span>
+                    
+                
+            <span class="n">each_volume</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">each_volume_list</span><span class="p">)</span>
             <span class="n">intersection_volume</span> <span class="o">=</span> <span class="n">each_volume</span><span class="p">[</span><span class="mi">0</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
     
             <span class="n">v_DS</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">extreme</span><span class="p">(</span><span class="n">DS_region</span><span class="p">)</span>
@@ -662,10 +732,7 @@ document.write(`
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Invalid hypervolume calculation option. Exiting algorithm.&#39;</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
 
-    <span class="c1"># VolumeApprox_fast(A, b, Vertices)</span>
 
-    <span class="c1"># OI evaluation</span>
-    <span class="c1"># OI = (intersection.volume/DS_region.volume)*100</span>
 
     <span class="c1"># Perspective switch: This will only affect plotting and legends.</span>
     <span class="k">if</span> <span class="n">perspective</span> <span class="o">==</span> <span class="s1">&#39;outputs&#39;</span><span class="p">:</span>
@@ -674,12 +741,11 @@ document.write(`
         <span class="n">int_label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$ AOS \cap DOS$&#39;</span>
 
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">DS_label</span> <span class="o">=</span> <span class="s1">&#39;Desired Input Set (DOS)&#39;</span>
-        <span class="n">AS_label</span> <span class="o">=</span> <span class="s1">&#39;Available Input Set (AOS)&#39;</span>
+        <span class="n">DS_label</span> <span class="o">=</span> <span class="s1">&#39;Desired Input Set (DIS)&#39;</span>
+        <span class="n">AS_label</span> <span class="o">=</span> <span class="s1">&#39;Available Input Set (AIS)&#39;</span>
         <span class="n">int_label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$ AIS \cap DIS$&#39;</span>
 
-    <span class="c1"># Plotting if 2D/ 3D (Future implementation)</span>
-    <span class="c1"># TODO: 3D plotting</span>
+    <span class="c1"># Plotting if 2D/ 3D</span>
     <span class="k">if</span> <span class="n">plotting</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             
@@ -690,20 +756,24 @@ document.write(`
             <span class="n">DS_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#7f7f7f&#39;</span>
             <span class="n">INTERSECT_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#1f77b4&#39;</span>
             <span class="n">AS_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#2ca02c&#39;</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">AS</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">AS_region</span><span class="p">)):</span>
 
-                <span class="n">polyplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">AS</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+                <span class="n">polyplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">AS_region</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
                                     <span class="n">edgecolor</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
                                     <span class="n">facecolor</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">polyplot</span><span class="p">)</span>
 
 
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">)):</span>
-
-                <span class="n">interplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">intersection</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
-                                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                                    <span class="n">facecolor</span><span class="o">=</span><span class="n">INTERSECT_COLOR</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">INTERSECT_COLOR</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">interplot</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">intersection</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">interplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">intersection</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
+                                        <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                        <span class="n">facecolor</span><span class="o">=</span><span class="n">INTERSECT_COLOR</span><span class="p">,</span> 
+                                        <span class="n">edgecolor</span><span class="o">=</span><span class="n">INTERSECT_COLOR</span><span class="p">)</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">interplot</span><span class="p">)</span>
+                    
 
             <span class="n">DSplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">DS_region</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
                                 <span class="n">edgecolor</span><span class="o">=</span><span class="n">DS_COLOR</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
@@ -711,11 +781,15 @@ document.write(`
             <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">DSplot</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="s1">&#39;DOS&#39;</span><span class="p">)</span>
 
-            <span class="n">lower_xaxis</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">upper_xaxis</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">lower_xaxis</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">AS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> 
+                              <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">upper_xaxis</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">AS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> 
+                              <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
 
-            <span class="n">lower_yaxis</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">upper_yaxis</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">lower_yaxis</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">AS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> 
+                              <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">upper_yaxis</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">AS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> 
+                              <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
 
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">lower_xaxis</span> <span class="o">-</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">lower_xaxis</span><span class="p">,</span>
                         <span class="n">upper_xaxis</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">upper_xaxis</span><span class="p">)</span>
@@ -752,53 +826,49 @@ document.write(`
         
         <span class="k">elif</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
             
+            <span class="n">AS_coords</span> <span class="o">=</span> <span class="n">AS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">DS_coords</span> <span class="o">=</span> <span class="n">get_extreme_vertices</span><span class="p">(</span><span class="n">DS</span><span class="p">)</span>
             <span class="n">polyplot</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-            <span class="n">ax</span> <span class="o">=</span> <span class="n">a3</span><span class="o">.</span><span class="n">Axes3D</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">figure</span><span class="p">())</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s2">&quot;3d&quot;</span><span class="p">)</span>
+            <span class="n">AS_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#2ca02c&#39;</span>
             <span class="n">DS_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#7f7f7f&#39;</span>
             <span class="n">INTERSECT_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#1f77b4&#39;</span>
-            <span class="n">AS_COLOR</span> <span class="o">=</span> <span class="s1">&#39;#2ca02c&#39;</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">AS</span><span class="p">)):</span>
+            <span class="n">intersect_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">v_intersect_list</span><span class="p">,</span>  <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+           
+            
+            <span class="k">for</span> <span class="n">cube</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">AS_coords</span><span class="p">,</span> <span class="n">DS_coords</span><span class="p">,</span> <span class="n">intersect_coords</span><span class="p">],</span> 
+                                   <span class="p">[</span><span class="n">AS_COLOR</span><span class="p">,</span> <span class="n">DS_COLOR</span><span class="p">,</span> <span class="n">INTERSECT_COLOR</span><span class="p">]):</span>
+                <span class="n">hull</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
+                <span class="c1"># draw the polygons of the convex hull</span>
+                <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">simplices</span><span class="p">:</span>
+                    <span class="n">tri</span> <span class="o">=</span> <span class="n">Poly3DCollection</span><span class="p">([</span><span class="n">cube</span><span class="p">[</span><span class="n">s</span><span class="p">]])</span>
+                    <span class="n">tri</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+                    <span class="n">tri</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+                    <span class="n">ax</span><span class="o">.</span><span class="n">add_collection3d</span><span class="p">(</span><span class="n">tri</span><span class="p">)</span>
+                <span class="c1"># draw the vertices</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cube</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cube</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">cube</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> 
+                           <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-                <span class="n">polyplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">AS</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> 
-                                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
-                                    <span class="n">edgecolor</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">,</span> 
-                                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                                    <span class="n">facecolor</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">polyplot</span><span class="p">)</span>
-
-
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">)):</span>
-
-                <span class="n">interplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">intersection</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> 
-                                    <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
-                                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                                    <span class="n">facecolor</span><span class="o">=</span><span class="n">INTERSECT_COLOR</span><span class="p">,</span> 
-                                    <span class="n">edgecolor</span><span class="o">=</span><span class="n">INTERSECT_COLOR</span><span class="p">)</span>
-                <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">interplot</span><span class="p">)</span>
-
-            <span class="n">DSplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">DS_region</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
-                                <span class="n">edgecolor</span><span class="o">=</span><span class="n">DS_COLOR</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                                <span class="n">facecolor</span><span class="o">=</span><span class="n">DS_COLOR</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">DSplot</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="s1">&#39;DOS&#39;</span><span class="p">)</span>
-
-            <span class="n">lower_xaxis</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">upper_xaxis</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-
-            <span class="n">lower_yaxis</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-            <span class="n">upper_yaxis</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">AS</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
-
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">lower_xaxis</span> <span class="o">-</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">lower_xaxis</span><span class="p">,</span>
-                        <span class="n">upper_xaxis</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">upper_xaxis</span><span class="p">)</span>
-            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">lower_yaxis</span> <span class="o">-</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">lower_yaxis</span><span class="p">,</span>
-                        <span class="n">upper_yaxis</span> <span class="o">+</span> <span class="mf">0.05</span><span class="o">*</span><span class="n">upper_yaxis</span><span class="p">)</span>
-
-            <span class="n">DS_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">DS_COLOR</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">DS_label</span><span class="p">)</span>
+            
             <span class="n">AS_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">AS_label</span><span class="p">)</span>
-            <span class="n">INTERSECT_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">INTERSECT_COLOR</span><span class="p">,</span>
-                                            <span class="n">label</span><span class="o">=</span><span class="n">int_label</span><span class="p">)</span>
+
+            <span class="n">extra</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Rectangle</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+                                    <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                    <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span>
+                                    <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">perspective</span> <span class="o">==</span> <span class="s1">&#39;outputs&#39;</span><span class="p">:</span>
+                <span class="n">str_title</span> <span class="o">=</span> <span class="s1">&#39;Achievable Output Set (AOS)&#39;</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">str_title</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span>
+                    <span class="s2">&quot;Available Input set (AIS)&quot;</span><span class="p">)</span>
+                <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">AS_patch</span><span class="p">,</span> <span class="n">extra</span><span class="p">])</span>
+            
 
 
             <span class="n">OI_str</span> <span class="o">=</span> <span class="s1">&#39;Operability Index = &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">OI</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="s1">&#39;\%&#39;</span><span class="p">)</span>
@@ -816,11 +886,17 @@ document.write(`
                 <span class="n">str_title</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span>
                     <span class="s2">&quot;Operability Index Evaluation - Inputs&#39; perspective&quot;</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
+            
+            <span class="n">DS_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">DS_COLOR</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">DS_label</span><span class="p">)</span>
+            <span class="n">AS_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">AS_label</span><span class="p">)</span>
+            <span class="n">INTERSECT_patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">INTERSECT_COLOR</span><span class="p">,</span>
+                                            <span class="n">label</span><span class="o">=</span><span class="n">int_label</span><span class="p">)</span>
 
             <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">DS_patch</span><span class="p">,</span> <span class="n">AS_patch</span><span class="p">,</span> <span class="n">INTERSECT_patch</span><span class="p">,</span> <span class="n">extra</span><span class="p">])</span>
 
             <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{3}</span><span class="s1">$&#39;</span><span class="p">)</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
         <span class="k">else</span><span class="p">:</span>
@@ -844,7 +920,7 @@ document.write(`
                        <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> 
                        <span class="n">ad</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                        <span class="n">warmstart</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Inverse mapping for Process Operability calculations. From a Desired Output</span>
 <span class="sd">    Set (DOS) defined by the user, this function calculates the closest</span>
 <span class="sd">    Feasible Desired Ouput set (DOS*) from the AOS and its respective Feasible</span>
@@ -929,8 +1005,7 @@ document.write(`
 <span class="sd">    ----------</span>
 <span class="sd">    [1] J. C. Carrasco and F. V. Lima, “An optimization-based operability </span>
 <span class="sd">    framework for process design and intensification of modular natural </span>
-<span class="sd">    gas utilization systems,” Computers &amp; Chemical Engineering, </span>
-<span class="sd">    vol. 105, pp. 246-258, 2017.</span>
+<span class="sd">    gas utilization systems,” Comput. &amp; Chem. Eng, 2017. https://doi.org/10.1016/j.compchemeng.2016.12.010</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">NonlinearConstraint</span>
@@ -1194,8 +1269,8 @@ document.write(`
 
 
 <div class="viewcode-block" id="create_grid"><a class="viewcode-back" href="../api.html#pypo.create_grid">[docs]</a><span class="k">def</span> <span class="nf">create_grid</span><span class="p">(</span><span class="n">region_bounds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">region_resolution</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">):</span>
-    
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Create a multidimensional, discretized grid, given the bounds and the</span>
 <span class="sd">    resolution.</span>
 <span class="sd">    </span>
@@ -1257,8 +1332,8 @@ document.write(`
 
 <div class="viewcode-block" id="AIS2AOS_map"><a class="viewcode-back" href="../api.html#pypo.AIS2AOS_map">[docs]</a><span class="k">def</span> <span class="nf">AIS2AOS_map</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
      <span class="n">AIS_bound</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-     <span class="n">AIS_resolution</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+     <span class="n">AIS_resolution</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span><span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Forward mapping for Process Operability calculations (From AIS to AOS). </span>
 <span class="sd">    From a Available Input Set (AIS) bounds and discretization resolution both</span>
 <span class="sd">    defined by the user, </span>
@@ -1270,7 +1345,7 @@ document.write(`
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability </span>
 <span class="sd">    (CODES) Group - West Virginia University - 2022/2023</span>
 
-<span class="sd">    Author: San Dinh</span>
+<span class="sd">    Authors: San Dinh &amp; Victor Alves</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -1282,6 +1357,10 @@ document.write(`
 <span class="sd">    AIS_resolution : np.ndarray</span>
 <span class="sd">        Resolution for the Available Input Set (AIS). This will be used to</span>
 <span class="sd">        discretized the AIS.</span>
+<span class="sd">    plot: bool</span>
+<span class="sd">        Turn on/off plotting. If dimension is d&lt;=3, plotting is available and</span>
+<span class="sd">        both the Achievable Output Set (AOS) and Available Input</span>
+<span class="sd">        Set (AIS) are plotted. Default is True.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1322,12 +1401,148 @@ document.write(`
 
         <span class="n">AIS</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">inputID</span><span class="p">)]</span> <span class="o">=</span> <span class="n">AIS_val</span>
         <span class="n">AOS</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">inputID</span><span class="p">)]</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">AIS_val</span><span class="p">)</span>
+    
+    <span class="c1"># 2D/3D Plots</span>
+    <span class="k">if</span> <span class="n">plot</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            
+            <span class="n">AIS_plot</span> <span class="o">=</span> <span class="n">AIS</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">AOS_plot</span> <span class="o">=</span> <span class="n">AOS</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.facecolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">AIS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AIS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                        <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lw</span><span class="o">=</span><span class="n">lineweight</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;AIS&#39;</span><span class="p">)</span>
+           
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                        <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lw</span><span class="o">=</span><span class="n">lineweight</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;AOS&#39;</span><span class="p">)</span>
+
+            
+        <span class="k">elif</span> <span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            
+            <span class="n">AIS_plot</span> <span class="o">=</span> <span class="n">AIS</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">AOS_plot</span> <span class="o">=</span> <span class="n">AOS</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figaspect</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.facecolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">AIS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AIS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">AIS_plot</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                        <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span>
+                                  <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lw</span><span class="o">=</span><span class="n">lineweight</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{3}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;AIS&#39;</span><span class="p">)</span>
+            
+
+            
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                        <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> 
+                                  <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lw</span><span class="o">=</span><span class="n">lineweight</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{3}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;AOS&#39;</span><span class="p">)</span>
+            
+        <span class="k">elif</span> <span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            
+            <span class="n">AIS_plot</span> <span class="o">=</span> <span class="n">AIS</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">AOS_plot</span> <span class="o">=</span> <span class="n">AOS</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figaspect</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+            
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.facecolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">AIS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AIS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                        <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lw</span><span class="o">=</span><span class="n">lineweight</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;AIS&#39;</span><span class="p">)</span>
+            
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                        <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> 
+                                  <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lw</span><span class="o">=</span><span class="n">lineweight</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{3}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;AOS&#39;</span><span class="p">)</span>
+            
+            
+        <span class="k">elif</span> <span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            
+            <span class="n">AIS_plot</span> <span class="o">=</span> <span class="n">AIS</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">AIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">AOS_plot</span> <span class="o">=</span> <span class="n">AOS</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">AOS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figaspect</span><span class="p">(</span><span class="mf">0.5</span><span class="p">))</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.facecolor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;white&#39;</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">AIS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AIS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">AIS_plot</span><span class="p">[:,</span><span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                        <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lw</span><span class="o">=</span><span class="n">lineweight</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;$u_</span><span class="si">{3}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;AIS&#39;</span><span class="p">)</span>
+            
+            
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+
+            <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                        <span class="n">c</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">AOS_plot</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span> <span class="n">antialiased</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">lw</span><span class="o">=</span><span class="n">lineweight</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span>
+                        <span class="n">edgecolors</span><span class="o">=</span><span class="n">edgecolors</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{2}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;$y_</span><span class="si">{1}</span><span class="s1">$&#39;</span><span class="p">)</span>
+            
+            <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;AOS&#39;</span><span class="p">)</span>
+                
+            
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dimension greater than 3, plotting not supported.&#39;</span><span class="p">)</span>
+            
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+            
+    
     <span class="k">return</span> <span class="n">AIS</span><span class="p">,</span> <span class="n">AOS</span></div>
 
 
 <div class="viewcode-block" id="points2simplices"><a class="viewcode-back" href="../api.html#pypo.points2simplices">[docs]</a><span class="k">def</span> <span class="nf">points2simplices</span><span class="p">(</span><span class="n">AIS</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">AOS</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                                                 <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Generation of connected simplices (k+1 convex hull of k+1 vertices) </span>
 <span class="sd">    based on the AIS/AOS points.</span>
 <span class="sd">    </span>
@@ -1422,7 +1637,7 @@ document.write(`
 
 <div class="viewcode-block" id="points2polyhedra"><a class="viewcode-back" href="../api.html#pypo.points2polyhedra">[docs]</a><span class="k">def</span> <span class="nf">points2polyhedra</span><span class="p">(</span><span class="n">AIS</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">AOS</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                                                                 <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Generation of connected polyhedra based on the AIS/AOS points.</span>
 <span class="sd">    </span>
 <span class="sd">    This function is part of Python-based Process Operability package.</span>
@@ -1501,7 +1716,7 @@ document.write(`
                  <span class="n">derivative</span><span class="p">:</span>        <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;jax&#39;</span><span class="p">,</span>
                  <span class="n">jit</span><span class="p">:</span>               <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                  <span class="n">step_cutting</span><span class="p">:</span>      <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Performs implicit mapping of a implicitly defined process F(u,y) = 0. </span>
 <span class="sd">    F can be a vector-valued, multivariable function, which is typically the </span>
 <span class="sd">    case for chemical processes studied in Process Operability. </span>
@@ -1511,6 +1726,9 @@ document.write(`
 <span class="sd">    mapping &quot;direction&quot; can be set by changing the &#39;direction&#39; parameter.</span>
 <span class="sd">    </span>
 <span class="sd">    Authors: San Dinh &amp; Victor Alves</span>
+<span class="sd">    </span>
+<span class="sd">    Control, Optimization and Design for Energy and Sustainability </span>
+<span class="sd">    (CODES) Group - West Virginia University - 2022/2023</span>
 <span class="sd">    </span>
 
 <span class="sd">    Parameters</span>
@@ -1587,6 +1805,13 @@ document.write(`
 <span class="sd">        of the implicit function. Similarly to &#39;domain_polyhedra&#39;, this list can</span>
 <span class="sd">        be used to construct polytopes for multimodel representation and OI</span>
 <span class="sd">        evaluation.</span>
+<span class="sd">        </span>
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    V., J. R. Kitchin, and F. V. Lima. &quot;An inverse mapping approach for process</span>
+<span class="sd">    systems engineering using automatic differentiation and the implicit </span>
+<span class="sd">    function theorem&quot;. AIChE Journal, 2023. </span>
+<span class="sd">    https://doi.org/10.1002/aic.18119</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
     
@@ -1856,6 +2081,39 @@ document.write(`
             <span class="n">image_polyhedra</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">V_image_id</span><span class="p">)</span>
             
     <span class="k">return</span> <span class="n">domain_set</span><span class="p">,</span> <span class="n">image_set</span><span class="p">,</span> <span class="n">domain_polyhedra</span><span class="p">,</span> <span class="n">image_polyhedra</span></div>
+
+
+<span class="k">def</span> <span class="nf">get_extreme_vertices</span><span class="p">(</span><span class="n">bounds</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets the extreme vertices of any D-dimensional hypercube. This is used to</span>
+<span class="sd">    plot the DOS in 3d.</span>
+<span class="sd">    </span>
+<span class="sd">    Author: Victor Alves</span>
+<span class="sd">    </span>
+<span class="sd">    Control, Optimization and Design for Energy and Sustainability </span>
+<span class="sd">    (CODES) Group - West Virginia University - 2022/2023</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bounds : np.ndarray</span>
+<span class="sd">        Lower and upper bounds for the Desired Output Set (DOS).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    extreme_vertices : np.ndarray</span>
+<span class="sd">        Extreme vertices for the DOS.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">num_dimensions</span> <span class="o">=</span> <span class="n">bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">num_points</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">num_dimensions</span>
+
+    <span class="n">extreme_vertices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">num_points</span><span class="p">,</span> <span class="n">num_dimensions</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_dimensions</span><span class="p">):</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_points</span><span class="p">)</span> <span class="o">//</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">i</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span>
+        <span class="n">extreme_vertices</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">indices</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">extreme_vertices</span>
 </pre></div>
 
                 </article>
