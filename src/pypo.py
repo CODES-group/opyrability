@@ -115,7 +115,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
     #(future release).
     # Map AOS from AIS setup.
     
-    AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
+    AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution, plot = False)
     
     # if perspective == 'outputs':
     #     AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
@@ -1086,12 +1086,13 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
 
         AIS[tuple(inputID)] = AIS_val
         AOS[tuple(inputID)] = model(AIS_val)
-        
+    
+    # 2D/3D Plots
     if plot is True:
-        if AOS.shape[-1]==2 and AOS.shape[-1] == 2:
+        if AIS.shape[-1] == 2 and AOS.shape[-1] == 2:
             
-            AIS_plot = AIS.reshape(AIS.shape[0]*AIS.shape[1], AIS.shape[-1])
-            AOS_plot = AOS.reshape(AOS.shape[0]*AOS.shape[1], AOS.shape[-1])
+            AIS_plot = AIS.reshape(np.prod(AIS.shape[0:-1]), AIS.shape[-1])
+            AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
             plt.subplot(121)
 
             plt.rcParams['figure.facecolor'] = 'white'
@@ -1118,12 +1119,10 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
             plt.title('AOS')
 
             
-        elif AOS.shape[-1]== 3 and AOS.shape[-1] == 3:
+        elif AIS.shape[-1]== 3 and AOS.shape[-1] == 3:
             
-            AIS_plot = AIS.reshape(AIS.shape[0]*AIS.shape[1]*AIS.shape[2], 
-                                   AIS.shape[-1])
-            AOS_plot = AOS.reshape(AOS.shape[0]*AOS.shape[1]*AOS.shape[2],
-                                   AOS.shape[-1])
+            AIS_plot = AIS.reshape(np.prod(AIS.shape[0:-1]), AIS.shape[-1])
+            AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
             fig = plt.figure(figsize=plt.figaspect(0.5))
             ax = fig.add_subplot(1,2,1, projection='3d')
 
@@ -1153,12 +1152,74 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
             ax.set_zlabel('$y_{3}$')
             ax.set_title('AOS')
             
+        elif AIS.shape[-1] == 2 and AOS.shape[-1] == 3:
+            
+            AIS_plot = AIS.reshape(np.prod(AIS.shape[0:-1]), AIS.shape[-1])
+            AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
+            fig = plt.figure(figsize=plt.figaspect(0.5))
+            
+            ax = fig.add_subplot(1,2,1)
+
+            plt.rcParams['figure.facecolor'] = 'white'
+            ax.scatter(AIS_plot[:, 0], AIS_plot[:, 1], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='s',
+                        edgecolors=edgecolors)
+            ax.set_ylabel('$u_{2}$')
+            ax.set_xlabel('$u_{1}$')
+            ax.set_title('AIS')
+            
+            ax = fig.add_subplot(1,2,2, projection='3d')
+            ax.scatter(AOS_plot[:, 0], AOS_plot[:, 1], AOS_plot[:, 2], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2 + 
+                                  AOS_plot[:, 2]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='o',
+                        edgecolors=edgecolors)
+            ax.set_ylabel('$y_{2}$')
+            ax.set_xlabel('$y_{1}$')
+            ax.set_zlabel('$y_{3}$')
+            ax.set_title('AOS')
+            
+            
+        elif AIS.shape[-1] == 3 and AOS.shape[-1] == 2:
+            
+            AIS_plot = AIS.reshape(np.prod(AIS.shape[0:-1]), AIS.shape[-1])
+            AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
+            fig = plt.figure(figsize=plt.figaspect(0.5))
+            ax = fig.add_subplot(1,2,1, projection='3d')
+
+            plt.rcParams['figure.facecolor'] = 'white'
+            ax.scatter(AIS_plot[:, 0], AIS_plot[:, 1], AIS_plot[:,2], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='s',
+                        edgecolors=edgecolors)
+            ax.set_ylabel('$u_{2}$')
+            ax.set_xlabel('$u_{1}$')
+            ax.set_zlabel('$u_{3}$')
+            ax.set_title('AIS')
+            
+            
+            ax = fig.add_subplot(1,2,2)
+
+            ax.scatter(AOS_plot[:, 0], AOS_plot[:, 1], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='o',
+                        edgecolors=edgecolors)
+            ax.set_ylabel('$y_{2}$')
+            ax.set_xlabel('$y_{1}$')
+            
+            plt.title('AOS')
+                
             
         else:
             print('dimension greater than 3, plotting not supported.')
             
     else:
-        print('Plotting not supported or set to False.')
+        pass
             
     
     return AIS, AOS

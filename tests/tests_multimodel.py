@@ -72,23 +72,23 @@ from pypo import multimodel_rep, OI_eval
 # OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust')
 
 # %% Shower problem 3x3
-from shower import shower3x3
-from pypo import AIS2AOS_map
-import matplotlib.pyplot as plt
-DOS_bounds =  np.array([[10.00, 20.00], 
-                        [70.00, 100.00],
-                        [-10.00, 10.00]])
+# from shower import shower3x3
+# from pypo import AIS2AOS_map
+# import matplotlib.pyplot as plt
+# DOS_bounds =  np.array([[10.00, 20.00], 
+#                         [70.00, 100.00],
+#                         [-10.00, 10.00]])
 
 
-AIS_bounds =  np.array([[0.00, 10.00],
-                        [0.00, 10.00],
-                        [-10.00, 10.00]])
+# AIS_bounds =  np.array([[0.00, 10.00],
+#                         [0.00, 10.00],
+#                         [-10.00, 10.00]])
 
-AIS_resolution =  [5, 5, 5]
+# AIS_resolution =  [5, 5, 5]
 
-model =  shower3x3
+# model =  shower3x3
 
-AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
+# AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
 
 # AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, model)
 
@@ -112,7 +112,7 @@ AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
 #                         [0, 10.00]])
 
 
-# # AIS, AOS = AIS2AOS_map(model, AOS_bounds, AOS_resolution)
+# AIS, AOS = AIS2AOS_map(model, AOS_bounds, AOS_resolution)
 
 
 # AIS_region  =  multimodel_rep(AOS_bounds, AOS_resolution, model, 
@@ -120,5 +120,49 @@ AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
 #                               perspective = 'inputs')
 
 # OI = OI_eval(AIS_region, DIS_bounds, perspective = 'inputs')
+
+
+# %% Shower problem 2x3
+
+# from shower import shower2x3
+# from pypo import AIS2AOS_map
+# import matplotlib.pyplot as plt
+# DOS_bounds =  np.array([[10.00, 20.00], 
+#                         [70.00, 100.00],
+#                         [70.00, 100.00]])
+
+
+# AIS_bounds =  np.array([[0.00, 10.00],
+#                         [0.00, 10.00]])
+
+# AIS_resolution =  [5, 5]
+
+# model =  shower2x3
+
+# AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
+
+
+# %% Shower problem 3x2
+
+
+from shower import shower3x2
+from pypo import AIS2AOS_map
+
+
+DOS_bounds =  np.array([[10.00, 20.00], 
+                        [70.00, 100.00]])
+
+
+AIS_bounds =  np.array([[0.00, 10.00],
+                        [0.00, 10.00],
+                        [-10.00, 10.00]])
+
+AIS_resolution =  [5, 5, 5]
+
+model =  shower3x2
+
+AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
+
+
 
 
