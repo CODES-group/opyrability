@@ -68,3 +68,13 @@ def inv_shower2x2(y):
     u[1] = y[0] - u[0]
     
     return u
+
+def inv_shower3x3(y):
+    
+    u = np.zeros(3)
+   
+    u[0] = (y[0]*(y[1]-60))/60
+    u[1] = y[0] - u[0]
+    u[2] = y[2]
+    
+    return u

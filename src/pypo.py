@@ -45,7 +45,9 @@ def multimodel_rep(AIS_bound: np.ndarray,
                   model: Callable[...,Union[float,np.ndarray]],
                   polytopic_trace: str = 'simplices',
                   perspective: str = 'outputs',
-                  plotting: str = True):
+                  plotting: str = True,
+                  EDS_bound: str = None,
+                  EDS_resolution: str = None):
     
     """
     Obtain a multimodel representation based on polytopes of Process Operability
@@ -80,6 +82,13 @@ def multimodel_rep(AIS_bound: np.ndarray,
     plotting: str, Optional.
         Defines if the plotting of operability sets is desired (If the dimension
         is <= 3). Default is 'True'.
+    EDS_bound : np.ndarray
+        Lower and upper bounds for the Expected Disturbance Set (EDS). Default
+        is 'None'.
+    EDS_resolution : np.ndarray
+        Resolution for the Expected Disturbance Set (EDS). This will be used to
+        discretize the EDS, similar to the AIS_resolution   
+        
 
     Returns
     -------
@@ -112,7 +121,10 @@ def multimodel_rep(AIS_bound: np.ndarray,
     #(future release).
     # Map AOS from AIS setup.
     
-    AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution, plot = False)
+    AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution, 
+                            EDS_bound=EDS_bound,
+                            EDS_resolution=EDS_resolution,
+                            plot = False,)
     
     # if perspective == 'outputs':
     #     AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
@@ -774,20 +786,16 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     bounds = np.column_stack((lb, ub))
 
     # Input sanitation
-    if u0.size != c:
-        raise ValueError("Initial estimate and DOS grid have"
-                         " inconsistent sizes. Check the dimensions"
-                         " of your problem.")
+    if u0.size <= c:
+        warnings.warn("Your problem is non-square and you have "
+                      "less degrees of freedom in the AIS/DIS "
+                      "Than variables in the AIS.", UserWarning)
     if bounds.shape[0] != u0.size:
         raise ValueError("Initial estimate and given bounds have"
                          " inconsistent sizes."
                          " Check the dimensions"
                          " of your problem.")
-    if bounds.shape[0] != c:
-        raise ValueError("Initial estimate and DOS grid have"
-                         " inconsistent sizes."
-                         " Check the dimensions"
-                         " of your problem.")
+
 
     # If unbounded, set as +-inf.
     if lb.size == 0:
@@ -914,41 +922,165 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
             fDIS[i, :] = sol.x
 
         message_list.append(sol.message)
-
-    if fDIS.shape[1] > 2:
+    
+    debug = 1
+    if fDIS.shape[1] > 3 and fDOS.shape[1] > 3:
         plot is False
-        print('Plotting not supported. Dimension different than 2.')
+        print('Plotting not supported. Dimension higher than 3.')
+        pass
     else:
 
         if plot is True:
             
-            fig = plt.figure(figsize=plt.figaspect(0.5))
-            ax = fig.add_subplot(1,2,1)
-            # plt.subplot(121)
+            if fDIS.shape[1] == 2 and fDOS.shape[1] == 2:
+                _, (ax1, ax2) = plt.subplots(nrows=1,ncols=2, 
+                                              constrained_layout=True)
+                # fig = plt.figure(figsize=plt.figaspect(0.45))
+                # ax = fig.add_subplot(1,2,1)
+                # plt.subplot(121)
 
-            # ax.rcParams['figure.facecolor'] = 'white'
-            ax.scatter(fDIS[:, 0], fDIS[:, 1], s=16,
-                        c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
+                # ax.rcParams['figure.facecolor'] = 'white'
+                ax1.scatter(fDIS[:, 0], fDIS[:, 1], s=16,
+                            c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
+                            cmap=cmap, antialiased=True,
+                            lw=lineweight, marker='s',
+                            edgecolors=edgecolors)
+                ax1.set_ylabel('$u_{2}$')
+                ax1.set_xlabel('$u_{1}$')
+                ax1.set_title('DIS*')
+                # plt.show
+
+                # ax = fig.add_subplot(1,2,2)
+
+                ax2.scatter(fDOS[:, 0], fDOS[:, 1], s=16,
+                            c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
+                            cmap=cmap, antialiased=True,
+                            lw=lineweight, marker='o',
+                            edgecolors=edgecolors)
+                ax2.set_ylabel('$y_{2}$')
+                ax2.set_xlabel('$y_{1}$')
+                ax2.set_title('DOS*')
+                
+                
+            elif fDIS.shape[1] == 3 and fDOS.shape[1] == 3:
+                
+                fig = plt.figure(figsize=plt.figaspect(0.5))
+                ax = fig.add_subplot(1,2,1, projection='3d')
+                
+                plt.rcParams['figure.facecolor'] = 'white'
+                ax.scatter(fDIS[:, 0], fDIS[:, 1], fDIS[:,2], 
+                           s=16, c=np.sqrt(fDOS[:, 0]**2 + 
+                                           fDOS[:, 1]**2 +
+                                           fDOS[:, 2]**2),
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            ax.set_ylabel('$u_{2}$')
-            ax.set_xlabel('$u_{1}$')
-            ax.set_title('DIS*')
-            # plt.show
-
-            ax = fig.add_subplot(1,2,2)
-
-            ax.scatter(fDOS[:, 0], fDOS[:, 1], s=16,
-                        c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
+                
+                ax.set_xlabel('$u_{1}$')
+                ax.set_ylabel('$u_{2}$')
+                ax.set_zlabel('$u_{3}$')
+                
+                ax.set_title('DIS*')
+                
+                ax = fig.add_subplot(1,2,2, projection='3d')
+                
+                ax.scatter(fDOS[:, 0], 
+                           fDOS[:, 1], 
+                           fDOS[:, 2], 
+                           s=16,
+                           c=np.sqrt(fDOS[:, 0]**2 + 
+                                     fDOS[:, 1]**2 + 
+                                     fDOS[:, 2]**2),
+                           cmap=cmap, 
+                           antialiased=True,
+                           lw=lineweight, 
+                           marker='o',
+                           edgecolors=edgecolors)
+                ax.set_ylabel('$y_{2}$')
+                ax.set_xlabel('$y_{1}$')
+                ax.set_zlabel('$y_{3}$')
+                ax.set_title('$DOS*$')
+                
+                
+            elif fDIS.shape[1] == 2 and fDOS.shape[1] == 3:
+                
+                fig = plt.figure(figsize=plt.figaspect(0.5))
+                ax = fig.add_subplot(1,2,1)
+                
+                plt.rcParams['figure.facecolor'] = 'white'
+                ax.scatter(fDIS[:, 0], fDIS[:, 1], 
+                           s=16, c=np.sqrt(fDOS[:, 0]**2 + 
+                                           fDOS[:, 1]**2),
                         cmap=cmap, antialiased=True,
-                        lw=lineweight, marker='o',
+                        lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            ax.set_ylabel('$y_{2}$')
-            ax.set_xlabel('$y_{1}$')
-            ax.set_title('DOS*')
+                
+                ax.set_xlabel('$u_{1}$')
+                ax.set_ylabel('$u_{2}$')
+                
+                
+                ax.set_title('DIS*')
+                
+                ax = fig.add_subplot(1,2,2, projection='3d')
+                
+                ax.scatter(fDOS[:, 0], 
+                           fDOS[:, 1], 
+                           fDOS[:, 2], 
+                           s=16,
+                           c=np.sqrt(fDOS[:, 0]**2 + 
+                                     fDOS[:, 1]**2 + 
+                                     fDOS[:, 2]**2),
+                           cmap=cmap, 
+                           antialiased=True,
+                           lw=lineweight, 
+                           marker='o',
+                           edgecolors=edgecolors)
+                ax.set_ylabel('$y_{2}$')
+                ax.set_xlabel('$y_{1}$')
+                ax.set_zlabel('$y_{3}$')
+                ax.set_title('$DOS*$')
+                
+            elif fDIS.shape[1] == 3 and fDOS.shape[1] == 2:
+                
+                fig = plt.figure(figsize=plt.figaspect(0.5))
+                ax = fig.add_subplot(1,2,1, projection='3d')
+                
+                plt.rcParams['figure.facecolor'] = 'white'
+                ax.scatter(fDIS[:, 0], fDIS[:, 1], fDIS[:, 2],
+                           s=16, c=np.sqrt(fDOS[:, 0]**2 + 
+                                           fDOS[:, 1]**2 +
+                                           fDOS[:, 2]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='s',
+                        edgecolors=edgecolors)
+                
+                ax.set_xlabel('$u_{1}$')
+                ax.set_ylabel('$u_{2}$')
+                ax.set_zlabel('$u_{3}$')
+                
+                
+                ax.set_title('DIS*')
+                
+                ax = fig.add_subplot(1,2,2)
+                
+                ax.scatter(fDOS[:, 0], 
+                           fDOS[:, 1],
+                           s=16,
+                           c=np.sqrt(fDOS[:, 0]**2 + 
+                                     fDOS[:, 1]**2),
+                           cmap=cmap, 
+                           antialiased=True,
+                           lw=lineweight, 
+                           marker='o',
+                           edgecolors=edgecolors)
+                ax.set_ylabel('$y_{2}$')
+                ax.set_xlabel('$y_{1}$')
+                ax.set_title('$DOS*$')   
+            else:
+                print('Plotting not supported. Dimension higher than 3.')
+                plot is False
+                pass
 
-            # plt.show
 
     return fDIS, fDOS, message_list
 
@@ -1018,7 +1150,8 @@ def create_grid(region_bounds: np.ndarray, region_resolution: tuple):
 
 def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
      AIS_bound: np.ndarray,
-     AIS_resolution: np.ndarray, plot: bool = True)-> Union[np.ndarray,np.ndarray]:
+     AIS_resolution: np.ndarray, EDS_bound: np.ndarray = None,
+     EDS_resolution: np.ndarray = None, plot: bool = True)-> Union[np.ndarray,np.ndarray]:
     '''
     Forward mapping for Process Operability calculations (From AIS to AOS). 
     From a Available Input Set (AIS) bounds and discretization resolution both
@@ -1042,7 +1175,13 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
         Lower and upper bounds for the Available Input Set (AIS).
     AIS_resolution : np.ndarray
         Resolution for the Available Input Set (AIS). This will be used to
-        discretized the AIS.
+        discretize the AIS.
+    EDS_bound : np.ndarray
+        Lower and upper bounds for the Expected Disturbance Set (EDS). Default
+        is 'None'.
+    EDS_resolution : np.ndarray
+        Resolution for the Expected Disturbance Set (EDS). This will be used to
+        discretize the EDS.   
     plot: bool
         Turn on/off plotting. If dimension is d<=3, plotting is available and
         both the Achievable Output Set (AOS) and Available Input
@@ -1052,92 +1191,168 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
     -------
     AIS : np.ndarray
         Discretized Available Input Set (AIS).
-    AOS : TYPE
+    AOS : np.ndarray
         Discretized Available Output Set (AIS).
 
     '''
     
     # Indexing
-    numInput = np.prod(AIS_resolution)
-    nInput = AIS_bound.shape[0]
-    Input_u = []
-
+    if type(EDS_bound) and type(EDS_resolution) is type(None):
+        numInput_map = np.prod(AIS_resolution)
+        nInput_map = AIS_bound.shape[0]
+        map_bounds = AIS_bound
+        map_resolution = AIS_resolution
+    else:
+        numInput_map = np.prod(AIS_resolution + EDS_resolution)
+        numInput_d = np.prod(EDS_resolution)
+        nInput_map = AIS_bound.shape[0] + EDS_bound.shape[0]
+        nInput_d = EDS_bound.shape[0]
+        map_bounds = np.concatenate([AIS_bound, EDS_bound])
+        map_resolution =  AIS_resolution + EDS_resolution
+        EDS = np.zeros(EDS_resolution + [nInput_d])
+        
+        
+    
+    Input_map = []
+    Input_d = []
+    
     # Create discretized AIS based on bounds and resolution information.
-    for i in range(nInput):
-        Input_u.append(list(np.linspace(AIS_bound[i, 0],
-                                        AIS_bound[i, 1],
-                                        AIS_resolution[i])))
+    for i in range(nInput_map):
+        Input_map.append(list(np.linspace(map_bounds[i, 0],
+                                        map_bounds[i, 1],
+                                        map_resolution[i])))
+        
+        
+    if (type(EDS_bound) and type(EDS_resolution)) is not type(None):
+        for i in range(nInput_d):
+            Input_d.append(list(np.linspace(EDS_bound[i, 0],
+                                            EDS_bound[i, 1],
+                                            EDS_resolution[i])))
+    else:
+        pass
+    
+    
     # Create slack variables for preallocation purposes.
-    u_slack = AIS_bound[:, 0]
-    y_slack = model(u_slack)
+    u_d_slack = map_bounds[:, 0]
+    y_slack = model(u_d_slack)
     nOutput = y_slack.shape[0]
-    AIS = np.zeros(AIS_resolution + [nInput])
-    AOS = np.zeros(AIS_resolution + [nOutput])
+    input_map = np.zeros(map_resolution + [nInput_map])
+    AOS = np.zeros(map_resolution + [nOutput])
+    
 
-    #
-    for i in range(numInput):
-        inputID = [0]*nInput
-        inputID[0] = int(np.mod(i, AIS_resolution[0]))
-        AIS_val = [Input_u[0][inputID[0]]]
+    # General map (AIS+EDS) multidimensional array
+    for i in range(numInput_map):
+        inputID = [0]*nInput_map
+        inputID[0] = int(np.mod(i, map_resolution[0]))
+        map_val = [Input_map[0][inputID[0]]]
 
-        for j in range(1, nInput):
-            inputID[j] = int(np.mod(np.floor(i/np.prod(AIS_resolution[0:j])),
-                                    AIS_resolution[j]))
-            AIS_val.append(Input_u[j][inputID[j]])
+        for j in range(1, nInput_map):
+            inputID[j] = int(np.mod(np.floor(i/np.prod(map_resolution[0:j])),
+                                    map_resolution[j]))
+            map_val.append(Input_map[j][inputID[j]])
 
-        AIS[tuple(inputID)] = AIS_val
-        AOS[tuple(inputID)] = model(AIS_val)
+        input_map[tuple(inputID)] = map_val
+        AOS[tuple(inputID)] = model(map_val)
+        
+    # EDS multidimensional array.
+    if (type(EDS_bound) and type(EDS_resolution)) is not type(None):
+        for i in range(numInput_d):
+            inputID = [0]*nInput_d
+            inputID[0] = int(np.mod(i, EDS_resolution[0]))
+            map_val = [Input_d[0][inputID[0]]]
+
+            for j in range(1, nInput_d):
+                inputID[j] = int(np.mod(np.floor(i/np.prod(EDS_resolution[0:j])),
+                                        map_resolution[j]))
+                map_val.append(Input_d[j][inputID[j]])
+
+            EDS[tuple(inputID)] = map_val
+        
+    else:
+        pass
+        
     
     # 2D/3D Plots
     if plot is True:
-        if AIS.shape[-1] == 2 and AOS.shape[-1] == 2:
+        if input_map.shape[-1]  == 2 and AOS.shape[-1] == 2:
             
-            AIS_plot = AIS.reshape(np.prod(AIS.shape[0:-1]), AIS.shape[-1])
+            input_plot = input_map.reshape(np.prod(input_map.shape[0:-1]),
+                                         input_map.shape[-1])
             AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
-            plt.subplot(121)
+            _, (ax1, ax2) = plt.subplots(nrows=1,ncols=2, 
+                                          constrained_layout=True)
+            # fig = plt.figure(figsize=plt.figaspect(0.55))
+            # plt.figaspect(0.1)
+            # plt.tight_layout()
+            # ax1 = fig.add_subplot(1,2,1)
 
             plt.rcParams['figure.facecolor'] = 'white'
-            plt.scatter(AIS_plot[:, 0], AIS_plot[:, 1], s=16,
+            ax1.scatter(input_plot[:, 0], input_plot[:, 1], s=16,
                         c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            plt.ylabel('$u_{2}$')
-            plt.xlabel('$u_{1}$')
-            plt.title('AIS')
+            
+            ax1.set_xlabel('$u_{1}$')
+            if (EDS_bound and EDS_resolution) is None:
+                ax1.set_title('$AIS_{u}$')
+                ax1.set_ylabel('$u_{2}$')
+            else:
+                ax1.set_title('$AIS_{u} \, and \, EDS_{d}$')
+                ax1.set_ylabel('$d_{1}$')
            
 
-            plt.subplot(122)
-
-            plt.scatter(AOS_plot[:, 0], AOS_plot[:, 1], s=16,
+            # plt.subplot(122)
+            # plt.subplots(nrows=1,ncols=2)
+            # plt.tight_layout()
+            
+            # ax2 = fig.add_subplot(1,2,2)
+            ax2.scatter(AOS_plot[:, 0], AOS_plot[:, 1], s=16,
                         c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='o',
                         edgecolors=edgecolors)
-            plt.ylabel('$y_{2}$')
+            ax2.set_ylabel('$y_{2}$')
             plt.xlabel('$y_{1}$')
             
-            plt.title('AOS')
+            ax2.set_title('$AOS$')
 
             
-        elif AIS.shape[-1]== 3 and AOS.shape[-1] == 3:
+        elif input_map.shape[-1]== 3 and AOS.shape[-1] == 3:
             
-            AIS_plot = AIS.reshape(np.prod(AIS.shape[0:-1]), AIS.shape[-1])
+            input_plot = input_map.reshape(np.prod(input_map.shape[0:-1]), 
+                                           input_map.shape[-1])
             AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
             fig = plt.figure(figsize=plt.figaspect(0.5))
             ax = fig.add_subplot(1,2,1, projection='3d')
 
             plt.rcParams['figure.facecolor'] = 'white'
-            ax.scatter(AIS_plot[:, 0], AIS_plot[:, 1], AIS_plot[:,2], s=16,
+            ax.scatter(input_plot[:, 0], input_plot[:, 1], input_plot[:,2], s=16,
                         c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2 +
                                   AOS_plot[:, 2]**2),
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            ax.set_ylabel('$u_{2}$')
+            # ax.set_ylabel('$u_{2}$')
             ax.set_xlabel('$u_{1}$')
-            ax.set_zlabel('$u_{3}$')
-            ax.set_title('AIS')
+            # ax.set_zlabel('$u_{3}$')
+            # ax.set_title('AIS')
+            
+            if (type(EDS_bound) and type(EDS_resolution)) is type(None):
+                ax.set_title('$AIS_{u}$')
+                ax.set_ylabel('$u_{2}$')
+                ax.set_zlabel('$u_{3}$')
+                # ax.set_ylabel('$u_{2}$')
+            elif EDS_bound.shape[0] == 2:
+                ax.set_title('$AIS_{u} \, and  \, EDS_{d}$')
+                
+                ax.set_ylabel('$d_{1}$')
+                ax.set_zlabel('$d_{2}$')
+            elif EDS_bound.shape[0] == 1:
+                ax.set_title('$AIS_{u} \, and \, EDS_{d}$')
+                ax.set_ylabel('$u_{2}$')
+                ax.set_zlabel('$d_{1}$')
+                
             
 
             
@@ -1151,25 +1366,35 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
             ax.set_ylabel('$y_{2}$')
             ax.set_xlabel('$y_{1}$')
             ax.set_zlabel('$y_{3}$')
-            ax.set_title('AOS')
+            ax.set_title('$AOS$')
             
-        elif AIS.shape[-1] == 2 and AOS.shape[-1] == 3:
+        elif input_map.shape[-1] == 2 and AOS.shape[-1] == 3:
             
-            AIS_plot = AIS.reshape(np.prod(AIS.shape[0:-1]), AIS.shape[-1])
+            input_plot = input_map.reshape(np.prod(input_map.shape[0:-1]), 
+                                     input_map.shape[-1])
             AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
             fig = plt.figure(figsize=plt.figaspect(0.5))
             
             ax = fig.add_subplot(1,2,1)
 
             plt.rcParams['figure.facecolor'] = 'white'
-            ax.scatter(AIS_plot[:, 0], AIS_plot[:, 1], s=16,
+            ax.scatter(input_plot[:, 0], input_plot[:, 1], s=16,
                         c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            ax.set_ylabel('$u_{2}$')
+            # ax.set_ylabel('$u_{2}$')
             ax.set_xlabel('$u_{1}$')
-            ax.set_title('AIS')
+            # ax.set_title('AIS')
+            
+            # plt.xlabel('$u_{1}$')
+            if (type(EDS_bound) and type(EDS_resolution)) is type(None):
+                plt.title('$AIS_{u}$')
+                plt.ylabel('$u_{2}$')
+            else:
+                plt.title('$AIS_{u} \, and \, EDS_{d}$')
+                plt.ylabel('$d_{1}$')
+            
             
             ax = fig.add_subplot(1,2,2, projection='3d')
             ax.scatter(AOS_plot[:, 0], AOS_plot[:, 1], AOS_plot[:, 2], s=16,
@@ -1181,26 +1406,44 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
             ax.set_ylabel('$y_{2}$')
             ax.set_xlabel('$y_{1}$')
             ax.set_zlabel('$y_{3}$')
-            ax.set_title('AOS')
+            ax.set_title('$AOS$')
             
             
-        elif AIS.shape[-1] == 3 and AOS.shape[-1] == 2:
+        elif input_map.shape[-1] == 3 and AOS.shape[-1] == 2:
             
-            AIS_plot = AIS.reshape(np.prod(AIS.shape[0:-1]), AIS.shape[-1])
+            input_plot = input_map.reshape(np.prod(input_map.shape[0:-1]), 
+                                           input_map.shape[-1])
             AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
             fig = plt.figure(figsize=plt.figaspect(0.5))
             ax = fig.add_subplot(1,2,1, projection='3d')
 
             plt.rcParams['figure.facecolor'] = 'white'
-            ax.scatter(AIS_plot[:, 0], AIS_plot[:, 1], AIS_plot[:,2], s=16,
+            ax.scatter(input_plot[:, 0], input_plot[:, 1], input_plot[:,2], s=16,
                         c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            ax.set_ylabel('$u_{2}$')
+            
+            
+            # ax.set_ylabel('$u_{2}$')
             ax.set_xlabel('$u_{1}$')
-            ax.set_zlabel('$u_{3}$')
-            ax.set_title('AIS')
+            # ax.set_zlabel('$u_{3}$')
+            # ax.set_title('AIS')
+            
+            if (type(EDS_bound) and type(EDS_resolution)) is type(None):
+                ax.set_title('$AIS_{u}$')
+                ax.set_ylabel('$u_{2}$')
+                ax.set_zlabel('$u_{3}$')
+                # ax.set_ylabel('$u_{2}$')
+            elif EDS_bound.shape[0] == 2:
+                ax.set_title('$AIS_{u} \, and \, EDS_{d}')
+                
+                ax.set_ylabel('$d_{1}$')
+                ax.set_zlabel('$d_{2}$')
+            elif EDS_bound.shape[0] == 1:
+                ax.set_title('$AIS_{u} \, and \, EDS_{d}$')
+                ax.set_ylabel('$u_{2}$')
+                ax.set_zlabel('$d_{1}$')
             
             
             ax = fig.add_subplot(1,2,2)
@@ -1213,7 +1456,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
             ax.set_ylabel('$y_{2}$')
             ax.set_xlabel('$y_{1}$')
             
-            plt.title('AOS')
+            ax.set_title('$AOS$')
                 
             
         else:
@@ -1223,7 +1466,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
         pass
             
     
-    return AIS, AOS
+    return input_map, AOS
 
 
 def points2simplices(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
