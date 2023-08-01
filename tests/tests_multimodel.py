@@ -50,27 +50,27 @@ from pypo import multimodel_rep, OI_eval
 
 
 # %% Shower problem 2x2
-from shower import shower2x2
-from pypo import AIS2AOS_map
+# from shower import shower2x2
+# from pypo import AIS2AOS_map
 
-DOS_bounds =  np.array([[10, 20], 
-                        [70, 100]])
+# DOS_bounds =  np.array([[10, 20], 
+#                         [70, 100]])
 
-AIS_bounds =  np.array([[0, 10],
-                        [0, 10]])
+# AIS_bounds =  np.array([[0, 10],
+#                         [0, 10]])
 
-AIS_resolution =  [5, 5]
+# AIS_resolution =  [5, 5]
 
-model =  shower2x2
-
-
-AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
+# model =  shower2x2
 
 
-AOS_region  =  multimodel_rep(AIS_bounds, 
-                AIS_resolution, model, polytopic_trace = 'simplices')
+# AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution, plot= False)
 
-OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust')
+
+# AOS_region  =  multimodel_rep(AIS_bounds, 
+#                 AIS_resolution, model, polytopic_trace = 'simplices', plot = False)
+
+# OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust', plot = False)
 
 # %% Shower problem 3x3
 # from shower import shower3x3
@@ -98,10 +98,10 @@ OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust')
 # model =  shower3x3
 
 # AIS, AOS = AIS2AOS_map(model, 
-#                        AIS_bounds, 
-#                        AIS_resolution, 
-#                        EDS_bound=EDS_bounds,
-#                        EDS_resolution=EDS_resolution)
+#                         AIS_bounds, 
+#                         AIS_resolution, 
+#                         EDS_bound=EDS_bounds,
+#                         EDS_resolution=EDS_resolution)
 
 # AOS_region  =  multimodel_rep(AIS_bounds, 
 #                               AIS_resolution, 
@@ -199,3 +199,66 @@ OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust')
 # plotting=False)
 
 
+# %% Shower inverse mapping - multimodel representation 3x3
+# import numpy as np
+# from shower import shower3x3, inv_shower3x3
+# from pypo import AIS2AOS_map, multimodel_rep, nlp_based_approach
+
+# u0 = np.array([10, 10, 5])
+# lb = np.array([0, 0, -10])
+# ub = np.array([20, 20, 10])
+
+# DOS_bounds = np.array([[17.5, 21.0],
+#                     [80.0, 100.0],
+#                     [-10, 10]])
+
+# DOS_resolution = [6, 6, 6]
+    
+# # AIS, AOS = AIS2AOS_map(inv_shower3x3, DOS_bounds, DOS_resolution)
+# # t = time.time()
+# # fDIS, fDOS, message = nlp_based_approach(DOS_bounds, 
+# #                                           DOS_resolution, 
+# #                                           shower3x3, 
+# #                                           u0, 
+# #                                           lb,
+# #                                           ub, 
+# #                                           method='ipopt', 
+# #                                           plot=True, 
+# #                                           ad=False,
+# #                                           warmstart=True)
+    
+
+# AOS_region  =  multimodel_rep(DOS_bounds, DOS_resolution, shower3x3, 
+#                               perspective = 'inputs')
+   
+# elapsed = time.time() - t
+
+
+# %% Shower problem 2x2 - Inverse using NLP + Multimodel
+# from shower import shower2x2
+# from pypo import AIS2AOS_map
+
+# DOS_bounds =  np.array([[10, 20], 
+#                         [70, 100]])
+
+# DIS_bounds =  np.array([[0, 10],
+#                         [0, 10]])
+
+# AIS_resolution =  [3, 3]
+
+# DOS_resolution = [3, 3]
+
+# model =  shower2x2
+
+
+# # AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
+
+
+# AIS_region  =  multimodel_rep(DOS_bounds, 
+#                               DOS_resolution, 
+#                               model, 
+#                               perspective='inputs')
+
+# OI = OI_eval(AIS_region, 
+#              DIS_bounds, 
+#              perspective='inputs')

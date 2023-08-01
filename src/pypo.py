@@ -38,6 +38,9 @@ cmap =  'rainbow'
 lineweight = 1
 edgecolors = 'k'
 markersize =  128
+DS_COLOR = '#7f7f7f'
+INTERSECT_COLOR = '#1f77b4'
+AS_COLOR = '#2ca02c'
 
 
 def multimodel_rep(AIS_bound: np.ndarray, 
@@ -45,7 +48,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
                   model: Callable[...,Union[float,np.ndarray]],
                   polytopic_trace: str = 'simplices',
                   perspective: str = 'outputs',
-                  plotting: str = True,
+                  plot: str = True,
                   EDS_bound: str = None,
                   EDS_resolution: str = None):
     
@@ -79,8 +82,8 @@ def multimodel_rep(AIS_bound: np.ndarray,
     perspective: str, Optional.
         Defines if the calculation is to be done from the inputs/outputs
         perspective. Affects only labels in plots. Default is 'outputs'.
-    plotting: str, Optional.
-        Defines if the plotting of operability sets is desired (If the dimension
+    plot: str, Optional.
+        Defines if the plot of operability sets is desired (If the dimension
         is <= 3). Default is 'True'.
     EDS_bound : np.ndarray
         Lower and upper bounds for the Expected Disturbance Set (EDS). Default
@@ -121,25 +124,46 @@ def multimodel_rep(AIS_bound: np.ndarray,
     #(future release).
     # Map AOS from AIS setup.
     
-    AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution, 
-                            EDS_bound=EDS_bound,
-                            EDS_resolution=EDS_resolution,
-                            plot = False,)
+    # AIS, AOS =  AIS2AOS_map(model, 
+    #                         AIS_bound, 
+    #                         resolution, 
+    #                         EDS_bound=EDS_bound,
+    #                         EDS_resolution=EDS_resolution,
+    #                         plot = False)
     
-    # if perspective == 'outputs':
-    #     AIS, AOS =  AIS2AOS_map(model, AIS_bound, resolution)
-    # else:
-    #     u0 = input('Enter an initial estimate for your inverse model')
-    #     u0 = np.array(u0, dtype=float)
-    #     AIS, AOS, _ = nlp_based_approach(AIS_bound, resolution, model, 
-    #                                               u0, -np.inf, +np.inf, 
-    #                                               method='ipopt', 
-    #                                               plot=False, 
-    #                                               ad=False,
-    #                                               warmstart=True)
+    # If it is a forward map, using the forward mapping function (AIS2AOS_map).
+    # If not, using the NLP-based approach for inverse mapping. In this case,
+    # an initial estimate is needed and the user is prompted.
+    if perspective == 'outputs':
+        AIS, AOS =  AIS2AOS_map(model, 
+                                AIS_bound, 
+                                resolution,
+                                EDS_bound= EDS_bound,
+                                EDS_resolution=EDS_resolution, 
+                                plot= False)
+    else:
+        u0_input = input('Enter an initial estimate for your inverse model'
+                         'separated only by commas (,) : ')
         
+        input_list = [float(u0_input) for u0_input in u0_input.split(',')]
+        
+        u0 = np.array(input_list)
+        
+        AIS, AOS, _ = nlp_based_approach(AIS_bound, resolution, model, 
+                                                  u0, 
+                                                  -np.inf*np.ones(u0.shape), 
+                                                  +np.inf*np.ones(u0.shape), 
+                                                  method='ipopt', 
+                                                  plot=False, 
+                                                  ad=False,
+                                                  warmstart=True)
+        
+        # Reshape (n^k, k) vectors into (list[k*n, k]) multidimensional arrays. 
+        # This makes polytopic tracing calculations more "clear". 
+        AIS = AIS.reshape((resolution + [AIS.shape[-1]]))
+        AOS = AIS.reshape((resolution + [AOS.shape[-1]]))
     
-    
+    # Switch in between for simplicial of polyhedra calculations.
     if  polytopic_trace  =='simplices':
         AIS_poly, AOS_poly = points2simplices(AIS,AOS)
     elif polytopic_trace =='polyhedra':
@@ -149,11 +173,10 @@ def multimodel_rep(AIS_bound: np.ndarray,
         sys.exit()
         
         
-    
-    # Define empty polyopes list
+    # Define empty polyopes list.
     Polytope = list()
     Vertices_list = list()
-    # Create convex hull using the vertices of the AOS
+    # Create convex hull using the vertices of the AOS.
     for i in range(len(AOS_poly)):
         Vertices = AOS_poly[i].T
         Vertices_list.append(Vertices)
@@ -170,7 +193,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
     box_coord =  np.hstack([min_coord, max_coord])
     bound_box =  pc.box2poly(box_coord)
 
-    # Remove overlapping (Gazzaneo's trick) - Remove one polytope at a time, 
+    # Remove overlapping (Vinson&Gazzaneo trick) - Remove one polytope at a time, 
     # create void polytope using the bounding box and subtract from the original 
     # bounding box itself.
     RemPoly = [bound_box]
@@ -190,24 +213,24 @@ def multimodel_rep(AIS_bound: np.ndarray,
     for p in range(len(RemPoly)):
         RemU = RemU.union(RemPoly[p])
         
-    # Generate final (non-overlapped) polytope
+    # Generate final (non-overlapped) polytope.
     finalpolytope = region_diff(bound_box, RemU)
 
-    # Perspective switch: This will only affect plotting and legends.
+    # Perspective switch: This will only affect plot and legends.
     if perspective == 'outputs':
         AS_label = 'Achievable Output Set (AOS)'
 
     else:
         AS_label = 'Available Input Set (AIS)'
 
-    if plotting is True:
+    # Plots (2d/3d), unfortunately humans can't see higher dimensions.
+    if plot is True:
         if finalpolytope.dim == 2:
             
             
             polyplot = []
             fig = plt.figure()
             ax = fig.add_subplot(111)
-            AS_COLOR = '#2ca02c'
             AS_coords = np.concatenate(Vertices_list, axis=0)
             for i in range(len(finalpolytope)):
 
@@ -256,7 +279,6 @@ def multimodel_rep(AIS_bound: np.ndarray,
             polyplot = []
             fig = plt.figure()
             ax = fig.add_subplot(111, projection="3d")
-            AS_COLOR = '#2ca02c'
             AS_coords = np.concatenate(Vertices_list, axis=0)
             
             for cube, color in zip([AS_coords], [AS_COLOR]):
@@ -297,12 +319,12 @@ def multimodel_rep(AIS_bound: np.ndarray,
             
 
         else:
-            print('Plotting not supported. Dimension different greater than 3.')
+            print('plot not supported. Dimension different greater than 3.')
             AS_coords = np.concatenate(Vertices_list, axis=0)
 
     else:
-        print('Either plotting is not possible (dimension > 3) or you have',
-              'chosen plotting=False. The operability set is still returned as',
+        print('Either plot is not possible (dimension > 3) or you have',
+              'chosen plot=False. The operability set is still returned as',
               'a polytopic region of general dimension.')
         AS_coords = np.concatenate(Vertices_list, axis=0)
     
@@ -316,7 +338,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
 def OI_eval(AS: pc.Region,
        DS: np.ndarray, perspective  = 'outputs',
        hypervol_calc:           str = 'robust',
-       plotting:                str = True):
+       plot:                str = True):
     
     '''
     Operability Index (OI) calculation. From a Desired Output
@@ -399,7 +421,7 @@ def OI_eval(AS: pc.Region,
         
         if DS_region.dim < 7:
             intersect_i = []
-            each_volume_list = []
+            volumes_i = []
             
             for i in range(len(intersection)):
                 intersect_i = intersection[i]
@@ -408,11 +430,11 @@ def OI_eval(AS: pc.Region,
                     continue
                 else:
                     v_intersect_list.append(v_intersect)
-                    each_volume_list.append(sp.spatial.ConvexHull(v_intersect).volume)
+                    volumes_i.append(sp.spatial.ConvexHull(v_intersect).volume)
                     
                 
-            each_volume = np.array(each_volume_list)
-            intersection_volume = each_volume[0:].sum()
+            each_polytope_volume = np.array(volumes_i)
+            intersection_volume = each_polytope_volume[0:].sum()
     
             v_DS = pc.extreme(DS_region)
             
@@ -429,7 +451,7 @@ def OI_eval(AS: pc.Region,
 
 
 
-    # Perspective switch: This will only affect plotting and legends.
+    # Perspective switch: This will only affect plot and legends.
     if perspective == 'outputs':
         DS_label = 'Desired Output Set (DOS)'
         AS_label = 'Achievable Output Set (AOS)'
@@ -440,17 +462,17 @@ def OI_eval(AS: pc.Region,
         AS_label = 'Available Input Set (AIS)'
         int_label = r'$ AIS \cap DIS$'
 
-    # Plotting if 2D/ 3D
-    if plotting is True:
+    # plot if 2D/ 3D
+    if plot is True:
         if DS_region.dim == 2:
             
             
             polyplot = []
             fig = plt.figure()
             ax = fig.add_subplot(111)
-            DS_COLOR = '#7f7f7f'
-            INTERSECT_COLOR = '#1f77b4'
-            AS_COLOR = '#2ca02c'
+            # DS_COLOR = '#7f7f7f'
+            # INTERSECT_COLOR = '#1f77b4'
+            # AS_COLOR = '#2ca02c'
             for i in range(len(AS_region)):
 
                 polyplot = _get_patch(AS_region[i], linestyle="dashed",
@@ -526,9 +548,9 @@ def OI_eval(AS: pc.Region,
             polyplot = []
             fig = plt.figure()
             ax = fig.add_subplot(111, projection="3d")
-            AS_COLOR = '#2ca02c'
-            DS_COLOR = '#7f7f7f'
-            INTERSECT_COLOR = '#1f77b4'
+            # AS_COLOR = '#2ca02c'
+            # DS_COLOR = '#7f7f7f'
+            # INTERSECT_COLOR = '#1f77b4'
             intersect_coords = np.concatenate(v_intersect_list,  axis=0)
            
             
@@ -594,12 +616,16 @@ def OI_eval(AS: pc.Region,
             ax.set_zlabel('$y_{3}$')
             plt.show()
 
-        else:
-            print('Plotting not supported. Dimension different than 2.')
-    else:
-        print('Either plotting is not possible (dimension > 3) or you have',
-              'chosen plotting=False. The OI value is still available.')
+        elif DS_region.dim > 3:
+            print('plot not supported. Dimension higher than 3d.',
+                  'Nevertheless, the OI value is still available ', 
+                  'for interpretation.')
+    if plot is False:
+        print('You have',
+              ' chosen plot=False.', 'Nevertheless, the OI value', 
+              'is still available for interpretation.')
         
+
         
     return OI
 
@@ -675,7 +701,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
                 -'SLSQP'
                 
     plot: bool
-        Turn on/off plotting. If dimension is d<=3, plotting is available and
+        Turn on/off plot. If dimension is d<=3, plot is available and
         both the Feasible Desired Output Set (DOS*) and Feasible Desired Input
         Set (DIS*) are plotted. Default is True.
 
@@ -786,10 +812,10 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     bounds = np.column_stack((lb, ub))
 
     # Input sanitation
-    if u0.size <= c:
+    if u0.size < c:
         warnings.warn("Your problem is non-square and you have "
                       "less degrees of freedom in the AIS/DIS "
-                      "Than variables in the AIS.", UserWarning)
+                      "Than variables in the AIS.")
     if bounds.shape[0] != u0.size:
         raise ValueError("Initial estimate and given bounds have"
                          " inconsistent sizes."
@@ -926,7 +952,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
     debug = 1
     if fDIS.shape[1] > 3 and fDOS.shape[1] > 3:
         plot is False
-        print('Plotting not supported. Dimension higher than 3.')
+        print('plot not supported. Dimension higher than 3.')
         pass
     else:
 
@@ -1077,7 +1103,7 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
                 ax.set_xlabel('$y_{1}$')
                 ax.set_title('$DOS*$')   
             else:
-                print('Plotting not supported. Dimension higher than 3.')
+                print('plot not supported. Dimension higher than 3.')
                 plot is False
                 pass
 
@@ -1183,7 +1209,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
         Resolution for the Expected Disturbance Set (EDS). This will be used to
         discretize the EDS.   
     plot: bool
-        Turn on/off plotting. If dimension is d<=3, plotting is available and
+        Turn on/off plot. If dimension is d<=3, plot is available and
         both the Achievable Output Set (AOS) and Available Input
         Set (AIS) are plotted. Default is True.
 
@@ -1273,7 +1299,9 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
         
     
     # 2D/3D Plots
-    if plot is True:
+    if plot is False:
+        pass
+    elif plot is True:
         if input_map.shape[-1]  == 2 and AOS.shape[-1] == 2:
             
             input_plot = input_map.reshape(np.prod(input_map.shape[0:-1]),
@@ -1460,7 +1488,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
                 
             
         else:
-            print('dimension greater than 3, plotting not supported.')
+            print('dimension greater than 3, plot not supported.')
             
     else:
         pass
