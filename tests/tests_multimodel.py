@@ -7,20 +7,20 @@ from pypo import multimodel_rep, OI_eval
 
 
 # %% DMA-MR - 2x2 System - Design Variables
-# from dma_mr import dma_mr_design, dma_mr_mvs
-# # Defining DOS bounds
+from dma_mr import dma_mr_design, dma_mr_mvs
+# Defining DOS bounds
 
-# DOS_bounds =  np.array([[20, 25], 
-#                         [35, 45]])
+DOS_bounds =  np.array([[20, 25], 
+                        [35, 45]])
 
-# AIS_bounds =  np.array([[10, 100],
-#                         [0.5, 2]])
+AIS_bounds =  np.array([[10, 100],
+                        [0.5, 2]])
 
-# AIS_resolution =  [6, 6]
+AIS_resolution =  [5, 5]
 
-# model  = dma_mr_design
+model  = dma_mr_design
 
-# AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, model)
+AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
 
 # OI = OI_eval(AOS_region, DOS_bounds)
 
@@ -64,13 +64,13 @@ from pypo import multimodel_rep, OI_eval
 # model =  shower2x2
 
 
-# AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution, plot= False)
+# AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
 
 
-# AOS_region  =  multimodel_rep(AIS_bounds, 
-#                 AIS_resolution, model, polytopic_trace = 'simplices', plot = False)
+# AOS_region  =  multimodel_rep(model, AIS_bounds, 
+#                 AIS_resolution, polytopic_trace = 'simplices')
 
-# OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust', plot = False)
+# OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust')
 
 # %% Shower problem 3x3
 # from shower import shower3x3
@@ -91,9 +91,9 @@ from pypo import multimodel_rep, OI_eval
 
 # EDS_bounds = np.array([[-10.00, 10.00]])
 
-# AIS_resolution = [5, 5]
+# AIS_resolution = [3, 3]
 
-# EDS_resolution = [5]
+# EDS_resolution = [3]
 
 # model =  shower3x3
 
@@ -103,9 +103,9 @@ from pypo import multimodel_rep, OI_eval
 #                         EDS_bound=EDS_bounds,
 #                         EDS_resolution=EDS_resolution)
 
-# AOS_region  =  multimodel_rep(AIS_bounds, 
-#                               AIS_resolution, 
-#                               model, 
+# AOS_region  =  multimodel_rep(model,
+#                               AIS_bounds, 
+#                               AIS_resolution,
 #                               EDS_bound=EDS_bounds,
 #                               EDS_resolution=EDS_resolution)
 

@@ -25,6 +25,7 @@ from polytope.polytope import _get_patch
 
 
 
+
 # Plots
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
@@ -43,9 +44,9 @@ INTERSECT_COLOR = '#1f77b4'
 AS_COLOR = '#2ca02c'
 
 
-def multimodel_rep(AIS_bound: np.ndarray, 
-                  resolution: np.ndarray, 
-                  model: Callable[...,Union[float,np.ndarray]],
+def multimodel_rep(model: Callable[...,Union[float,np.ndarray]], 
+                  bounds: np.ndarray, 
+                  resolution: np.ndarray,
                   polytopic_trace: str = 'simplices',
                   perspective: str = 'outputs',
                   plot: str = True,
@@ -65,17 +66,18 @@ def multimodel_rep(AIS_bound: np.ndarray,
 
     Parameters
     ----------
-    AIS_bound : np.ndarray
-        Bounds on the Available Input Set (AIS). Each row corresponds to the 
-        lower and upper bound of each AIS variable.
-    resolution : np.ndarray
-        Array containing the resolution of the discretization grid for the AIS.
-        Each element corresponds to the resolution of each variable. For a 
-        resolution defined as k, it will generate d^k points (in which d is the
-        dimensionality of the AIS).
     model : Callable[...,Union[float,np.ndarray]]
         Process model that calculates the relationship between inputs (AIS-DIS) 
         and Outputs (AOS-DOS).
+    bounds : np.ndarray
+        Bounds on the Available Input Set (AIS), or Desired Output Set (DOS) if
+        an inverse mapping is chosen. Each row corresponds to the 
+        lower and upper bound of each AIS or DOS variable.
+    resolution : np.ndarray
+        Array containing the resolution of the discretization grid for the AIS or
+        DOS.Each element corresponds to the resolution of each variable. For a 
+        resolution defined as k, it will generate d^k points (in which d is the
+        dimensionality of the AIS or DOS).
     polytopic_trace: str, Optional.
         Determines if the polytopes will be constructed using simplices or
         polyhedrons. Default is 'simplices'. Additional option is 'polyhedra'.
@@ -136,7 +138,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
     # an initial estimate is needed and the user is prompted.
     if perspective == 'outputs':
         AIS, AOS =  AIS2AOS_map(model, 
-                                AIS_bound, 
+                                bounds, 
                                 resolution,
                                 EDS_bound= EDS_bound,
                                 EDS_resolution=EDS_resolution, 
@@ -149,7 +151,7 @@ def multimodel_rep(AIS_bound: np.ndarray,
         
         u0 = np.array(input_list)
         
-        AIS, AOS, _ = nlp_based_approach(AIS_bound, resolution, model, 
+        AIS, AOS, _ = nlp_based_approach(model, bounds, resolution, 
                                                   u0, 
                                                   -np.inf*np.ones(u0.shape), 
                                                   +np.inf*np.ones(u0.shape), 
@@ -423,14 +425,25 @@ def OI_eval(AS: pc.Region,
             intersect_i = []
             volumes_i = []
             
-            for i in range(len(intersection)):
-                intersect_i = intersection[i]
-                v_intersect = pc.extreme(intersect_i)
-                if v_intersect is None:
-                    continue
-                else:
-                    v_intersect_list.append(v_intersect)
-                    volumes_i.append(sp.spatial.ConvexHull(v_intersect).volume)
+            # for i in range(len(intersection)):
+            #     intersect_i = intersection[i]
+            #     v_intersect = pc.extreme(intersect_i)
+            #     if v_intersect is None:
+            #         continue
+            #     else:
+            #         v_intersect_list.append(v_intersect)
+            #         volumes_i.append(sp.spatial.ConvexHull(v_intersect).volume)
+            
+            # intersection_arr = np.array(intersection)
+            v_intersect_arr = pc.extreme(intersection)
+            
+            # Mask the invalid points (where v_intersect is None)
+            valid_mask = v_intersect_arr is not None
+            v_intersect_list = v_intersect_arr[valid_mask]
+            volumes_arr = np.array([sp.ConvexHull(v_intersect).volume for 
+                                    v_intersect in v_intersect_list])
+            volumes_i = volumes_arr.tolist()
+            
                     
                 
             each_polytope_volume = np.array(volumes_i)
@@ -622,7 +635,7 @@ def OI_eval(AS: pc.Region,
                   'for interpretation.')
     if plot is False:
         print('You have',
-              ' chosen plot=False.', 'Nevertheless, the OI value', 
+              'chosen plot=False.', 'Nevertheless, the OI value', 
               'is still available for interpretation.')
         
 
@@ -630,9 +643,9 @@ def OI_eval(AS: pc.Region,
     return OI
 
 
-def nlp_based_approach(DOS_bounds: np.ndarray,
+def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
+                       DOS_bounds: np.ndarray,
                        DOS_resolution: np.ndarray,
-                       model: Callable[..., Union[float, np.ndarray]], 
                        u0: np.ndarray,
                        lb: np.ndarray,
                        ub: np.ndarray,
@@ -657,6 +670,9 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
 
     Parameters
     ----------
+    model : Callable[...,Union[float,np.ndarray]]
+        Process model that calculates the relationship from inputs (AIS-DIS) 
+        to outputs (AOS-DOS).
     DOS_bounds : np.ndarray
         Array containing the bounds of the Desired Output set (DOS). Each row 
         corresponds to the lower and upper bound of each variable.
@@ -665,9 +681,6 @@ def nlp_based_approach(DOS_bounds: np.ndarray,
         Each element corresponds to the resolution of each variable. For a 
         resolution defined as k, it will generate d^k points (in which d is the
         dimensionality of the problem).
-    model : Callable[...,Union[float,np.ndarray]]
-        Process model that calculates the relationship between inputs (AIS-DIS) 
-        and Outputs (AOS-DOS).
     u0 : np.ndarray
         Initial estimate for the inverse mapping at each point. Should have
         same dimension as model inputs.
