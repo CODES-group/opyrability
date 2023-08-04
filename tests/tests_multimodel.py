@@ -16,13 +16,13 @@ DOS_bounds =  np.array([[20, 25],
 AIS_bounds =  np.array([[10, 100],
                         [0.5, 2]])
 
-AIS_resolution =  [5, 5]
+AIS_resolution =  [25, 25]
 
 model  = dma_mr_design
 
 AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
 
-# OI = OI_eval(AOS_region, DOS_bounds)
+OI = OI_eval(AOS_region, DOS_bounds)
 
 
 
@@ -59,7 +59,7 @@ AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
 # AIS_bounds =  np.array([[0, 10],
 #                         [0, 10]])
 
-# AIS_resolution =  [5, 5]
+# AIS_resolution =  [3, 3]
 
 # model =  shower2x2
 
@@ -75,7 +75,6 @@ AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
 # %% Shower problem 3x3
 # from shower import shower3x3
 # from pypo import AIS2AOS_map
-# import matplotlib.pyplot as plt
 # DOS_bounds =  np.array([[10.00, 20.00], 
 #                         [70.00, 100.00],
 #                         [-10.00, 10.00]])
@@ -91,25 +90,26 @@ AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
 
 # EDS_bounds = np.array([[-10.00, 10.00]])
 
-# AIS_resolution = [3, 3]
+# AIS_resolution = [5, 5]
 
-# EDS_resolution = [3]
+# EDS_resolution = [5]
 
 # model =  shower3x3
 
-# AIS, AOS = AIS2AOS_map(model, 
-#                         AIS_bounds, 
-#                         AIS_resolution, 
-#                         EDS_bound=EDS_bounds,
-#                         EDS_resolution=EDS_resolution)
+# # AIS, AOS = AIS2AOS_map(model, 
+# #                         AIS_bounds, 
+# #                         AIS_resolution, 
+# #                         EDS_bound=EDS_bounds,
+# #                         EDS_resolution=EDS_resolution)
 
 # AOS_region  =  multimodel_rep(model,
 #                               AIS_bounds, 
 #                               AIS_resolution,
 #                               EDS_bound=EDS_bounds,
-#                               EDS_resolution=EDS_resolution)
+#                               EDS_resolution=EDS_resolution,
+#                               plot = False)
 
-# OI = OI_eval(AOS_region, DOS_bounds)
+# OI = OI_eval(AOS_region, DOS_bounds, plot = False)
 
 # %% Shower problem 2x2 - analytical inverse map.
 # from shower import inv_shower2x2

@@ -5,7 +5,7 @@ from itertools import permutations as perms
 import string
 from typing import Callable,Union
 from tqdm.auto import tqdm
-
+import multiprocessing
 
 # Linear Algebra
 import numpy as np
@@ -184,6 +184,12 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         Vertices_list.append(Vertices)
         Polytope.append(pc.qhull(Vertices))
         
+    
+    
+    
+
+    # Call the function when you want to compute the convex hulls
+    # Polytope, Vertices_list = compute_parallel_convex_hulls(AOS_poly)
     
     # Define the AOS as an (possibly) overlapped region. This will be fixed in
     # the next lines of code.    
@@ -425,27 +431,15 @@ def OI_eval(AS: pc.Region,
             intersect_i = []
             volumes_i = []
             
-            # for i in range(len(intersection)):
-            #     intersect_i = intersection[i]
-            #     v_intersect = pc.extreme(intersect_i)
-            #     if v_intersect is None:
-            #         continue
-            #     else:
-            #         v_intersect_list.append(v_intersect)
-            #         volumes_i.append(sp.spatial.ConvexHull(v_intersect).volume)
+            for i in range(len(intersection)):
+                intersect_i = intersection[i]
+                v_intersect = pc.extreme(intersect_i)
+                if v_intersect is None:
+                    continue
+                else:
+                    v_intersect_list.append(v_intersect)
+                    volumes_i.append(sp.spatial.ConvexHull(v_intersect).volume)
             
-            # intersection_arr = np.array(intersection)
-            v_intersect_arr = pc.extreme(intersection)
-            
-            # Mask the invalid points (where v_intersect is None)
-            valid_mask = v_intersect_arr is not None
-            v_intersect_list = v_intersect_arr[valid_mask]
-            volumes_arr = np.array([sp.ConvexHull(v_intersect).volume for 
-                                    v_intersect in v_intersect_list])
-            volumes_i = volumes_arr.tolist()
-            
-                    
-                
             each_polytope_volume = np.array(volumes_i)
             intersection_volume = each_polytope_volume[0:].sum()
     
@@ -483,9 +477,6 @@ def OI_eval(AS: pc.Region,
             polyplot = []
             fig = plt.figure()
             ax = fig.add_subplot(111)
-            # DS_COLOR = '#7f7f7f'
-            # INTERSECT_COLOR = '#1f77b4'
-            # AS_COLOR = '#2ca02c'
             for i in range(len(AS_region)):
 
                 polyplot = _get_patch(AS_region[i], linestyle="dashed",
@@ -561,9 +552,6 @@ def OI_eval(AS: pc.Region,
             polyplot = []
             fig = plt.figure()
             ax = fig.add_subplot(111, projection="3d")
-            # AS_COLOR = '#2ca02c'
-            # DS_COLOR = '#7f7f7f'
-            # INTERSECT_COLOR = '#1f77b4'
             intersect_coords = np.concatenate(v_intersect_list,  axis=0)
            
             
@@ -974,11 +962,6 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
             if fDIS.shape[1] == 2 and fDOS.shape[1] == 2:
                 _, (ax1, ax2) = plt.subplots(nrows=1,ncols=2, 
                                               constrained_layout=True)
-                # fig = plt.figure(figsize=plt.figaspect(0.45))
-                # ax = fig.add_subplot(1,2,1)
-                # plt.subplot(121)
-
-                # ax.rcParams['figure.facecolor'] = 'white'
                 ax1.scatter(fDIS[:, 0], fDIS[:, 1], s=16,
                             c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
                             cmap=cmap, antialiased=True,
@@ -987,10 +970,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                 ax1.set_ylabel('$u_{2}$')
                 ax1.set_xlabel('$u_{1}$')
                 ax1.set_title('DIS*')
-                # plt.show
-
-                # ax = fig.add_subplot(1,2,2)
-
+                
                 ax2.scatter(fDOS[:, 0], fDOS[:, 1], s=16,
                             c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
                             cmap=cmap, antialiased=True,
@@ -1319,13 +1299,11 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
             
             input_plot = input_map.reshape(np.prod(input_map.shape[0:-1]),
                                          input_map.shape[-1])
+            
             AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
+            
             _, (ax1, ax2) = plt.subplots(nrows=1,ncols=2, 
                                           constrained_layout=True)
-            # fig = plt.figure(figsize=plt.figaspect(0.55))
-            # plt.figaspect(0.1)
-            # plt.tight_layout()
-            # ax1 = fig.add_subplot(1,2,1)
 
             plt.rcParams['figure.facecolor'] = 'white'
             ax1.scatter(input_plot[:, 0], input_plot[:, 1], s=16,
@@ -1342,12 +1320,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
                 ax1.set_title('$AIS_{u} \, and \, EDS_{d}$')
                 ax1.set_ylabel('$d_{1}$')
            
-
-            # plt.subplot(122)
-            # plt.subplots(nrows=1,ncols=2)
-            # plt.tight_layout()
             
-            # ax2 = fig.add_subplot(1,2,2)
             ax2.scatter(AOS_plot[:, 0], AOS_plot[:, 1], s=16,
                         c=np.sqrt(AOS_plot[:, 0]**2 + AOS_plot[:, 1]**2),
                         cmap=cmap, antialiased=True,
@@ -1374,11 +1347,9 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            # ax.set_ylabel('$u_{2}$')
-            ax.set_xlabel('$u_{1}$')
-            # ax.set_zlabel('$u_{3}$')
-            # ax.set_title('AIS')
             
+            ax.set_xlabel('$u_{1}$')
+
             if (type(EDS_bound) and type(EDS_resolution)) is type(None):
                 ax.set_title('$AIS_{u}$')
                 ax.set_ylabel('$u_{2}$')
@@ -1424,11 +1395,11 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            # ax.set_ylabel('$u_{2}$')
+
             ax.set_xlabel('$u_{1}$')
-            # ax.set_title('AIS')
+
             
-            # plt.xlabel('$u_{1}$')
+
             if (type(EDS_bound) and type(EDS_resolution)) is type(None):
                 plt.title('$AIS_{u}$')
                 plt.ylabel('$u_{2}$')
@@ -1464,18 +1435,14 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
                         cmap=cmap, antialiased=True,
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
-            
-            
-            # ax.set_ylabel('$u_{2}$')
+
             ax.set_xlabel('$u_{1}$')
-            # ax.set_zlabel('$u_{3}$')
-            # ax.set_title('AIS')
-            
+
             if (type(EDS_bound) and type(EDS_resolution)) is type(None):
                 ax.set_title('$AIS_{u}$')
                 ax.set_ylabel('$u_{2}$')
                 ax.set_zlabel('$u_{3}$')
-                # ax.set_ylabel('$u_{2}$')
+
             elif EDS_bound.shape[0] == 2:
                 ax.set_title('$AIS_{u} \, and \, EDS_{d}')
                 
@@ -2084,3 +2051,4 @@ def get_extreme_vertices(bounds):
         extreme_vertices[:, i] = bounds[i, indices]
 
     return extreme_vertices
+

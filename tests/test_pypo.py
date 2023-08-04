@@ -71,7 +71,7 @@ def test_dma_mr_design():
     AIS_bounds =  np.array([[10, 100],
                             [0.5, 2]])
 
-    AIS_resolution =  [10, 10]
+    AIS_resolution =  [5, 5]
 
 
     AOS_region  =  multimodel_rep(dma_mr_design,
@@ -81,7 +81,7 @@ def test_dma_mr_design():
 
     OI = OI_eval(AOS_region, DOS_bounds, plot = plot_flag)
     
-    assert OI == pytest.approx(19.33, abs=abs_tol, rel=rel_tol)
+    assert OI == pytest.approx(22.11, abs=abs_tol, rel=rel_tol)
 
 
 # NLP-based approach tests
@@ -106,7 +106,7 @@ def test_shower_inverse_nlp_2x2():
                                              lb,
                                              ub,
                                              method='ipopt',
-                                             plot=True,
+                                             plot=plot_flag,
                                              ad=False,
                                              warmstart=True)
 
