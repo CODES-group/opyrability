@@ -132,9 +132,9 @@ NLP and using finite differences:
 ```{code-cell}
     
     u0 = u0 = np.array([0, 10]) # Initial estimate for inverse mapping.
-    fDIS, fDOS, message = nlp_based_approach(DOS_bound, 
+    fDIS, fDOS, message = nlp_based_approach(shower_problem,
+                                             DOS_bound, 
                                              resolution, 
-                                             shower_problem, 
                                              u0, 
                                              lb,
                                              ub, 
@@ -196,7 +196,7 @@ Defining the AIS bounds and the discretization resolution:
 Obtaining multimodel representation of paired polytopes for the AOS:
 
 ```{code-cell} 
-    AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem)
+    AOS_region  =  multimodel_rep(shower_problem, AIS_bounds, AIS_resolution)
 ```
 
 ## OI evaluation
@@ -246,8 +246,8 @@ Defining the AIS bounds and the discretization resolution:
 Obtaining multimodel representation of paired polytopes for the AOS:
 
 ```{code-cell} 
-    AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem,
-    plotting=False)
+    AOS_region  =  multimodel_rep(shower_problem, AIS_bounds, AIS_resolution,
+    plot=False)
 ```
 
 Defining a DOS region between $y_1 =[10-20], y_2=[70-100]$

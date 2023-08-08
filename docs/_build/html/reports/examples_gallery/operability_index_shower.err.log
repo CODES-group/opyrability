@@ -17,15 +17,13 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-    AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem,
-    plot=False)
+AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, model)
 ------------------
 
 [1;31m---------------------------------------------------------------------------[0m
 [1;31mAttributeError[0m                            Traceback (most recent call last)
-Cell [1;32mIn[17], line 1[0m
-[1;32m----> 1[0m AOS_region  [38;5;241m=[39m  [43mmultimodel_rep[49m[43m([49m[43mAIS_bounds[49m[43m,[49m[43m [49m[43mAIS_resolution[49m[43m,[49m[43m [49m[43mshower_problem[49m[43m,[49m
-[0;32m      2[0m [43mplot[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m
+Cell [1;32mIn[4], line 1[0m
+[1;32m----> 1[0m AOS_region  [38;5;241m=[39m  [43mmultimodel_rep[49m[43m([49m[43mAIS_bounds[49m[43m,[49m[43m [49m[43mAIS_resolution[49m[43m,[49m[43m [49m[43mmodel[49m[43m)[49m
 
 File [1;32m~\Documents\python_operability\python_operability\src\pypo.py:140[0m, in [0;36mmultimodel_rep[1;34m(model, bounds, resolution, polytopic_trace, perspective, plot, EDS_bound, EDS_resolution)[0m
 [0;32m    125[0m [38;5;66;03m# TODO: Add implicit mapping option to perform any multimodel rep [39;00m

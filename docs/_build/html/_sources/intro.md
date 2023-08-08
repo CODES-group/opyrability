@@ -1,4 +1,4 @@
-# PyPO Documentation 1.0.0
+# PyPO Documentation 1.0
 
 PyPO - A **Py**thon-based **P**rocess **O**perability Package - is an open-source project for advanced process operability analyses. The PyPO codebase includes the main operability algorithms, supplementary analysis and visualization methods to allow for the assessment of simultaneous design and control objectives early in the conceptual phase.
 

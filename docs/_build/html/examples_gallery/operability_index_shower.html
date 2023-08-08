@@ -152,7 +152,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    PyPO Documentation 1.0.0
+                    PyPO Documentation 1.0
                 </a>
             </li>
         </ul>
@@ -433,7 +433,39 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/7a325aad118ee7aecf0165342fb4f0ef8ab2dc7629c6b09c2fd74ecc342f7650.png" src="../_images/7a325aad118ee7aecf0165342fb4f0ef8ab2dc7629c6b09c2fd74ecc342f7650.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">AOS_region</span>  <span class="o">=</span>  <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+
+<span class="nn">File ~\Documents\python_operability\python_operability\src\pypo.py:140,</span> in <span class="ni">multimodel_rep</span><span class="nt">(model, bounds, resolution, polytopic_trace, perspective, plot, EDS_bound, EDS_resolution)</span>
+<span class="g g-Whitespace">    </span><span class="mi">125</span> <span class="c1"># TODO: Add implicit mapping option to perform any multimodel rep </span>
+<span class="g g-Whitespace">    </span><span class="mi">126</span> <span class="c1">#(future release).</span>
+<span class="g g-Whitespace">    </span><span class="mi">127</span> <span class="c1"># Map AOS from AIS setup.</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">137</span> <span class="c1"># If not, using the NLP-based approach for inverse mapping. In this case,</span>
+<span class="g g-Whitespace">    </span><span class="mi">138</span> <span class="c1"># an initial estimate is needed and the user is prompted.</span>
+<span class="g g-Whitespace">    </span><span class="mi">139</span> <span class="k">if</span> <span class="n">perspective</span> <span class="o">==</span> <span class="s1">&#39;outputs&#39;</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">140</span>     <span class="n">AIS</span><span class="p">,</span> <span class="n">AOS</span> <span class="o">=</span>  <span class="n">AIS2AOS_map</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> 
+<span class="g g-Whitespace">    </span><span class="mi">141</span>                             <span class="n">bounds</span><span class="p">,</span> 
+<span class="g g-Whitespace">    </span><span class="mi">142</span>                             <span class="n">resolution</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">143</span>                             <span class="n">EDS_bound</span><span class="o">=</span> <span class="n">EDS_bound</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">144</span>                             <span class="n">EDS_resolution</span><span class="o">=</span><span class="n">EDS_resolution</span><span class="p">,</span> 
+<span class="g g-Whitespace">    </span><span class="mi">145</span>                             <span class="n">plot</span><span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">146</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">147</span>     <span class="n">u0_input</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Enter an initial estimate for your inverse model&#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">148</span>                      <span class="s1">&#39;separated only by commas (,) : &#39;</span><span class="p">)</span>
+
+<span class="nn">File ~\Documents\python_operability\python_operability\src\pypo.py:1221,</span> in <span class="ni">AIS2AOS_map</span><span class="nt">(model, AIS_bound, AIS_resolution, EDS_bound, EDS_resolution, plot)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1219</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">EDS_bound</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">EDS_resolution</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1220</span>     <span class="n">numInput_map</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">AIS_resolution</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1221</span>     <span class="n">nInput_map</span> <span class="o">=</span> <span class="n">AIS_bound</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1222</span>     <span class="n">map_bounds</span> <span class="o">=</span> <span class="n">AIS_bound</span>
+<span class="g g-Whitespace">   </span><span class="mi">1223</span>     <span class="n">map_resolution</span> <span class="o">=</span> <span class="n">AIS_resolution</span>
+
+<span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;shape&#39;
+</pre></div>
+</div>
 </div>
 </div>
 <p>Lastly, let’s evaluate how operable the shower problem is, using the OI as a metric:</p>
@@ -444,7 +476,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/49e0f583423161bade4354d995acab1a63e547197a5c6187098cbb8a398422f2.png" src="../_images/49e0f583423161bade4354d995acab1a63e547197a5c6187098cbb8a398422f2.png" />
+<img alt="../_images/45584c73a5f058d9c11403b42d55d89535035af28822ac34fb0ccd13653a5e8e.png" src="../_images/45584c73a5f058d9c11403b42d55d89535035af28822ac34fb0ccd13653a5e8e.png" />
 </div>
 </div>
 <p>The OI of <span class="math notranslate nohighlight">\(60.24\%\)</span> indicates that with the current limits of the AIS variables (hot and cold flow rates),
