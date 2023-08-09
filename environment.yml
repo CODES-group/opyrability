@@ -1,0 +1,17 @@
+name: my_environment
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9.0
+  - setuptools>=61.2.0
+  - numpy>=1.24.1
+  - scipy>=1.10.0
+  - tqdm>=4.64.0
+  - matplotlib>=3.6.2
+  - jax>=0.4.0
+  - cvxopt>=1.2.7
+  - cyipopt>=1.1.0
+  - pip:
+    - git+https://github.com/tulip-control/polytope@main
+    - git+https://github.com/CODES-group/PyPO@main
