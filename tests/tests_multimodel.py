@@ -7,22 +7,22 @@ from pypo import multimodel_rep, OI_eval
 
 
 # %% DMA-MR - 2x2 System - Design Variables
-from dma_mr import dma_mr_design, dma_mr_mvs
-# Defining DOS bounds
+# from dma_mr import dma_mr_design, dma_mr_mvs
+# # Defining DOS bounds
 
-DOS_bounds =  np.array([[20, 25], 
-                        [35, 45]])
+# DOS_bounds =  np.array([[20, 25], 
+#                         [35, 45]])
 
-AIS_bounds =  np.array([[10, 100],
-                        [0.5, 2]])
+# AIS_bounds =  np.array([[10, 100],
+#                         [0.5, 2]])
 
-AIS_resolution =  [25, 25]
+# AIS_resolution =  [6, 6]
 
-model  = dma_mr_design
+# model  = dma_mr_design
 
-AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
+# AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
 
-OI = OI_eval(AOS_region, DOS_bounds)
+# OI = OI_eval(AOS_region, DOS_bounds)
 
 
 
@@ -41,7 +41,7 @@ OI = OI_eval(AOS_region, DOS_bounds)
 
 # model  = dma_mr_mvs
 
-# AOS_region  =  multimodel_rep(AIS_bounds,  AIS_resolution, model)
+# AOS_region  =  multimodel_rep(model, AIS_bounds,  AIS_resolution,)
 
 # OI = OI_eval(AOS_region, DOS_bounds)
 

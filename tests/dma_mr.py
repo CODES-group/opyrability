@@ -164,11 +164,11 @@ def dma_mr_design(u):
 
     # Initial conditions
     y0 = jnp.hstack((Ft0, jnp.zeros(7)))
-    # rtol, atol = 1e-8, 1e-8
+    rtol, atol = 1e-10, 1e-10
 
     z = jnp.linspace(0, L, 2000)
-    # F = odeint(dma_mr_jax, y0, z, dt, rtol=rtol, atol=atol)
-    F = odeint(dma_mr_jax, y0, z, dt)
+    F = odeint(dma_mr_jax, y0, z, dt, rtol=rtol, atol=atol)
+    # F = odeint(dma_mr_jax, y0, z, dt)
     
 
     

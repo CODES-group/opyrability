@@ -3,11 +3,11 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>&lt;no title&gt; &#8212; PyPO&#39;s documentation.</title>
   
@@ -44,7 +44,6 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
@@ -65,7 +64,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:language" content="None"/>
   </head>
   
   
@@ -379,12 +378,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\vc00004\Anaconda3\envs\pypo-env\lib\site-packages\tqdm\auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-  from .autonotebook import tqdm as notebook_tqdm
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -448,17 +441,17 @@ document.write(`
 <span class="g g-Whitespace">     </span><span class="mi">21</span>                                           <span class="n">warmstart</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
 
-<span class="nn">File ~\Documents\python_operability\python_operability\src\pypo.py:803,</span> in <span class="ni">nlp_based_approach</span><span class="nt">(model, DOS_bounds, DOS_resolution, u0, lb, ub, constr, method, plot, ad, warmstart)</span>
-<span class="g g-Whitespace">    </span><span class="mi">791</span>         <span class="c1"># constr[&#39;fun&#39;] = jit(constr[&#39;fun&#39;])</span>
-<span class="g g-Whitespace">    </span><span class="mi">792</span>         <span class="c1"># BUG: AD-based hessians are deactivated for in ipopt now </span>
-<span class="g g-Whitespace">    </span><span class="mi">793</span>         <span class="c1"># due to Cyipopt`s bug.</span>
+<span class="nn">File V:\Documents\python_operability\src\pypo.py:802,</span> in <span class="ni">nlp_based_approach</span><span class="nt">(model, DOS_bounds, DOS_resolution, u0, lb, ub, constr, method, plot, ad, warmstart)</span>
+<span class="g g-Whitespace">    </span><span class="mi">790</span>         <span class="c1"># constr[&#39;fun&#39;] = jit(constr[&#39;fun&#39;])</span>
+<span class="g g-Whitespace">    </span><span class="mi">791</span>         <span class="c1"># BUG: AD-based hessians are deactivated for in ipopt now </span>
+<span class="g g-Whitespace">    </span><span class="mi">792</span>         <span class="c1"># due to Cyipopt`s bug.</span>
    <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">797</span>         <span class="c1"># constr[&#39;hess&#39;] = jit(jacrev(jacrev(constr[&#39;fun&#39;])))</span>
-<span class="g g-Whitespace">    </span><span class="mi">798</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">799</span>         <span class="k">pass</span>
-<span class="ne">--&gt; </span><span class="mi">803</span> <span class="n">dimDOS</span> <span class="o">=</span> <span class="n">DOS_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">804</span> <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">create_grid</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">805</span> <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">DOSPts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dimDOS</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">796</span>         <span class="c1"># constr[&#39;hess&#39;] = jit(jacrev(jacrev(constr[&#39;fun&#39;])))</span>
+<span class="g g-Whitespace">    </span><span class="mi">797</span>     <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">798</span>         <span class="k">pass</span>
+<span class="ne">--&gt; </span><span class="mi">802</span> <span class="n">dimDOS</span> <span class="o">=</span> <span class="n">DOS_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">803</span> <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">create_grid</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">804</span> <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">DOSPts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dimDOS</span><span class="p">)</span>
 
 <span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;shape&#39;
 </pre></div>

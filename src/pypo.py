@@ -4,8 +4,7 @@ import warnings
 from itertools import permutations as perms
 import string
 from typing import Callable,Union
-from tqdm.auto import tqdm
-import multiprocessing
+from tqdm import tqdm
 
 # Linear Algebra
 import numpy as np
@@ -950,7 +949,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
 
         message_list.append(sol.message)
     
-    debug = 1
+    
     if fDIS.shape[1] > 3 and fDOS.shape[1] > 3:
         plot is False
         print('plot not supported. Dimension higher than 3.')
