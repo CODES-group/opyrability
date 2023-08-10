@@ -9,7 +9,7 @@ copyright: "2023"  # Copyright year to be placed in the footer
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: off
+  execute_notebooks: auto
   timeout: -1
   
 
