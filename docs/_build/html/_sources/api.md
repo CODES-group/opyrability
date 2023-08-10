@@ -15,7 +15,7 @@ kernelspec:
 
 The functions described below are part of PyPO and are
 classified based on their functionality. Each function also contains a worked
-example based on the famous [Shower Problem](examples_gallery/operability_index_shower.ipynb){cite}`vinson00`
+example based on the famous [Shower Problem](examples_gallery/operability_index_shower.ipynb){cite}`vinson00, lima10b`
 
 ## Conventional mapping (AIS to AOS)
 
