@@ -210,6 +210,73 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/PyPO/main?urlpath=tree/docs/inverse_map_shower.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/PyPO/blob/main/docs/inverse_map_shower.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-source-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
     <i class="fab fa-github"></i>
@@ -218,7 +285,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/victoraalves/python_operability" target="_blank"
+      <li><a href="https://github.com/CODES-group/PyPO" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -235,7 +302,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/victoraalves/python_operability/issues/new?title=Issue%20on%20page%20%2Finverse_map_shower.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/CODES-group/PyPO/issues/new?title=Issue%20on%20page%20%2Finverse_map_shower.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -424,38 +491,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">12</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="n">DOSresolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="ne">---&gt; </span><span class="mi">12</span> <span class="n">fDIS</span><span class="p">,</span> <span class="n">fDOS</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span><span class="n">DOS_bound</span><span class="p">,</span> 
-<span class="g g-Whitespace">     </span><span class="mi">13</span>                                           <span class="n">DOSresolution</span><span class="p">,</span> 
-<span class="g g-Whitespace">     </span><span class="mi">14</span>                                           <span class="n">shower2x2</span><span class="p">,</span> 
-<span class="g g-Whitespace">     </span><span class="mi">15</span>                                           <span class="n">u0</span><span class="p">,</span> 
-<span class="g g-Whitespace">     </span><span class="mi">16</span>                                           <span class="n">lb</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span>                                           <span class="n">ub</span><span class="p">,</span> 
-<span class="g g-Whitespace">     </span><span class="mi">18</span>                                           <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> 
-<span class="g g-Whitespace">     </span><span class="mi">19</span>                                           <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-<span class="g g-Whitespace">     </span><span class="mi">20</span>                                           <span class="n">ad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span>                                           <span class="n">warmstart</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t</span>
-
-<span class="nn">File V:\Documents\python_operability\src\pypo.py:802,</span> in <span class="ni">nlp_based_approach</span><span class="nt">(model, DOS_bounds, DOS_resolution, u0, lb, ub, constr, method, plot, ad, warmstart)</span>
-<span class="g g-Whitespace">    </span><span class="mi">790</span>         <span class="c1"># constr[&#39;fun&#39;] = jit(constr[&#39;fun&#39;])</span>
-<span class="g g-Whitespace">    </span><span class="mi">791</span>         <span class="c1"># BUG: AD-based hessians are deactivated for in ipopt now </span>
-<span class="g g-Whitespace">    </span><span class="mi">792</span>         <span class="c1"># due to Cyipopt`s bug.</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">796</span>         <span class="c1"># constr[&#39;hess&#39;] = jit(jacrev(jacrev(constr[&#39;fun&#39;])))</span>
-<span class="g g-Whitespace">    </span><span class="mi">797</span>     <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">798</span>         <span class="k">pass</span>
-<span class="ne">--&gt; </span><span class="mi">802</span> <span class="n">dimDOS</span> <span class="o">=</span> <span class="n">DOS_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">803</span> <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">create_grid</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">804</span> <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">DOSPts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dimDOS</span><span class="p">)</span>
-
-<span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;shape&#39;
-</pre></div>
-</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "3eb4dc89df474678af227422ca5b43d0", "version_major": 2, "version_minor": 0}</script><img alt="_images/2805bf8664d389b857aa7c7e7d9c01a44fc0ce7beb40fd364c7145a2f4129ba2.png" src="_images/2805bf8664d389b857aa7c7e7d9c01a44fc0ce7beb40fd364c7145a2f4129ba2.png" />
 </div>
 </div>
 
@@ -463,8 +499,8 @@ document.write(`
     {
         requestKernel: true,
         binderOptions: {
-            repo: "binder-examples/jupyter-stacks-datascience",
-            ref: "master",
+            repo: "CODES-group/PyPO",
+            ref: "main",
         },
         codeMirrorConfig: {
             theme: "abcdef",

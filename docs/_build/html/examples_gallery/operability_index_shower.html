@@ -212,6 +212,73 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/PyPO/main?urlpath=tree/docs/examples_gallery/operability_index_shower.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/PyPO/blob/main/docs/examples_gallery/operability_index_shower.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
 <div class="dropdown dropdown-source-buttons">
   <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
     <i class="fab fa-github"></i>
@@ -220,7 +287,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/victoraalves/python_operability" target="_blank"
+      <li><a href="https://github.com/CODES-group/PyPO" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -237,7 +304,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/victoraalves/python_operability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/operability_index_shower.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/CODES-group/PyPO/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/operability_index_shower.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -432,7 +499,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/1b4899e9c157e53f7f04be154ce6c2216b597947399b9adfa9c719c9b9634e93.png" src="../_images/1b4899e9c157e53f7f04be154ce6c2216b597947399b9adfa9c719c9b9634e93.png" />
+<img alt="../_images/973fd4f9f41604c7a198888d8ed81b0d83fb2bf373877f699d7e539330f94f35.png" src="../_images/973fd4f9f41604c7a198888d8ed81b0d83fb2bf373877f699d7e539330f94f35.png" />
 </div>
 </div>
 <p>Lastly, let’s evaluate how operable the shower problem is, using the OI as a metric:</p>
@@ -443,7 +510,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/cc90e60ed52a9a0aa08f52f00e544cca89cfa728f0105dc5bec74f4f7afee3ff.png" src="../_images/cc90e60ed52a9a0aa08f52f00e544cca89cfa728f0105dc5bec74f4f7afee3ff.png" />
+<img alt="../_images/92369308aed6eb64d4588d47141c3f26553a2e0a1a6e901a1e9eecaf8c81df35.png" src="../_images/92369308aed6eb64d4588d47141c3f26553a2e0a1a6e901a1e9eecaf8c81df35.png" />
 </div>
 </div>
 <p>The OI of <span class="math notranslate nohighlight">\(60.24\%\)</span> indicates that with the current limits of the AIS variables (hot and cold flow rates),
@@ -454,8 +521,8 @@ the process is not fully operable!</p>
     {
         requestKernel: true,
         binderOptions: {
-            repo: "binder-examples/jupyter-stacks-datascience",
-            ref: "master",
+            repo: "CODES-group/PyPO",
+            ref: "main",
         },
         codeMirrorConfig: {
             theme: "abcdef",
