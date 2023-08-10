@@ -4,7 +4,7 @@ Welcome to PyPO, a Python-based package for performing [Process Operability](htt
 
 PyPO is developed by the Control, Optimization and Design for Energy and Sustainability (CODES) Group at West Virginia University under Dr. Fernando V. Lima's supervision.
 
-![alt text](/docs/images/pypo_overview.png)
+![](/docs/pypo_overview.png)
 
 Authors:
 [Victor Alves](https://github.com/victoraalves) and [San Dinh](https://github.com/sanqdinh)
