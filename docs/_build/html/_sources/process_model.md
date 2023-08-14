@@ -229,4 +229,6 @@ written in the following form:
 In the function `dma_mr_design` above, the function input `u` is a two-dimensional vector
 allocating the tube length and tube diameter values, respectively. The return
 is also a two-dimensional array, allocating the benzene production and methane
-conversion. Note that the system is numerically integrated using `jax.experimental.ode.odeint`
+conversion. Note that the system is numerically integrated using `jax.experimental.ode.odeint`.
+
+

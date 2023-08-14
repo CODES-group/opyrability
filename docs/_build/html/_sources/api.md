@@ -326,6 +326,10 @@ shower problem example.
 ```
 
 
+```{eval-rst}
+.. autofunction:: pypo.get_extreme_vertices
+```
+
 ### API documentation list
 ```{eval-rst}
 .. autosummary::

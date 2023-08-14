@@ -162,12 +162,12 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="operability_overview.html">Process Operability Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="process_model.html">The Process Model (M) - Programming Aspects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Process Operability Algorithms</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API Documentation</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="_autosummary/pypo.html">pypo</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="process_model.html">The Process Model (M) - Programming Aspects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
 </ul>
@@ -1228,6 +1228,27 @@ shower problem example.</p>
 </div>
 </div>
 </div>
+<dl class="py function">
+<dt class="sig sig-object py" id="pypo.get_extreme_vertices">
+<span class="sig-prename descclassname"><span class="pre">pypo.</span></span><span class="sig-name descname"><span class="pre">get_extreme_vertices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pypo.html#get_extreme_vertices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pypo.get_extreme_vertices" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets the extreme vertices of any D-dimensional hypercube. This is used to
+plot the DOS in 3d.</p>
+<p>Author: Victor Alves</p>
+<p>Control, Optimization and Design for Energy and Sustainability
+(CODES) Group - West Virginia University - 2022/2023</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bounds</strong> (<em>np.ndarray</em>) – Lower and upper bounds for the Desired Output Set (DOS).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>extreme_vertices</strong> – Extreme vertices for the DOS.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="api-documentation-list">
 <h3>API documentation list<a class="headerlink" href="#api-documentation-list" title="Permalink to this heading">#</a></h3>
