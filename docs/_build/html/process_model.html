@@ -1,0 +1,805 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>The Process Model (M) - Programming Aspects &#8212; PyPO&#39;s documentation.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'process_model';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Process Operability Algorithms" href="algorithms.html" />
+    <link rel="prev" title="Process Operability Overview" href="operability_overview.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/pypo_logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/pypo_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    PyPO Documentation 1.0
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="operability_overview.html">Process Operability Overview</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">The Process Model (M) - Programming Aspects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.html">Process Operability Algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/pypo.html">pypo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/PyPO/main?urlpath=tree/docs/process_model.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/PyPO/blob/main/docs/process_model.md" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/PyPO" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/PyPO/issues/new?title=Issue%20on%20page%20%2Fprocess_model.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/process_model.ipynb" target="_blank"
+   class="btn btn-sm btn-download-notebook-button dropdown-item"
+   title="Download notebook file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-code"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="_sources/process_model.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>The Process Model (M) - Programming Aspects</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-set-of-algebraic-equations">Process Model Defined as a Set of Algebraic Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-set-of-ordinary-differential-ode-equations">Process Model Defined as a Set of Ordinary Differential (ODE) Equations:</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="the-process-model-m-programming-aspects">
+<h1>The Process Model (M) - Programming Aspects<a class="headerlink" href="#the-process-model-m-programming-aspects" title="Permalink to this heading">#</a></h1>
+<p>Let’s recapitulate how the process model (M) is mathematically defined:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}M=\left\{\begin{array}{l}
+\dot{x}_s=f\left(x_s, u, d\right) \\
+y=g\left(x_s, u, d\right) \\
+h_1\left(\dot{x}_s, x_s, y, \dot{u}, u, d\right)=0 \\
+h_2\left(\dot{x}_s, x_s, y, \dot{u}, u, d\right) \geq 0
+\end{array}\right.\end{split}\]</div>
+<p>This might look straightforward in mathematical terms. However, when coding
+your process model some questions regarding implementation in Python might arise.
+This section seeks to illustrate different cases that you might need to deal with
+when creating your process model for performing a process operability analysis
+using PyPO.</p>
+<p>PyPO is <em>model agnostic</em>. This means that irrespective of how you want to define
+your process model, as long as you follow a simple syntax in terms of a Python
+function, <strong>PyPO will work</strong>.</p>
+<p>The following pseudocode illustrates the overall syntax that must be followed
+in order to be PyPO-compatible:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">process_model</span><span class="p">(</span><span class="n">u</span><span class="p">:</span> <span class="n">AIS</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">EDS</span><span class="p">):</span>
+
+        <span class="n">y</span><span class="p">:</span> <span class="n">AOS</span><span class="o">/</span><span class="n">DOS</span> <span class="n">variables</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+            
+        <span class="k">return</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="process-model-defined-as-a-set-of-algebraic-equations">
+<h2>Process Model Defined as a Set of Algebraic Equations<a class="headerlink" href="#process-model-defined-as-a-set-of-algebraic-equations" title="Permalink to this heading">#</a></h2>
+<p>This might be the simplest case, one example being the <a class="reference internal" href="examples_gallery/operability_index_shower.html"><span class="doc std std-doc">Shower Problem</span></a><span id="id1">[<a class="reference internal" href="bibliography.html#id34" title="Fernando V. Lima, Zhenya Jia, Marianthi Ierapetritou, and Christos Georgakis. Similarities and differences between the concepts of operability and flexibility: the steady-state case. AIChE Journal, 56(3):702-716, 2010. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.12021, doi:https://doi.org/10.1002/aic.12021.">10</a>, <a class="reference internal" href="bibliography.html#id22" title="David R Vinson and Christos Georgakis. A new measure of process output controllability. Journal of Process Control, 10(2):185 - 194, 2000. URL: http://www.sciencedirect.com/science/article/pii/S0959152499000451, doi:https://doi.org/10.1016/S0959-1524(99)00045-1.">12</a>]</span>. The model equations
+are explicit and algebraic, being solved directly. The process model Python function
+would be, in this case:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">shower_problem</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">60</span><span class="o">+</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">120</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="o">+</span><span class="mi">120</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+            
+        <span class="k">return</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="process-model-defined-as-a-set-of-ordinary-differential-ode-equations">
+<h2>Process Model Defined as a Set of Ordinary Differential (ODE) Equations:<a class="headerlink" href="#process-model-defined-as-a-set-of-ordinary-differential-ode-equations" title="Permalink to this heading">#</a></h2>
+<p>A more complex case is when the process model is defined as a system of equations.
+These can be nonlinear, algebraic and/or differential that need to be numerically
+integrated. Irrespective of the increased complexity, as long as you follow the
+syntax that is PyPO-compatible, the process operability calculations performed
+by PyPO will work effortlessly.</p>
+<p>One example is the
+<a class="reference internal" href="examples_gallery/membrane_reactor.html"><span class="doc std std-doc">DMA-MR</span></a> <span id="id2">[<a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">4</a>]</span>
+in which the AIS variables are design parameters (tube length and tube diameter)
+and AOS variables correspond to methane conversion and benzene production. Both
+are calculated based on the calculated states of the following ODE system,
+described by the <code class="docutils literal notranslate"><span class="pre">dma_mr_model</span></code> function below:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="kn">from</span> <span class="nn">jax.numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
+    <span class="kn">from</span> <span class="nn">jax.experimental.ode</span> <span class="kn">import</span> <span class="n">odeint</span>
+
+    <span class="c1"># Kinetic and general parameters</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="mf">8.314e6</span>                 <span class="c1"># [Pa.cm³/(K.mol.)]</span>
+    <span class="n">k1</span> <span class="o">=</span> <span class="mf">0.04</span>                   <span class="c1"># [s-¹]</span>
+    <span class="n">k1_Inv</span> <span class="o">=</span> <span class="mf">6.40e6</span>             <span class="c1"># [cm³/s-mol]</span>
+    <span class="n">k2</span> <span class="o">=</span> <span class="mf">4.20</span>                   <span class="c1"># [s-¹]</span>
+    <span class="n">k2_Inv</span> <span class="o">=</span> <span class="mf">56.38</span>              <span class="c1"># [cm³/s-mol]</span>
+
+        
+    <span class="c1"># Molecular weights</span>
+    <span class="n">MM_B</span> <span class="o">=</span> <span class="mf">78.00</span>     <span class="c1">#[g/mol] </span>
+
+    <span class="c1"># Fixed Reactor Values</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="mf">1173.15</span>                 <span class="c1"># Temperature[K]  =900[°C] (Isothermal)</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mf">0.01e-4</span>          <span class="c1"># [mol/(h.cm².atm1/4)]</span>
+    <span class="n">selec</span> <span class="o">=</span> <span class="mi">1500</span>
+
+    <span class="c1"># Tube side</span>
+    <span class="n">Pt</span> <span class="o">=</span> <span class="mf">101325.0</span>               <span class="c1"># Pressure [Pa](1atm)</span>
+    <span class="n">v0</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">15</span><span class="p">)</span>        <span class="c1"># Vol. Flowrate [cm³ h-¹]</span>
+    <span class="n">Ft0</span> <span class="o">=</span> <span class="n">Pt</span> <span class="o">*</span> <span class="n">v0</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>     <span class="c1"># Initial molar flowrate[mol/h] - Pure CH4</span>
+
+    <span class="c1"># Shell side</span>
+    <span class="n">Ps</span> <span class="o">=</span> <span class="mf">101325.0</span>               <span class="c1"># Pressure [Pa](1atm)</span>
+    <span class="n">ds</span> <span class="o">=</span> <span class="mi">3</span>                      <span class="c1"># Diameter[cm]</span>
+    <span class="n">v_He</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>       <span class="c1"># Vol. flowrate[cm³/h]</span>
+    <span class="n">F_He</span> <span class="o">=</span> <span class="n">Ps</span> <span class="o">*</span> <span class="n">v_He</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>  <span class="c1"># Sweep gas molar flowrate [mol/h]</span>
+
+    <span class="k">def</span> <span class="nf">dma_mr_model</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span><span class="n">v_He</span><span class="p">,</span><span class="n">v0</span><span class="p">,</span> <span class="n">F_He</span><span class="p">,</span> <span class="n">Ft0</span><span class="p">):</span>
+
+        <span class="n">At</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Cross sectional area [cm2].</span>
+        
+        <span class="c1"># Avoid negative flows that can happen in the first integration steps.</span>
+        <span class="c1"># Consequently this avoids that any molar balance (^ 1/4 terms) generates</span>
+        <span class="c1"># complex numbers.</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+        
+        
+
+        
+        <span class="c1"># Evaluate the total flow rate in the tube &amp; shell.</span>
+        <span class="n">Ft</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">Fs</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">F_He</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">v0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft</span> <span class="o">/</span> <span class="n">Ft0</span><span class="p">)</span>
+
+        <span class="c1"># Concentrations from molar flow rates [mol/cm3].</span>
+        <span class="n">C</span> <span class="o">=</span> <span class="n">F</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="n">v</span>
+        <span class="c1"># Partial pressures - Tube &amp; Shell [mol/cm3].</span>
+
+        <span class="n">P0t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+        <span class="n">P1t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+        <span class="n">P2t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+        <span class="n">P3t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+
+        <span class="n">P0s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+        <span class="n">P1s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+        <span class="n">P2s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+        <span class="n">P3s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+        
+        
+
+        <span class="c1"># First reaction rate.</span>
+        <span class="n">r0</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k1_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> 
+                                    <span class="p">(</span><span class="n">k1</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="p">)))</span>
+        
+
+        <span class="c1"># This replicates an if statement to avoid division by zero, </span>
+        <span class="c1"># whenever the concentrations are near zero. JAX&#39;s syntax compatible.</span>
+        <span class="n">C0_aux</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">r0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">C0_aux</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r0</span><span class="p">)</span>
+        
+
+        <span class="c1"># Second reaction rate.</span>
+        <span class="n">r1</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k2_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> 
+                                    <span class="p">(</span><span class="n">k2</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">3</span> <span class="p">)))</span>
+        
+
+        <span class="c1"># Same as before</span>
+        <span class="n">C1_aux</span> <span class="o">=</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">r1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">C1_aux</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span> <span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>  
+
+        <span class="c1"># Molar balances adjustment with experimental data.</span>
+        <span class="n">eff</span> <span class="o">=</span> <span class="mf">0.9</span>
+        <span class="n">vb</span> <span class="o">=</span> <span class="mf">0.5</span>
+        <span class="n">Cat</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">vb</span><span class="p">)</span> <span class="o">*</span> <span class="n">eff</span>
+
+        <span class="c1"># Molar balances dFdz - Tube (0 to 3) &amp; Shell (4 to 7)</span>
+        <span class="n">dF0</span> <span class="o">=</span> <span class="o">-</span><span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P0t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P0s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+
+        <span class="n">dF1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> 
+        <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P1t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P1s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+
+        <span class="n">dF2</span> <span class="o">=</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">+</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span><span class="o">-</span> <span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P2t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P2s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+
+        <span class="n">dF3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P3t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P3s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+
+        <span class="n">dF4</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P0t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P0s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+
+        <span class="n">dF5</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P1t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P1s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+
+        <span class="n">dF6</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P2t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P2s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+        
+        <span class="n">dF7</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P3t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P3s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+        
+        <span class="n">dFdz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span> <span class="n">dF0</span><span class="p">,</span> <span class="n">dF1</span><span class="p">,</span> <span class="n">dF2</span><span class="p">,</span> <span class="n">dF3</span><span class="p">,</span> <span class="n">dF4</span><span class="p">,</span> <span class="n">dF5</span><span class="p">,</span> <span class="n">dF6</span><span class="p">,</span> <span class="n">dF7</span> <span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">dFdz</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>This system needs to be numerically integrated. Afterward, the AOS variables
+are obtained based on the calculated system states.
+Hence, the process model function that will be used in PyPO can be
+written in the following form:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+
+
+        <span class="n">L</span> <span class="o">=</span>  <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                   <span class="c1"># Tube length   [cm2]</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>                   <span class="c1"># Tube diameter [cm2]</span>
+
+        <span class="n">F_He</span> <span class="o">=</span> <span class="n">Ps</span> <span class="o">*</span> <span class="n">v_He</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>  <span class="c1"># Sweep gas molar flow rate [mol/h].</span>
+
+        <span class="c1"># Initial conditions.</span>
+        <span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Ft0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">)))</span>
+        <span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-10</span>
+
+        <span class="c1"># Integration of mol balances using Jax&#39;s Dormand Prince.</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+        <span class="n">F</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">dma_mr_model</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span><span class="n">v_He</span><span class="p">,</span><span class="n">v0</span><span class="p">,</span> <span class="n">F_He</span><span class="p">,</span> <span class="n">Ft0</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span>
+        
+        <span class="c1"># Calculating outputs (AOS/DOS) from states.</span>
+        <span class="n">F_C6H6</span> <span class="o">=</span> <span class="p">((</span><span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">MM_B</span><span class="p">)</span>
+        <span class="n">X_CH4</span>  <span class="o">=</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft0</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="n">Ft0</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">F_C6H6</span><span class="p">,</span> <span class="n">X_CH4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>In the function <code class="docutils literal notranslate"><span class="pre">dma_mr_design</span></code> above, the function input <code class="docutils literal notranslate"><span class="pre">u</span></code> is a two-dimensional vector
+allocating the tube length and tube diameter values, respectively. The return
+is also a two-dimensional array, allocating the benzene production and methane
+conversion. Note that the system is numerically integrated using <code class="docutils literal notranslate"><span class="pre">jax.experimental.ode.odeint</span></code></p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "CODES-group/PyPO",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="operability_overview.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Process Operability Overview</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="algorithms.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Process Operability Algorithms</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-set-of-algebraic-equations">Process Model Defined as a Set of Algebraic Equations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-set-of-ordinary-differential-ode-equations">Process Model Defined as a Set of Ordinary Differential (ODE) Equations:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Victor Alves @ Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
