@@ -9,7 +9,6 @@ tags:
   - nonlinear optimization
 authors:
   - name: Victor Alves
-    orcid: 
     affiliation: 1
   - name: San Dinh
     affiliation: 2
