@@ -22,8 +22,7 @@ authors:
     affiliation: 1
   
 affiliations:
- - name: Department of Chemical and Biomedical Engineering, West Virginia University, 
-   Morgantown, West Virginia, USA
+ - name: Department of Chemical and Biomedical Engineering, West Virginia University, Morgantown, West Virginia, USA
    index: 1
  - name: Department of Chemical Engineering, Carnegie Mellon University, Pittsburgh, Pennsylvania, USA
    index: 2
