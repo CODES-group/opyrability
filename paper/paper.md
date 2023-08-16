@@ -100,9 +100,9 @@ Hence, the availability of a package such as ```operabilipy``` in a popular, and
 available programming language such as Python, provides the process systems engineering (PSE) community a package that enables
 researchers and practitioners to focus on investigating the operability aspects of emerging and 
 existent large-scale, industrial processes with ease, and to have it in an open-source and community-driven environment. 
-Secondly, ``operabilipy`` is built on well-celebrated packages such as (numpy)[https://numpy.org/],
-(scipy)[https://numpy.org/], for linear algebra and scientific computing; (matplotlib)[https://matplotlib.org/] for visualizing the operable regions in 2D/3D; (cvxopt)[https://cvxopt.org/] allowing access to 
-(glpk)[https://www.gnu.org/software/glpk/] for linear programming, allowing efficient polytopic calculations when using (polytope)[https://tulip-control.github.io/polytope/]. Lastly, (cyipopt)[https://cyipopt.readthedocs.io/en/latest/?badge=latest] allows access to IPOPT [@Wachter2006], a state-of-the-art
+Secondly, ``operabilipy`` is built on well-celebrated packages such as [numpy](https://numpy.org/),
+[scipy](https://numpy.org/), for linear algebra and scientific computing; [matplotlib](https://matplotlib.org/) for visualizing the operable regions in 2D/3D; [cvxopt](https://cvxopt.org/) allowing access to 
+[glpk](https://www.gnu.org/software/glpk/) for linear programming, allowing efficient polytopic calculations when using [polytope](https://tulip-control.github.io/polytope/). Lastly, [cyipopt](https://cyipopt.readthedocs.io/en/latest/?badge=latest) allows access to IPOPT [@Wachter2006], a state-of-the-art
 nonlinear programming solver, allowing efficient inverse mapping operation within the operability framework. The inverse mapping task is further extended with full support for automatic differentiation, powered by JAX [@jax2018github]. This effort thus might further facilitate the 
 dissemination of operability concepts in the PSE field.
 
