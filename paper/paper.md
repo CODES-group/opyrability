@@ -1,5 +1,5 @@
 ---
-title: 'Operabilipy: A Python package for process operability analysis'
+title: 'Opyrability: A Python package for process operability analysis'
 tags:
   - Python
   - Process systems engineering
@@ -81,14 +81,14 @@ To achieve the systematic assessment design and control objectives simultaneousl
 process operability is based on the definition of **operability sets**. These are spaces in the cartesian system that are defined with respect to the available inputs of a given process, their respective achievable outputs, the desired regions of operation in the input and output spaces and lastly, any expected disturbances that may be present. The thorough definitions of these spaces are
 readily available in the literature [@gazzaneo20], as well as in our [documentation](https://codes-group.github.io/PyPO/operability_overview.html).
 
-Therefore, ``operabilipy`` is a Python package for process operability calculations, with its
+Therefore, ``opyrability`` is a Python package for process operability calculations, with its
 API designed to provide a user-friendly interface to enable users to perform process operability analysis effortlessly, reducing the complexity of dealing with the programming aspects of nonlinear programming [@carrasco16] and computational geometry [@gazzaneo19], typical
 operations needed when performing a process operability analysis. 
 
 
 # Statement of need
 
-``Operabilipy`` corresponds to a unified approach to perform process operability
+``Opyrability`` corresponds to a unified approach to perform process operability
 analysis in a single-bundle fashion type of package. In broader terms, process operability
 gives a formal and mathematically tractable framework to systematically investigate the
 operability and achievability of industrial processes earlier in the conceptual phase. This
@@ -96,11 +96,11 @@ eliminates the need for recurring to `ad-hoc`-type solutions to the designing an
 of industrial processes, which are inherently with loss of generality. The use of the process
 operability framework guarantees a solution to the operability and achievability problems that
 is generalizable to any process, as long as a mathematical model of the given application is available.
-Hence, the availability of a package such as ```operabilipy``` in a popular, and freely
+Hence, the availability of a package such as ```opyrability``` in a popular, and freely
 available programming language such as Python, provides the process systems engineering (PSE) community a package that enables
 researchers and practitioners to focus on investigating the operability aspects of emerging and 
 existent large-scale, industrial processes with ease, and to have it in an open-source and community-driven environment. 
-Secondly, ``operabilipy`` is built on well-celebrated packages such as [numpy](https://numpy.org/),
+Secondly, ``opyrability`` is built on well-celebrated packages such as [numpy](https://numpy.org/),
 [scipy](https://numpy.org/), for linear algebra and scientific computing; [matplotlib](https://matplotlib.org/) for visualizing the operable regions in 2D/3D; [cvxopt](https://cvxopt.org/) allowing access to 
 [glpk](https://www.gnu.org/software/glpk/) for linear programming, allowing efficient polytopic calculations when using [polytope](https://tulip-control.github.io/polytope/). Lastly, [cyipopt](https://cyipopt.readthedocs.io/en/latest/?badge=latest) allows access to IPOPT [@Wachter2006], a state-of-the-art
 nonlinear programming solver, allowing efficient inverse mapping operation within the operability framework. The inverse mapping task is further extended with full support for automatic differentiation, powered by JAX [@jax2018github]. This effort thus might further facilitate the 
@@ -110,11 +110,11 @@ dissemination of operability concepts in the PSE field.
 
 # Availability
 
-``Operabilipy`` is freely available in both [PyPI](https://pypi.org/) and [conda-forge](https://conda-forge.org/) stores, as well as 
+``opyrability`` is freely available in both [PyPI](https://pypi.org/) and [conda-forge](https://conda-forge.org/) stores, as well as 
 having its source code hosted on [GitHub](https://github.com/CODES-group/PyPO). In addition, its documentation contains
 not only a thorough [description of the API](https://codes-group.github.io/PyPO/api.html) but also a [theoretical background discussion](https://codes-group.github.io/PyPO/operability_overview.html)
 on process operability concepts, an [examples gallery](https://codes-group.github.io/PyPO/examples_gallery/index_example_gallery.html) with live code capabilities, and [instructions](https://codes-group.github.io/PyPO/process_model.html) on how to set up a process model
-following ``operabilipy`` design principles. The idea is not only to supply proper documentation to
+following ``opyrability`` design principles. The idea is not only to supply proper documentation to
 the users in the PSE community, but also give the users the necessary amount of theory allowing them
 to use process operability principles in their specific application.
  
