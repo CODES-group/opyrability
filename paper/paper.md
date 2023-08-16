@@ -37,36 +37,55 @@ bibliography: references.bib
 
 # Summary
 
-The forces on stars, galaxies, and dark matter under external gravitational
-fields lead to the dynamical evolution of structures in the universe. The orbits
-of these bodies are therefore key to understanding the formation, history, and
-future state of galaxies. The field of "galactic dynamics," which aims to model
-the gravitating components of galaxies to study their structure and evolution,
-is now well-established, commonly taught, and frequently used in astronomy.
-Aside from toy problems and demonstrations, the majority of problems require
-efficient numerical tools, many of which require the same base code (e.g., for
-performing numerical orbit integration).
+When designing a chemical process/plant, two main tasks
+naturally arise, when considering the processing of 
+raw materials into value-added products such as chemicals
+or energy:
 
-``Gala`` is an Astropy-affiliated Python package for galactic dynamics. Python
-enables wrapping low-level languages (e.g., C) for speed without losing
-flexibility or ease-of-use in the user-interface. The API for ``Gala`` was
-designed to provide a class-based and user-friendly interface to fast (C or
-Cython-optimized) implementations of common operations such as gravitational
-potential and force evaluation, orbit integration, dynamical transformations,
-and chaos indicators for nonlinear dynamics. ``Gala`` also relies heavily on and
-interfaces well with the implementations of physical units and astronomical
-coordinate systems in the ``Astropy`` package [@astropy] (``astropy.units`` and
-``astropy.coordinates``).
+1.	**Process design**: Which decisions should be
+	made with respect to the design variables of a given process,
+	in a way that its overall objectives are
+	achieved (economic profitability, constraints related to
+	product purity/pollutant emissions, etc.)?
 
-``Gala`` was designed to be used by both astronomical researchers and by
-students in courses on gravitational dynamics or astronomy. It has already been
-used in a number of scientific publications [@Pearson:2017] and has also been
-used in graduate courses on Galactic dynamics to, e.g., provide interactive
-visualizations of textbook material [@Binney:2008]. The combination of speed,
-design, and support for Astropy functionality in ``Gala`` will enable exciting
-scientific explorations of forthcoming data releases from the *Gaia* mission
-[@gaia] by students and experts alike. The source code for ``Gala`` has been
-archived to Zenodo with the linked DOI: [@zenodo]
+2.	**Control objectives**: Which variables
+	should be controlled, yielding the maximum operability of this process?
+	That is, can the process "reach" its maximum operational capacity, given the 
+	ranges of the manipulated/input variables?
+
+Historically, tasks 1 and 2 were performed in a sequential manner:
+Firstly, an engineer/practitioner would come up with the design decisions, 
+and only then the control objectives are assessed. Unfortunately, this can 
+yield a process that is designed in a way that its operability capabilities
+are hindered. In other words, because the control objectives were
+not considered early in the design phase, the process itself might be not
+controlled or operable at all. To give you perspective on how challenging this
+problem is, there are reports dating back to the 40's from Ziegler and Nichols 
+[@ziegler1943process]
+(The same ones from the controller tuning laws) stressing this problem,
+mentioning the importance of interconnecting design and control.
+
+With this in mind, the need of quantifying achievability of a general nonlinear
+process naturally arises. The question: "Can one quantify achievability
+of process design and control objectives simultaneously?" was the underlying motivation
+for Prof. Christos Georgakis and his collaborators 
+[@georgakis00;@vinson00;@siva05,@lima10]
+to formally define **process operability**
+and define a metric called the **operability index**. Hence, the definition of
+process operability is formalized as **a systematic framework to simultaneously assess design and control objectives early in the conceptual phase of industrial, typically large-scale, and nonlinear chemical processes.**
+
+To achieve the systematic assessment design and control objectives simultaneously, 
+process operability is based on the definition of **operability sets**. These are spaces in the cartesian system that are defined with respect to the available inputs of a given process, their respective achievable outputs, the desired regions of operation in the input and output spaces and lastly, any expected disturbances that may be present. The thorough definitions of these spaces are
+readily available in the literature, as well as in our [documentation](https://codes-group.github.io/PyPO/operability_overview.html).
+
+Therefore, ``operabilipy`` is a Python package for process operability calculations. ``operabilipy's``
+API was designed to provide a user-friendly interface to enable users to perform process operability analysis effortlessly, reducing the complexity of dealing with the programming aspects of nonlinear programming and computational geometry, typical
+operations needed when performing a process operability analysis. The main philosophy of ``operabilipy``
+is to proved to the process systems engineering (PSE) community a package that would enable
+researchers and practitioners to focus on investigating the operability aspects of emerging and 
+existent large-scale, industrial processes with ease, and to have in an open-source, community-driven,
+and freely available programming language such as Python. This effort thus might further facilitate the 
+dissemination of operability concepts in the PSE field.
 
 
 # Statement of need
