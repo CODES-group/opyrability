@@ -479,3 +479,26 @@ url = {https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.18119},
 eprint = {https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.18119},
 abstract = {Abstract The objective in this work is to propose a novel approach for solving inverse problems from the output space to the input space using automatic differentiation coupled with the implicit function theorem and a path integration scheme. A common way of solving inverse problems in process systems engineering (PSE) and in science, technology, engineering and mathematics (STEM) in general is using nonlinear programming (NLP) tools, which may become computationally expensive when both the underlying process model complexity and dimensionality increase. The proposed approach takes advantage of recent advances in robust automatic differentiation packages to calculate the input space region by integration of governing differential equations of a given process. Such calculations are performed based on an initial starting point from the output space and are capable of maintaining accuracy and reducing computational time when compared to using NLP-based approaches to obtain the inverse mapping. Two nonlinear case studies, namely a continuous stirred tank reactor (CSTR) and a membrane reactor for conversion of natural gas to value-added chemicals are addressed using the proposed approach and compared against: (i) extensive (brute-force) search for forward mapping and (ii) using NLP solvers for obtaining the inverse mapping. The obtained results show that the novel approach is in agreement with the typical approaches, while computational time and complexity are considerably reduced, indicating that a new direction for solving inverse problems is developed in this work.}
 }
+
+
+@article{Wachter2006,
+abstract = {We present a primal-dual interior-point algorithm with a filter line-search method for nonlinear programming. Local and global convergence properties of this method were analyzed in previous work. Here we provide a comprehensive description of the algorithm, including the feasibility restoration phase for the filter method, second-order corrections, and inertia correction of the KKT matrix. Heuristics are also considered that allow faster performance. This method has been implemented in the IPOPT code, which we demonstrate in a detailed numerical study based on 954 problems from the CUTEr test set. An evaluation is made of several line-search options, and a comparison is provided with two state-of-the-art interior-point codes for nonlinear programming.},
+author = {W{\"{a}}chter, Andreas and Biegler, Lorenz T},
+doi = {10.1007/s10107-004-0559-y},
+issn = {1436-4646},
+journal = {Mathematical Programming},
+number = {1},
+pages = {25--57},
+title = {{On the implementation of an interior-point filter line-search algorithm for large-scale nonlinear programming}},
+url = {https://doi.org/10.1007/s10107-004-0559-y},
+volume = {106},
+year = {2006}
+}
+
+@software{jax2018github,
+  author = {James Bradbury and Roy Frostig and Peter Hawkins and Matthew James Johnson and Chris Leary and Dougal Maclaurin and George Necula and Adam Paszke and Jake Vander{P}las and Skye Wanderman-{M}ilne and Qiao Zhang},
+  title = {{JAX}: composable transformations of {P}ython+{N}um{P}y programs},
+  url = {http://github.com/google/jax},
+  version = {0.3.13},
+  year = {2018},
+}
