@@ -110,10 +110,10 @@ dissemination of operability concepts in the PSE field.
 
 # Availability
 
-``Operabilipy`` is freely available in both (PyPI)[https://pypi.org/] and (conda-forge)[https://conda-forge.org/] stores, as well as 
-having its source code hosted on (GitHub)[https://github.com/CODES-group/PyPO]. In addition, its documentation contains
-not only a thorough (description of the API)[https://codes-group.github.io/PyPO/api.html] but also a (theoretical background discussion)[https://codes-group.github.io/PyPO/operability_overview.html]
-on process operability concepts, an (examples gallery)[https://codes-group.github.io/PyPO/examples_gallery/index_example_gallery.html] with live code capabilities, and (instructions)[https://codes-group.github.io/PyPO/process_model.html] on how to set up a process model
+``Operabilipy`` is freely available in both [PyPI](https://pypi.org/) and [conda-forge](https://conda-forge.org/) stores, as well as 
+having its source code hosted on [GitHub](https://github.com/CODES-group/PyPO). In addition, its documentation contains
+not only a thorough [description of the API](https://codes-group.github.io/PyPO/api.html) but also a [theoretical background discussion](https://codes-group.github.io/PyPO/operability_overview.html)
+on process operability concepts, an [examples gallery](https://codes-group.github.io/PyPO/examples_gallery/index_example_gallery.html) with live code capabilities, and [instructions](https://codes-group.github.io/PyPO/process_model.html) on how to set up a process model
 following ``operabilipy`` design principles. The idea is not only to supply proper documentation to
 the users in the PSE community, but also give the users the necessary amount of theory allowing them
 to use process operability principles in their specific application.
