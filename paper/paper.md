@@ -69,7 +69,7 @@ With this in mind, the need of quantifying achievability of a general nonlinear
 process naturally arises. The question: "Can one quantify achievability
 of process design and control objectives simultaneously?" was the underlying motivation
 for Prof. Christos Georgakis and his collaborators 
-[@georgakis00;@vinson00;@siva05,@lima10]
+[@georgakis00;@vinson00;@siva05;@lima10]
 to formally define **process operability**
 and define a metric called the **operability index**. Hence, the definition of
 process operability is formalized as **a systematic framework to simultaneously assess design and control objectives early in the conceptual phase of industrial, typically large-scale, and nonlinear chemical processes.**
