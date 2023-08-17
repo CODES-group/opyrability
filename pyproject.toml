@@ -5,9 +5,9 @@ build-backend = "poetry.core.masonry.api"
 [tool.setuptools_scm]
 
 [tool.poetry]
-name = "codes-pypo"
+name = "opyrability"
 version = "1.0"
-description = "Python-based process operability package"
+description = "Process operability analysis in Python"
 authors = ["Victor Alves"]
 license = "MIT License"
 readme = "README.md"
@@ -15,7 +15,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering/Process Systems Engineering",
 ]
-packages = [{ include = "pypo.py", from = "src" },
+packages = [{ include = "opyrability.py", from = "src" },
 			{include =   "PolyhedraVolAprox.py", from="src"}]
 exclude = ["*.tests", "*.tests.*", "tests.*", "tests", "*.obsolete", "*.obsolete.*", "obsolete.*", "obsolete", "*.Experimental", "*.Experimental.*", "Experimental.*", "Experimental", "*.docs", "*.docs.*", "docs.*", "docs"]
 
@@ -26,6 +26,6 @@ scipy = "^1.10.0"
 tqdm = "^4.64.1"
 matplotlib = "^3.6.2"
 polytope = {git = "https://github.com/tulip-control/polytope.git", branch = "main"}
-jax = {extras = ["cpu"], version = "^0.4.0"}
+jax = {extras = ["cpu"], version = "^0.4.13"}
 cvxopt = "^1.2.7"
 
