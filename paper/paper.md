@@ -107,7 +107,7 @@ nonlinear programming solver, allowing efficient inverse mapping operation withi
 dissemination of operability concepts in the PSE field.
 
 ![Dependency graph generated with [pydeps](https://github.com/thebjorn/pydeps/) illustrating all numerical packages and visualization tools
-that allows for opyrability to exist.](./images/dependencies_opyrability.pdf)
+that allows for ``opyrability`` to exist.](./images/dependencies_opyrability.pdf)
 
 # Availability
 
