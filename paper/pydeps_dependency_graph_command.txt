@@ -1,0 +1,4 @@
+pydeps opyrability.py --max-bacon 3 --collapse-target-cluster --exclude PIL IPython psutil pytest packaging ml_dtypes opt_einsum pandas ipykernel importlib_metadata matplotlib_inline importlib_resources cycler certifi cffi
+
+
+pydeps opyrability.py --max-bacon 3 --exclude PIL IPython psutil pytest packaging ml_dtypes opt_einsum pandas ipykernel importlib_metadata matplotlib_inline importlib_resources cycler certifi cffi mkl tqdm --collapse-target-cluster --min-cluster-size=3

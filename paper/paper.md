@@ -106,7 +106,8 @@ Secondly, ``opyrability`` is built on well-celebrated packages such as [numpy](h
 nonlinear programming solver, allowing efficient inverse mapping operation within the operability framework. The inverse mapping task is further extended with full support for automatic differentiation, powered by JAX [@jax2018github]. This effort thus might further facilitate the 
 dissemination of operability concepts in the PSE field.
 
-
+![Dependency graph generated with [pydeps](https://github.com/thebjorn/pydeps/) illustrating all numerical packages and visualization tools
+that allows for opyrability to exist.](./images/dependencies_opyrability.svg)
 
 # Availability
 
