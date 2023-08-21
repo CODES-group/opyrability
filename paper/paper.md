@@ -111,7 +111,14 @@ that allows for ``opyrability`` to exist.](./images/dependencies_opyrability.pdf
 
 # Vignette
 
-As a quick example of ``opyrability's`` capabilities, the example below 
+As a quick example of ``opyrability's`` capabilities, the example below available
+in the [examples gallery](https://codes-group.github.io/PyPO/examples_gallery/index_example_gallery.html)
+depicts the operability analysis of a continuous stirred tank reactor (CSTR), in 
+which the operability index (OI) is evaluated for a desired region of operation for the concentration of reactants A and B, respectively. 
+
+
+![Operability index (OI) evaluation for the CSTR example. For the ranges of temperature and
+radii chosen, the process is ]
 
 
 

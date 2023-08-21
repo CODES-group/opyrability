@@ -241,7 +241,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
             AS_coords = np.concatenate(Vertices_list, axis=0)
             for i in range(len(finalpolytope)):
 
-                polyplot = _get_patch(finalpolytope[i], linestyle="dashed",
+                polyplot = _get_patch(finalpolytope[i], linestyle="solid",
                                     edgecolor=AS_COLOR, linewidth=3,
                                     facecolor=AS_COLOR)
                 ax.add_patch(polyplot)
@@ -478,21 +478,32 @@ def OI_eval(AS: pc.Region,
             ax = fig.add_subplot(111)
             for i in range(len(AS_region)):
 
-                polyplot = _get_patch(AS_region[i], linestyle="dashed",
+                polyplot = _get_patch(AS_region[i], linestyle="solid",
                                     edgecolor=AS_COLOR, linewidth=3,
                                     facecolor=AS_COLOR)
                 ax.add_patch(polyplot)
 
+            
 
-            for j in range(len(intersection)):
-                if intersection[j] is None:
-                    pass
+            
+            for item in intersection:
+                if item is None:
+                    continue  # Skip None values
                 else:
-                    interplot = _get_patch(intersection[j], linestyle="dashed",
-                                        linewidth=3,
-                                        facecolor=INTERSECT_COLOR, 
-                                        edgecolor=INTERSECT_COLOR)
+                    interplot = _get_patch(item, linestyle="solid",
+                                           linewidth=3,
+                                           facecolor=INTERSECT_COLOR, 
+                                           edgecolor=INTERSECT_COLOR)
                     ax.add_patch(interplot)
+            # for j in range(len(intersection)):
+            #     if intersection[j] is None:
+            #         pass
+            #     else:
+            #         interplot = _get_patch(intersection[j], linestyle="solid",
+            #                             linewidth=3,
+            #                             facecolor=INTERSECT_COLOR, 
+            #                             edgecolor=INTERSECT_COLOR)
+            #         ax.add_patch(interplot)
                     
 
             DSplot = _get_patch(DS_region, linestyle="dashed",
@@ -801,6 +812,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
     
     dimDOS = DOS_bounds.shape[0]
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
+    DOSPts_multi = DOSPts
     DOSPts = DOSPts.reshape(-1, dimDOS)
     u00    = u0
     # Initialization of variables
@@ -965,19 +977,33 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                             c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
                             cmap=cmap, antialiased=True,
                             lw=lineweight, marker='s',
-                            edgecolors=edgecolors)
+                            edgecolors=edgecolors, label='DIS*')
                 ax1.set_ylabel('$u_{2}$')
                 ax1.set_xlabel('$u_{1}$')
-                ax1.set_title('DIS*')
+                ax1.set_title('Feasible Desired Input Set (DIS*)', fontsize=10)
+                
+                vertices_DOS =  [(DOS_bounds[0, 0], DOS_bounds[1, 0]),
+                                 (DOS_bounds[0, 0], DOS_bounds[1, 1]),
+                                 (DOS_bounds[0, 1], DOS_bounds[1, 1]),
+                                 (DOS_bounds[0, 1], DOS_bounds[1, 0])]
+                
+                
+                vertices_DOS = np.array(vertices_DOS)
+                
+                ax2.fill(vertices_DOS[:, 0], vertices_DOS[:, 1],
+                          facecolor='gray', edgecolor='gray',
+                          alpha=0.5, label= 'DOS')
+                
                 
                 ax2.scatter(fDOS[:, 0], fDOS[:, 1], s=16,
                             c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
                             cmap=cmap, antialiased=True,
                             lw=lineweight, marker='o',
-                            edgecolors=edgecolors)
+                            edgecolors=edgecolors, label='DOS*')
                 ax2.set_ylabel('$y_{2}$')
                 ax2.set_xlabel('$y_{1}$')
-                ax2.set_title('DOS*')
+                ax2.set_title('Feasible Desired Output Set (DOS*)', fontsize=10)
+                plt.legend()
                 
                 
             elif fDIS.shape[1] == 3 and fDOS.shape[1] == 3:
