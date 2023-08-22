@@ -10,7 +10,7 @@ from tqdm.notebook import tqdm
 import numpy as np
 from   numpy.linalg import norm , pinv
 
-# Optimizitaion algorithms
+# Optimization algorithms
 import scipy as sp
 from scipy.optimize import root
 from scipy.optimize import differential_evolution as DE
@@ -211,6 +211,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
             
             if str(type(temp_diff)) == "<class 'polytope.polytope.Polytope'>":
                 temp_diff = [temp_diff]
+                
             for k in range(len(temp_diff)):
                 RemPolyList.append(temp_diff[k])
                 
@@ -220,8 +221,12 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
     for p in range(len(RemPoly)):
         RemU = RemU.union(RemPoly[p])
         
+
     # Generate final (non-overlapped) polytope.
     finalpolytope = region_diff(bound_box, RemU)
+    
+    
+    
 
     # Perspective switch: This will only affect plot and legends.
     if perspective == 'outputs':
@@ -421,6 +426,7 @@ def OI_eval(AS: pc.Region,
     
     intersection = pc.Region(inter_list)
     v_intersect_list = list()
+    final_intersection = list()
     if hypervol_calc == 'polytope':
         OI = (intersection.volume/DS_region.volume)*100
 
@@ -433,15 +439,20 @@ def OI_eval(AS: pc.Region,
             for i in range(len(intersection)):
                 intersect_i = intersection[i]
                 v_intersect = pc.extreme(intersect_i)
+                
                 if v_intersect is None:
                     continue
                 else:
+                    # intersection_polytopes = pc.Polytope(intersect_i)
+                    processed_intersection = pc.Polytope(intersect_i.A,
+                                                         intersect_i.b)
+                    final_intersection.append(processed_intersection)
                     v_intersect_list.append(v_intersect)
                     volumes_i.append(sp.spatial.ConvexHull(v_intersect).volume)
             
             each_polytope_volume = np.array(volumes_i)
             intersection_volume = each_polytope_volume[0:].sum()
-    
+            final_intersection = pc.Region(final_intersection)
             v_DS = pc.extreme(DS_region)
             
             # Evaluate OI
@@ -486,7 +497,7 @@ def OI_eval(AS: pc.Region,
             
 
             
-            for item in intersection:
+            for item in final_intersection:
                 if item is None:
                     continue  # Skip None values
                 else:
@@ -2076,4 +2087,3 @@ def get_extreme_vertices(bounds):
         extreme_vertices[:, i] = bounds[i, indices]
 
     return extreme_vertices
-
