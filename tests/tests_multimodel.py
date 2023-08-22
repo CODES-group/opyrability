@@ -1,5 +1,5 @@
 import numpy as np
-from pypo import multimodel_rep, OI_eval
+from opyrability import multimodel_rep, OI_eval
 
 
 
@@ -7,22 +7,22 @@ from pypo import multimodel_rep, OI_eval
 
 
 # %% DMA-MR - 2x2 System - Design Variables
-# from dma_mr import dma_mr_design, dma_mr_mvs
-# # Defining DOS bounds
+from dma_mr import dma_mr_design, dma_mr_mvs
+# Defining DOS bounds
 
-# DOS_bounds =  np.array([[20, 25], 
-#                         [35, 45]])
+DOS_bounds =  np.array([[20, 25], 
+                        [35, 45]])
 
-# AIS_bounds =  np.array([[10, 100],
-#                         [0.5, 2]])
+AIS_bounds =  np.array([[10, 100],
+                        [0.5, 2]])
 
-# AIS_resolution =  [6, 6]
+AIS_resolution =  [20, 20]
 
-# model  = dma_mr_design
+model  = dma_mr_design
 
-# AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
+AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
 
-# OI = OI_eval(AOS_region, DOS_bounds)
+OI = OI_eval(AOS_region, DOS_bounds)
 
 
 
@@ -51,7 +51,7 @@ from pypo import multimodel_rep, OI_eval
 
 # %% Shower problem 2x2
 # from shower import shower2x2
-# from pypo import AIS2AOS_map
+# from opyrability import AIS2AOS_map
 
 # DOS_bounds =  np.array([[10, 20], 
 #                         [70, 100]])
@@ -74,7 +74,7 @@ from pypo import multimodel_rep, OI_eval
 
 # %% Shower problem 3x3
 # from shower import shower3x3
-# from pypo import AIS2AOS_map
+# from opyrability import AIS2AOS_map
 # DOS_bounds =  np.array([[10.00, 20.00], 
 #                         [70.00, 100.00],
 #                         [-10.00, 10.00]])
@@ -113,7 +113,7 @@ from pypo import multimodel_rep, OI_eval
 
 # %% Shower problem 2x2 - analytical inverse map.
 # from shower import inv_shower2x2
-# from pypo import AIS2AOS_map
+# from opyrability import AIS2AOS_map
 
 # AOS_bounds =  np.array([[10, 20], 
 #                         [70, 100]])
@@ -142,7 +142,7 @@ from pypo import multimodel_rep, OI_eval
 # %% Shower problem 2x3
 
 # from shower import shower2x3
-# from pypo import AIS2AOS_map
+# from opyrability import AIS2AOS_map
 # import matplotlib.pyplot as plt
 # DOS_bounds =  np.array([[10.00, 20.00], 
 #                         [70.00, 100.00],
@@ -163,7 +163,7 @@ from pypo import multimodel_rep, OI_eval
 
 
 # from shower import shower3x2
-# from pypo import AIS2AOS_map
+# from opyrability import AIS2AOS_map
 
 
 # DOS_bounds =  np.array([[10.00, 20.00], 
@@ -202,7 +202,7 @@ from pypo import multimodel_rep, OI_eval
 # %% Shower inverse mapping - multimodel representation 3x3
 # import numpy as np
 # from shower import shower3x3, inv_shower3x3
-# from pypo import AIS2AOS_map, multimodel_rep, nlp_based_approach
+# from opyrability import AIS2AOS_map, multimodel_rep, nlp_based_approach
 
 # u0 = np.array([10, 10, 5])
 # lb = np.array([0, 0, -10])
@@ -236,7 +236,7 @@ from pypo import multimodel_rep, OI_eval
 
 # %% Shower problem 2x2 - Inverse using NLP + Multimodel
 # from shower import shower2x2
-# from pypo import AIS2AOS_map
+# from opyrability import AIS2AOS_map
 
 # DOS_bounds =  np.array([[10, 20], 
 #                         [70, 100]])

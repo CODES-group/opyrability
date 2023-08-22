@@ -48,8 +48,12 @@ AOS_region = multimodel_rep(model,
 DOS_bounds = np.array([[0.10,   0.35],
                        [0.45,   0.65]])
 # Obtain Operability Index (OI).
-OI = OI_eval(AOS_region, DOS_bounds)
+# OI = OI_eval(AOS_region, DOS_bounds)
 
+
+
+# if __name__ == "__main__":
+#     multimodel_rep()
 
 # from opyrability import nlp_based_approach
 

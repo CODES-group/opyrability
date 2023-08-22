@@ -20,8 +20,8 @@ from cyipopt import minimize_ipopt
 import polytope as pc
 from polytope.polytope import region_diff
 from polytope.polytope import _get_patch
-
-
+from polytope import solvers
+solvers.default_solver = 'glpk'
 
 
 
@@ -175,13 +175,13 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         
         
     # Define empty polyopes list.
-    Polytope = list()
+    Polytopes = list()
     Vertices_list = list()
     # Create convex hull using the vertices of the AOS.
     for i in range(len(AOS_poly)):
         Vertices = AOS_poly[i].T
         Vertices_list.append(Vertices)
-        Polytope.append(pc.qhull(Vertices))
+        Polytopes.append(pc.qhull(Vertices))
         
     
     
@@ -192,39 +192,57 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
     
     # Define the AOS as an (possibly) overlapped region. This will be fixed in
     # the next lines of code.    
-    overlapped_region = pc.Region(Polytope[0:])
+    overlapped_region = pc.Region(Polytopes[0:])
     
     # Create a bounding box of the region above:
     min_coord =  overlapped_region.bounding_box[0]
     max_coord =  overlapped_region.bounding_box[1]
     box_coord =  np.hstack([min_coord, max_coord])
     bound_box =  pc.box2poly(box_coord)
+   
 
     # Remove overlapping (Vinson&Gazzaneo trick) - Remove one polytope at a time, 
     # create void polytope using the bounding box and subtract from the original 
     # bounding box itself.
     RemPoly = [bound_box]
-    for i in range(len(Polytope)):
-        RemPolyList = []
-        for j in range(len(RemPoly)+1):
-            temp_diff = RemPoly[j-1].diff(Polytope[i])
+    # for i in range(len(Polytopes)):
+    #     RemPolyList = []
+    #     for j in range(len(RemPoly)+1):
+    #         temp_diff = RemPoly[j-1].diff(Polytopes[i])
             
-            if str(type(temp_diff)) == "<class 'polytope.polytope.Polytope'>":
-                temp_diff = [temp_diff]
+    #         # if str(type(temp_diff)) == "<class 'polytope.polytope.Polytope'>":
+    #         if isinstance(temp_diff, pc.Polytope):
+    #             temp_diff = [temp_diff]
                 
-            for k in range(len(temp_diff)):
-                RemPolyList.append(temp_diff[k])
+    #         # for k in range(len(temp_diff)):
+    #         #     RemPolyList.append(temp_diff[k])
+    #         RemPolyList.extend(temp_diff)
                 
-        RemPoly = RemPolyList
+    #     RemPoly = RemPolyList
     
-    RemU =  RemPoly[0]
-    for p in range(len(RemPoly)):
-        RemU = RemU.union(RemPoly[p])
-        
 
-    # Generate final (non-overlapped) polytope.
-    finalpolytope = region_diff(bound_box, RemU)
+
+    # RemU = RemPolyList[0]
+    # vertices_RemU = []
+    # for p in range(len(RemPolyList)):
+    #     vvv  = pc.extreme(RemPolyList[p])
+    #     vertices_RemU.append(vvv)
+    #     RemU = RemU.union(RemPolyList[p])
     
+    # filtered_list = [item for item in vertices_RemU if item is not None]
+    
+    # quickhull_polytopes = []
+    # for vertices_array in filtered_list:
+    #     convex_hull = pc.qhull(vertices_array)
+    #     quickhull_polytopes.append(convex_hull)
+        
+    
+    # Generate final (non-overlapped) polytope.
+    # finalpolytope = region_diff(bound_box, RemU)
+    finalpolytope = overlapped_region
+    
+    
+   
     
     
 
@@ -420,11 +438,27 @@ def OI_eval(AS: pc.Region,
     AS_region = pc.reduce(AS[0])
     DS_region = pc.reduce(DS_region)
     inter_list = list()
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
     for i in range(len(AS_region)):
         intersection = pc.intersect(AS_region[i], DS_region)
-        inter_list.append(intersection)
+        if intersection.fulldim is False or intersection.dim != DS_region.dim:
+            pass
+        else:
+            print(i)
+            intersection.plot(ax=ax)
+            inter_list.append(intersection)
+            
+        
     
-    intersection = pc.Region(inter_list)
+    # intersection = pc.Region(inter_list)
+    RemU = inter_list[0]
+    for p in range(len(inter_list)):
+        # vvv  = pc.extreme(RemPolyList[p])
+        # vertices_RemU.append(vvv)
+        RemU = RemU.union(inter_list[p], check_convex=True)
+        
+    intersection = RemU
     v_intersect_list = list()
     final_intersection = list()
     if hypervol_calc == 'polytope':
@@ -2087,3 +2121,21 @@ def get_extreme_vertices(bounds):
         extreme_vertices[:, i] = bounds[i, indices]
 
     return extreme_vertices
+
+# # @ray.remote
+# def process_polytope(Polytope, RemPoly, bound_box):
+#     RemPolyList = []
+#     for j in range(len(RemPoly) + 1):
+#         temp_diff = RemPoly[j - 1].diff(Polytope)
+
+#         if str(type(temp_diff)) == "<class 'polytope.polytope.Polytope'>":
+#             temp_diff = [temp_diff]
+
+#         for k in range(len(temp_diff)):
+#             RemPolyList.append(temp_diff[k])
+
+#     return RemPolyList
+
+
+# if __name__ == "__main__":
+#     multimodel_rep()
