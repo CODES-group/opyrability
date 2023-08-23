@@ -16,7 +16,7 @@ Online pip and Conda packages coming soon.
 
 ## Dependencies
 
-PyPO is allowed to exist thanks to the following libraries that are dependencies:
+opyrability is allowed to exist thanks to the following libraries that are dependencies:
 
 - [Numpy](https://numpy.org/) - Linear Algebra.
 - [Scipy](https://scipy.org/) - Scientific computing in Python.

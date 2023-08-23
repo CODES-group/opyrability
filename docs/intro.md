@@ -1,11 +1,11 @@
-# PyPO Documentation 1.0
+# opyrability Documentation 1.0
 
-PyPO - A **Py**thon-based **P**rocess **O**perability Package - is an open-source project for advanced process operability analyses. The PyPO codebase includes the main operability algorithms, supplementary analysis and visualization methods to allow for the assessment of simultaneous design and control objectives early in the conceptual phase.
+opyrability - A **Py**thon-based packge for process **o**pe**rability** analysis - is an open-source project for advanced process operability analyses. The opyrability codebase includes the main operability algorithms, supplementary analysis and visualization methods to allow for the assessment of simultaneous design and control objectives early in the conceptual phase.
 
 
-![](pypo_overview.PNG)
+![](opyrability_overview.PNG)
 
-PyPO is developed by the Control, Optimization and Design for Energy and Sustainability (CODES) Group at West Virginia University 
+opyrability is developed by the Control, Optimization and Design for Energy and Sustainability (CODES) Group at West Virginia University 
 under the supervision of Dr. Fernando V. Lima.
 
 Check out the table of contents below to understand the basics of process operability
@@ -16,7 +16,7 @@ and find examples on how to use the package!
 
 # Citing us
 
-This initiative has the objective of supporting process systems applications and promoting the dissemination, discussion and improvement of operability approaches and algorithms. Information about the developed approaches can be found at reference {cite}`gazzaneo20`. Please cite this reference if you use PyPO for your own research.
+This initiative has the objective of supporting process systems applications and promoting the dissemination, discussion and improvement of operability approaches and algorithms. Information about the developed approaches can be found at reference {cite}`gazzaneo20`. Please cite this reference if you use opyrability for your own research.
 
 ```{eval-rst}
 

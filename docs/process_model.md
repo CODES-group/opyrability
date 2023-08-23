@@ -28,14 +28,14 @@ This might look straightforward in mathematical terms. However, when coding
 your process model some questions regarding implementation in Python might arise.
 This section seeks to illustrate different cases that you might need to deal with
 when creating your process model for performing a process operability analysis
-using PyPO.
+using opyrability.
 
-PyPO is *model agnostic*. This means that irrespective of how you want to define
+opyrability is *model agnostic*. This means that irrespective of how you want to define
 your process model, as long as you follow a simple syntax in terms of a Python
-function, **PyPO will work**.
+function, **opyrability will work**.
 
 The following pseudocode illustrates the overall syntax that must be followed
-in order to be PyPO-compatible:
+in order to be opyrability-compatible:
 
 
 ```{code-cell}
@@ -70,8 +70,8 @@ would be, in this case:
 A more complex case is when the process model is defined as a system of equations.
 These can be nonlinear, algebraic and/or differential that need to be numerically
 integrated. Irrespective of the increased complexity, as long as you follow the
-syntax that is PyPO-compatible, the process operability calculations performed
-by PyPO will work effortlessly.
+syntax that is opyrability-compatible, the process operability calculations performed
+by opyrability will work effortlessly.
 
 One example is the 
 [DMA-MR](examples_gallery/membrane_reactor.ipynb) {cite}`carrasco16, carrasco17`
@@ -197,7 +197,7 @@ described by the `dma_mr_model` function below:
 
 This system needs to be numerically integrated. Afterward, the AOS variables
 are obtained based on the calculated system states. 
-Hence, the process model function that will be used in PyPO can be 
+Hence, the process model function that will be used in opyrability can be 
 written in the following form:
 
 ```{code-cell}

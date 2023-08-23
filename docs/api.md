@@ -13,7 +13,7 @@ kernelspec:
 
 # API Documentation
 
-The functions described below are part of PyPO and are
+The functions described below are part of opyrability and are
 classified based on their functionality. Each function also contains a worked
 example based on the famous [Shower Problem](examples_gallery/operability_index_shower.ipynb){cite}`vinson00, lima10b`
 
@@ -22,16 +22,16 @@ example based on the famous [Shower Problem](examples_gallery/operability_index_
 ### Forward mapping
 
 ```{eval-rst}
-.. autofunction:: pypo.AIS2AOS_map
+.. autofunction:: opyrability.AIS2AOS_map
 ```
 
 ###### Example
 Obtaining the Achievable Output Set (AOS) for the shower problem.
 
-Importing PyPO and Numpy:
+Importing opyrability and Numpy:
 ```{code-cell}
     :tags: ["remove-output"]
-    from pypo import AIS2AOS_map
+    from opyrability import AIS2AOS_map
     import numpy as np
 ```
 Defining the equations that describe the process:
@@ -74,17 +74,17 @@ Obtain discretized AIS/AOS.
 ### NLP-Based
 
 ```{eval-rst}
-.. autofunction:: pypo.nlp_based_approach
+.. autofunction:: opyrability.nlp_based_approach
 ```
 
 ###### Example
 Obtaining the Feasible Desired Input Set (DIS*) for the shower problem.
 
-Importing PyPO and Numpy:
+Importing opyrability and Numpy:
 
 ```{code-cell}
     import numpy as np
-    from pypo import nlp_based_approach
+    from opyrability import nlp_based_approach
 ```
 
 Defining lower and upper bound for the AIS/DIS inverse map:
@@ -148,21 +148,21 @@ NLP and using finite differences:
 ## Implicit mapping
 
 ```{eval-rst}
-.. autofunction:: pypo.implicit_map
+.. autofunction:: opyrability.implicit_map
 ```
 
 ## Multimodel representation
 
 ```{eval-rst}
-.. autofunction:: pypo.multimodel_rep
+.. autofunction:: opyrability.multimodel_rep
 ```
 
 ###### Example
 Obtaining the Achievable Output Set (AOS) for the shower problem.
 
-Importing PyPO and Numpy:
+Importing opyrability and Numpy:
 ```{code-cell} 
-    from pypo import multimodel_rep
+    from opyrability import multimodel_rep
     import numpy as np
 ```
 Defining the equations that describe the process:
@@ -202,7 +202,7 @@ Obtaining multimodel representation of paired polytopes for the AOS:
 ## OI evaluation
 
 ```{eval-rst}
-.. autofunction:: pypo.OI_eval
+.. autofunction:: opyrability.OI_eval
 ```
 
 ###### Example
@@ -210,9 +210,9 @@ Evaluating the OI for the shower problem for a given DOS.
 
 
 
-Importing PyPO and Numpy:
+Importing opyrability and Numpy:
 ```{code-cell} 
-    from pypo import multimodel_rep, OI_eval
+    from opyrability import multimodel_rep, OI_eval
     import numpy as np
 ```
 Defining the equations that describe the process:
@@ -263,13 +263,13 @@ Evaluating the OI and seeing the intersection between the operability sets:
 ## Utilities
 
 ```{eval-rst}
-.. autofunction:: pypo.create_grid
+.. autofunction:: opyrability.create_grid
 ```
 ###### Example
 Creating a 2-dimensional discretized rectangular grid for given DOS bounds.
 
 ```{code-cell} 
-    from pypo import create_grid
+    from opyrability import create_grid
 
     DOS_bounds =  np.array([[10, 20], 
                             [70, 100]])
@@ -291,7 +291,7 @@ Visualizing this grid:
 
 
 ```{eval-rst}
-.. autofunction:: pypo.points2simplices
+.. autofunction:: opyrability.points2simplices
 ```
 
 ###### Example
@@ -299,7 +299,7 @@ Generating paired simplicial polytopes for the AIS/AOS generated for the
 shower problem example.
 
 ```{code-cell}
-    from pypo import points2simplices
+    from opyrability import points2simplices
 
     AIS_poly, AOS_poly = points2simplices(AIS,AOS)
 
@@ -310,14 +310,14 @@ shower problem example.
 
 
 ```{eval-rst}
-.. autofunction:: pypo.points2polyhedra
+.. autofunction:: opyrability.points2polyhedra
 ```
 ###### Example
 Generating paired polyhedrons for the AIS/AOS generated for the
 shower problem example.
 
 ```{code-cell}
-    from pypo import points2polyhedra
+    from opyrability import points2polyhedra
 
     AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
 
@@ -327,7 +327,7 @@ shower problem example.
 
 
 ```{eval-rst}
-.. autofunction:: pypo.get_extreme_vertices
+.. autofunction:: opyrability.get_extreme_vertices
 ```
 
 ### API documentation list
@@ -336,6 +336,6 @@ shower problem example.
    :toctree: _autosummary
    :recursive:
 
-   pypo
+   opyrability
 ```
 
