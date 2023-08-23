@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Evaluation of the OI for the Shower Problem &#8212; PyPO&#39;s documentation.</title>
+    <title>Evaluation of the OI for the Shower Problem &#8212; Opyrability&#39;s documentation.</title>
   
   
   
@@ -141,8 +141,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="../_static/pypo_logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/pypo_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/opyrability_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
 </a></div>
@@ -152,7 +152,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    PyPO Documentation 1.0
+                    Opyrability Documentation 1.0
                 </a>
             </li>
         </ul>
@@ -160,12 +160,12 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../process_model.html">The Process Model (M) - Programming Aspects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../_autosummary/pypo.html">pypo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../_autosummary/opyrability.html">opyrability</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../process_model.html">The Process Model (M) - Programming Aspects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="index_example_gallery.html">Examples Gallery</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
 </ul>
@@ -222,7 +222,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/CODES-group/PyPO/main?urlpath=tree/docs/examples_gallery/operability_index_shower.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/operability_index_shower.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onBinder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -240,7 +240,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://colab.research.google.com/github/CODES-group/PyPO/blob/main/docs/examples_gallery/operability_index_shower.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/operability_index_shower.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -289,7 +289,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/CODES-group/PyPO" target="_blank"
+      <li><a href="https://github.com/CODES-group/opyrability" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -306,7 +306,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/CODES-group/PyPO/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/operability_index_shower.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/CODES-group/opyrability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/operability_index_shower.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -452,10 +452,10 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 \text { if } y_1=0 \rightarrow y_2=90
 \end{array}\right.
 \end{split}\]</div>
-<p>With the essentials covered, let’s start import PyPO’s modules:</p>
+<p>With the essentials covered, let’s start import opyrability’s modules:</p>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pypo</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">opyrability</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 </pre></div>
 </div>
@@ -501,7 +501,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/973fd4f9f41604c7a198888d8ed81b0d83fb2bf373877f699d7e539330f94f35.png" src="../_images/973fd4f9f41604c7a198888d8ed81b0d83fb2bf373877f699d7e539330f94f35.png" />
+<img alt="../_images/e52b34d126a092d31ac436ebabdca6ed3a8b1b094cbce19021e4dc9663b68846.png" src="../_images/e52b34d126a092d31ac436ebabdca6ed3a8b1b094cbce19021e4dc9663b68846.png" />
 </div>
 </div>
 <p>Lastly, let’s evaluate how operable the shower problem is, using the OI as a metric:</p>
@@ -512,7 +512,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/92369308aed6eb64d4588d47141c3f26553a2e0a1a6e901a1e9eecaf8c81df35.png" src="../_images/92369308aed6eb64d4588d47141c3f26553a2e0a1a6e901a1e9eecaf8c81df35.png" />
+<img alt="../_images/7cd4435ea42074fc0c2e839002c20e8a6fd287bf1767a39b6f3412f4323a8386.png" src="../_images/7cd4435ea42074fc0c2e839002c20e8a6fd287bf1767a39b6f3412f4323a8386.png" />
 </div>
 </div>
 <p>The OI of <span class="math notranslate nohighlight">\(60.24\%\)</span> indicates that with the current limits of the AIS variables (hot and cold flow rates),
@@ -523,7 +523,7 @@ the process is not fully operable!</p>
     {
         requestKernel: true,
         binderOptions: {
-            repo: "CODES-group/PyPO",
+            repo: "CODES-group/opyrability",
             ref: "main",
         },
         codeMirrorConfig: {

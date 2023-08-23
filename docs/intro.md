@@ -1,6 +1,6 @@
-# opyrability Documentation 1.0
+# Opyrability Documentation 1.0
 
-opyrability - A **Py**thon-based packge for process **o**pe**rability** analysis - is an open-source project for advanced process operability analyses. The opyrability codebase includes the main operability algorithms, supplementary analysis and visualization methods to allow for the assessment of simultaneous design and control objectives early in the conceptual phase.
+**Opyrability** - A **Py**thon-based packge for process **o**pe**rability** analysis - is an open-source project for advanced process operability analyses. The opyrability codebase includes the main operability algorithms, supplementary analysis and visualization methods to allow for the assessment of simultaneous design and control objectives early in the conceptual phase.
 
 
 ![](opyrability_overview.PNG)

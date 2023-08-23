@@ -16,7 +16,7 @@ DOS_bounds =  np.array([[20, 25],
 AIS_bounds =  np.array([[10, 100],
                         [0.5, 2]])
 
-AIS_resolution =  [15, 15]
+AIS_resolution =  [20, 20]
 
 model  = dma_mr_design
 

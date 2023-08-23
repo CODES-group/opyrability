@@ -33,7 +33,7 @@ def CSTR(u):
 AIS_bounds = np.array([[0.25,  3.00],
                        [1.00, 15.00]])
 # Discretization Resolution.
-AIS_resolution = [50, 50]
+AIS_resolution = [25, 25]
 
 # Model assignment.
 model = CSTR

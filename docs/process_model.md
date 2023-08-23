@@ -39,9 +39,15 @@ in order to be opyrability-compatible:
 
 
 ```{code-cell}
-    def process_model(u: AIS, d: EDS):
+    def process_model(u, d):
 
-        y: AOS/DOS variables = f(u,d)
+        # u is a vector with the AIS variables.
+        # d is a vector with the EDS variables.
+
+        # the AOS variables y are a function (f)
+        # of the AIS(u) and EDS(d):
+        
+        y = f(u,d)
             
         return y
 ```

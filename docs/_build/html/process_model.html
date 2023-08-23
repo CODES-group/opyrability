@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>The Process Model (M) - Programming Aspects &#8212; PyPO&#39;s documentation.</title>
+    <title>The Process Model (M) - Programming Aspects &#8212; Opyrability&#39;s documentation.</title>
   
   
   
@@ -67,7 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Examples Gallery" href="examples_gallery/index_example_gallery.html" />
-    <link rel="prev" title="pypo" href="_autosummary/pypo.html" />
+    <link rel="prev" title="opyrability" href="_autosummary/opyrability.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -143,8 +143,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="_static/pypo_logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="_static/pypo_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="_static/opyrability_logo.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="_static/opyrability_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
 </a></div>
@@ -154,7 +154,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    PyPO Documentation 1.0
+                    Opyrability Documentation 1.0
                 </a>
             </li>
         </ul>
@@ -164,7 +164,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="operability_overview.html">Process Operability Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Process Operability Algorithms</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="_autosummary/pypo.html">pypo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/opyrability.html">opyrability</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">The Process Model (M) - Programming Aspects</a></li>
@@ -224,7 +224,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/CODES-group/PyPO/main?urlpath=tree/docs/process_model.md" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/process_model.md" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onBinder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -242,7 +242,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://colab.research.google.com/github/CODES-group/PyPO/blob/main/docs/process_model.md" target="_blank"
+      <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/process_model.md" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -291,7 +291,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/CODES-group/PyPO" target="_blank"
+      <li><a href="https://github.com/CODES-group/opyrability" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -308,7 +308,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/CODES-group/PyPO/issues/new?title=Issue%20on%20page%20%2Fprocess_model.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/CODES-group/opyrability/issues/new?title=Issue%20on%20page%20%2Fprocess_model.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -474,17 +474,23 @@ h_2\left(\dot{x}_s, x_s, y, \dot{u}, u, d\right) \geq 0
 your process model some questions regarding implementation in Python might arise.
 This section seeks to illustrate different cases that you might need to deal with
 when creating your process model for performing a process operability analysis
-using PyPO.</p>
-<p>PyPO is <em>model agnostic</em>. This means that irrespective of how you want to define
+using opyrability.</p>
+<p>opyrability is <em>model agnostic</em>. This means that irrespective of how you want to define
 your process model, as long as you follow a simple syntax in terms of a Python
-function, <strong>PyPO will work</strong>.</p>
+function, <strong>opyrability will work</strong>.</p>
 <p>The following pseudocode illustrates the overall syntax that must be followed
-in order to be PyPO-compatible:</p>
+in order to be opyrability-compatible:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">process_model</span><span class="p">(</span><span class="n">u</span><span class="p">:</span> <span class="n">AIS</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">EDS</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">process_model</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
 
-        <span class="n">y</span><span class="p">:</span> <span class="n">AOS</span><span class="o">/</span><span class="n">DOS</span> <span class="n">variables</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+        <span class="c1"># u is a vector with the AIS variables.</span>
+        <span class="c1"># d is a vector with the EDS variables.</span>
+
+        <span class="c1"># the AOS variables y are a function (f)</span>
+        <span class="c1"># of the AIS(u) and EDS(d):</span>
+        
+        <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
             
         <span class="k">return</span> <span class="n">y</span>
 </pre></div>
@@ -498,7 +504,7 @@ are explicit and algebraic, being solved directly. The process model Python func
 would be, in this case:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">shower_problem</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">shower_problem</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
@@ -517,8 +523,8 @@ would be, in this case:</p>
 <p>A more complex case is when the process model is defined as a system of equations.
 These can be nonlinear, algebraic and/or differential that need to be numerically
 integrated. Irrespective of the increased complexity, as long as you follow the
-syntax that is PyPO-compatible, the process operability calculations performed
-by PyPO will work effortlessly.</p>
+syntax that is opyrability-compatible, the process operability calculations performed
+by opyrability will work effortlessly.</p>
 <p>One example is the
 <a class="reference internal" href="examples_gallery/membrane_reactor.html"><span class="doc std std-doc">DMA-MR</span></a> <span id="id2">[<a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">4</a>]</span>
 in which the AIS variables are design parameters (tube length and tube diameter)
@@ -527,7 +533,7 @@ are calculated based on the calculated states of the following ODE system,
 described by the <code class="docutils literal notranslate"><span class="pre">dma_mr_model</span></code> function below:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
     <span class="kn">from</span> <span class="nn">jax.numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
     <span class="kn">from</span> <span class="nn">jax.experimental.ode</span> <span class="kn">import</span> <span class="n">odeint</span>
 
@@ -644,11 +650,11 @@ described by the <code class="docutils literal notranslate"><span class="pre">dm
 </div>
 <p>This system needs to be numerically integrated. Afterward, the AOS variables
 are obtained based on the calculated system states.
-Hence, the process model function that will be used in PyPO can be
+Hence, the process model function that will be used in opyrability can be
 written in the following form:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
 
 
         <span class="n">L</span> <span class="o">=</span>  <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                   <span class="c1"># Tube length   [cm2]</span>
@@ -684,7 +690,7 @@ conversion. Note that the system is numerically integrated using <code class="do
     {
         requestKernel: true,
         binderOptions: {
-            repo: "CODES-group/PyPO",
+            repo: "CODES-group/opyrability",
             ref: "main",
         },
         codeMirrorConfig: {
@@ -712,12 +718,12 @@ conversion. Note that the system is numerically integrated using <code class="do
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="_autosummary/pypo.html"
+       href="_autosummary/opyrability.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">pypo</p>
+        <p class="prev-next-title">opyrability</p>
       </div>
     </a>
     <a class="right-next"

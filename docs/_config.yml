@@ -3,13 +3,13 @@
 
 title: Opyrability's documentation.
 author: Victor Alves @ Control, Optimization and Design for Energy and Sustainability (CODES) Group.  
-logo: opryrability_logo.png
+logo: opyrability_logo.png
 copyright: "2023"  # Copyright year to be placed in the footer
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: off
+  execute_notebooks: force
   timeout: -1
   
 
