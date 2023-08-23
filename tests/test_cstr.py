@@ -33,7 +33,7 @@ def CSTR(u):
 AIS_bounds = np.array([[0.25,  3.00],
                        [1.00, 15.00]])
 # Discretization Resolution.
-AIS_resolution = [15, 15]
+AIS_resolution = [50, 50]
 
 # Model assignment.
 model = CSTR
@@ -48,7 +48,7 @@ AOS_region = multimodel_rep(model,
 DOS_bounds = np.array([[0.10,   0.35],
                        [0.45,   0.65]])
 # Obtain Operability Index (OI).
-# OI = OI_eval(AOS_region, DOS_bounds)
+OI = OI_eval(AOS_region, DOS_bounds)
 
 
 

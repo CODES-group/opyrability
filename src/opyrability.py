@@ -451,14 +451,46 @@ def OI_eval(AS: pc.Region,
             
         
     
-    # intersection = pc.Region(inter_list)
-    RemU = inter_list[0]
-    for p in range(len(inter_list)):
+    overlapped_intersection = pc.Region(inter_list)
+    
+    min_coord =  overlapped_intersection.bounding_box[0]
+    max_coord =  overlapped_intersection.bounding_box[1]
+    box_coord =  np.hstack([min_coord, max_coord])
+    bound_box =  pc.box2poly(box_coord)
+    
+    
+    RemPoly = [bound_box]
+    for i in range(len(overlapped_intersection)):
+        RemPolyList = []
+        for j in range(len(RemPoly)+1):
+            temp_diff = RemPoly[j-1].diff(overlapped_intersection[i])
+            
+            # if str(type(temp_diff)) == "<class 'polytope.polytope.Polytope'>":
+            if isinstance(temp_diff, pc.Polytope):
+                temp_diff = [temp_diff]
+                
+            # for k in range(len(temp_diff)):
+            #     RemPolyList.append(temp_diff[k])
+            RemPolyList.extend(temp_diff)
+                
+        RemPoly = RemPolyList
+    
+    RemU = RemPolyList[0]
+    RemPolyList.pop(0)
+    # vertices_RemU = []
+    for p in range(len(RemPolyList)):
         # vvv  = pc.extreme(RemPolyList[p])
         # vertices_RemU.append(vvv)
-        RemU = RemU.union(inter_list[p], check_convex=True)
+        RemU = RemU.union(RemPolyList[p])
+    
+    intersection = region_diff(bound_box, RemU, abs_tol=1e-5, intersect_tol=1e-5)
+    # RemU = inter_list[0]
+    # for p in range(len(inter_list)):
+    #     # vvv  = pc.extreme(RemPolyList[p])
+    #     # vertices_RemU.append(vvv)
+    #     RemU = RemU.union(inter_list[p], check_convex=True)
         
-    intersection = RemU
+    # intersection = RemU
     v_intersect_list = list()
     final_intersection = list()
     if hypervol_calc == 'polytope':
@@ -2121,21 +2153,3 @@ def get_extreme_vertices(bounds):
         extreme_vertices[:, i] = bounds[i, indices]
 
     return extreme_vertices
-
-# # @ray.remote
-# def process_polytope(Polytope, RemPoly, bound_box):
-#     RemPolyList = []
-#     for j in range(len(RemPoly) + 1):
-#         temp_diff = RemPoly[j - 1].diff(Polytope)
-
-#         if str(type(temp_diff)) == "<class 'polytope.polytope.Polytope'>":
-#             temp_diff = [temp_diff]
-
-#         for k in range(len(temp_diff)):
-#             RemPolyList.append(temp_diff[k])
-
-#     return RemPolyList
-
-
-# if __name__ == "__main__":
-#     multimodel_rep()
