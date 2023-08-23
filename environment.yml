@@ -1,4 +1,4 @@
-name: my_environment
+name: opyrability-env
 channels:
   - defaults
   - conda-forge
@@ -14,4 +14,4 @@ dependencies:
   - cyipopt>=1.1.0
   - pip:
     - git+https://github.com/tulip-control/polytope.git@main
-    - git+https://github.com/CODES-group/PyPO@main
+    - git+https://github.com/CODES-group/opyrability@main

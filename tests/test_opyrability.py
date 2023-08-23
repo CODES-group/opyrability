@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from pypo import multimodel_rep, OI_eval, AIS2AOS_map, nlp_based_approach
+from opyrability import multimodel_rep, OI_eval, AIS2AOS_map, nlp_based_approach
 from shower import shower2x2, inv_shower2x2
 from dma_mr import dma_mr_design, dma_mr_mvs
 

@@ -181,22 +181,13 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         Vertices_list.append(Vertices)
         Polytopes.append(pc.qhull(Vertices))
         
-    
-    
-    # Call the function when you want to compute the convex hulls
-    # Polytope, Vertices_list = compute_parallel_convex_hulls(AOS_poly)
-    
+
     # Define the AOS as an (possibly) overlapped region. This will be fixed in
     # the next lines of code.    
     mapped_region = pc.Region(Polytopes[0:])
     
     finalpolytope = mapped_region
     
-    
-   
-    
-    
-
     # Perspective switch: This will only affect plot and legends.
     if perspective == 'outputs':
         AS_label = 'Achievable Output Set (AOS)'
@@ -450,7 +441,6 @@ def OI_eval(AS: pc.Region,
                 if v_intersect is None:
                     continue
                 else:
-                    # intersection_polytopes = pc.Polytope(intersect_i)
                     processed_intersection = pc.Polytope(intersect_i.A,
                                                          intersect_i.b)
                     final_intersection.append(processed_intersection)
@@ -770,8 +760,8 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
         
     else:
         print(" You have selected automatic differentiation as a method for"
-       " obtaining higher-order data (Jacobians/Hessian). Make sure your"
-       " process model is JAX-compatible implementation-wise.")
+       " obtaining higher-order data (Jacobians/Hessian),")
+        print(" Make sure your process model is JAX-compatible implementation-wise.")
         from jax.config import config
         config.update("jax_enable_x64", True)
         config.update('jax_platform_name', 'cpu')
@@ -817,7 +807,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
             pass
 
             
-    
+
     dimDOS = DOS_bounds.shape[0]
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
     DOSPts_multi = DOSPts
@@ -1324,7 +1314,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
         pass
         
     
-    # 2D/3D Plots
+    # 2D / 3D Plots
     if plot is False:
         pass
     elif plot is True:
