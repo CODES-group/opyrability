@@ -1,5 +1,5 @@
 import time
-from   pypo import nlp_based_approach
+from pypo import nlp_based_approach
 # %% NLP-Based Approach - Shower inverse mapping test
 import numpy as np
 from shower import shower2x2

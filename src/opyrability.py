@@ -10,7 +10,7 @@ from tqdm.notebook import tqdm
 import numpy as np
 from   numpy.linalg import norm , pinv
 
-# Optimizitaion algorithms
+# Optimization algorithms
 import scipy as sp
 from scipy.optimize import root
 from scipy.optimize import differential_evolution as DE
@@ -20,17 +20,13 @@ from cyipopt import minimize_ipopt
 import polytope as pc
 from polytope.polytope import region_diff
 from polytope.polytope import _get_patch
-
-
-
-
+from polytope import solvers
+solvers.default_solver = 'glpk'
 
 # Plots
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-
-
 
 # Setting default plot options
 plt.rcParams['figure.dpi'] = 150
@@ -39,8 +35,10 @@ lineweight = 1
 edgecolors = 'k'
 markersize =  128
 DS_COLOR = '#7f7f7f'
-INTERSECT_COLOR = '#1f77b4'
-AS_COLOR = '#2ca02c'
+INTERSECT_COLOR = '#0000cc'
+AS_COLOR = '#1cff1c'
+EDGES_COLORS = '#000000'
+EDGES_WIDTH = 0.25
 
 
 def multimodel_rep(model: Callable[...,Union[float,np.ndarray]], 
@@ -96,7 +94,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
 
     Returns
     -------
-    finalpolytope : list
+    mapped_region : list
         List with first argument being a convex polytope or collection of 
         convex polytopes (named as Region) 
         that describes the AOS. Can be used to calculate the Operability Index 
@@ -175,53 +173,29 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         
         
     # Define empty polyopes list.
-    Polytope = list()
+    Polytopes = list()
     Vertices_list = list()
     # Create convex hull using the vertices of the AOS.
     for i in range(len(AOS_poly)):
         Vertices = AOS_poly[i].T
         Vertices_list.append(Vertices)
-        Polytope.append(pc.qhull(Vertices))
+        Polytopes.append(pc.qhull(Vertices))
         
     
     
-    
-
     # Call the function when you want to compute the convex hulls
     # Polytope, Vertices_list = compute_parallel_convex_hulls(AOS_poly)
     
     # Define the AOS as an (possibly) overlapped region. This will be fixed in
     # the next lines of code.    
-    overlapped_region = pc.Region(Polytope[0:])
+    mapped_region = pc.Region(Polytopes[0:])
     
-    # Create a bounding box of the region above:
-    min_coord =  overlapped_region.bounding_box[0]
-    max_coord =  overlapped_region.bounding_box[1]
-    box_coord =  np.hstack([min_coord, max_coord])
-    bound_box =  pc.box2poly(box_coord)
-
-    # Remove overlapping (Vinson&Gazzaneo trick) - Remove one polytope at a time, 
-    # create void polytope using the bounding box and subtract from the original 
-    # bounding box itself.
-    RemPoly = [bound_box]
-    for i in range(len(Polytope)):
-        RemPolyList = []
-        for j in range(len(RemPoly)+1):
-            temp_diff = RemPoly[j-1].diff(Polytope[i])
-            
-            if str(type(temp_diff)) == "<class 'polytope.polytope.Polytope'>":
-                temp_diff = [temp_diff]
-            for k in range(len(temp_diff)):
-                RemPolyList.append(temp_diff[k])
-                
-        RemPoly = RemPolyList
+    finalpolytope = mapped_region
     
-    RemU =  RemPoly[0]
-    for p in range(len(RemPoly)):
-        RemU = RemU.union(RemPoly[p])
-        
-    # Generate final (non-overlapped) polytope.
-    finalpolytope = region_diff(bound_box, RemU)
+    
+   
+    
+    
 
     # Perspective switch: This will only affect plot and legends.
     if perspective == 'outputs':
@@ -232,7 +206,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
 
     # Plots (2d/3d), unfortunately humans can't see higher dimensions.
     if plot is True:
-        if finalpolytope.dim == 2:
+        if mapped_region.dim == 2:
             
             
             polyplot = []
@@ -241,17 +215,17 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
             AS_coords = np.concatenate(Vertices_list, axis=0)
             for i in range(len(finalpolytope)):
 
-                polyplot = _get_patch(finalpolytope[i], linestyle="dashed",
-                                    edgecolor=AS_COLOR, linewidth=3,
+                polyplot = _get_patch(mapped_region[i], linestyle="solid",
+                                    edgecolor=EDGES_COLORS, linewidth=EDGES_WIDTH,
                                     facecolor=AS_COLOR)
                 ax.add_patch(polyplot)
 
 
-            lower_xaxis = finalpolytope.bounding_box[0][0]
-            upper_xaxis = finalpolytope.bounding_box[1][0]
+            lower_xaxis = mapped_region.bounding_box[0][0]
+            upper_xaxis = mapped_region.bounding_box[1][0]
 
-            lower_yaxis = finalpolytope.bounding_box[0][1]
-            upper_yaxis = finalpolytope.bounding_box[1][1]
+            lower_yaxis = mapped_region.bounding_box[0][1]
+            upper_yaxis = mapped_region.bounding_box[1][1]
 
             ax.set_xlim(lower_xaxis - 0.05*lower_xaxis,
                         upper_xaxis + 0.05*upper_xaxis)
@@ -280,7 +254,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
             ax.set_ylabel('$y_{2}$')
             plt.show()
             
-        elif finalpolytope.dim == 3:
+        elif mapped_region.dim == 3:
             
             
             polyplot = []
@@ -338,8 +312,8 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
     
     # Small hack: Inject AS coordinates into return to be able to
     # plot 3d region effortlessly.
-    finalpolytope_object = [finalpolytope, AS_coords]
-    return finalpolytope_object
+    mapped_region = [mapped_region, AS_coords]
+    return mapped_region
 
 
 def OI_eval(AS: pc.Region,
@@ -408,7 +382,7 @@ def OI_eval(AS: pc.Region,
     
     '''
     
-    # Defining Polytopes for manipulation. Obatining polytopes in min-rep if
+    # Defining Polytopes for manipulation. Obtaining polytopes in min-rep if
     # applicable.
 
     DS_region = pc.box2poly(DS)
@@ -417,10 +391,49 @@ def OI_eval(AS: pc.Region,
     inter_list = list()
     for i in range(len(AS_region)):
         intersection = pc.intersect(AS_region[i], DS_region)
-        inter_list.append(intersection)
+        if intersection.fulldim is False or intersection.dim != DS_region.dim:
+            pass
+        else:
+            inter_list.append(intersection)
+            
+        
     
-    intersection = pc.Region(inter_list)
+    overlapped_intersection = pc.Region(inter_list)
+    
+    min_coord =  overlapped_intersection.bounding_box[0]
+    max_coord =  overlapped_intersection.bounding_box[1]
+    box_coord =  np.hstack([min_coord, max_coord])
+    bound_box =  pc.box2poly(box_coord)
+    
+    # Remove overlapping (Vinson&Gazzaneo trick) - Remove one polytope at a time, 
+    # create void polytope using the bounding box and subtract from the original 
+    # bounding box itself. This avoids wrong calculations of the OI.
+    RemPoly = [bound_box]
+    for i in range(len(overlapped_intersection)):
+        RemPolyList = []
+        for j in range(len(RemPoly)+1):
+            temp_diff = RemPoly[j-1].diff(overlapped_intersection[i])
+            
+            if isinstance(temp_diff, pc.Polytope):
+                temp_diff = [temp_diff]
+                
+            RemPolyList.extend(temp_diff)
+                
+        RemPoly = RemPolyList
+    
+    RemU = RemPolyList[0]
+    RemPolyList.pop(0)
+
+    for p in range(len(RemPolyList)):
+        RemU = RemU.union(RemPolyList[p])
+    
+    intersection = region_diff(bound_box, 
+                               RemU, 
+                               abs_tol=1e-5, 
+                               intersect_tol=1e-5)
+        
     v_intersect_list = list()
+    final_intersection = list()
     if hypervol_calc == 'polytope':
         OI = (intersection.volume/DS_region.volume)*100
 
@@ -433,15 +446,20 @@ def OI_eval(AS: pc.Region,
             for i in range(len(intersection)):
                 intersect_i = intersection[i]
                 v_intersect = pc.extreme(intersect_i)
+                
                 if v_intersect is None:
                     continue
                 else:
+                    # intersection_polytopes = pc.Polytope(intersect_i)
+                    processed_intersection = pc.Polytope(intersect_i.A,
+                                                         intersect_i.b)
+                    final_intersection.append(processed_intersection)
                     v_intersect_list.append(v_intersect)
                     volumes_i.append(sp.spatial.ConvexHull(v_intersect).volume)
             
             each_polytope_volume = np.array(volumes_i)
             intersection_volume = each_polytope_volume[0:].sum()
-    
+            final_intersection = pc.Region(final_intersection)
             v_DS = pc.extreme(DS_region)
             
             # Evaluate OI
@@ -468,7 +486,7 @@ def OI_eval(AS: pc.Region,
         AS_label = 'Available Input Set (AIS)'
         int_label = r'$ AIS \cap DIS$'
 
-    # plot if 2D/ 3D
+    # plot if 2D / 3D
     if plot is True:
         if DS_region.dim == 2:
             
@@ -478,25 +496,25 @@ def OI_eval(AS: pc.Region,
             ax = fig.add_subplot(111)
             for i in range(len(AS_region)):
 
-                polyplot = _get_patch(AS_region[i], linestyle="dashed",
-                                    edgecolor=AS_COLOR, linewidth=3,
+                polyplot = _get_patch(AS_region[i], linestyle="solid",
+                                    edgecolor=EDGES_COLORS, linewidth=EDGES_WIDTH,
                                     facecolor=AS_COLOR)
                 ax.add_patch(polyplot)
 
-
-            for j in range(len(intersection)):
-                if intersection[j] is None:
-                    pass
+            
+            for item in final_intersection:
+                if item is None:
+                    continue  # Skip None values
                 else:
-                    interplot = _get_patch(intersection[j], linestyle="dashed",
-                                        linewidth=3,
-                                        facecolor=INTERSECT_COLOR, 
-                                        edgecolor=INTERSECT_COLOR)
+                    interplot = _get_patch(item, linestyle="solid",
+                                           linewidth=EDGES_WIDTH,
+                                           facecolor=INTERSECT_COLOR, 
+                                           edgecolor=INTERSECT_COLOR)
                     ax.add_patch(interplot)
+    
                     
-
             DSplot = _get_patch(DS_region, linestyle="dashed",
-                                edgecolor=DS_COLOR, alpha=0.5, linewidth=3,
+                                edgecolor=DS_COLOR, alpha=0.5, linewidth=EDGES_WIDTH,
                                 facecolor=DS_COLOR)
             ax.add_patch(DSplot)
             ax.legend('DOS')
@@ -726,7 +744,8 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
     ----------
     [1] J. C. Carrasco and F. V. Lima, “An optimization-based operability 
     framework for process design and intensification of modular natural 
-    gas utilization systems,” Comput. & Chem. Eng, 2017. https://doi.org/10.1016/j.compchemeng.2016.12.010
+    gas utilization systems,” Comput. & Chem. Eng, 2017. 
+    https://doi.org/10.1016/j.compchemeng.2016.12.010
 
     '''
     from scipy.optimize import NonlinearConstraint
@@ -801,6 +820,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
     
     dimDOS = DOS_bounds.shape[0]
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
+    DOSPts_multi = DOSPts
     DOSPts = DOSPts.reshape(-1, dimDOS)
     u00    = u0
     # Initialization of variables
@@ -965,19 +985,33 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                             c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
                             cmap=cmap, antialiased=True,
                             lw=lineweight, marker='s',
-                            edgecolors=edgecolors)
+                            edgecolors=edgecolors, label='DIS*')
                 ax1.set_ylabel('$u_{2}$')
                 ax1.set_xlabel('$u_{1}$')
-                ax1.set_title('DIS*')
+                ax1.set_title('Feasible Desired Input Set (DIS*)', fontsize=10)
+                
+                vertices_DOS =  [(DOS_bounds[0, 0], DOS_bounds[1, 0]),
+                                 (DOS_bounds[0, 0], DOS_bounds[1, 1]),
+                                 (DOS_bounds[0, 1], DOS_bounds[1, 1]),
+                                 (DOS_bounds[0, 1], DOS_bounds[1, 0])]
+                
+                
+                vertices_DOS = np.array(vertices_DOS)
+                
+                ax2.fill(vertices_DOS[:, 0], vertices_DOS[:, 1],
+                          facecolor='gray', edgecolor='gray',
+                          alpha=0.5, label= 'DOS')
+                
                 
                 ax2.scatter(fDOS[:, 0], fDOS[:, 1], s=16,
                             c=np.sqrt(fDOS[:, 0]**1 + fDOS[:, 1]**1),
                             cmap=cmap, antialiased=True,
                             lw=lineweight, marker='o',
-                            edgecolors=edgecolors)
+                            edgecolors=edgecolors, label='DOS*')
                 ax2.set_ylabel('$y_{2}$')
                 ax2.set_xlabel('$y_{1}$')
-                ax2.set_title('DOS*')
+                ax2.set_title('Feasible Desired Output Set (DOS*)', fontsize=10)
+                plt.legend()
                 
                 
             elif fDIS.shape[1] == 3 and fDOS.shape[1] == 3:
@@ -1172,7 +1206,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
      EDS_resolution: np.ndarray = None, plot: bool = True)-> Union[np.ndarray,np.ndarray]:
     '''
     Forward mapping for Process Operability calculations (From AIS to AOS). 
-    From a Available Input Set (AIS) bounds and discretization resolution both
+    From an Available Input Set (AIS) bounds and discretization resolution both
     defined by the user, 
     this function calculates the corresponding discretized 
     Available Output Set (AOS).
@@ -1353,7 +1387,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
                 ax.set_title('$AIS_{u}$')
                 ax.set_ylabel('$u_{2}$')
                 ax.set_zlabel('$u_{3}$')
-                # ax.set_ylabel('$u_{2}$')
+               
             elif EDS_bound.shape[0] == 2:
                 ax.set_title('$AIS_{u} \, and  \, EDS_{d}$')
                 
@@ -1671,7 +1705,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     ----------
     implicit_model : Callable[...,Union[float,np.ndarray]]
         Process model that describes the relationship between the input and 
-        output spaces. has to be written as a function in the following form:
+        output spaces. Has to be written as a function in the following form:
             F(Input Vector, Output Vector) = 0
     domain_bound : np.ndarray
         Domains of the domain variables. Each row corresponds to the lower and
@@ -1722,7 +1756,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         respective multidimensional derivatives (Jacobians). JIT allows faster
         computation of the implicit map. The default is 'True'.
     step_cutting:      bool, False, optional
-        Cutting step strategy to subdivide the domain/image in case of stifness.
+        Cutting step strategy to subdivide the domain/image in case of stiffness.
         The default is 'False'.
     
     Returns
@@ -1744,7 +1778,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         
     References
     ----------
-    V., J. R. Kitchin, and F. V. Lima. "An inverse mapping approach for process
+    V. Alves, J. R. Kitchin, and F. V. Lima. "An inverse mapping approach for process
     systems engineering using automatic differentiation and the implicit 
     function theorem". AIChE Journal, 2023. 
     https://doi.org/10.1002/aic.18119
@@ -1849,7 +1883,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         print('Ivalid continuation method. Exiting algorithm.')
         sys.exit()
         
-    # Pre-alocating the domain set
+    # Pre-allocating the domain set
     numInput = np.prod(domain_resolution)
     nInput = domain_bound.shape[0]
     nOutput = image_init.shape[0]
@@ -1885,10 +1919,6 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     # Preallocate domain and image polyhedras
     domain_polyhedra = list()
     image_polyhedra = list()
-
-
-    # domain_polyhedra = list()
-    # image_polyhedra = list()
 
     for i in tqdm(range(numInput)):
         inputID[0] = int(np.mod(i, domain_resolution[0]))
@@ -2050,4 +2080,3 @@ def get_extreme_vertices(bounds):
         extreme_vertices[:, i] = bounds[i, indices]
 
     return extreme_vertices
-
