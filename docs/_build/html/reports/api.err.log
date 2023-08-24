@@ -1,57 +1,71 @@
 Traceback (most recent call last):
-  File "C:\Users\vc00004\Anaconda3\envs\pypo-env\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+  File "C:\Users\Victor\anaconda3\envs\opyrability\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
     executenb(
-  File "C:\Users\vc00004\Anaconda3\envs\pypo-env\lib\site-packages\nbclient\client.py", line 1204, in execute
+  File "C:\Users\Victor\anaconda3\envs\opyrability\lib\site-packages\nbclient\client.py", line 1305, in execute
     return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
-  File "C:\Users\vc00004\Anaconda3\envs\pypo-env\lib\site-packages\nbclient\util.py", line 84, in wrapped
-    return just_run(coro(*args, **kwargs))
-  File "C:\Users\vc00004\Anaconda3\envs\pypo-env\lib\site-packages\nbclient\util.py", line 62, in just_run
-    return loop.run_until_complete(coro)
-  File "C:\Users\vc00004\Anaconda3\envs\pypo-env\lib\asyncio\base_events.py", line 647, in run_until_complete
+  File "C:\Users\Victor\anaconda3\envs\opyrability\lib\site-packages\jupyter_core\utils\__init__.py", line 166, in wrapped
+    return loop.run_until_complete(inner)
+  File "C:\Users\Victor\anaconda3\envs\opyrability\lib\asyncio\base_events.py", line 647, in run_until_complete
     return future.result()
-  File "C:\Users\vc00004\Anaconda3\envs\pypo-env\lib\site-packages\nbclient\client.py", line 663, in async_execute
+  File "C:\Users\Victor\anaconda3\envs\opyrability\lib\site-packages\nbclient\client.py", line 705, in async_execute
     await self.async_execute_cell(
-  File "C:\Users\vc00004\Anaconda3\envs\pypo-env\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+  File "C:\Users\Victor\anaconda3\envs\opyrability\lib\site-packages\nbclient\client.py", line 1058, in async_execute_cell
     await self._check_raise_for_error(cell, cell_index, exec_reply)
-  File "C:\Users\vc00004\Anaconda3\envs\pypo-env\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+  File "C:\Users\Victor\anaconda3\envs\opyrability\lib\site-packages\nbclient\client.py", line 914, in _check_raise_for_error
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-    AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem,
-    plot=False)
+    OI = OI_eval(AOS_region, DOS_bounds)
 ------------------
 
+
 [1;31m---------------------------------------------------------------------------[0m
-[1;31mAttributeError[0m                            Traceback (most recent call last)
-Cell [1;32mIn[17], line 1[0m
-[1;32m----> 1[0m AOS_region  [38;5;241m=[39m  [43mmultimodel_rep[49m[43m([49m[43mAIS_bounds[49m[43m,[49m[43m [49m[43mAIS_resolution[49m[43m,[49m[43m [49m[43mshower_problem[49m[43m,[49m
-[0;32m      2[0m [43mplot[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m
+[1;31mRuntimeError[0m                              Traceback (most recent call last)
+[1;32m~\AppData\Local\Temp\ipykernel_14792\2603228593.py[0m in [0;36m<cell line: 1>[1;34m()[0m
+[1;32m----> 1[1;33m [0mOI[0m [1;33m=[0m [0mOI_eval[0m[1;33m([0m[0mAOS_region[0m[1;33m,[0m [0mDOS_bounds[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m
+[1;32mV:\Documents\python_operability\src\opyrability.py[0m in [0;36mOI_eval[1;34m(AS, DS, perspective, hypervol_calc, plot)[0m
+[0;32m    433[0m     [0mmerged_intersections[0m [1;33m=[0m [0mintersections[0m[1;33m[[0m[1;36m0[0m[1;33m][0m[1;33m[0m[1;33m[0m[0m
+[0;32m    434[0m     [1;32mfor[0m [0mk[0m [1;32min[0m [0mrange[0m[1;33m([0m[0mlen[0m[1;33m([0m[0mintersections[0m[1;33m)[0m[1;33m)[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
+[1;32m--> 435[1;33m         merged_intersections = (merged_intersections.union(intersections[k],
+[0m[0;32m    436[0m                                                           check_convex=True))
+[0;32m    437[0m [1;33m[0m[0m
 
-File [1;32m~\Documents\python_operability\python_operability\src\pypo.py:140[0m, in [0;36mmultimodel_rep[1;34m(model, bounds, resolution, polytopic_trace, perspective, plot, EDS_bound, EDS_resolution)[0m
-[0;32m    125[0m [38;5;66;03m# TODO: Add implicit mapping option to perform any multimodel rep [39;00m
-[0;32m    126[0m [38;5;66;03m#(future release).[39;00m
-[0;32m    127[0m [38;5;66;03m# Map AOS from AIS setup.[39;00m
-[1;32m   (...)[0m
-[0;32m    137[0m [38;5;66;03m# If not, using the NLP-based approach for inverse mapping. In this case,[39;00m
-[0;32m    138[0m [38;5;66;03m# an initial estimate is needed and the user is prompted.[39;00m
-[0;32m    139[0m [38;5;28;01mif[39;00m perspective [38;5;241m==[39m [38;5;124m'[39m[38;5;124moutputs[39m[38;5;124m'[39m:
-[1;32m--> 140[0m     AIS, AOS [38;5;241m=[39m  [43mAIS2AOS_map[49m[43m([49m[43mmodel[49m[43m,[49m[43m [49m
-[0;32m    141[0m [43m                            [49m[43mbounds[49m[43m,[49m[43m [49m
-[0;32m    142[0m [43m                            [49m[43mresolution[49m[43m,[49m
-[0;32m    143[0m [43m                            [49m[43mEDS_bound[49m[38;5;241;43m=[39;49m[43m [49m[43mEDS_bound[49m[43m,[49m
-[0;32m    144[0m [43m                            [49m[43mEDS_resolution[49m[38;5;241;43m=[39;49m[43mEDS_resolution[49m[43m,[49m[43m [49m
-[0;32m    145[0m [43m                            [49m[43mplot[49m[38;5;241;43m=[39;49m[43m [49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m
-[0;32m    146[0m [38;5;28;01melse[39;00m:
-[0;32m    147[0m     u0_input [38;5;241m=[39m [38;5;28minput[39m([38;5;124m'[39m[38;5;124mEnter an initial estimate for your inverse model[39m[38;5;124m'[39m
-[0;32m    148[0m                      [38;5;124m'[39m[38;5;124mseparated only by commas (,) : [39m[38;5;124m'[39m)
+[1;32m~\anaconda3\envs\opyrability\lib\site-packages\polytope\polytope.py[0m in [0;36munion[1;34m(self, other, check_convex)[0m
+[0;32m    779[0m         [1;33m@[0m[0mrtype[0m[1;33m:[0m [0mL[0m[1;33m{[0m[0mRegion[0m[1;33m}[0m[1;33m[0m[1;33m[0m[0m
+[0;32m    780[0m         """
+[1;32m--> 781[1;33m         [1;32mreturn[0m [0munion[0m[1;33m([0m[0mself[0m[1;33m,[0m [0mother[0m[1;33m,[0m [0mcheck_convex[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m    782[0m [1;33m[0m[0m
+[0;32m    783[0m     [1;32mdef[0m [0m__sub__[0m[1;33m([0m[0mself[0m[1;33m,[0m [0mother[0m[1;33m)[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
 
-File [1;32m~\Documents\python_operability\python_operability\src\pypo.py:1221[0m, in [0;36mAIS2AOS_map[1;34m(model, AIS_bound, AIS_resolution, EDS_bound, EDS_resolution, plot)[0m
-[0;32m   1219[0m [38;5;28;01mif[39;00m [38;5;28mtype[39m(EDS_bound) [38;5;129;01mand[39;00m [38;5;28mtype[39m(EDS_resolution) [38;5;129;01mis[39;00m [38;5;28mtype[39m([38;5;28;01mNone[39;00m):
-[0;32m   1220[0m     numInput_map [38;5;241m=[39m np[38;5;241m.[39mprod(AIS_resolution)
-[1;32m-> 1221[0m     nInput_map [38;5;241m=[39m [43mAIS_bound[49m[38;5;241;43m.[39;49m[43mshape[49m[[38;5;241m0[39m]
-[0;32m   1222[0m     map_bounds [38;5;241m=[39m AIS_bound
-[0;32m   1223[0m     map_resolution [38;5;241m=[39m AIS_resolution
+[1;32m~\anaconda3\envs\opyrability\lib\site-packages\polytope\polytope.py[0m in [0;36munion[1;34m(polyreg1, polyreg2, check_convex)[0m
+[0;32m   1220[0m                 [1;32mfor[0m [0mii[0m [1;32min[0m [0mrange[0m[1;33m([0m[1;36m1[0m[1;33m,[0m [0mN[0m[1;33m)[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
+[0;32m   1221[0m                     [0mtemplist[0m[1;33m.[0m[0mappend[0m[1;33m([0m[0mlst[0m[1;33m[[0m[0mii[0m[1;33m][0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[1;32m-> 1222[1;33m                     [0mis_conv[0m[1;33m,[0m [0menv[0m [1;33m=[0m [0mis_convex[0m[1;33m([0m[0mRegion[0m[1;33m([0m[0mtemplist[0m[1;33m)[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m   1223[0m                     [1;32mif[0m [1;32mnot[0m [0mis_conv[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
+[0;32m   1224[0m                         [0mtemplist[0m[1;33m.[0m[0mremove[0m[1;33m([0m[0mlst[0m[1;33m[[0m[0mii[0m[1;33m][0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
 
-[1;31mAttributeError[0m: 'list' object has no attribute 'shape'
-AttributeError: 'list' object has no attribute 'shape'
+[1;32m~\anaconda3\envs\opyrability\lib\site-packages\polytope\polytope.py[0m in [0;36mis_convex[1;34m(reg, abs_tol)[0m
+[0;32m   1000[0m         [1;32mreturn[0m [1;32mFalse[0m[1;33m,[0m [1;32mNone[0m[1;33m[0m[1;33m[0m[0m
+[0;32m   1001[0m     [0mPl[0m[1;33m,[0m [0mPu[0m [1;33m=[0m [0mreg[0m[1;33m.[0m[0mbounding_box[0m[1;33m[0m[1;33m[0m[0m
+[1;32m-> 1002[1;33m     [0mOl[0m[1;33m,[0m [0mOu[0m [1;33m=[0m [0mouter[0m[1;33m.[0m[0mbounding_box[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m   1003[0m     [0mbboxP[0m [1;33m=[0m [0mnp[0m[1;33m.[0m[0mhstack[0m[1;33m([0m[1;33m[[0m[0mPl[0m[1;33m,[0m [0mPu[0m[1;33m][0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0;32m   1004[0m     [0mbboxO[0m [1;33m=[0m [0mnp[0m[1;33m.[0m[0mhstack[0m[1;33m([0m[1;33m[[0m[0mOl[0m[1;33m,[0m [0mOu[0m[1;33m][0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+
+[1;32m~\anaconda3\envs\opyrability\lib\site-packages\polytope\polytope.py[0m in [0;36mbounding_box[1;34m(self)[0m
+[0;32m    417[0m         """
+[0;32m    418[0m         [1;32mif[0m [0mself[0m[1;33m.[0m[0mbbox[0m [1;32mis[0m [1;32mNone[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
+[1;32m--> 419[1;33m             [0mself[0m[1;33m.[0m[0mbbox[0m [1;33m=[0m [0mbounding_box[0m[1;33m([0m[0mself[0m[1;33m)[0m[1;33m[0m[1;33m[0m[0m
+[0m[0;32m    420[0m         [1;32mreturn[0m [0mself[0m[1;33m.[0m[0mbbox[0m[1;33m[0m[1;33m[0m[0m
+[0;32m    421[0m [1;33m[0m[0m
+
+[1;32m~\anaconda3\envs\opyrability\lib\site-packages\polytope\polytope.py[0m in [0;36mbounding_box[1;34m(polyreg)[0m
+[0;32m   1372[0m             [0ml[0m[1;33m[[0m[0mi[0m[1;33m][0m [1;33m=[0m [0mx[0m[1;33m[[0m[0mi[0m[1;33m][0m[1;33m[0m[1;33m[0m[0m
+[0;32m   1373[0m         [1;32melse[0m[1;33m:[0m[1;33m[0m[1;33m[0m[0m
+[1;32m-> 1374[1;33m             raise RuntimeError((
+[0m[0;32m   1375[0m                 [1;34m'`polytope.solvers.lpsolve` returned:  {v}\n'[0m[1;33m[0m[1;33m[0m[0m
+[0;32m   1376[0m                 [1;34m'its docstring describes return values'[0m[1;33m[0m[1;33m[0m[0m
+
+[1;31mRuntimeError[0m: `polytope.solvers.lpsolve` returned:  {'status': 3, 'x': None, 'fun': None}
+its docstring describes return values
 

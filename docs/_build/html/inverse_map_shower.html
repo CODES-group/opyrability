@@ -7,8 +7,7 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>&lt;no title&gt; &#8212; Opyrability&#39;s documentation.</title>
   
   
@@ -494,22 +493,29 @@ document.write(`
 </div>
 <div class="cell_output docutils container">
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
-<span class="nn">~\AppData\Local\Temp\ipykernel_7492\3653854815.py</span> in <span class="ni">&lt;cell line: 12&gt;</span><span class="nt">()</span>
+<span class="ne">IndexError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="nn">~\AppData\Local\Temp\ipykernel_9460\3653854815.py</span> in <span class="ni">&lt;cell line: 12&gt;</span><span class="nt">()</span>
 <span class="g g-Whitespace">     </span><span class="mi">10</span> 
 <span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="ne">---&gt; </span><span class="mi">12</span> <span class="n">fDIS</span><span class="p">,</span> <span class="n">fDOS</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span><span class="n">DOS_bound</span><span class="p">,</span> 
 <span class="g g-Whitespace">     </span><span class="mi">13</span>                                           <span class="n">DOSresolution</span><span class="p">,</span>
 <span class="g g-Whitespace">     </span><span class="mi">14</span>                                           <span class="n">shower2x2</span><span class="p">,</span>
 
-<span class="nn">~\Documents\python_operability\python_operability\src\opyrability.py</span> in <span class="ni">nlp_based_approach</span><span class="nt">(model, DOS_bounds, DOS_resolution, u0, lb, ub, constr, method, plot, ad, warmstart)</span>
-<span class="g g-Whitespace">    </span><span class="mi">819</span> 
-<span class="g g-Whitespace">    </span><span class="mi">820</span> 
-<span class="ne">--&gt; </span><span class="mi">821</span>     <span class="n">dimDOS</span> <span class="o">=</span> <span class="n">DOS_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="g g-Whitespace">    </span><span class="mi">822</span>     <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">create_grid</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">823</span>     <span class="n">DOSPts_multi</span> <span class="o">=</span> <span class="n">DOSPts</span>
+<span class="nn">V:\Documents\python_operability\src\opyrability.py</span> in <span class="ni">nlp_based_approach</span><span class="nt">(model, DOS_bounds, DOS_resolution, u0, lb, ub, constr, method, plot, ad, warmstart)</span>
+<span class="g g-Whitespace">    </span><span class="mi">832</span> 
+<span class="g g-Whitespace">    </span><span class="mi">833</span>     <span class="n">dimDOS</span> <span class="o">=</span> <span class="n">DOS_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="ne">--&gt; </span><span class="mi">834</span>     <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">create_grid</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">835</span>     <span class="n">DOSPts_multi</span> <span class="o">=</span> <span class="n">DOSPts</span>
+<span class="g g-Whitespace">    </span><span class="mi">836</span>     <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">DOSPts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dimDOS</span><span class="p">)</span>
 
-<span class="ne">AttributeError</span>: &#39;list&#39; object has no attribute &#39;shape&#39;
+<span class="nn">V:\Documents\python_operability\src\opyrability.py</span> in <span class="ni">create_grid</span><span class="nt">(region_bounds, region_resolution)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1191</span>     <span class="c1"># Create discretized region based on bounds and resolution information.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1192</span>     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nInput</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1193</span>         <span class="n">Input_u</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">region_bounds</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1194</span>                                         <span class="n">region_bounds</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1195</span>                                         <span class="n">region_resolution</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+
+<span class="ne">IndexError</span>: too many indices for array: array is 1-dimensional, but 2 were indexed
 </pre></div>
 </div>
 </div>

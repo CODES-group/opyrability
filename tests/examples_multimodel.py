@@ -7,22 +7,22 @@ from opyrability import multimodel_rep, OI_eval
 
 
 # %% DMA-MR - 2x2 System - Design Variables
-from dma_mr import dma_mr_design, dma_mr_mvs
-# Defining DOS bounds
+# from dma_mr import dma_mr_design, dma_mr_mvs
+# # Defining DOS bounds
 
-DOS_bounds =  np.array([[20, 25], 
-                        [35, 45]])
+# DOS_bounds =  np.array([[20, 25], 
+#                         [35, 45]])
 
-AIS_bounds =  np.array([[10, 150],
-                        [0.5, 2]])
+# AIS_bounds =  np.array([[10, 150],
+#                         [0.5, 2]])
 
-AIS_resolution =  [5, 5]
+# AIS_resolution =  [5, 5]
 
-model  = dma_mr_design
+# model  = dma_mr_design
 
-AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
+# AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
 
-OI = OI_eval(AOS_region, DOS_bounds)
+# OI = OI_eval(AOS_region, DOS_bounds)
 
 
 
@@ -59,7 +59,7 @@ OI = OI_eval(AOS_region, DOS_bounds)
 # AIS_bounds =  np.array([[0, 10],
 #                         [0, 10]])
 
-# AIS_resolution =  [3, 3]
+# AIS_resolution =  [5, 5]
 
 # model =  shower2x2
 
@@ -90,9 +90,9 @@ OI = OI_eval(AOS_region, DOS_bounds)
 
 # EDS_bounds = np.array([[-10.00, 10.00]])
 
-# AIS_resolution = [5, 5]
+# AIS_resolution = [3, 3]
 
-# EDS_resolution = [5]
+# EDS_resolution = [3]
 
 # model =  shower3x3
 
@@ -112,31 +112,31 @@ OI = OI_eval(AOS_region, DOS_bounds)
 # OI = OI_eval(AOS_region, DOS_bounds, plot = False)
 
 # %% Shower problem 2x2 - analytical inverse map.
-# from shower import inv_shower2x2
-# from opyrability import AIS2AOS_map
+from shower import inv_shower2x2
+from opyrability import AIS2AOS_map
 
-# AOS_bounds =  np.array([[10, 20], 
-#                         [70, 100]])
+AOS_bounds =  np.array([[10, 20], 
+                        [70, 100]])
 
-# # AIS_bounds =  np.array([[0.1, 10],
-# #                         [0.1, 10]])
+# AIS_bounds =  np.array([[0.1, 10],
+#                         [0.1, 10]])
 
-# AOS_resolution =  [5, 5]
+AOS_resolution =  [5, 5]
 
-# model =  inv_shower2x2
+model =  inv_shower2x2
 
-# DIS_bounds =  np.array([[0, 10.00],
-#                         [0, 10.00]])
-
-
-# AIS, AOS = AIS2AOS_map(model, AOS_bounds, AOS_resolution)
+DIS_bounds =  np.array([[0, 10.00],
+                        [0, 10.00]])
 
 
-# AIS_region  =  multimodel_rep(AOS_bounds, AOS_resolution, model, 
-#                               polytopic_trace = 'polyhedra', 
-#                               perspective = 'inputs')
+AIS, AOS = AIS2AOS_map(model, AOS_bounds, AOS_resolution)
 
-# OI = OI_eval(AIS_region, DIS_bounds, perspective = 'inputs')
+
+AIS_region  =  multimodel_rep(model, AOS_bounds, AOS_resolution, 
+                              polytopic_trace = 'polyhedra', 
+                              perspective = 'inputs')
+
+OI = OI_eval(AIS_region, DIS_bounds, perspective = 'inputs')
 
 
 # %% Shower problem 2x3

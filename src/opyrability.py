@@ -432,12 +432,11 @@ def OI_eval(AS: pc.Region,
     # "check_convex=True" looks for adjacent polytopes and merges them.
     merged_intersections = intersections[0]
     for k in range(len(intersections)):
-        merged_intersections = pc.reduce(merged_intersections.union(intersections[k],
-                                                          check_convex=True), 
-                                                          abs_tol=1e-10)
+        merged_intersections = (merged_intersections.union(intersections[k],
+                                                          check_convex=True))
         
     # After all this, just naming the final intersection simply as intersection.
-    intersection =  merged_intersections
+    intersection =  pc.reduce(merged_intersections, abs_tol=1e-10)
     v_intersect_list = list()
     final_intersection = list()
     
@@ -826,7 +825,11 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
             pass
 
             
-
+    if not isinstance(DOS_bounds, np.ndarray):
+        DOS_bounds = np.array(DOS_bounds)
+    else:
+        pass
+    
     dimDOS = DOS_bounds.shape[0]
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
     DOSPts_multi = DOSPts

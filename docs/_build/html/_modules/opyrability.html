@@ -496,22 +496,13 @@ document.write(`
         <span class="n">Vertices_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Vertices</span><span class="p">)</span>
         <span class="n">Polytopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">qhull</span><span class="p">(</span><span class="n">Vertices</span><span class="p">))</span>
         
-    
-    
-    <span class="c1"># Call the function when you want to compute the convex hulls</span>
-    <span class="c1"># Polytope, Vertices_list = compute_parallel_convex_hulls(AOS_poly)</span>
-    
+
     <span class="c1"># Define the AOS as an (possibly) overlapped region. This will be fixed in</span>
     <span class="c1"># the next lines of code.    </span>
     <span class="n">mapped_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">Polytopes</span><span class="p">[</span><span class="mi">0</span><span class="p">:])</span>
     
     <span class="n">finalpolytope</span> <span class="o">=</span> <span class="n">mapped_region</span>
     
-    
-   
-    
-    
-
     <span class="c1"># Perspective switch: This will only affect plot and legends.</span>
     <span class="k">if</span> <span class="n">perspective</span> <span class="o">==</span> <span class="s1">&#39;outputs&#39;</span><span class="p">:</span>
         <span class="n">AS_label</span> <span class="o">=</span> <span class="s1">&#39;Achievable Output Set (AOS)&#39;</span>
@@ -714,7 +705,6 @@ document.write(`
         
     
     <span class="n">overlapped_intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">inter_list</span><span class="p">)</span>
-    
     <span class="n">min_coord</span> <span class="o">=</span>  <span class="n">overlapped_intersection</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">max_coord</span> <span class="o">=</span>  <span class="n">overlapped_intersection</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="n">box_coord</span> <span class="o">=</span>  <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">min_coord</span><span class="p">,</span> <span class="n">max_coord</span><span class="p">])</span>
@@ -736,19 +726,36 @@ document.write(`
                 
         <span class="n">RemPoly</span> <span class="o">=</span> <span class="n">RemPolyList</span>
     
+    
+    <span class="c1"># Build the &quot;remainder&quot;/&quot;hollow&quot; polytope union interactively.</span>
     <span class="n">RemU</span> <span class="o">=</span> <span class="n">RemPolyList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">RemPolyList</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">RemPolyList</span><span class="p">)):</span>
         <span class="n">RemU</span> <span class="o">=</span> <span class="n">RemU</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">RemPolyList</span><span class="p">[</span><span class="n">p</span><span class="p">])</span>
     
-    <span class="n">intersection</span> <span class="o">=</span> <span class="n">region_diff</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> 
-                               <span class="n">RemU</span><span class="p">,</span> 
-                               <span class="n">abs_tol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> 
-                               <span class="n">intersect_tol</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">)</span>
+    <span class="c1"># Take the intersection between the &quot;hollow&quot; polytope and the bounding box.</span>
+    <span class="n">intersections</span> <span class="o">=</span> <span class="n">region_diff</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> 
+                                <span class="n">RemU</span><span class="p">,</span> 
+                                <span class="n">abs_tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> 
+                                <span class="n">intersect_tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+    
+    <span class="n">intersections</span> <span class="o">=</span> <span class="n">region_diff</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> <span class="n">RemU</span><span class="p">)</span>
+    
+    <span class="c1"># In extremely nonlinear systems with folds/overlapping, the loop below</span>
+    <span class="c1"># guarantees that the final intersection is merged without overlapping at</span>
+    <span class="c1"># high discretization values of the AIS/AOS/DIS/DOS. The parameter</span>
+    <span class="c1"># &quot;check_convex=True&quot; looks for adjacent polytopes and merges them.</span>
+    <span class="n">merged_intersections</span> <span class="o">=</span> <span class="n">intersections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intersections</span><span class="p">)):</span>
+        <span class="n">merged_intersections</span> <span class="o">=</span> <span class="p">(</span><span class="n">merged_intersections</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">intersections</span><span class="p">[</span><span class="n">k</span><span class="p">],</span>
+                                                          <span class="n">check_convex</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
         
+    <span class="c1"># After all this, just naming the final intersection simply as intersection.</span>
+    <span class="n">intersection</span> <span class="o">=</span>  <span class="n">pc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">merged_intersections</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
     <span class="n">v_intersect_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">final_intersection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    
+    <span class="c1"># Methods for OI evaluation.</span>
     <span class="k">if</span> <span class="n">hypervol_calc</span> <span class="o">==</span> <span class="s1">&#39;polytope&#39;</span><span class="p">:</span>
         <span class="n">OI</span> <span class="o">=</span> <span class="p">(</span><span class="n">intersection</span><span class="o">.</span><span class="n">volume</span><span class="o">/</span><span class="n">DS_region</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
 
@@ -765,7 +772,6 @@ document.write(`
                 <span class="k">if</span> <span class="n">v_intersect</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">continue</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="c1"># intersection_polytopes = pc.Polytope(intersect_i)</span>
                     <span class="n">processed_intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">Polytope</span><span class="p">(</span><span class="n">intersect_i</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
                                                          <span class="n">intersect_i</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
                     <span class="n">final_intersection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">processed_intersection</span><span class="p">)</span>
@@ -812,7 +818,8 @@ document.write(`
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">AS_region</span><span class="p">)):</span>
 
                 <span class="n">polyplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">AS_region</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;solid&quot;</span><span class="p">,</span>
-                                    <span class="n">edgecolor</span><span class="o">=</span><span class="n">EDGES_COLORS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">EDGES_WIDTH</span><span class="p">,</span>
+                                    <span class="n">edgecolor</span><span class="o">=</span><span class="n">EDGES_COLORS</span><span class="p">,</span> 
+                                    <span class="n">linewidth</span><span class="o">=</span><span class="n">EDGES_WIDTH</span><span class="p">,</span>
                                     <span class="n">facecolor</span><span class="o">=</span><span class="n">AS_COLOR</span><span class="p">)</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">polyplot</span><span class="p">)</span>
 
@@ -829,7 +836,8 @@ document.write(`
     
                     
             <span class="n">DSplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">DS_region</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">,</span>
-                                <span class="n">edgecolor</span><span class="o">=</span><span class="n">DS_COLOR</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">EDGES_WIDTH</span><span class="p">,</span>
+                                <span class="n">edgecolor</span><span class="o">=</span><span class="n">DS_COLOR</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> 
+                                <span class="n">linewidth</span><span class="o">=</span><span class="n">EDGES_WIDTH</span><span class="p">,</span>
                                 <span class="n">facecolor</span><span class="o">=</span><span class="n">DS_COLOR</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">DSplot</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="s1">&#39;DOS&#39;</span><span class="p">)</span>
@@ -1085,8 +1093,8 @@ document.write(`
         
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; You have selected automatic differentiation as a method for&quot;</span>
-       <span class="s2">&quot; obtaining higher-order data (Jacobians/Hessian). Make sure your&quot;</span>
-       <span class="s2">&quot; process model is JAX-compatible implementation-wise.&quot;</span><span class="p">)</span>
+       <span class="s2">&quot; obtaining higher-order data (Jacobians/Hessian),&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot; Make sure your process model is JAX-compatible implementation-wise.&quot;</span><span class="p">)</span>
         <span class="kn">from</span> <span class="nn">jax.config</span> <span class="kn">import</span> <span class="n">config</span>
         <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s1">&#39;jax_platform_name&#39;</span><span class="p">,</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
@@ -1132,6 +1140,10 @@ document.write(`
             <span class="k">pass</span>
 
             
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
     
     <span class="n">dimDOS</span> <span class="o">=</span> <span class="n">DOS_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">create_grid</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">)</span>
@@ -1639,7 +1651,7 @@ document.write(`
         <span class="k">pass</span>
         
     
-    <span class="c1"># 2D/3D Plots</span>
+    <span class="c1"># 2D / 3D Plots</span>
     <span class="k">if</span> <span class="n">plot</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="k">pass</span>
     <span class="k">elif</span> <span class="n">plot</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>

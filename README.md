@@ -10,14 +10,12 @@ Authors:
 [Victor Alves](https://github.com/victoraalves) and [San Dinh](https://github.com/sanqdinh)
 
 
-
-
 ## Installation
 
-Download the files from the repo, and extract them to any location on your PC. Then from the terminal (or cmd if you are using Windows) navigate to the location where you extracted the files and execute:
+From PyPI:
 
 ```console
-pip install -e . 
+pip install opyrability
 ```
 
 Then install [Cyipopt](https://github.com/mechmotum/cyipopt) which is the only non-automated dependency:
@@ -26,7 +24,7 @@ Then install [Cyipopt](https://github.com/mechmotum/cyipopt) which is the only n
 conda install -c conda-forge cyipopt
 ```
 
-Online Pip and Conda packages coming soon.
+Conda packaging coming soon.
 
 ## Documentation and Process Operability Principles
 

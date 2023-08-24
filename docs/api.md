@@ -240,7 +240,7 @@ y_1 = 0\rightarrow y_2 = 90
 Defining the AIS bounds and the discretization resolution:
 ```{code-cell}
     AIS_bounds =  np.array([[1, 10], [1, 10]])
-    AIS_resolution =  [5, 5]
+    AIS_resolution =  [10, 10]
 ```
 
 Obtaining multimodel representation of paired polytopes for the AOS:
