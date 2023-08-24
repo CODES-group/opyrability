@@ -12,8 +12,17 @@ authors = ["Victor Alves"]
 license = "MIT License"
 readme = "README.md"
 classifiers = [
-    "Operating System :: OS Independent",
-    "Topic :: Scientific/Engineering/Process Systems Engineering",
+    'Intended Audience :: End Users/Desktop',
+    'Intended Audience :: Science/Research',
+    'Operating System :: MacOS',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: Unix',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Topic :: Scientific/Engineering',
+    'Topic :: Software Development :: Libraries :: Python Modules',
 ]
 packages = [{ include = "opyrability.py", from = "src" },
 			{include =   "PolyhedraVolAprox.py", from="src"}]
