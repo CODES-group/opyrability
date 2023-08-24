@@ -6,8 +6,8 @@ from dma_mr import dma_mr_design, dma_mr_mvs
 
 # Tolerances and to see or not to see the operability plots.
 plot_flag = False
-abs_tol = 1e-3
-rel_tol = 1e-3
+abs_tol = 1e-6
+rel_tol = 1e-6
 
 
 # Multimodel approach tests.
@@ -15,8 +15,8 @@ def test_shower2x2():
     DOS_bounds =  np.array([[10, 20], 
                             [70, 100]])
     
-    AIS_bounds =  np.array([[0, 10],
-                            [0, 10]])
+    AIS_bounds =  np.array([[1, 10],
+                            [1, 10]])
     
     AIS_resolution =  [5, 5]
     
@@ -27,7 +27,7 @@ def test_shower2x2():
     
     OI = OI_eval(AOS_region, DOS_bounds, plot = plot_flag)
     
-    assert OI == pytest.approx(60.33, abs=abs_tol, rel=rel_tol)
+    assert OI == pytest.approx(60.23795007653283, abs=abs_tol, rel=rel_tol)
 
     
 
@@ -68,7 +68,7 @@ def test_dma_mr_design():
     DOS_bounds =  np.array([[20, 25], 
                             [35, 45]])
 
-    AIS_bounds =  np.array([[10, 100],
+    AIS_bounds =  np.array([[10, 150],
                             [0.5, 2]])
 
     AIS_resolution =  [5, 5]
@@ -81,7 +81,7 @@ def test_dma_mr_design():
 
     OI = OI_eval(AOS_region, DOS_bounds, plot = plot_flag)
     
-    assert OI == pytest.approx(22.11, abs=abs_tol, rel=rel_tol)
+    assert OI == pytest.approx(23.373846526953766, abs=abs_tol, rel=rel_tol)
 
 
 # NLP-based approach tests

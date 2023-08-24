@@ -13,10 +13,10 @@ from dma_mr import dma_mr_design, dma_mr_mvs
 DOS_bounds =  np.array([[20, 25], 
                         [35, 45]])
 
-AIS_bounds =  np.array([[10, 100],
+AIS_bounds =  np.array([[10, 150],
                         [0.5, 2]])
 
-AIS_resolution =  [20, 20]
+AIS_resolution =  [5, 5]
 
 model  = dma_mr_design
 

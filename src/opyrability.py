@@ -390,7 +390,6 @@ def OI_eval(AS: pc.Region,
         
     
     overlapped_intersection = pc.Region(inter_list)
-    
     min_coord =  overlapped_intersection.bounding_box[0]
     max_coord =  overlapped_intersection.bounding_box[1]
     box_coord =  np.hstack([min_coord, max_coord])
@@ -412,19 +411,37 @@ def OI_eval(AS: pc.Region,
                 
         RemPoly = RemPolyList
     
+    
+    # Build the "remainder"/"hollow" polytope union interactively.
     RemU = RemPolyList[0]
     RemPolyList.pop(0)
-
     for p in range(len(RemPolyList)):
         RemU = RemU.union(RemPolyList[p])
     
-    intersection = region_diff(bound_box, 
-                               RemU, 
-                               abs_tol=1e-5, 
-                               intersect_tol=1e-5)
+    # Take the intersection between the "hollow" polytope and the bounding box.
+    intersections = region_diff(bound_box, 
+                                RemU, 
+                                abs_tol=1e-10, 
+                                intersect_tol=1e-10)
+    
+    intersections = region_diff(bound_box, RemU)
+    
+    # In extremely nonlinear systems with folds/overlapping, the loop below
+    # guarantees that the final intersection is merged without overlapping at
+    # high discretization values of the AIS/AOS/DIS/DOS. The parameter
+    # "check_convex=True" looks for adjacent polytopes and merges them.
+    merged_intersections = intersections[0]
+    for k in range(len(intersections)):
+        merged_intersections = pc.reduce(merged_intersections.union(intersections[k],
+                                                          check_convex=True), 
+                                                          abs_tol=1e-10)
         
+    # After all this, just naming the final intersection simply as intersection.
+    intersection =  merged_intersections
     v_intersect_list = list()
     final_intersection = list()
+    
+    # Methods for OI evaluation.
     if hypervol_calc == 'polytope':
         OI = (intersection.volume/DS_region.volume)*100
 
@@ -487,7 +504,8 @@ def OI_eval(AS: pc.Region,
             for i in range(len(AS_region)):
 
                 polyplot = _get_patch(AS_region[i], linestyle="solid",
-                                    edgecolor=EDGES_COLORS, linewidth=EDGES_WIDTH,
+                                    edgecolor=EDGES_COLORS, 
+                                    linewidth=EDGES_WIDTH,
                                     facecolor=AS_COLOR)
                 ax.add_patch(polyplot)
 
@@ -504,7 +522,8 @@ def OI_eval(AS: pc.Region,
     
                     
             DSplot = _get_patch(DS_region, linestyle="dashed",
-                                edgecolor=DS_COLOR, alpha=0.5, linewidth=EDGES_WIDTH,
+                                edgecolor=DS_COLOR, alpha=0.5, 
+                                linewidth=EDGES_WIDTH,
                                 facecolor=DS_COLOR)
             ax.add_patch(DSplot)
             ax.legend('DOS')
