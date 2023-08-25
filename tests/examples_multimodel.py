@@ -16,11 +16,12 @@ DOS_bounds =  np.array([[20, 25],
 AIS_bounds =  np.array([[10, 150],
                         [0.5, 2]])
 
-AIS_resolution =  [5, 5]
+AIS_resolution =  [15, 15]
 
 model  = dma_mr_design
 
-AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution)
+AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution,
+                              polytopic_trace='simplices')
 
 OI = OI_eval(AOS_region, DOS_bounds)
 
@@ -90,9 +91,9 @@ OI = OI_eval(AOS_region, DOS_bounds)
 
 # EDS_bounds = np.array([[-10.00, 10.00]])
 
-# AIS_resolution = [3, 3]
+# AIS_resolution = [5, 5]
 
-# EDS_resolution = [3]
+# EDS_resolution = [5]
 
 # model =  shower3x3
 
@@ -109,34 +110,8 @@ OI = OI_eval(AOS_region, DOS_bounds)
 #                               EDS_resolution=EDS_resolution,
 #                               plot = False)
 
-# OI = OI_eval(AOS_region, DOS_bounds, plot = False)
+# OI = OI_eval(AOS_region, DOS_bounds, plot = True)
 
-# %% Shower problem 2x2 - analytical inverse map.
-# from shower import inv_shower2x2
-# from opyrability import AIS2AOS_map
-
-# AOS_bounds =  np.array([[10, 20], 
-#                         [70, 100]])
-
-# # AIS_bounds =  np.array([[0.1, 10],
-# #                         [0.1, 10]])
-
-# AOS_resolution =  [5, 5]
-
-# model =  inv_shower2x2
-
-# DIS_bounds =  np.array([[0, 10.00],
-#                         [0, 10.00]])
-
-
-# AIS, AOS = AIS2AOS_map(model, AOS_bounds, AOS_resolution)
-
-
-# AIS_region  =  multimodel_rep(model, AOS_bounds, AOS_resolution, 
-#                               polytopic_trace = 'polyhedra', 
-#                               perspective = 'inputs')
-
-# OI = OI_eval(AIS_region, DIS_bounds, perspective = 'inputs')
 
 
 # %% Shower problem 2x3
@@ -180,23 +155,10 @@ OI = OI_eval(AOS_region, DOS_bounds)
 
 # AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
 
+# AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution,
+# plot=True, polytopic_trace='polyhedra')
 
-# def shower_problem(u):
-#         y = np.zeros(2)
-#         y[0]=u[0]+u[1]
-#         if y[0]!=0:
-#             y[1]=(u[0]*60+u[1]*120)/(u[0]+u[1])
-#         else:
-#             y[1]=(60+120)/2
-            
-#         return y
-    
-# AIS_bounds =  np.array([[1, 10], [1, 10]])
-# AIS_resolution =  [5, 5]
-
-
-# AOS_region  =  multimodel_rep(AIS_bounds, AIS_resolution, shower_problem,
-# plotting=False)
+# OI = OI_eval(AOS_region, DOS_bounds, plot = True)
 
 
 # %% Shower inverse mapping - multimodel representation 3x3
@@ -262,3 +224,4 @@ OI = OI_eval(AOS_region, DOS_bounds)
 # OI = OI_eval(AIS_region, 
 #              DIS_bounds, 
 #              perspective='inputs')
+

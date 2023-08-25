@@ -167,6 +167,13 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         AIS_poly, AOS_poly = points2simplices(AIS,AOS)
     elif polytopic_trace =='polyhedra':
         AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
+        
+    elif polytopic_trace == 'delaunay':
+        pass
+        # AIS = AIS.reshape(-1, AIS.shape[-1])
+        # AOS = AOS.reshape(-1, AOS.shape[-1])
+        # # AIS_poly, AOS_poly = Triangulation(AIS, AOS, resolution[0])
+        # MM = Triangulation(AIS, AOS, resolution[0])
     else:
         print('Invalid option for polytopic tracing. Exiting algorithm.')
         sys.exit()
@@ -177,11 +184,11 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
     Vertices_list = list()
     # Create convex hull using the vertices of the AOS.
     for i in range(len(AOS_poly)):
-        Vertices = AOS_poly[i].T
+        Vertices = AOS_poly[i]
         Vertices_list.append(Vertices)
         Polytopes.append(pc.qhull(Vertices))
         
-
+    # eliminate_overlaps(AOS_simplices)
     # Define the AOS as an (possibly) overlapped region. This will be fixed in
     # the next lines of code.    
     mapped_region = pc.Region(Polytopes[0:])
@@ -420,23 +427,30 @@ def OI_eval(AS: pc.Region,
     
     # Take the intersection between the "hollow" polytope and the bounding box.
     intersections = region_diff(bound_box, 
-                                RemU, 
-                                abs_tol=1e-10, 
-                                intersect_tol=1e-10)
+                                RemU)
     
     intersections = region_diff(bound_box, RemU)
     
-    # In extremely nonlinear systems with folds/overlapping, the loop below
-    # guarantees that the final intersection is merged without overlapping at
-    # high discretization values of the AIS/AOS/DIS/DOS. The parameter
-    # "check_convex=True" looks for adjacent polytopes and merges them.
-    merged_intersections = intersections[0]
-    for k in range(len(intersections)):
-        merged_intersections = (merged_intersections.union(intersections[k],
-                                                          check_convex=True))
+    # # In extremely nonlinear systems with folds/overlapping, the loop below
+    # # guarantees that the final intersection is merged without overlapping at
+    # # high discretization values of the AIS/AOS/DIS/DOS. The parameter
+    # # "check_convex=True" looks for adjacent polytopes and merges them.
+    # merged_intersections = intersections[0]
+    # for k in range(len(intersections)):
+    #     merged_intersections = (merged_intersections.union(intersections[k],
+    #                                                       check_convex=True))
         
-    # After all this, just naming the final intersection simply as intersection.
-    intersection =  pc.reduce(merged_intersections, abs_tol=1e-10)
+    # # After all this, just naming the final intersection simply as intersection.
+    # intersection =  pc.reduce(merged_intersections, abs_tol=1e-10)
+    # merged_intersections = overlapped_intersection[0]
+    # for k in range(len(overlapped_intersection)):
+    #     merged_intersections = (merged_intersections.union(overlapped_intersection[k],
+    #                                                       check_convex=True))
+    
+    intersection = intersections
+    
+    # intersection = merged_intersections
+    
     v_intersect_list = list()
     final_intersection = list()
     
@@ -1613,8 +1627,25 @@ def points2simplices(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
 
                 AOS_simplices.append(V_AOS_id)
                 AIS_simplices.append(V_AIS_id)
+                
+                
+                
+                
+    # This section is after the loops, right before the return statement
+    for i, simplex in enumerate(AOS_simplices):
+        poly = pc.qhull(simplex.T)
+        AOS_simplices[i] = pc.extreme(poly)
 
-    return AIS_simplices, AOS_simplices
+    for i, simplex in enumerate(AIS_simplices):
+        poly = pc.qhull(simplex.T)
+        AIS_simplices[i] = pc.extreme(poly)
+
+    # Eliminate overlaps by adjusting vertices
+    AOS_simplicess = eliminate_overlaps(AOS_simplices)
+    AIS_simplicess = eliminate_overlaps(AIS_simplices)
+    
+    
+    return AIS_simplicess, AOS_simplicess
 
 
 def points2polyhedra(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
@@ -1684,7 +1715,22 @@ def points2polyhedra(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
 
             AOS_polytope.append(V_AOS_id)
             AIS_polytope.append(V_AIS_id)
-    return AIS_polytope, AOS_polytope
+            
+            
+    # This section is after the loops, right before the return statement
+    for i, simplex in enumerate(AOS_polytope):
+        poly = pc.qhull(simplex.T)
+        AOS_polytope[i] = pc.extreme(poly)
+
+    for i, simplex in enumerate(AIS_polytope):
+        poly = pc.qhull(simplex.T)
+        AIS_polytope[i] = pc.extreme(poly)
+
+    # Eliminate overlaps by adjusting vertices
+    AOS_polytopes = eliminate_overlaps(AOS_polytope)
+    AIS_polytopes = eliminate_overlaps(AIS_polytope)
+    
+    return AIS_polytopes, AOS_polytopes
 
 
 def implicit_map(model:             Callable[...,Union[float,np.ndarray]], 
@@ -2092,3 +2138,60 @@ def get_extreme_vertices(bounds):
         extreme_vertices[:, i] = bounds[i, indices]
 
     return extreme_vertices
+
+
+
+def are_overlapping(poly1_arr, poly2_arr):
+    """Check if two polytopes overlap."""
+    poly1 = pc.qhull(poly1_arr.T)
+    poly2 = pc.qhull(poly2_arr.T)
+    
+    intersection = pc.intersect(poly1, poly2)
+    return not pc.is_empty(intersection)
+
+
+def adjust_vertices(vertices, centroid, epsilon=1e-1):
+    """Adjust the vertices away from the centroid by a small amount."""
+    adjusted = []
+    for vertex in vertices:
+        direction = vertex - centroid
+        direction_normalized = direction / np.linalg.norm(direction)
+        new_vertex = vertex + epsilon * direction_normalized
+        adjusted.append(new_vertex)
+    return np.array(adjusted)
+
+def eliminate_overlaps(simplices):
+    overlaps_found = True
+    while overlaps_found:
+        overlaps_found = False
+        for i, poly1 in enumerate(simplices):
+            for j, poly2 in enumerate(simplices):
+                if i != j and are_overlapping(poly1, poly2):
+                    overlaps_found = True
+                    overlap = poly1.intersect(poly2)
+                    centroid = np.mean(pc.extreme(overlap), axis=0)
+                    
+                    overlapping_vertices1 = [v for v in poly1 if pc.contains(overlap, v)]
+                    overlapping_vertices2 = [v for v in poly2 if pc.contains(overlap, v)]
+                    
+                    adjusted1 = adjust_vertices(overlapping_vertices1, centroid)
+                    adjusted2 = adjust_vertices(overlapping_vertices2, centroid)
+                    
+                    # Update the simplices with the adjusted vertices.
+                    for old_v, new_v in zip(overlapping_vertices1, adjusted1):
+                        poly1[poly1 == old_v] = new_v
+                    for old_v, new_v in zip(overlapping_vertices2, adjusted2):
+                        poly2[poly2 == old_v] = new_v
+    return simplices
+
+
+def all_are_overlapping(poly_region_list):
+    num_polytopes = len(poly_region_list)
+    
+    for i in range(num_polytopes):
+        for j in range(i + 1, num_polytopes):
+            if are_overlapping(pc.extreme(poly_region_list[i]), 
+                               pc.extreme(poly_region_list[j])):
+                return True  # If any pair overlaps, return True
+    
+    return False  # If no pair overlaps, return False
