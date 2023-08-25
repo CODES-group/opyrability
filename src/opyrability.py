@@ -402,34 +402,37 @@ def OI_eval(AS: pc.Region,
     box_coord =  np.hstack([min_coord, max_coord])
     bound_box =  pc.box2poly(box_coord)
     
-    # Remove overlapping (Vinson&Gazzaneo trick) - Remove one polytope at a time, 
-    # create void polytope using the bounding box and subtract from the original 
-    # bounding box itself. This avoids wrong calculations of the OI.
-    RemPoly = [bound_box]
-    for i in range(len(overlapped_intersection)):
-        RemPolyList = []
-        for j in range(len(RemPoly)+1):
-            temp_diff = RemPoly[j-1].diff(overlapped_intersection[i])
+    # # Remove overlapping (Vinson&Gazzaneo trick) - Remove one polytope at a time, 
+    # # create void polytope using the bounding box and subtract from the original 
+    # # bounding box itself. This avoids wrong calculations of the OI.
+    # RemPoly = [bound_box]
+    # for i in range(len(overlapped_intersection)):
+    #     RemPolyList = []
+    #     for j in range(len(RemPoly)+1):
+    #         temp_diff = RemPoly[j-1].diff(overlapped_intersection[i])
             
-            if isinstance(temp_diff, pc.Polytope):
-                temp_diff = [temp_diff]
+    #         if isinstance(temp_diff, pc.Polytope):
+    #             temp_diff = [temp_diff]
                 
-            RemPolyList.extend(temp_diff)
+    #         RemPolyList.extend(temp_diff)
                 
-        RemPoly = RemPolyList
+    #     RemPoly = RemPolyList
     
     
-    # Build the "remainder"/"hollow" polytope union interactively.
-    RemU = RemPolyList[0]
-    RemPolyList.pop(0)
-    for p in range(len(RemPolyList)):
-        RemU = RemU.union(RemPolyList[p])
+    # # Build the "remainder"/"hollow" polytope union interactively.
+    # RemU = RemPolyList[0]
+    # RemPolyList.pop(0)
+    # for p in range(len(RemPolyList)):
+    #     RemU = RemU.union(RemPolyList[p])
     
-    # Take the intersection between the "hollow" polytope and the bounding box.
-    intersections = region_diff(bound_box, 
-                                RemU)
+    # # Take the intersection between the "hollow" polytope and the bounding box.
+    # intersections = region_diff(bound_box, 
+    #                             RemU)
     
-    intersections = region_diff(bound_box, RemU)
+    # merged_intersections = process_overlapping_polytopes(bound_box, 
+    #                                              overlapped_intersection)
+    
+    # intersections = region_diff(bound_box, RemU)
     
     # # In extremely nonlinear systems with folds/overlapping, the loop below
     # # guarantees that the final intersection is merged without overlapping at
@@ -447,8 +450,8 @@ def OI_eval(AS: pc.Region,
     #     merged_intersections = (merged_intersections.union(overlapped_intersection[k],
     #                                                       check_convex=True))
     
-    intersection = intersections
-    
+    # intersection = intersections
+    intersection= process_overlapping_polytopes(bound_box, overlapped_intersection)
     # intersection = merged_intersections
     
     v_intersect_list = list()
@@ -466,13 +469,13 @@ def OI_eval(AS: pc.Region,
             
             for i in range(len(intersection)):
                 intersect_i = intersection[i]
+                # print(i)
                 v_intersect = pc.extreme(intersect_i)
                 
                 if v_intersect is None:
                     continue
                 else:
-                    processed_intersection = pc.Polytope(intersect_i.A,
-                                                         intersect_i.b)
+                    processed_intersection = pc.qhull(v_intersect)
                     final_intersection.append(processed_intersection)
                     v_intersect_list.append(v_intersect)
                     volumes_i.append(sp.spatial.ConvexHull(v_intersect).volume)
@@ -2150,7 +2153,7 @@ def are_overlapping(poly1_arr, poly2_arr):
     return not pc.is_empty(intersection)
 
 
-def adjust_vertices(vertices, centroid, epsilon=1e-1):
+def adjust_vertices(vertices, centroid, epsilon=0.1):
     """Adjust the vertices away from the centroid by a small amount."""
     adjusted = []
     for vertex in vertices:
@@ -2185,13 +2188,54 @@ def eliminate_overlaps(simplices):
     return simplices
 
 
-def all_are_overlapping(poly_region_list):
-    num_polytopes = len(poly_region_list)
+# def all_are_overlapping(poly_region_list):
+#     num_polytopes = len(poly_region_list)
     
-    for i in range(num_polytopes):
-        for j in range(i + 1, num_polytopes):
-            if are_overlapping(pc.extreme(poly_region_list[i]), 
-                               pc.extreme(poly_region_list[j])):
-                return True  # If any pair overlaps, return True
+#     for i in range(num_polytopes):
+#         for j in range(i + 1, num_polytopes):
+#             if are_overlapping(pc.extreme(poly_region_list[i]), 
+#                                pc.extreme(poly_region_list[j])):
+#                 return True  # If any pair overlaps, return True
     
-    return False  # If no pair overlaps, return False
+#     return False  # If no pair overlaps, return False
+
+
+# def do_bounding_boxes_overlap(poly1, poly2):
+#     # This is a function to check if the bounding boxes of two polytopes overlap.
+#     bbox1 = poly1.bounding_box
+#     bbox2 = poly2.bounding_box
+
+#     # Check for overlap in each dimension.
+#     for i in range(len(bbox1)):
+#         if bbox1[i][0] > bbox2[i][1] or bbox1[i][1] < bbox2[i][0]:
+#             return False
+#     return True
+
+# Using the bounding box, identify overlapping polytopes
+def process_overlapping_polytopes(bound_box, overlapped_intersection):
+    """Process overlapping polytopes given a bounding box and a region of potentially overlapping polytopes."""
+
+    refined_polytopes = list(overlapped_intersection)
+
+    # Iteratively remove overlaps from each polytope in overlapped_intersection
+    for i in range(len(refined_polytopes)):
+        for j in range(len(refined_polytopes)):
+            if i != j and polytope_overlapping_check(refined_polytopes[i], refined_polytopes[j]):
+                refined_polytopes[j] = refined_polytopes[j].diff(refined_polytopes[i])
+
+    # Intersect each polytope in the refined list with the bounding box
+    final_polytopes = []
+    for poly in refined_polytopes:
+        intersection = pc.intersect(bound_box, poly)
+        
+        if not pc.is_empty(intersection):
+            if isinstance(intersection, pc.Region):
+                final_polytopes.extend(intersection)
+            else:
+                final_polytopes.append(intersection)
+
+    return pc.Region(final_polytopes)
+
+def polytope_overlapping_check(poly1, poly2):
+    """Check if two polytopes overlap."""
+    return not pc.is_empty(pc.intersect(poly1, poly2))

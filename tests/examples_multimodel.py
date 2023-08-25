@@ -1,30 +1,31 @@
 import numpy as np
 from opyrability import multimodel_rep, OI_eval
-
+import time
 
 
 # Tests for the multimodel approach - DMA-MR and shower problem
 
 
 # %% DMA-MR - 2x2 System - Design Variables
-from dma_mr import dma_mr_design, dma_mr_mvs
-# Defining DOS bounds
+# from dma_mr import dma_mr_design, dma_mr_mvs
+# # Defining DOS bounds
 
-DOS_bounds =  np.array([[20, 25], 
-                        [35, 45]])
+# DOS_bounds =  np.array([[20, 25], 
+#                         [35, 45]])
 
-AIS_bounds =  np.array([[10, 150],
-                        [0.5, 2]])
+# AIS_bounds =  np.array([[10, 150],
+#                         [0.5, 2]])
 
-AIS_resolution =  [15, 15]
+# AIS_resolution =  [20, 20]
 
-model  = dma_mr_design
+# model  = dma_mr_design
 
-AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution,
-                              polytopic_trace='simplices')
+# t = time.time()
+# AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution,
+#                               polytopic_trace='simplices')
 
-OI = OI_eval(AOS_region, DOS_bounds)
-
+# OI = OI_eval(AOS_region, DOS_bounds)
+# elapsed = time.time() - t
 
 
 # %% DMA-MR - 2x2 System - Manipulated Variables
@@ -51,27 +52,27 @@ OI = OI_eval(AOS_region, DOS_bounds)
 
 
 # %% Shower problem 2x2
-# from shower import shower2x2
-# from opyrability import AIS2AOS_map
+from shower import shower2x2
+from opyrability import AIS2AOS_map
 
-# DOS_bounds =  np.array([[10, 20], 
-#                         [70, 100]])
+DOS_bounds =  np.array([[10, 20], 
+                        [70, 100]])
 
-# AIS_bounds =  np.array([[0, 10],
-#                         [0, 10]])
+AIS_bounds =  np.array([[0, 10],
+                        [0, 10]])
 
-# AIS_resolution =  [5, 5]
+AIS_resolution =  [10, 10]
 
-# model =  shower2x2
-
-
-# AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
+model =  shower2x2
 
 
-# AOS_region  =  multimodel_rep(model, AIS_bounds, 
-#                 AIS_resolution, polytopic_trace = 'simplices')
+AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution, plot=False)
 
-# OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust')
+
+AOS_region  =  multimodel_rep(model, AIS_bounds, 
+                AIS_resolution, polytopic_trace = 'simplices', plot=False)
+
+OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust')
 
 # %% Shower problem 3x3
 # from shower import shower3x3
