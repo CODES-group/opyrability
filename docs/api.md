@@ -321,20 +321,15 @@ shower problem example.
     
     AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
 
-    pprint('AIS Polyhedrons \n', AIS_poly)
-    pprint('AOS Polyhedrons \n', AOS_poly)
-```
-
-
-```{eval-rst}
-.. autofunction:: opyrability.get_extreme_vertices
+    print('AIS Polyhedrons \n', AIS_poly)
+    print('AOS Polyhedrons \n', AOS_poly)
 ```
 
 ## Polytopic manipulations (advanced and internal use)
 
 The functions below are fundamental for operability calculations, though typical 
 users won't need to directly interact with them. They play a crucial role within
-'opyrability' without requiring user intervention, but are documented here 
+opyrability without requiring user intervention, but are documented here 
 nevertheless.
 
 ```{eval-rst}
