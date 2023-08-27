@@ -1577,7 +1577,7 @@ def points2simplices(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
                 
                 
                 
-    # Eliminate overlaps by adjusting vertices
+    # Putting polytopes together.
     for i, simplex in enumerate(AOS_simplices):
         poly = pc.qhull(simplex.T)
         AOS_simplices[i] = pc.extreme(poly)
@@ -1586,10 +1586,7 @@ def points2simplices(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
         poly = pc.qhull(simplex.T)
         AIS_simplices[i] = pc.extreme(poly)
 
-    
-    # AOS_simplices = eliminate_overlaps(AOS_simplices)
-    # AIS_simplices = eliminate_overlaps(AIS_simplices)
-    
+
     
     return AIS_simplices, AOS_simplices
 
@@ -1663,7 +1660,7 @@ def points2polyhedra(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
             AIS_polytope.append(V_AIS_id)
             
             
-    # This section is after the loops, right before the return statement
+    # Putting polytopes together.
     for i, simplex in enumerate(AOS_polytope):
         poly = pc.qhull(simplex.T)
         AOS_polytope[i] = pc.extreme(poly)
@@ -1672,10 +1669,7 @@ def points2polyhedra(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
         poly = pc.qhull(simplex.T)
         AIS_polytope[i] = pc.extreme(poly)
 
-    # # Eliminate overlaps by adjusting vertices
-    # AOS_polytopes = eliminate_overlaps(AOS_polytope)
-    # AIS_polytopes = eliminate_overlaps(AIS_polytope)
-    
+
     return AIS_polytope, AOS_polytope
 
 
