@@ -7,7 +7,8 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>The Process Model (M) - Programming Aspects &#8212; Opyrability&#39;s documentation.</title>
   
   
@@ -459,7 +460,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <div class="section" id="the-process-model-m-programming-aspects">
+  <section id="the-process-model-m-programming-aspects">
 <h1>The Process Model (M) - Programming Aspects<a class="headerlink" href="#the-process-model-m-programming-aspects" title="Permalink to this heading">#</a></h1>
 <p>Let’s recapitulate how the process model (M) is mathematically defined:</p>
 <div class="math notranslate nohighlight">
@@ -496,7 +497,7 @@ in order to be opyrability-compatible:</p>
 </div>
 </div>
 </div>
-<div class="section" id="process-model-defined-as-a-set-of-algebraic-equations">
+<section id="process-model-defined-as-a-set-of-algebraic-equations">
 <h2>Process Model Defined as a Set of Algebraic Equations<a class="headerlink" href="#process-model-defined-as-a-set-of-algebraic-equations" title="Permalink to this heading">#</a></h2>
 <p>This might be the simplest case, one example being the <a class="reference internal" href="examples_gallery/operability_index_shower.html"><span class="doc std std-doc">Shower Problem</span></a><span id="id1">[<a class="reference internal" href="bibliography.html#id34" title="Fernando V. Lima, Zhenya Jia, Marianthi Ierapetritou, and Christos Georgakis. Similarities and differences between the concepts of operability and flexibility: the steady-state case. AIChE Journal, 56(3):702-716, 2010. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.12021, doi:https://doi.org/10.1002/aic.12021.">10</a>, <a class="reference internal" href="bibliography.html#id22" title="David R Vinson and Christos Georgakis. A new measure of process output controllability. Journal of Process Control, 10(2):185 - 194, 2000. URL: http://www.sciencedirect.com/science/article/pii/S0959152499000451, doi:https://doi.org/10.1016/S0959-1524(99)00045-1.">12</a>]</span>. The model equations
 are explicit and algebraic, being solved directly. The process model Python function
@@ -516,8 +517,8 @@ would be, in this case:</p>
 </div>
 </div>
 </div>
-</div>
-<div class="section" id="process-model-defined-as-a-set-of-ordinary-differential-ode-equations">
+</section>
+<section id="process-model-defined-as-a-set-of-ordinary-differential-ode-equations">
 <h2>Process Model Defined as a Set of Ordinary Differential (ODE) Equations:<a class="headerlink" href="#process-model-defined-as-a-set-of-ordinary-differential-ode-equations" title="Permalink to this heading">#</a></h2>
 <p>A more complex case is when the process model is defined as a system of equations.
 These can be nonlinear, algebraic and/or differential that need to be numerically
@@ -682,8 +683,8 @@ written in the following form:</p>
 allocating the tube length and tube diameter values, respectively. The return
 is also a two-dimensional array, allocating the benzene production and methane
 conversion. Note that the system is numerically integrated using <code class="docutils literal notranslate"><span class="pre">jax.experimental.ode.odeint</span></code>.</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

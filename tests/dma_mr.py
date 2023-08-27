@@ -14,7 +14,6 @@ def dma_mr(z,F,k1,k1_Inv,k2,k2_Inv,T,Q,Pt,v0,At,Ft0,Ps,v_He,F_He,dt,selec):
     # Consequently this avoids that any molar balance (^ 1/4 terms) generates
     # complex numbers.
     F[F<0]=0
-    # F = np.where(F < 0, 0, F)
     
     # Evaluate total flowrate in tube & shell.
     Ft = F[0] + F[1] + F[2] + F[3]
@@ -40,34 +39,20 @@ def dma_mr(z,F,k1,k1_Inv,k2,k2_Inv,T,Q,Pt,v0,At,Ft0,Ps,v_He,F_He,dt,selec):
     # Reaction rates [mol/(h.cm3)]
     
     if C[0]==0:
-        # r[0] = 0
         r0  = 0
     else:
-        # r[0] = (3600*k1*C[0]*(1-((k1_Inv*C[1]*C[2]**2)/(k1*C[0]**2))))
         r0 = (3600*k1*C[0]*(1-((k1_Inv*C[1]*C[2]**2)/(k1*C[0]**2))))
     
     if C[1]==0:
         # r[1] = 0
         r1 = 0
     else:
-        # r[1] = (3600*k2*C[1]*(1-((k2_Inv*C[3]*C[2]**3)/(k2*C[1]**3))))
         r1 = (3600*k2*C[1]*(1-((k2_Inv*C[3]*C[2]**3)/(k2*C[1]**3))))
     
     # Molar balances adjustment with experimental data.
     eff = 0.9
     vb  = 0.5
     Cat = (1-vb)*eff
-    
-    # # Molar balances dFdz - Tube (0 to 3) & Shell (4 to 7)
-    # dFdz[0]=  - Cat*r[0]*At            -(Q/selec)*((P0t**0.25)-(P0s**0.25))*pi*dt
-    # dFdz[1]=1/2*Cat*r[0]*At-Cat*r[1]*At-(Q/selec)*((P1t**0.25)-(P1s**0.25))*pi*dt
-    # dFdz[2]=    Cat*r[0]*At+Cat*r[1]*At-      (Q)*((P2t**0.25)-(P2s**0.25))*pi*dt
-    # dFdz[3]=          (1/3)*Cat*r[1]*At-(Q/selec)*((P3t**0.25)-(P3s**0.25))*pi*dt
-    
-    # dFdz[4]=                            (Q/selec)*((P0t**0.25)-(P0s**0.25))*pi*dt
-    # dFdz[5]=                            (Q/selec)*((P1t**0.25)-(P1s**0.25))*pi*dt
-    # dFdz[6]=                                  (Q)*((P2t**0.25)-(P2s**0.25))*pi*dt
-    # dFdz[7]=                            (Q/selec)*((P3t**0.25)-(P3s**0.25))*pi*dt
     
     # Molar balances dFdz - Tube (0 to 3) & Shell (4 to 7)
     dF0 = -Cat * r0 * At - (Q / selec) * ((P0t ** 0.25) - (P0s ** 0.25)) * pi * dt
@@ -152,8 +137,6 @@ def dma_mr_jax(F, z, dt):
 
     return dFdz
 
-# reverse args for odeint
-# dma_mr_jax = lambda F, z, dt: dma_mr_ad(z, F, dt)
 
 
 def dma_mr_design(u):
@@ -168,8 +151,6 @@ def dma_mr_design(u):
 
     z = jnp.linspace(0, L, 2000)
     F = odeint(dma_mr_jax, y0, z, dt, rtol=rtol, atol=atol)
-    # F = odeint(dma_mr_jax, y0, z, dt)
-    
 
     
     F_C6H6 = ((F[-1, 3] * 1000) * MM_B)
@@ -216,14 +197,10 @@ def dma_mr_mvs(u):
     
     z = np.asarray([0, L])
     
-    # rtol, atol = 1e-8, 1e-8
     
     initialflows = np.zeros(7)
     y0 = np.hstack((Ft0, initialflows))
     
-    # sol = spint.solve_ivp(dma_mr, z, y0 ,args=(k1,k1_Inv,k2,k2_Inv,T,Q,Pt,v0,At,
-    #                                      Ft0,Ps,v_He,F_He,dt,selec),method='RK45',
-    #                 rtol=rtol,atol=atol)
     
     sol = spint.solve_ivp(dma_mr, z, y0 ,args=(k1,k1_Inv,k2,k2_Inv,T,Q,Pt,v0,At,
                                          Ft0,Ps,v_He,F_He,dt,selec))
@@ -273,14 +250,8 @@ def dma_mr_mv(u):
     
     z = np.asarray([0, L])
     
-    # rtol, atol = 1e-8, 1e-8
-    
     initialflows = np.zeros(7)
     y0 = np.hstack((Ft0, initialflows))
-    
-    # sol = spint.solve_ivp(dma_mr, z, y0 ,args=(k1,k1_Inv,k2,k2_Inv,T,Q,Pt,v0,At,
-    #                                      Ft0,Ps,v_He,F_He,dt,selec),method='RK45',
-    #                 rtol=rtol,atol=atol)
     
     sol = spint.solve_ivp(dma_mr, z, y0 ,args=(k1,k1_Inv,k2,k2_Inv,T,Q,Pt,v0,At,
                                          Ft0,Ps,v_He,F_He,dt,selec))
