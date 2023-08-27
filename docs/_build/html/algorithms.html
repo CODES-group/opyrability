@@ -7,7 +7,8 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Process Operability Algorithms &#8212; Opyrability&#39;s documentation.</title>
   
   
@@ -375,7 +376,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <div class="section" id="process-operability-algorithms">
+  <section id="process-operability-algorithms">
 <h1>Process Operability Algorithms<a class="headerlink" href="#process-operability-algorithms" title="Permalink to this heading">#</a></h1>
 <p>There are two main operations that may be needed to perform an
 operability analysis:</p>
@@ -394,7 +395,7 @@ For quantification of the operability sets and thus, the OI itself, the multimod
 has been developed. For inverse mapping, the nonlinear programming-based (NLP-based) and the implicit mapping approaches have been successfully employed to evaluate the inverse map
 of a given process model. This section will go briefly over these methods but the
 reader is encouraged to go over the <a class="reference internal" href="bibliography.html#bibliography"><span class="std std-ref">Bibliography</span></a> for a more thorough explanation of them.</p>
-<div class="section" id="multimodel-approach">
+<section id="multimodel-approach">
 <h2>Multimodel Approach<a class="headerlink" href="#multimodel-approach" title="Permalink to this heading">#</a></h2>
 <p>The multimodel approach <span id="id1">[<a class="reference internal" href="bibliography.html#id33" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">5</a>, <a class="reference internal" href="bibliography.html#id5" title="Vitor Gazzaneo, Juan C. Carrasco, David R. Vinson, and Fernando V. Lima. Process operability algorithms: past, present, and future developments. Industrial &amp; Engineering Chemistry Research, 59(6):2457-2470, 2020. URL: https://doi.org/10.1021/acs.iecr.9b05181, arXiv:https://doi.org/10.1021/acs.iecr.9b05181, doi:10.1021/acs.iecr.9b05181.">6</a>, <a class="reference internal" href="bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">7</a>]</span> employs
 the paradigm of a series of polytopes being able
@@ -406,20 +407,24 @@ inequality constraints.</p>
 in the input space, and their respective coordinate in the output space is obtained
 through the process model <span class="math notranslate nohighlight">\(M\)</span>. Paired polytopes (color coded) can be “drawn” to represent
 the AOS accordingly:</p>
-<div class="figure align-center" id="id4">
+<figure class="align-center" id="id4">
 <img alt="_images/multimodel_01.gif" src="_images/multimodel_01.gif" />
-<p class="caption"><span class="caption-number">Fig. 12 </span><span class="caption-text">AIS-AOS representation using paired polytopes.</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">AIS-AOS representation using paired polytopes.</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>In the animation above, <span class="math notranslate nohighlight">\(P_1^u\)</span> is paired with <span class="math notranslate nohighlight">\(P_1^y\)</span> and so on, in
 the general form <span class="math notranslate nohighlight">\(P_k = \{P_k^u,P_k^y\}\)</span></p>
 <p>Another example in which the non-convex AOS is approximated as a series of paired
 polytopes can be depicted in the animation below, in which one can see that the
 polytopes approximate the overall non-convex AOS region with relative accuracy,
 as well as the DOS and DIS:</p>
-<div class="figure align-center" id="id5">
+<figure class="align-center" id="id5">
 <img alt="_images/multimodel_02.gif" src="_images/multimodel_02.gif" />
-<p class="caption"><span class="caption-number">Fig. 13 </span><span class="caption-text">AIS-AOS polytopic approximation</span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">AIS-AOS polytopic approximation</span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>Due to its intrinsic roots in computational geometry and linear programming,
 the multimodel approach is a suitable process operability algorithm for:</p>
 <ol class="arabic simple">
@@ -428,8 +433,8 @@ computation and representation of the operability sets.</p></li>
 <li><p><strong>OI evaluation</strong>, allowing to rank
 competing design and control structures.</p></li>
 </ol>
-</div>
-<div class="section" id="nonlinear-programming-based-nlp-based-approach">
+</section>
+<section id="nonlinear-programming-based-nlp-based-approach">
 <h2>Nonlinear Programming-Based (NLP-based) Approach<a class="headerlink" href="#nonlinear-programming-based-nlp-based-approach" title="Permalink to this heading">#</a></h2>
 <p>The NLP-based approach <span id="id2">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">3</a>, <a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">4</a>]</span> converts the inverse mapping
 task into a nonlinear programming formulation.
@@ -454,10 +459,12 @@ needed; these can be a result of product specifications, equipment limitations a
 point. Then, for each point, a corresponding feasible DIS solution is obtained.
 Due to the nature of the objective function (error/distance minimization), the DOS
 points will be shifted as close as possible to enable feasible operation represented by DOS* and DIS*:</p>
-<div class="figure align-center" id="id6">
+<figure class="align-center" id="id6">
 <img alt="_images/nlp_01.gif" src="_images/nlp_01.gif" />
-<p class="caption"><span class="caption-number">Fig. 14 </span><span class="caption-text">Inverse mapping using NLP-based approach</span><a class="headerlink" href="#id6" title="Permalink to this image">#</a></p>
-</div>
+<figcaption>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Inverse mapping using NLP-based approach</span><a class="headerlink" href="#id6" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
 <p>The main features of the NLP-based approach are</p>
 <ol class="arabic simple">
 <li><p><strong>Obtaining feasible operability sets,</strong> since the output points are shifted to be as close as possible to enable feasible operation.</p></li>
@@ -469,8 +476,8 @@ the error minimization between feasible and desired operation are named slightly
 the Feasible Desired Output Set (DOS*) and Feasible Desired Input Set (DIS*).</p>
 <p>Lastly, the NLP-based approach can be extended to encompass the search for intensified
 and/or modular designs, as proposed in the literature <span id="id3">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">3</a>]</span>.</p>
-</div>
-</div>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {

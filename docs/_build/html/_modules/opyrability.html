@@ -333,10 +333,7 @@ document.write(`
 
 <span class="c1"># Polytopic calculations</span>
 <span class="kn">import</span> <span class="nn">polytope</span> <span class="k">as</span> <span class="nn">pc</span>
-<span class="kn">from</span> <span class="nn">polytope.polytope</span> <span class="kn">import</span> <span class="n">region_diff</span>
 <span class="kn">from</span> <span class="nn">polytope.polytope</span> <span class="kn">import</span> <span class="n">_get_patch</span>
-<span class="kn">from</span> <span class="nn">polytope</span> <span class="kn">import</span> <span class="n">solvers</span>
-<span class="n">solvers</span><span class="o">.</span><span class="n">default_solver</span> <span class="o">=</span> <span class="s1">&#39;glpk&#39;</span>
 
 <span class="c1"># Plots</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -372,7 +369,7 @@ document.write(`
 <span class="sd">    This function is part of Python-based Process Operability package.</span>
 <span class="sd">    </span>
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability (CODES) </span>
-<span class="sd">    Group - West Virginia University - 2022/2023</span>
+<span class="sd">    Group - West Virginia University - 2023</span>
 <span class="sd">    </span>
 <span class="sd">    Author: Victor Alves</span>
 
@@ -492,16 +489,15 @@ document.write(`
     <span class="n">Vertices_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="c1"># Create convex hull using the vertices of the AOS.</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">AOS_poly</span><span class="p">)):</span>
-        <span class="n">Vertices</span> <span class="o">=</span> <span class="n">AOS_poly</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">Vertices</span> <span class="o">=</span> <span class="n">AOS_poly</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         <span class="n">Vertices_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Vertices</span><span class="p">)</span>
         <span class="n">Polytopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">qhull</span><span class="p">(</span><span class="n">Vertices</span><span class="p">))</span>
         
-
-    <span class="c1"># Define the AOS as an (possibly) overlapped region. This will be fixed in</span>
-    <span class="c1"># the next lines of code.    </span>
+    
+    <span class="c1"># Define the AOS as an (possibly) overlapped region. Here we don&#39;t need to</span>
+    <span class="c1"># worry about this here for now, only when evaluating the OI.</span>
     <span class="n">mapped_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">Polytopes</span><span class="p">[</span><span class="mi">0</span><span class="p">:])</span>
     
-    <span class="n">finalpolytope</span> <span class="o">=</span> <span class="n">mapped_region</span>
     
     <span class="c1"># Perspective switch: This will only affect plot and legends.</span>
     <span class="k">if</span> <span class="n">perspective</span> <span class="o">==</span> <span class="s1">&#39;outputs&#39;</span><span class="p">:</span>
@@ -510,7 +506,7 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="n">AS_label</span> <span class="o">=</span> <span class="s1">&#39;Available Input Set (AIS)&#39;</span>
 
-    <span class="c1"># Plots (2d/3d), unfortunately humans can&#39;t see higher dimensions.</span>
+    <span class="c1"># Plots (2D/ 3D), unfortunately humans can&#39;t see higher dimensions. :(</span>
     <span class="k">if</span> <span class="n">plot</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">mapped_region</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             
@@ -519,7 +515,7 @@ document.write(`
             <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
             <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
             <span class="n">AS_coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">Vertices_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">finalpolytope</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mapped_region</span><span class="p">)):</span>
 
                 <span class="n">polyplot</span> <span class="o">=</span> <span class="n">_get_patch</span><span class="p">(</span><span class="n">mapped_region</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;solid&quot;</span><span class="p">,</span>
                                     <span class="n">edgecolor</span><span class="o">=</span><span class="n">EDGES_COLORS</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="n">EDGES_WIDTH</span><span class="p">,</span>
@@ -550,8 +546,7 @@ document.write(`
                 <span class="n">str_title</span> <span class="o">=</span> <span class="s1">&#39;Achievable Output Set (AOS)&#39;</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">str_title</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span>
-                    <span class="s2">&quot;Available Input set (AIS)&quot;</span><span class="p">)</span>
+                <span class="n">str_title</span> <span class="o">=</span><span class="s1">&#39;Available Input set (AIS)&#39;</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
 
             <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">AS_patch</span><span class="p">,</span> <span class="n">extra</span><span class="p">])</span>
@@ -570,13 +565,14 @@ document.write(`
             
             <span class="k">for</span> <span class="n">cube</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">AS_coords</span><span class="p">],</span> <span class="p">[</span><span class="n">AS_COLOR</span><span class="p">]):</span>
                 <span class="n">hull</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
-                <span class="c1"># draw the polygons of the convex hull</span>
+                <span class="c1"># Draw the polygons of the convex hull</span>
                 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">simplices</span><span class="p">:</span>
                     <span class="n">tri</span> <span class="o">=</span> <span class="n">Poly3DCollection</span><span class="p">([</span><span class="n">cube</span><span class="p">[</span><span class="n">s</span><span class="p">]])</span>
                     <span class="n">tri</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
                     <span class="n">tri</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+                    <span class="n">tri</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="n">EDGES_COLORS</span><span class="p">)</span>
                     <span class="n">ax</span><span class="o">.</span><span class="n">add_collection3d</span><span class="p">(</span><span class="n">tri</span><span class="p">)</span>
-                <span class="c1"># draw the vertices</span>
+                <span class="c1"># Draw the vertices</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cube</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cube</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">cube</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> 
                            <span class="n">color</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -593,8 +589,7 @@ document.write(`
                 <span class="n">str_title</span> <span class="o">=</span> <span class="s1">&#39;Achievable Output Set (AOS)&#39;</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">str_title</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span>
-                    <span class="s2">&quot;Available Input set (AIS)&quot;</span><span class="p">)</span>
+                <span class="n">str_title</span> <span class="o">=</span> <span class="s1">&#39;Available Input Set (AIS)&#39;</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
 
             <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">AS_patch</span><span class="p">,</span> <span class="n">extra</span><span class="p">])</span>
@@ -617,7 +612,7 @@ document.write(`
     
     
     <span class="c1"># Small hack: Inject AS coordinates into return to be able to</span>
-    <span class="c1"># plot 3d region effortlessly.</span>
+    <span class="c1"># plot 3D region effortlessly.</span>
     <span class="n">mapped_region</span> <span class="o">=</span> <span class="p">[</span><span class="n">mapped_region</span><span class="p">,</span> <span class="n">AS_coords</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">mapped_region</span></div>
 
@@ -639,7 +634,7 @@ document.write(`
 <span class="sd">    This function is part of Python-based Process Operability package.</span>
 <span class="sd">    </span>
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability (CODES) </span>
-<span class="sd">    Group - West Virginia University - 2022/2023</span>
+<span class="sd">    Group - West Virginia University - 2023</span>
 <span class="sd">    </span>
 <span class="sd">    Author: Victor Alves</span>
 
@@ -690,11 +685,13 @@ document.write(`
     
     <span class="c1"># Defining Polytopes for manipulation. Obtaining polytopes in min-rep if</span>
     <span class="c1"># applicable.</span>
-
     <span class="n">DS_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">box2poly</span><span class="p">(</span><span class="n">DS</span><span class="p">)</span>
     <span class="n">AS_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">AS</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">DS_region</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">DS_region</span><span class="p">)</span>
     <span class="n">inter_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+    
+    <span class="c1"># Obtain (possibly overlapped) intersection region of polytopes and</span>
+    <span class="c1"># its respective bounding box.</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">AS_region</span><span class="p">)):</span>
         <span class="n">intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">AS_region</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">DS_region</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">intersection</span><span class="o">.</span><span class="n">fulldim</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="n">intersection</span><span class="o">.</span><span class="n">dim</span> <span class="o">!=</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">dim</span><span class="p">:</span>
@@ -702,8 +699,6 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="n">inter_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intersection</span><span class="p">)</span>
             
-        
-    
     <span class="n">overlapped_intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">inter_list</span><span class="p">)</span>
     <span class="n">min_coord</span> <span class="o">=</span>  <span class="n">overlapped_intersection</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">max_coord</span> <span class="o">=</span>  <span class="n">overlapped_intersection</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -713,45 +708,9 @@ document.write(`
     <span class="c1"># Remove overlapping (Vinson&amp;Gazzaneo trick) - Remove one polytope at a time, </span>
     <span class="c1"># create void polytope using the bounding box and subtract from the original </span>
     <span class="c1"># bounding box itself. This avoids wrong calculations of the OI.</span>
-    <span class="n">RemPoly</span> <span class="o">=</span> <span class="p">[</span><span class="n">bound_box</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">overlapped_intersection</span><span class="p">)):</span>
-        <span class="n">RemPolyList</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">RemPoly</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-            <span class="n">temp_diff</span> <span class="o">=</span> <span class="n">RemPoly</span><span class="p">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">overlapped_intersection</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-            
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">temp_diff</span><span class="p">,</span> <span class="n">pc</span><span class="o">.</span><span class="n">Polytope</span><span class="p">):</span>
-                <span class="n">temp_diff</span> <span class="o">=</span> <span class="p">[</span><span class="n">temp_diff</span><span class="p">]</span>
-                
-            <span class="n">RemPolyList</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">temp_diff</span><span class="p">)</span>
-                
-        <span class="n">RemPoly</span> <span class="o">=</span> <span class="n">RemPolyList</span>
+    <span class="n">intersection</span><span class="o">=</span> <span class="n">process_overlapping_polytopes</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> 
+                                                <span class="n">overlapped_intersection</span><span class="p">)</span>
     
-    
-    <span class="c1"># Build the &quot;remainder&quot;/&quot;hollow&quot; polytope union interactively.</span>
-    <span class="n">RemU</span> <span class="o">=</span> <span class="n">RemPolyList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">RemPolyList</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">RemPolyList</span><span class="p">)):</span>
-        <span class="n">RemU</span> <span class="o">=</span> <span class="n">RemU</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">RemPolyList</span><span class="p">[</span><span class="n">p</span><span class="p">])</span>
-    
-    <span class="c1"># Take the intersection between the &quot;hollow&quot; polytope and the bounding box.</span>
-    <span class="n">intersections</span> <span class="o">=</span> <span class="n">region_diff</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> 
-                                <span class="n">RemU</span><span class="p">,</span> 
-                                <span class="n">abs_tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> 
-                                <span class="n">intersect_tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
-    
-    <span class="n">intersections</span> <span class="o">=</span> <span class="n">region_diff</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> <span class="n">RemU</span><span class="p">)</span>
-    
-    <span class="c1"># In extremely nonlinear systems with folds/overlapping, the loop below</span>
-    <span class="c1"># guarantees that the final intersection is merged without overlapping at</span>
-    <span class="c1"># high discretization values of the AIS/AOS/DIS/DOS. The parameter</span>
-    <span class="c1"># &quot;check_convex=True&quot; looks for adjacent polytopes and merges them.</span>
-    <span class="n">merged_intersections</span> <span class="o">=</span> <span class="n">intersections</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intersections</span><span class="p">)):</span>
-        <span class="n">merged_intersections</span> <span class="o">=</span> <span class="p">(</span><span class="n">merged_intersections</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">intersections</span><span class="p">[</span><span class="n">k</span><span class="p">],</span>
-                                                          <span class="n">check_convex</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
-        
-    <span class="c1"># After all this, just naming the final intersection simply as intersection.</span>
-    <span class="n">intersection</span> <span class="o">=</span>  <span class="n">pc</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="n">merged_intersections</span><span class="p">,</span> <span class="n">abs_tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
     <span class="n">v_intersect_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="n">final_intersection</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     
@@ -767,13 +726,13 @@ document.write(`
             
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">intersection</span><span class="p">)):</span>
                 <span class="n">intersect_i</span> <span class="o">=</span> <span class="n">intersection</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="c1"># print(i)</span>
                 <span class="n">v_intersect</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">extreme</span><span class="p">(</span><span class="n">intersect_i</span><span class="p">)</span>
                 
                 <span class="k">if</span> <span class="n">v_intersect</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">continue</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="n">processed_intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">Polytope</span><span class="p">(</span><span class="n">intersect_i</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
-                                                         <span class="n">intersect_i</span><span class="o">.</span><span class="n">b</span><span class="p">)</span>
+                    <span class="n">processed_intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">qhull</span><span class="p">(</span><span class="n">v_intersect</span><span class="p">)</span>
                     <span class="n">final_intersection</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">processed_intersection</span><span class="p">)</span>
                     <span class="n">v_intersect_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v_intersect</span><span class="p">)</span>
                     <span class="n">volumes_i</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">v_intersect</span><span class="p">)</span><span class="o">.</span><span class="n">volume</span><span class="p">)</span>
@@ -807,7 +766,7 @@ document.write(`
         <span class="n">AS_label</span> <span class="o">=</span> <span class="s1">&#39;Available Input Set (AIS)&#39;</span>
         <span class="n">int_label</span> <span class="o">=</span> <span class="sa">r</span><span class="s1">&#39;$ AIS \cap DIS$&#39;</span>
 
-    <span class="c1"># plot if 2D / 3D</span>
+    <span class="c1"># Plot if 2D / 3D</span>
     <span class="k">if</span> <span class="n">plot</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">DS_region</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             
@@ -898,13 +857,14 @@ document.write(`
             <span class="k">for</span> <span class="n">cube</span><span class="p">,</span> <span class="n">color</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">AS_coords</span><span class="p">,</span> <span class="n">DS_coords</span><span class="p">,</span> <span class="n">intersect_coords</span><span class="p">],</span> 
                                    <span class="p">[</span><span class="n">AS_COLOR</span><span class="p">,</span> <span class="n">DS_COLOR</span><span class="p">,</span> <span class="n">INTERSECT_COLOR</span><span class="p">]):</span>
                 <span class="n">hull</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">ConvexHull</span><span class="p">(</span><span class="n">cube</span><span class="p">)</span>
-                <span class="c1"># draw the polygons of the convex hull</span>
+                <span class="c1"># Draw the polygons of the convex hull</span>
                 <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">hull</span><span class="o">.</span><span class="n">simplices</span><span class="p">:</span>
                     <span class="n">tri</span> <span class="o">=</span> <span class="n">Poly3DCollection</span><span class="p">([</span><span class="n">cube</span><span class="p">[</span><span class="n">s</span><span class="p">]])</span>
                     <span class="n">tri</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">color</span><span class="p">)</span>
+                    <span class="n">tri</span><span class="o">.</span><span class="n">set_edgecolor</span><span class="p">(</span><span class="n">EDGES_COLORS</span><span class="p">)</span>
                     <span class="n">tri</span><span class="o">.</span><span class="n">set_alpha</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
                     <span class="n">ax</span><span class="o">.</span><span class="n">add_collection3d</span><span class="p">(</span><span class="n">tri</span><span class="p">)</span>
-                <span class="c1"># draw the vertices</span>
+                <span class="c1"># Draw the vertices</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">cube</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cube</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">cube</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">],</span> 
                            <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -921,8 +881,7 @@ document.write(`
                 <span class="n">str_title</span> <span class="o">=</span> <span class="s1">&#39;Achievable Output Set (AOS)&#39;</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">str_title</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">capwords</span><span class="p">(</span>
-                    <span class="s2">&quot;Available Input set (AIS)&quot;</span><span class="p">)</span>
+                <span class="n">str_title</span> <span class="o">=</span> <span class="s1">&#39;Available Input set (AIS)&#39;</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">str_title</span><span class="p">)</span>
 
             <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="p">[</span><span class="n">AS_patch</span><span class="p">,</span> <span class="n">extra</span><span class="p">])</span>
@@ -992,7 +951,7 @@ document.write(`
 <span class="sd">    This function is part of Python-based Process Operability package.</span>
 <span class="sd">    </span>
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability (CODES) </span>
-<span class="sd">    Group - West Virginia University - 2022</span>
+<span class="sd">    Group - West Virginia University - 2023</span>
 <span class="sd">    </span>
 <span class="sd">    Author: Victor Alves</span>
 
@@ -1147,7 +1106,6 @@ document.write(`
     
     <span class="n">dimDOS</span> <span class="o">=</span> <span class="n">DOS_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">create_grid</span><span class="p">(</span><span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">)</span>
-    <span class="n">DOSPts_multi</span> <span class="o">=</span> <span class="n">DOSPts</span>
     <span class="n">DOSPts</span> <span class="o">=</span> <span class="n">DOSPts</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">dimDOS</span><span class="p">)</span>
     <span class="n">u00</span>    <span class="o">=</span> <span class="n">u0</span>
     <span class="c1"># Initialization of variables</span>
@@ -1474,7 +1432,7 @@ document.write(`
 <span class="sd">    This function is part of Python-based Process Operability package.</span>
 <span class="sd">    </span>
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability (CODES) </span>
-<span class="sd">    Group - West Virginia University - 2022/2023</span>
+<span class="sd">    Group - West Virginia University - 2023</span>
 <span class="sd">    </span>
 <span class="sd">    Author: San Dinh</span>
 
@@ -1541,7 +1499,7 @@ document.write(`
 <span class="sd">    This function is part of Python-based Process Operability package.</span>
 
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability </span>
-<span class="sd">    (CODES) Group - West Virginia University - 2022/2023</span>
+<span class="sd">    (CODES) Group - West Virginia University - 2023</span>
 
 <span class="sd">    Authors: San Dinh &amp; Victor Alves</span>
 
@@ -1847,7 +1805,7 @@ document.write(`
 <span class="sd">    This function is part of Python-based Process Operability package.</span>
 <span class="sd">    </span>
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability </span>
-<span class="sd">    (CODES) Group - West Virginia University - 2022/2023</span>
+<span class="sd">    (CODES) Group - West Virginia University - 2023</span>
 <span class="sd">    </span>
 <span class="sd">    Author: San Dinh</span>
 
@@ -1918,6 +1876,8 @@ document.write(`
 
                 <span class="n">ID</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="n">inputID</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">nInput</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span>
                                             <span class="n">simplex_vertices</span><span class="p">[</span><span class="n">k</span><span class="p">])]</span>
+                
+                
 
                 <span class="n">V_AOS_id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nOutputVar</span><span class="p">,</span> <span class="n">nInput</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
                 <span class="n">V_AIS_id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nInputVar</span><span class="p">,</span> <span class="n">nInput</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
@@ -1928,7 +1888,21 @@ document.write(`
 
                 <span class="n">AOS_simplices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">V_AOS_id</span><span class="p">)</span>
                 <span class="n">AIS_simplices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">V_AIS_id</span><span class="p">)</span>
+                
+                
+                
+                
+    <span class="c1"># Putting polytopes together.</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">simplex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">AOS_simplices</span><span class="p">):</span>
+        <span class="n">poly</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">qhull</span><span class="p">(</span><span class="n">simplex</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">AOS_simplices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">extreme</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
 
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">simplex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">AIS_simplices</span><span class="p">):</span>
+        <span class="n">poly</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">qhull</span><span class="p">(</span><span class="n">simplex</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">AIS_simplices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">extreme</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+
+
+    
     <span class="k">return</span> <span class="n">AIS_simplices</span><span class="p">,</span> <span class="n">AOS_simplices</span></div>
 
 
@@ -1940,7 +1914,7 @@ document.write(`
 <span class="sd">    This function is part of Python-based Process Operability package.</span>
 <span class="sd">    </span>
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability </span>
-<span class="sd">    (CODES) Group - West Virginia University - 2022/2023</span>
+<span class="sd">    (CODES) Group - West Virginia University - 2023</span>
 <span class="sd">    </span>
 <span class="sd">    Author: San Dinh</span>
 
@@ -1999,6 +1973,18 @@ document.write(`
 
             <span class="n">AOS_polytope</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">V_AOS_id</span><span class="p">)</span>
             <span class="n">AIS_polytope</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">V_AIS_id</span><span class="p">)</span>
+            
+            
+    <span class="c1"># Putting polytopes together.</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">simplex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">AOS_polytope</span><span class="p">):</span>
+        <span class="n">poly</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">qhull</span><span class="p">(</span><span class="n">simplex</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">AOS_polytope</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">extreme</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">simplex</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">AIS_polytope</span><span class="p">):</span>
+        <span class="n">poly</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">qhull</span><span class="p">(</span><span class="n">simplex</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">AIS_polytope</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">extreme</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+
+
     <span class="k">return</span> <span class="n">AIS_polytope</span><span class="p">,</span> <span class="n">AOS_polytope</span></div>
 
 
@@ -2025,7 +2011,7 @@ document.write(`
 <span class="sd">    Authors: San Dinh &amp; Victor Alves</span>
 <span class="sd">    </span>
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability </span>
-<span class="sd">    (CODES) Group - West Virginia University - 2022/2023</span>
+<span class="sd">    (CODES) Group - West Virginia University - 2023</span>
 <span class="sd">    </span>
 
 <span class="sd">    Parameters</span>
@@ -2375,16 +2361,19 @@ document.write(`
             
     <span class="k">return</span> <span class="n">domain_set</span><span class="p">,</span> <span class="n">image_set</span><span class="p">,</span> <span class="n">domain_polyhedra</span><span class="p">,</span> <span class="n">image_polyhedra</span></div>
 
-
-<div class="viewcode-block" id="get_extreme_vertices"><a class="viewcode-back" href="../api.html#opyrability.get_extreme_vertices">[docs]</a><span class="k">def</span> <span class="nf">get_extreme_vertices</span><span class="p">(</span><span class="n">bounds</span><span class="p">):</span>
+<span class="c1"># The functions below are fundamental for operability calculations, though  </span>
+<span class="c1"># typical users won&#39;t need to directly interact with them. They play a crucial </span>
+<span class="c1"># role within &#39;opyrability&#39; without requiring user intervention, but are </span>
+<span class="c1"># documented here nevertheless.</span>
+<div class="viewcode-block" id="get_extreme_vertices"><a class="viewcode-back" href="../api.html#opyrability.get_extreme_vertices">[docs]</a><span class="k">def</span> <span class="nf">get_extreme_vertices</span><span class="p">(</span><span class="n">bounds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gets the extreme vertices of any D-dimensional hypercube. This is used to</span>
-<span class="sd">    plot the DOS in 3d.</span>
+<span class="sd">    plot the DOS in 3D.</span>
 <span class="sd">    </span>
 <span class="sd">    Author: Victor Alves</span>
 <span class="sd">    </span>
 <span class="sd">    Control, Optimization and Design for Energy and Sustainability </span>
-<span class="sd">    (CODES) Group - West Virginia University - 2022/2023</span>
+<span class="sd">    (CODES) Group - West Virginia University - 2023</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -2407,6 +2396,128 @@ document.write(`
         <span class="n">extreme_vertices</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">indices</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">extreme_vertices</span></div>
+
+
+<div class="viewcode-block" id="process_overlapping_polytopes"><a class="viewcode-back" href="../api.html#opyrability.process_overlapping_polytopes">[docs]</a><span class="k">def</span> <span class="nf">process_overlapping_polytopes</span><span class="p">(</span><span class="n">bound_box</span><span class="p">:</span> <span class="n">pc</span><span class="o">.</span><span class="n">Polytope</span><span class="p">,</span> 
+                                  <span class="n">overlapped_intersection</span><span class="p">:</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   Eliminate overlaps between polytopes given a bounding box and a region of </span>
+<span class="sd">   potentially overlapping polytopes.</span>
+
+<span class="sd">   The function aims to process a set of polytopes such that the resultant </span>
+<span class="sd">   polytopes within the specified bounding</span>
+<span class="sd">   box do not overlap with each other.</span>
+<span class="sd">   </span>
+<span class="sd">   This was initially suggested by David Vinson in his Ph.D. dissertation </span>
+<span class="sd">   &quot;A new measure of process operability for the improved steady-state design </span>
+<span class="sd">   of chemical processes. Ph.D. Thesis, Lehigh University, USA, 2000.&quot;</span>
+<span class="sd">   </span>
+<span class="sd">   This has been refined by me to perform the subraction of polytopes if and only</span>
+<span class="sd">   if the polytopes are indeed overlapping. This is checked by </span>
+<span class="sd">   function &#39;are_overlapping&#39;. Hence, computational time is largely reduced.</span>
+<span class="sd">   In addition, this avoids numerical instability in the LP that could</span>
+<span class="sd">   potentially lead to unbounded solutions (infesaible).</span>
+<span class="sd">   </span>
+<span class="sd">   Author: Victor Alves</span>
+<span class="sd">   </span>
+<span class="sd">   Control, Optimization and Design for Energy and Sustainability </span>
+<span class="sd">   (CODES) Group - West Virginia University - 2023</span>
+
+<span class="sd">   Parameters</span>
+<span class="sd">   ----------</span>
+<span class="sd">   bound_box : pc.Polytope</span>
+<span class="sd">       The bounding polytope within which all other polytopes are contained.</span>
+<span class="sd">   </span>
+<span class="sd">   overlapped_intersection : pc.Region</span>
+<span class="sd">       A collection of polytopes (encapsulated in a pc.Region) that may </span>
+<span class="sd">       potentially overlap with each other.</span>
+
+<span class="sd">   Returns</span>
+<span class="sd">   -------</span>
+<span class="sd">   pc.Region</span>
+<span class="sd">       A region consisting of polytopes that are within the bounding box </span>
+<span class="sd">       and do not overlap with each other.</span>
+
+
+<span class="sd">   &quot;&quot;&quot;</span>
+    <span class="n">refined_polytopes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">overlapped_intersection</span><span class="p">)</span>
+    <span class="n">flattened_polytopes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">poly</span> <span class="ow">in</span> <span class="n">refined_polytopes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">):</span>
+            <span class="n">flattened_polytopes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">flattened_polytopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+
+    <span class="n">refined_polytopes</span> <span class="o">=</span> <span class="n">flattened_polytopes</span>
+    <span class="n">non_overlapping_polytopes</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">while</span> <span class="n">refined_polytopes</span><span class="p">:</span>
+        <span class="n">current_poly</span> <span class="o">=</span> <span class="n">refined_polytopes</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+        <span class="n">overlapping</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">for</span> <span class="n">poly</span> <span class="ow">in</span> <span class="n">non_overlapping_polytopes</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">are_overlapping</span><span class="p">(</span><span class="n">current_poly</span><span class="p">,</span> <span class="n">poly</span><span class="p">):</span>
+                    <span class="c1"># Split the current polytope and add the non-overlapping</span>
+                    <span class="c1"># parts back for consideration</span>
+                    <span class="n">diffs</span> <span class="o">=</span> <span class="n">current_poly</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">diffs</span><span class="p">,</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">):</span>
+                        <span class="n">refined_polytopes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">diffs</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">refined_polytopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">diffs</span><span class="p">)</span>
+                    <span class="n">overlapping</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+
+            <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Some overlapping polytopes could not be resolved.&#39;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+        <span class="c1"># If there was no overlap with existing non-overlapping polytopes, </span>
+        <span class="c1"># add it to the list</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">overlapping</span><span class="p">:</span>
+            <span class="n">non_overlapping_polytopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_poly</span><span class="p">)</span>
+
+    <span class="c1"># Intersect each polytope in the non_overlapping_polytopes list with the </span>
+    <span class="c1"># bounding box</span>
+    <span class="n">final_polytopes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">poly</span> <span class="ow">in</span> <span class="n">non_overlapping_polytopes</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">intersection</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">bound_box</span><span class="p">,</span> <span class="n">poly</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">pc</span><span class="o">.</span><span class="n">is_empty</span><span class="p">(</span><span class="n">intersection</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">intersection</span><span class="p">,</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">):</span>
+                    <span class="n">final_polytopes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">intersection</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">final_polytopes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">intersection</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Some overlapping polytopes could not be resolved.&#39;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+    <span class="k">return</span> <span class="n">pc</span><span class="o">.</span><span class="n">Region</span><span class="p">(</span><span class="n">final_polytopes</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="are_overlapping"><a class="viewcode-back" href="../api.html#opyrability.are_overlapping">[docs]</a><span class="k">def</span> <span class="nf">are_overlapping</span><span class="p">(</span><span class="n">poly1</span><span class="p">,</span> <span class="n">poly2</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   Check if two polytopes overlap.</span>
+<span class="sd">   </span>
+<span class="sd">   Author: Victor Alves</span>
+<span class="sd">   </span>
+<span class="sd">   Control, Optimization and Design for Energy and Sustainability </span>
+<span class="sd">   (CODES) Group - West Virginia University - 2023</span>
+
+<span class="sd">   Parameters</span>
+<span class="sd">   ----------</span>
+<span class="sd">   poly1 : Polytope</span>
+<span class="sd">       First polytope object.</span>
+<span class="sd">   poly2 : Polytope</span>
+<span class="sd">       Second polytope object.</span>
+
+<span class="sd">   Returns</span>
+<span class="sd">   -------</span>
+<span class="sd">   bool</span>
+<span class="sd">       True if the polytopes overlap, False otherwise.</span>
+<span class="sd">   &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="n">pc</span><span class="o">.</span><span class="n">is_empty</span><span class="p">(</span><span class="n">pc</span><span class="o">.</span><span class="n">intersect</span><span class="p">(</span><span class="n">poly1</span><span class="p">,</span> <span class="n">poly2</span><span class="p">))</span></div>
 </pre></div>
 
                 </article>

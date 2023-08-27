@@ -7,7 +7,8 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>opyrability &#8212; Opyrability&#39;s documentation.</title>
   
   
@@ -362,14 +363,10 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <div class="section" id="module-opyrability">
+  <section id="module-opyrability">
 <span id="opyrability"></span><h1>opyrability<a class="headerlink" href="#module-opyrability" title="Permalink to this heading">#</a></h1>
 <p class="rubric">Functions</p>
 <table class="autosummary longtable table autosummary">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.AIS2AOS_map" title="opyrability.AIS2AOS_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AIS2AOS_map</span></code></a>(model, AIS_bound, AIS_resolution)</p></td>
 <td><p>Forward mapping for Process Operability calculations (From AIS to AOS).</p></td>
@@ -377,30 +374,36 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="../api.html#opyrability.OI_eval" title="opyrability.OI_eval"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OI_eval</span></code></a>(AS, DS[, perspective, ...])</p></td>
 <td><p>Operability Index (OI) calculation.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.create_grid" title="opyrability.create_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_grid</span></code></a>(region_bounds, region_resolution)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.are_overlapping" title="opyrability.are_overlapping"><code class="xref py py-obj docutils literal notranslate"><span class="pre">are_overlapping</span></code></a>(poly1, poly2)</p></td>
+<td><p>Check if two polytopes overlap.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#opyrability.create_grid" title="opyrability.create_grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_grid</span></code></a>(region_bounds, region_resolution)</p></td>
 <td><p>Create a multidimensional, discretized grid, given the bounds and the resolution.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#opyrability.get_extreme_vertices" title="opyrability.get_extreme_vertices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_extreme_vertices</span></code></a>(bounds)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.get_extreme_vertices" title="opyrability.get_extreme_vertices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_extreme_vertices</span></code></a>(bounds)</p></td>
 <td><p>Gets the extreme vertices of any D-dimensional hypercube.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.implicit_map" title="opyrability.implicit_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implicit_map</span></code></a>(model, domain_bound, ...[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#opyrability.implicit_map" title="opyrability.implicit_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">implicit_map</span></code></a>(model, domain_bound, ...[, ...])</p></td>
 <td><p>Performs implicit mapping of a implicitly defined process F(u,y) = 0.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#opyrability.multimodel_rep" title="opyrability.multimodel_rep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multimodel_rep</span></code></a>(model, bounds, resolution[, ...])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.multimodel_rep" title="opyrability.multimodel_rep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">multimodel_rep</span></code></a>(model, bounds, resolution[, ...])</p></td>
 <td><p>Obtain a multimodel representation based on polytopes of Process Operability sets.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.nlp_based_approach" title="opyrability.nlp_based_approach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nlp_based_approach</span></code></a>(model, DOS_bounds, ...[, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#opyrability.nlp_based_approach" title="opyrability.nlp_based_approach"><code class="xref py py-obj docutils literal notranslate"><span class="pre">nlp_based_approach</span></code></a>(model, DOS_bounds, ...[, ...])</p></td>
 <td><p>Inverse mapping for Process Operability calculations.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="../api.html#opyrability.points2polyhedra" title="opyrability.points2polyhedra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2polyhedra</span></code></a>(AIS, AOS)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.points2polyhedra" title="opyrability.points2polyhedra"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2polyhedra</span></code></a>(AIS, AOS)</p></td>
 <td><p>Generation of connected polyhedra based on the AIS/AOS points.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.points2simplices" title="opyrability.points2simplices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2simplices</span></code></a>(AIS, AOS)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="../api.html#opyrability.points2simplices" title="opyrability.points2simplices"><code class="xref py py-obj docutils literal notranslate"><span class="pre">points2simplices</span></code></a>(AIS, AOS)</p></td>
 <td><p>Generation of connected simplices (k+1 convex hull of k+1 vertices) based on the AIS/AOS points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../api.html#opyrability.process_overlapping_polytopes" title="opyrability.process_overlapping_polytopes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">process_overlapping_polytopes</span></code></a>(bound_box, ...)</p></td>
+<td><p>Eliminate overlaps between polytopes given a bounding box and a region of potentially overlapping polytopes.</p></td>
 </tr>
 </tbody>
 </table>
-</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
