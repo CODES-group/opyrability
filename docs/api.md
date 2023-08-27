@@ -318,16 +318,35 @@ shower problem example.
 
 ```{code-cell}
     from opyrability import points2polyhedra
-
+    
     AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
 
-    print('AIS Polyhedrons \n', AIS_poly)
-    print('AOS Polyhedrons \n', AOS_poly)
+    pprint('AIS Polyhedrons \n', AIS_poly)
+    pprint('AOS Polyhedrons \n', AOS_poly)
 ```
 
 
 ```{eval-rst}
 .. autofunction:: opyrability.get_extreme_vertices
+```
+
+## Polytopic manipulations (advanced and internal use)
+
+The functions below are fundamental for operability calculations, though typical 
+users won't need to directly interact with them. They play a crucial role within
+'opyrability' without requiring user intervention, but are documented here 
+nevertheless.
+
+```{eval-rst}
+.. autofunction:: opyrability.get_extreme_vertices
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.process_overlapping_polytopes
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.are_overlapping
 ```
 
 ### API documentation list

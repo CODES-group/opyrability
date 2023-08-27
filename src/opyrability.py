@@ -4,7 +4,7 @@ import warnings
 from itertools import permutations as perms
 import string
 from typing import Callable,Union
-from tqdm.notebook import tqdm
+from tqdm import tqdm
 
 # Linear Algebra
 import numpy as np
@@ -18,10 +18,7 @@ from cyipopt import minimize_ipopt
 
 # Polytopic calculations
 import polytope as pc
-from polytope.polytope import region_diff
 from polytope.polytope import _get_patch
-from polytope import solvers
-solvers.default_solver = 'glpk'
 
 # Plots
 import matplotlib.pyplot as plt
@@ -57,7 +54,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
     This function is part of Python-based Process Operability package.
     
     Control, Optimization and Design for Energy and Sustainability (CODES) 
-    Group - West Virginia University - 2022/2023
+    Group - West Virginia University - 2023
     
     Author: Victor Alves
 
@@ -167,13 +164,6 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         AIS_poly, AOS_poly = points2simplices(AIS,AOS)
     elif polytopic_trace =='polyhedra':
         AIS_poly, AOS_poly = points2polyhedra(AIS,AOS)
-        
-    elif polytopic_trace == 'delaunay':
-        pass
-        # AIS = AIS.reshape(-1, AIS.shape[-1])
-        # AOS = AOS.reshape(-1, AOS.shape[-1])
-        # # AIS_poly, AOS_poly = Triangulation(AIS, AOS, resolution[0])
-        # MM = Triangulation(AIS, AOS, resolution[0])
     else:
         print('Invalid option for polytopic tracing. Exiting algorithm.')
         sys.exit()
@@ -188,12 +178,11 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         Vertices_list.append(Vertices)
         Polytopes.append(pc.qhull(Vertices))
         
-    # eliminate_overlaps(AOS_simplices)
-    # Define the AOS as an (possibly) overlapped region. This will be fixed in
-    # the next lines of code.    
+    
+    # Define the AOS as an (possibly) overlapped region. Here we don't need to
+    # worry about this here for now, only when evaluating the OI.
     mapped_region = pc.Region(Polytopes[0:])
     
-    finalpolytope = mapped_region
     
     # Perspective switch: This will only affect plot and legends.
     if perspective == 'outputs':
@@ -202,7 +191,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
     else:
         AS_label = 'Available Input Set (AIS)'
 
-    # Plots (2d/3d), unfortunately humans can't see higher dimensions.
+    # Plots (2D/ 3D), unfortunately humans can't see higher dimensions. :(
     if plot is True:
         if mapped_region.dim == 2:
             
@@ -211,7 +200,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
             fig = plt.figure()
             ax = fig.add_subplot(111)
             AS_coords = np.concatenate(Vertices_list, axis=0)
-            for i in range(len(finalpolytope)):
+            for i in range(len(mapped_region)):
 
                 polyplot = _get_patch(mapped_region[i], linestyle="solid",
                                     edgecolor=EDGES_COLORS, linewidth=EDGES_WIDTH,
@@ -242,8 +231,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                 str_title = 'Achievable Output Set (AOS)'
                 ax.set_title(str_title)
             else:
-                str_title = string.capwords(
-                    "Available Input set (AIS)")
+                str_title ='Available Input set (AIS)'
                 ax.set_title(str_title)
 
             ax.legend(handles=[AS_patch, extra])
@@ -262,13 +250,14 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
             
             for cube, color in zip([AS_coords], [AS_COLOR]):
                 hull = sp.spatial.ConvexHull(cube)
-                # draw the polygons of the convex hull
+                # Draw the polygons of the convex hull
                 for s in hull.simplices:
                     tri = Poly3DCollection([cube[s]])
                     tri.set_color(color)
                     tri.set_alpha(0.5)
+                    tri.set_edgecolor(EDGES_COLORS)
                     ax.add_collection3d(tri)
-                # draw the vertices
+                # Draw the vertices
                 ax.scatter(cube[:, 0], cube[:, 1], cube[:, 2], marker='o', 
                            color='None')
             plt.show()
@@ -285,8 +274,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                 str_title = 'Achievable Output Set (AOS)'
                 ax.set_title(str_title)
             else:
-                str_title = string.capwords(
-                    "Available Input set (AIS)")
+                str_title = 'Available Input Set (AIS)'
                 ax.set_title(str_title)
 
             ax.legend(handles=[AS_patch, extra])
@@ -309,7 +297,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
     
     
     # Small hack: Inject AS coordinates into return to be able to
-    # plot 3d region effortlessly.
+    # plot 3D region effortlessly.
     mapped_region = [mapped_region, AS_coords]
     return mapped_region
 
@@ -331,7 +319,7 @@ def OI_eval(AS: pc.Region,
     This function is part of Python-based Process Operability package.
     
     Control, Optimization and Design for Energy and Sustainability (CODES) 
-    Group - West Virginia University - 2022/2023
+    Group - West Virginia University - 2023
     
     Author: Victor Alves
 
@@ -382,11 +370,13 @@ def OI_eval(AS: pc.Region,
     
     # Defining Polytopes for manipulation. Obtaining polytopes in min-rep if
     # applicable.
-
     DS_region = pc.box2poly(DS)
     AS_region = pc.reduce(AS[0])
     DS_region = pc.reduce(DS_region)
     inter_list = list()
+    
+    # Obtain (possibly overlapped) intersection region of polytopes and
+    # its respective bounding box.
     for i in range(len(AS_region)):
         intersection = pc.intersect(AS_region[i], DS_region)
         if intersection.fulldim is False or intersection.dim != DS_region.dim:
@@ -394,65 +384,17 @@ def OI_eval(AS: pc.Region,
         else:
             inter_list.append(intersection)
             
-        
-    
     overlapped_intersection = pc.Region(inter_list)
     min_coord =  overlapped_intersection.bounding_box[0]
     max_coord =  overlapped_intersection.bounding_box[1]
     box_coord =  np.hstack([min_coord, max_coord])
     bound_box =  pc.box2poly(box_coord)
     
-    # # Remove overlapping (Vinson&Gazzaneo trick) - Remove one polytope at a time, 
-    # # create void polytope using the bounding box and subtract from the original 
-    # # bounding box itself. This avoids wrong calculations of the OI.
-    # RemPoly = [bound_box]
-    # for i in range(len(overlapped_intersection)):
-    #     RemPolyList = []
-    #     for j in range(len(RemPoly)+1):
-    #         temp_diff = RemPoly[j-1].diff(overlapped_intersection[i])
-            
-    #         if isinstance(temp_diff, pc.Polytope):
-    #             temp_diff = [temp_diff]
-                
-    #         RemPolyList.extend(temp_diff)
-                
-    #     RemPoly = RemPolyList
-    
-    
-    # # Build the "remainder"/"hollow" polytope union interactively.
-    # RemU = RemPolyList[0]
-    # RemPolyList.pop(0)
-    # for p in range(len(RemPolyList)):
-    #     RemU = RemU.union(RemPolyList[p])
-    
-    # # Take the intersection between the "hollow" polytope and the bounding box.
-    # intersections = region_diff(bound_box, 
-    #                             RemU)
-    
-    # merged_intersections = process_overlapping_polytopes(bound_box, 
-    #                                              overlapped_intersection)
-    
-    # intersections = region_diff(bound_box, RemU)
-    
-    # # In extremely nonlinear systems with folds/overlapping, the loop below
-    # # guarantees that the final intersection is merged without overlapping at
-    # # high discretization values of the AIS/AOS/DIS/DOS. The parameter
-    # # "check_convex=True" looks for adjacent polytopes and merges them.
-    # merged_intersections = intersections[0]
-    # for k in range(len(intersections)):
-    #     merged_intersections = (merged_intersections.union(intersections[k],
-    #                                                       check_convex=True))
-        
-    # # After all this, just naming the final intersection simply as intersection.
-    # intersection =  pc.reduce(merged_intersections, abs_tol=1e-10)
-    # merged_intersections = overlapped_intersection[0]
-    # for k in range(len(overlapped_intersection)):
-    #     merged_intersections = (merged_intersections.union(overlapped_intersection[k],
-    #                                                       check_convex=True))
-    
-    # intersection = intersections
-    intersection= process_overlapping_polytopes(bound_box, overlapped_intersection)
-    # intersection = merged_intersections
+    # Remove overlapping (Vinson&Gazzaneo trick) - Remove one polytope at a time, 
+    # create void polytope using the bounding box and subtract from the original 
+    # bounding box itself. This avoids wrong calculations of the OI.
+    intersection= process_overlapping_polytopes(bound_box, 
+                                                overlapped_intersection)
     
     v_intersect_list = list()
     final_intersection = list()
@@ -509,7 +451,7 @@ def OI_eval(AS: pc.Region,
         AS_label = 'Available Input Set (AIS)'
         int_label = r'$ AIS \cap DIS$'
 
-    # plot if 2D / 3D
+    # Plot if 2D / 3D
     if plot is True:
         if DS_region.dim == 2:
             
@@ -600,13 +542,14 @@ def OI_eval(AS: pc.Region,
             for cube, color in zip([AS_coords, DS_coords, intersect_coords], 
                                    [AS_COLOR, DS_COLOR, INTERSECT_COLOR]):
                 hull = sp.spatial.ConvexHull(cube)
-                # draw the polygons of the convex hull
+                # Draw the polygons of the convex hull
                 for s in hull.simplices:
                     tri = Poly3DCollection([cube[s]])
                     tri.set_color(color)
+                    tri.set_edgecolor(EDGES_COLORS)
                     tri.set_alpha(0.5)
                     ax.add_collection3d(tri)
-                # draw the vertices
+                # Draw the vertices
                 ax.scatter(cube[:, 0], cube[:, 1], cube[:, 2], 
                            marker='o', color='None')
             plt.show()
@@ -623,8 +566,7 @@ def OI_eval(AS: pc.Region,
                 str_title = 'Achievable Output Set (AOS)'
                 ax.set_title(str_title)
             else:
-                str_title = string.capwords(
-                    "Available Input set (AIS)")
+                str_title = 'Available Input set (AIS)'
                 ax.set_title(str_title)
 
             ax.legend(handles=[AS_patch, extra])
@@ -694,7 +636,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
     This function is part of Python-based Process Operability package.
     
     Control, Optimization and Design for Energy and Sustainability (CODES) 
-    Group - West Virginia University - 2022
+    Group - West Virginia University - 2023
     
     Author: Victor Alves
 
@@ -849,7 +791,6 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
     
     dimDOS = DOS_bounds.shape[0]
     DOSPts = create_grid(DOS_bounds, DOS_resolution)
-    DOSPts_multi = DOSPts
     DOSPts = DOSPts.reshape(-1, dimDOS)
     u00    = u0
     # Initialization of variables
@@ -1176,7 +1117,7 @@ def create_grid(region_bounds: np.ndarray, region_resolution: tuple):
     This function is part of Python-based Process Operability package.
     
     Control, Optimization and Design for Energy and Sustainability (CODES) 
-    Group - West Virginia University - 2022/2023
+    Group - West Virginia University - 2023
     
     Author: San Dinh
 
@@ -1243,7 +1184,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
     This function is part of Python-based Process Operability package.
 
     Control, Optimization and Design for Energy and Sustainability 
-    (CODES) Group - West Virginia University - 2022/2023
+    (CODES) Group - West Virginia University - 2023
 
     Authors: San Dinh & Victor Alves
 
@@ -1549,7 +1490,7 @@ def points2simplices(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
     This function is part of Python-based Process Operability package.
     
     Control, Optimization and Design for Energy and Sustainability 
-    (CODES) Group - West Virginia University - 2022/2023
+    (CODES) Group - West Virginia University - 2023
     
     Author: San Dinh
 
@@ -1620,6 +1561,8 @@ def points2simplices(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
 
                 ID = [a + b for a, b in zip([inputID]*(nInput + 1),
                                             simplex_vertices[k])]
+                
+                
 
                 V_AOS_id = np.zeros((nOutputVar, nInput + 1))
                 V_AIS_id = np.zeros((nInputVar, nInput + 1))
@@ -1634,7 +1577,7 @@ def points2simplices(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
                 
                 
                 
-    # This section is after the loops, right before the return statement
+    # Eliminate overlaps by adjusting vertices
     for i, simplex in enumerate(AOS_simplices):
         poly = pc.qhull(simplex.T)
         AOS_simplices[i] = pc.extreme(poly)
@@ -1643,12 +1586,12 @@ def points2simplices(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
         poly = pc.qhull(simplex.T)
         AIS_simplices[i] = pc.extreme(poly)
 
-    # Eliminate overlaps by adjusting vertices
-    AOS_simplicess = eliminate_overlaps(AOS_simplices)
-    AIS_simplicess = eliminate_overlaps(AIS_simplices)
+    
+    # AOS_simplices = eliminate_overlaps(AOS_simplices)
+    # AIS_simplices = eliminate_overlaps(AIS_simplices)
     
     
-    return AIS_simplicess, AOS_simplicess
+    return AIS_simplices, AOS_simplices
 
 
 def points2polyhedra(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
@@ -1659,7 +1602,7 @@ def points2polyhedra(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
     This function is part of Python-based Process Operability package.
     
     Control, Optimization and Design for Energy and Sustainability 
-    (CODES) Group - West Virginia University - 2022/2023
+    (CODES) Group - West Virginia University - 2023
     
     Author: San Dinh
 
@@ -1729,11 +1672,11 @@ def points2polyhedra(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
         poly = pc.qhull(simplex.T)
         AIS_polytope[i] = pc.extreme(poly)
 
-    # Eliminate overlaps by adjusting vertices
-    AOS_polytopes = eliminate_overlaps(AOS_polytope)
-    AIS_polytopes = eliminate_overlaps(AIS_polytope)
+    # # Eliminate overlaps by adjusting vertices
+    # AOS_polytopes = eliminate_overlaps(AOS_polytope)
+    # AIS_polytopes = eliminate_overlaps(AIS_polytope)
     
-    return AIS_polytopes, AOS_polytopes
+    return AIS_polytope, AOS_polytope
 
 
 def implicit_map(model:             Callable[...,Union[float,np.ndarray]], 
@@ -1759,7 +1702,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     Authors: San Dinh & Victor Alves
     
     Control, Optimization and Design for Energy and Sustainability 
-    (CODES) Group - West Virginia University - 2022/2023
+    (CODES) Group - West Virginia University - 2023
     
 
     Parameters
@@ -2109,16 +2052,19 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
             
     return domain_set, image_set, domain_polyhedra, image_polyhedra
 
-
-def get_extreme_vertices(bounds):
+# The functions below are fundamental for operability calculations, though  
+# typical users won't need to directly interact with them. They play a crucial 
+# role within 'opyrability' without requiring user intervention, but are 
+# documented here nevertheless.
+def get_extreme_vertices(bounds: np.ndarray) -> np.ndarray:
     """
     Gets the extreme vertices of any D-dimensional hypercube. This is used to
-    plot the DOS in 3d.
+    plot the DOS in 3D.
     
     Author: Victor Alves
     
     Control, Optimization and Design for Energy and Sustainability 
-    (CODES) Group - West Virginia University - 2022/2023
+    (CODES) Group - West Virginia University - 2023
 
     Parameters
     ----------
@@ -2143,99 +2089,123 @@ def get_extreme_vertices(bounds):
     return extreme_vertices
 
 
+def process_overlapping_polytopes(bound_box: pc.Polytope, 
+                                  overlapped_intersection: pc.Region) -> pc.Region:
+    """
+   Eliminate overlaps between polytopes given a bounding box and a region of 
+   potentially overlapping polytopes.
 
-def are_overlapping(poly1_arr, poly2_arr):
-    """Check if two polytopes overlap."""
-    poly1 = pc.qhull(poly1_arr.T)
-    poly2 = pc.qhull(poly2_arr.T)
-    
-    intersection = pc.intersect(poly1, poly2)
-    return not pc.is_empty(intersection)
+   The function aims to process a set of polytopes such that the resultant 
+   polytopes within the specified bounding
+   box do not overlap with each other.
+   
+   This was initially suggested by David Vinson in his Ph.D. dissertation 
+   "A new measure of process operability for the improved steady-state design 
+   of chemical processes. Ph.D. Thesis, Lehigh University, USA, 2000."
+   
+   This has been refined by me to perform the subraction of polytopes if and only
+   if the polytopes are indeed overlapping. This is checked by 
+   function 'are_overlapping'. Hence, computational time is largely reduced.
+   In addition, this avoids numerical instability in the LP that could
+   potentially lead to unbounded solutions (infesaible).
+   
+   Author: Victor Alves
+   
+   Control, Optimization and Design for Energy and Sustainability 
+   (CODES) Group - West Virginia University - 2023
 
+   Parameters
+   ----------
+   bound_box : pc.Polytope
+       The bounding polytope within which all other polytopes are contained.
+   
+   overlapped_intersection : pc.Region
+       A collection of polytopes (encapsulated in a pc.Region) that may 
+       potentially overlap with each other.
 
-def adjust_vertices(vertices, centroid, epsilon=0.1):
-    """Adjust the vertices away from the centroid by a small amount."""
-    adjusted = []
-    for vertex in vertices:
-        direction = vertex - centroid
-        direction_normalized = direction / np.linalg.norm(direction)
-        new_vertex = vertex + epsilon * direction_normalized
-        adjusted.append(new_vertex)
-    return np.array(adjusted)
-
-def eliminate_overlaps(simplices):
-    overlaps_found = True
-    while overlaps_found:
-        overlaps_found = False
-        for i, poly1 in enumerate(simplices):
-            for j, poly2 in enumerate(simplices):
-                if i != j and are_overlapping(poly1, poly2):
-                    overlaps_found = True
-                    overlap = poly1.intersect(poly2)
-                    centroid = np.mean(pc.extreme(overlap), axis=0)
-                    
-                    overlapping_vertices1 = [v for v in poly1 if pc.contains(overlap, v)]
-                    overlapping_vertices2 = [v for v in poly2 if pc.contains(overlap, v)]
-                    
-                    adjusted1 = adjust_vertices(overlapping_vertices1, centroid)
-                    adjusted2 = adjust_vertices(overlapping_vertices2, centroid)
-                    
-                    # Update the simplices with the adjusted vertices.
-                    for old_v, new_v in zip(overlapping_vertices1, adjusted1):
-                        poly1[poly1 == old_v] = new_v
-                    for old_v, new_v in zip(overlapping_vertices2, adjusted2):
-                        poly2[poly2 == old_v] = new_v
-    return simplices
+   Returns
+   -------
+   pc.Region
+       A region consisting of polytopes that are within the bounding box 
+       and do not overlap with each other.
 
 
-# def all_are_overlapping(poly_region_list):
-#     num_polytopes = len(poly_region_list)
-    
-#     for i in range(num_polytopes):
-#         for j in range(i + 1, num_polytopes):
-#             if are_overlapping(pc.extreme(poly_region_list[i]), 
-#                                pc.extreme(poly_region_list[j])):
-#                 return True  # If any pair overlaps, return True
-    
-#     return False  # If no pair overlaps, return False
-
-
-# def do_bounding_boxes_overlap(poly1, poly2):
-#     # This is a function to check if the bounding boxes of two polytopes overlap.
-#     bbox1 = poly1.bounding_box
-#     bbox2 = poly2.bounding_box
-
-#     # Check for overlap in each dimension.
-#     for i in range(len(bbox1)):
-#         if bbox1[i][0] > bbox2[i][1] or bbox1[i][1] < bbox2[i][0]:
-#             return False
-#     return True
-
-# Using the bounding box, identify overlapping polytopes
-def process_overlapping_polytopes(bound_box, overlapped_intersection):
-    """Process overlapping polytopes given a bounding box and a region of potentially overlapping polytopes."""
-
+   """
     refined_polytopes = list(overlapped_intersection)
-
-    # Iteratively remove overlaps from each polytope in overlapped_intersection
-    for i in range(len(refined_polytopes)):
-        for j in range(len(refined_polytopes)):
-            if i != j and polytope_overlapping_check(refined_polytopes[i], refined_polytopes[j]):
-                refined_polytopes[j] = refined_polytopes[j].diff(refined_polytopes[i])
-
-    # Intersect each polytope in the refined list with the bounding box
-    final_polytopes = []
+    flattened_polytopes = []
     for poly in refined_polytopes:
-        intersection = pc.intersect(bound_box, poly)
-        
-        if not pc.is_empty(intersection):
-            if isinstance(intersection, pc.Region):
-                final_polytopes.extend(intersection)
-            else:
-                final_polytopes.append(intersection)
+        if isinstance(poly, pc.Region):
+            flattened_polytopes.extend(poly)
+        else:
+            flattened_polytopes.append(poly)
+
+    refined_polytopes = flattened_polytopes
+    non_overlapping_polytopes = []
+
+    while refined_polytopes:
+        current_poly = refined_polytopes.pop()
+        overlapping = False
+
+        for poly in non_overlapping_polytopes:
+            try:
+                if are_overlapping(current_poly, poly):
+                    # Split the current polytope and add the non-overlapping
+                    # parts back for consideration
+                    diffs = current_poly.diff(poly)
+                    if isinstance(diffs, pc.Region):
+                        refined_polytopes.extend(diffs)
+                    else:
+                        refined_polytopes.append(diffs)
+                    overlapping = True
+                    break
+
+            except RuntimeError as e:
+                print('Some overlapping polytopes could not be resolved.')
+                continue
+
+        # If there was no overlap with existing non-overlapping polytopes, 
+        # add it to the list
+        if not overlapping:
+            non_overlapping_polytopes.append(current_poly)
+
+    # Intersect each polytope in the non_overlapping_polytopes list with the 
+    # bounding box
+    final_polytopes = []
+    for poly in non_overlapping_polytopes:
+        try:
+            intersection = pc.intersect(bound_box, poly)
+
+            if not pc.is_empty(intersection):
+                if isinstance(intersection, pc.Region):
+                    final_polytopes.extend(intersection)
+                else:
+                    final_polytopes.append(intersection)
+
+        except RuntimeError as e:
+            print('Some overlapping polytopes could not be resolved.')
+            continue
 
     return pc.Region(final_polytopes)
 
-def polytope_overlapping_check(poly1, poly2):
-    """Check if two polytopes overlap."""
+def are_overlapping(poly1, poly2):
+    """
+   Check if two polytopes overlap.
+   
+   Author: Victor Alves
+   
+   Control, Optimization and Design for Energy and Sustainability 
+   (CODES) Group - West Virginia University - 2023
+
+   Parameters
+   ----------
+   poly1 : Polytope
+       First polytope object.
+   poly2 : Polytope
+       Second polytope object.
+
+   Returns
+   -------
+   bool
+       True if the polytopes overlap, False otherwise.
+   """
     return not pc.is_empty(pc.intersect(poly1, poly2))

@@ -1,60 +1,74 @@
 import numpy as np
-from opyrability import multimodel_rep, OI_eval
-import time
+from opyrability import multimodel_rep, OI_eval, AIS2AOS_map
+
+# -----------------------------------------------------------------------------
+# Examples: Multimodel examples: DMA-MR and Shower Problem
+# Author: Victor Alves
+# Control, Optimization and Design for Energy and Sustainability,
+# CODES Group, West Virginia University (2023)
+# -----------------------------------------------------------------------------
+
+"""
+This script presents illustrative examples that showcase the application of the
+Multimodel approach, applied to a membrane reactor (DMA-MR), alongside the 
+classic Shower Problem.
+
+Each example explores different scenarios and dimensions, offering insights 
+into the functionality of opyrability.
+
+"""
+
+# %% DMA-MR - 2x2 System - Design Variables - Tube length and diameter [cm]
+from dma_mr import dma_mr_design, dma_mr_mvs
+# Defining DOS/AIS bounds and resolution.
+
+DOS_bounds =  np.array([[20, 25], 
+                        [35, 45]])
+
+AIS_bounds =  np.array([[10, 150],
+                        [0.5, 2]])
+
+AIS_resolution =  [20, 20]
 
 
-# Tests for the multimodel approach - DMA-MR and shower problem
+model  = dma_mr_design
+
+# Obtaining AOS and evaluating the OI
+AOS_region  =  multimodel_rep(model, 
+                              AIS_bounds, 
+                              AIS_resolution,
+                              polytopic_trace='simplices')
+
+OI = OI_eval(AOS_region, DOS_bounds)
 
 
-# %% DMA-MR - 2x2 System - Design Variables
-# from dma_mr import dma_mr_design, dma_mr_mvs
-# # Defining DOS bounds
+# %% DMA-MR - 2x2 System - Manipulated Variables - Shell and tube flow rates
+#                                                                    [cm3/h]
 
-# DOS_bounds =  np.array([[20, 25], 
-#                         [35, 45]])
-
-# AIS_bounds =  np.array([[10, 150],
-#                         [0.5, 2]])
-
-# AIS_resolution =  [20, 20]
-
-# model  = dma_mr_design
-
-# t = time.time()
-# AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution,
-#                               polytopic_trace='simplices')
-
-# OI = OI_eval(AOS_region, DOS_bounds)
-# elapsed = time.time() - t
+# Defining DOS/AIS bounds and resolution
+DOS_bounds = np.array([[15,25],
+                        [35,45]])
 
 
-# %% DMA-MR - 2x2 System - Manipulated Variables
-# from dma_mr import dma_mr_design, dma_mr_mvs
-# # Defining DOS bounds
+AIS_bounds =  np.array([[450, 1500],
+                    [450, 1500]])
 
-# DOS_bounds = np.array([[15,25],
-#                         [35,45]])
+AIS_resolution =  [5, 5]
 
+model  = dma_mr_mvs
 
-# AIS_bounds =  np.array([[450, 1500],
-#                     [450, 1500]])
+# Obtaining AOS and evaluating the OI
+AOS_region  =  multimodel_rep(model, 
+                              AIS_bounds,  
+                              AIS_resolution,)
 
-# AIS_resolution =  [5, 5]
+OI = OI_eval(AOS_region, DOS_bounds)
 
-# model  = dma_mr_mvs
-
-# AOS_region  =  multimodel_rep(model, AIS_bounds,  AIS_resolution,)
-
-# OI = OI_eval(AOS_region, DOS_bounds)
-
-
-
-
-
-# %% Shower problem 2x2
+# %% Shower problem 2x2 - Classic problem
 from shower import shower2x2
 from opyrability import AIS2AOS_map
 
+# Defining DOS/AIS bounds and resolution
 DOS_bounds =  np.array([[10, 20], 
                         [70, 100]])
 
@@ -65,164 +79,153 @@ AIS_resolution =  [10, 10]
 
 model =  shower2x2
 
-
-AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution, plot=False)
-
-
-AOS_region  =  multimodel_rep(model, AIS_bounds, 
-                AIS_resolution, polytopic_trace = 'simplices', plot=False)
-
-OI = OI_eval(AOS_region, DOS_bounds, hypervol_calc= 'robust')
-
-# %% Shower problem 3x3
-# from shower import shower3x3
-# from opyrability import AIS2AOS_map
-# DOS_bounds =  np.array([[10.00, 20.00], 
-#                         [70.00, 100.00],
-#                         [-10.00, 10.00]])
+# Obtaining input-output mapping, AOS and evaluating the OI
+AIS, AOS = AIS2AOS_map(model, 
+                       AIS_bounds, 
+                       AIS_resolution, 
+                       plot=False)
 
 
-# AIS_bounds =  np.array([[0.00, 10.00],
-#                         [0.00, 10.00]])
+AOS_region  =  multimodel_rep(model, 
+                              AIS_bounds,
+                              AIS_resolution, 
+                              polytopic_trace = 'simplices', 
+                              plot=True)
 
-# # AIS_bounds =  np.array([[0.00, 10.00]])
+OI = OI_eval(AOS_region, DOS_bounds)
 
-# # EDS_bounds = np.array([[-10.00, 10.00],
-# #                        [-20, 50]])
-
-# EDS_bounds = np.array([[-10.00, 10.00]])
-
-# AIS_resolution = [5, 5]
-
-# EDS_resolution = [5]
-
-# model =  shower3x3
-
-# # AIS, AOS = AIS2AOS_map(model, 
-# #                         AIS_bounds, 
-# #                         AIS_resolution, 
-# #                         EDS_bound=EDS_bounds,
-# #                         EDS_resolution=EDS_resolution)
-
-# AOS_region  =  multimodel_rep(model,
-#                               AIS_bounds, 
-#                               AIS_resolution,
-#                               EDS_bound=EDS_bounds,
-#                               EDS_resolution=EDS_resolution,
-#                               plot = False)
-
-# OI = OI_eval(AOS_region, DOS_bounds, plot = True)
+# %% Shower problem 3x3 - The third dimension is disturbance in the inlet temp.
+# This example also has the EDS (Expected Disturbance Set)
+from shower import shower3x3
 
 
-
-# %% Shower problem 2x3
-
-# from shower import shower2x3
-# from opyrability import AIS2AOS_map
-# import matplotlib.pyplot as plt
-# DOS_bounds =  np.array([[10.00, 20.00], 
-#                         [70.00, 100.00],
-#                         [70.00, 100.00]])
+# Defining DOS/AIS/EDS bounds and resolution
+DOS_bounds =  np.array([[10.00, 20.00], 
+                        [70.00, 100.00],
+                        [-10.00, 10.00]])
 
 
-# AIS_bounds =  np.array([[0.00, 10.00],
-#                         [0.00, 10.00]])
-
-# AIS_resolution =  [5, 5]
-
-# model =  shower2x3
-
-# AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
+AIS_bounds =  np.array([[0.00, 10.00],
+                        [0.00, 10.00]])
 
 
-# %% Shower problem 3x2
+EDS_bounds = np.array([[-10.00, 10.00]])
+
+AIS_resolution = [5, 5]
+
+EDS_resolution = [5]
+
+model =  shower3x3
+
+# Obtaining AOS and evaluating the OI
+AOS_region  =  multimodel_rep(model,
+                              AIS_bounds, 
+                              AIS_resolution,
+                              EDS_bound=EDS_bounds,
+                              EDS_resolution=EDS_resolution)
+
+OI = OI_eval(AOS_region, DOS_bounds)
+
+# %% Shower problem 3x2 - To showcase a non-square example
+from shower import shower3x2
 
 
-# from shower import shower3x2
-# from opyrability import AIS2AOS_map
+# Defining DOS/AIS bounds and resolution
+DOS_bounds =  np.array([[10.00, 20.00], 
+                        [70.00, 100.00]])
 
 
-# DOS_bounds =  np.array([[10.00, 20.00], 
-#                         [70.00, 100.00]])
+AIS_bounds =  np.array([[0.00, 10.00],
+                        [0.00, 10.00],
+                        [-10.00, 10.00]])
+
+AIS_resolution =  [5, 5, 5]
+
+model =  shower3x2
+
+# Obtaining input-output mapping, AOS and evaluating the OI
+AIS, AOS = AIS2AOS_map(model, 
+                       AIS_bounds, 
+                       AIS_resolution, 
+                       plot=False)
+
+AOS_region  =  multimodel_rep(model, 
+                              AIS_bounds, 
+                              AIS_resolution,
+                              plot=False, 
+                              polytopic_trace='polyhedra')
+
+OI = OI_eval(AOS_region, DOS_bounds)
 
 
-# AIS_bounds =  np.array([[0.00, 10.00],
-#                         [0.00, 10.00],
-#                         [-10.00, 10.00]])
+# %% Shower inverse mapping - multimodel representation - 3x3
 
-# AIS_resolution =  [5, 5, 5]
+# In this case, the forward model of the shower problem is used to obtain
+# the inverse multimodel map representation. In short, 'multimodel_rep' uses
+# 'nlp_based_approach' if the user indicates perspective = 'inputs'. You will
+# be asked an initial estimate at the terminal for the inverse mapping.
 
-# model =  shower3x2
+# In this example, it is 10,10,5.
 
-# AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
+from shower import shower3x3
 
-# AOS_region  =  multimodel_rep(model, AIS_bounds, AIS_resolution,
-# plot=True, polytopic_trace='polyhedra')
+model = shower3x3
 
-# OI = OI_eval(AOS_region, DOS_bounds, plot = True)
+# Defining DOS bounds and resolution - this is an inverse map example.
+DOS_bounds = np.array([[17.5, 21.0],
+                    [80.0, 100.0],
+                    [-10, 10]])
+
+DOS_resolution = [6, 6, 6]
+
+DIS_bounds =  np.array([[0, 10],
+                        [0, 10],
+                        [-10, 10]])
+
+# Obtaining input-output mapping, AIS and evaluating the OI from the inputs'
+# perspective.
 
 
-# %% Shower inverse mapping - multimodel representation 3x3
-# import numpy as np
-# from shower import shower3x3, inv_shower3x3
-# from opyrability import AIS2AOS_map, multimodel_rep, nlp_based_approach
-
-# u0 = np.array([10, 10, 5])
-# lb = np.array([0, 0, -10])
-# ub = np.array([20, 20, 10])
-
-# DOS_bounds = np.array([[17.5, 21.0],
-#                     [80.0, 100.0],
-#                     [-10, 10]])
-
-# DOS_resolution = [6, 6, 6]
-    
-# # AIS, AOS = AIS2AOS_map(inv_shower3x3, DOS_bounds, DOS_resolution)
-# # t = time.time()
-# # fDIS, fDOS, message = nlp_based_approach(DOS_bounds, 
-# #                                           DOS_resolution, 
-# #                                           shower3x3, 
-# #                                           u0, 
-# #                                           lb,
-# #                                           ub, 
-# #                                           method='ipopt', 
-# #                                           plot=True, 
-# #                                           ad=False,
-# #                                           warmstart=True)
-    
-
-# AOS_region  =  multimodel_rep(DOS_bounds, DOS_resolution, shower3x3, 
-#                               perspective = 'inputs')
+AIS_region  =  multimodel_rep(model, 
+                              DOS_bounds, 
+                              DOS_resolution, 
+                              perspective = 'inputs')
    
-# elapsed = time.time() - t
+OI = OI_eval(AIS_region, 
+              DIS_bounds, 
+              perspective='inputs')
+
+# %% Shower inverse mapping - multimodel representation - 2x2
+
+# Inverse mapping of the classic 2x2 shower problem. As the example above,
+# we will obtain the OI from the inputs perspective, using 'multimodel_rep' and
+# its native connectivity with 'nlp_based_approach'.
+
+# You will be asked an initial estimate at the terminal for the inverse mapping.
+
+# In this example, it is 5,5.
+from shower import shower2x2
+model =  shower2x2
+# Defining DOS bounds and resolution - this is an inverse map example.
+DOS_bounds =  np.array([[10, 20], 
+                        [70, 100]])
+
+DIS_bounds =  np.array([[0, 10],
+                        [0, 10]])
 
 
-# %% Shower problem 2x2 - Inverse using NLP + Multimodel
-# from shower import shower2x2
-# from opyrability import AIS2AOS_map
-
-# DOS_bounds =  np.array([[10, 20], 
-#                         [70, 100]])
-
-# DIS_bounds =  np.array([[0, 10],
-#                         [0, 10]])
-
-# AIS_resolution =  [3, 3]
-
-# DOS_resolution = [3, 3]
-
-# model =  shower2x2
+DOS_resolution = [3, 3]
 
 
-# # AIS, AOS = AIS2AOS_map(model, AIS_bounds, AIS_resolution)
 
+# Obtaining AIS and evaluating the OI from the inputs'
+# perspective.
+AIS_region  =  multimodel_rep(model,
+                              DOS_bounds, 
+                              DOS_resolution, 
+                              perspective='inputs')
 
-# AIS_region  =  multimodel_rep(DOS_bounds, 
-#                               DOS_resolution, 
-#                               model, 
-#                               perspective='inputs')
-
-# OI = OI_eval(AIS_region, 
-#              DIS_bounds, 
-#              perspective='inputs')
+OI = OI_eval(AIS_region, 
+              DIS_bounds, 
+              perspective='inputs')
 
