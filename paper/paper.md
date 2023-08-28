@@ -105,16 +105,15 @@ Secondly, ``opyrability`` is built on well-celebrated packages such as [numpy](h
 [glpk](https://www.gnu.org/software/glpk/) for linear programming, enabling efficient polytopic calculations when using [polytope](https://tulip-control.github.io/polytope/). Lastly, [cyipopt](https://cyipopt.readthedocs.io/en/latest/?badge=latest) allows access to IPOPT [@Wachter2006], a state-of-the-art
 nonlinear programming solver, allowing efficient inverse mapping operation within the operability framework. The inverse mapping task is further extended with full support for automatic differentiation, powered by JAX [@jax2018github]. This effort thus might further facilitate the 
 dissemination of operability concepts in the PSE field. [Figure 1](#figure1) 
-illustrates the dependency graph for opyrability.
+illustrates the dependency graph for ``opyrability``.
 
 <a id="figure1"></a>
-![Dependency graph generated with [pydeps](https://github.com/thebjorn/pydeps/) illustrating all numerical packages and visualization tools
-that allows for ``opyrability`` to exist.](./images/dependencies_opyrability.pdf)
+![Dependency graph generated with [pydeps](https://github.com/thebjorn/pydeps/) illustrating all numerical packages and visualization tools that allow for ``opyrability`` to exist.](./images/dependencies_opyrability.pdf)
 
 # Vignette
 
 As a quick example of ``opyrability's`` capabilities, the example below available
-in the [examples gallery](https://codes-group.github.io/PyPO/examples_gallery/index_example_gallery.html)
+in the [examples gallery of the proposed tool](https://codes-group.github.io/PyPO/examples_gallery/index_example_gallery.html)
 depicts the operability analysis of a continuous stirred tank reactor (CSTR), in 
 which the operability index (OI) is evaluated for a desired region of operation for the concentration of reactants A and B, respectively. It is desired to obtain intuition
 about the design and operating region of this process, in terms of the reactor
@@ -139,20 +138,14 @@ functions, namely ``multimodel_rep``, ``OI_eval`` and ``nlp_based_approach``.
 [Figure 2](#figure2) illustrates the process: 
 
 <a id="figure2"></a>
-![``Opyrability`` multimodel representation. (A) Jupyter notebook illustrating
-the use of the ``multimodel_rep`` and  ``OI_eval`` functions, as well as
-the set-up to use these. (B) Visualization of the Achievable Output Set (AOS) for 
-the CSTR example: The user is able to easily visualize the frontiers of the process.
-(C) Quantification of the Operability Index (OI), in which opyrability calculates that
-only 39.14% of the desired operation can be achieved.](./images/cstr_1.pdf)
+![``Opyrability`` multimodel representation. (A) Jupyter notebook illustrating the use of the ``multimodel_rep`` and  ``OI_eval`` functions, as well as the set-up to use these. (B) Visualization of the Achievable Output Set (AOS) for the CSTR example: The user is able to easily visualize the frontiers of the process. (C) Quantification of the Operability Index (OI), in which ``opyrability`` calculates that only 39.14% of the desired operation can be achieved.](./images/cstr_process_1.pdf)
 
+Lastly, [Figure 3](#figure3) depicts the use of ``opyrability's`` inverse mapping
+features, allowing to obtain from a desired region in the output space, the region
+in the input space that guarantees the desired operation:
 
-
-![Operability index (OI) evaluation for the CSTR example. For the ranges of temperature and
-radii chosen, the process is analyzed to obtain information about its inherent operability features.]
-
-
-
+<a id="figure3"></a>
+![``opyrability's`` inverse mapping, namely ``nlp_based_approach``, in which the input space that guarantees the desired output set region is attained can be obtained.](./images/cstr_process_2.pdf)
 
 # Availability
 
