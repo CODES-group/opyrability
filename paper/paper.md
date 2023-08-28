@@ -92,20 +92,22 @@ operations needed when performing a process operability analysis.
 analysis in a single-bundle fashion type of package. In broader terms, process operability
 gives a formal and mathematically tractable framework to systematically investigate the
 operability and achievability of industrial processes earlier in the conceptual phase. This
-eliminates the need for recurring to `ad-hoc`-type solutions to the designing and control
+eliminates the need for recurring to ***ad-hoc***-type solutions to the designing and control
 of industrial processes, which are inherently with loss of generality. The use of the process
 operability framework guarantees a solution to the operability and achievability problems that
 is generalizable to any process, as long as a mathematical model of the given application is available.
 Hence, the availability of a package such as ```opyrability``` in a popular, and freely
 available programming language such as Python, provides the process systems engineering (PSE) community a package that enables
 researchers and practitioners to focus on investigating the operability aspects of emerging and 
-existent large-scale, industrial processes with ease, and to have it in an open-source and community-driven environment. 
+existent large-scale, industrial processes with ease, and to have it in an open-source and community-driven environment.
 Secondly, ``opyrability`` is built on well-celebrated packages such as [numpy](https://numpy.org/),
 [scipy](https://numpy.org/), for linear algebra and scientific computing; [matplotlib](https://matplotlib.org/) for visualizing the operable regions in 2D/3D; [cvxopt](https://cvxopt.org/) allowing access to 
-[glpk](https://www.gnu.org/software/glpk/) for linear programming, allowing efficient polytopic calculations when using [polytope](https://tulip-control.github.io/polytope/). Lastly, [cyipopt](https://cyipopt.readthedocs.io/en/latest/?badge=latest) allows access to IPOPT [@Wachter2006], a state-of-the-art
+[glpk](https://www.gnu.org/software/glpk/) for linear programming, enabling efficient polytopic calculations when using [polytope](https://tulip-control.github.io/polytope/). Lastly, [cyipopt](https://cyipopt.readthedocs.io/en/latest/?badge=latest) allows access to IPOPT [@Wachter2006], a state-of-the-art
 nonlinear programming solver, allowing efficient inverse mapping operation within the operability framework. The inverse mapping task is further extended with full support for automatic differentiation, powered by JAX [@jax2018github]. This effort thus might further facilitate the 
-dissemination of operability concepts in the PSE field.
+dissemination of operability concepts in the PSE field. [Figure 1](#figure1) 
+illustrates the dependency graph for opyrability.
 
+<a id="figure1"></a>
 ![Dependency graph generated with [pydeps](https://github.com/thebjorn/pydeps/) illustrating all numerical packages and visualization tools
 that allows for ``opyrability`` to exist.](./images/dependencies_opyrability.pdf)
 
@@ -114,11 +116,40 @@ that allows for ``opyrability`` to exist.](./images/dependencies_opyrability.pdf
 As a quick example of ``opyrability's`` capabilities, the example below available
 in the [examples gallery](https://codes-group.github.io/PyPO/examples_gallery/index_example_gallery.html)
 depicts the operability analysis of a continuous stirred tank reactor (CSTR), in 
-which the operability index (OI) is evaluated for a desired region of operation for the concentration of reactants A and B, respectively. 
+which the operability index (OI) is evaluated for a desired region of operation for the concentration of reactants A and B, respectively. It is desired to obtain intuition
+about the design and operating region of this process, in terms of the reactor
+radius and its operating temperature. Process operability is employed to quickly
+and systematically analyze which designs and operating temperatures are able to
+attain the requirements related to the concentrations of A and B.
+
+The fundamental idea of ``opyrability`` is to be an environment for chemical engineers
+and researchers that reduces the burden of dealing with the
+transitioning among different software packages and environments to perform process
+operability calculations to a minimum, being a tool that allows the user to only
+focus on the investigation of operability properties of industrial systems. In
+addition, the knowledge about computational geometry and constrained nonlinear 
+programming can be limited to be only theoretical rather than having the users 
+implement the operability algorithms since ``opyrability`` already encapsulates all
+the necessary calculations.
+
+In the example below, the user only needs to possess (i) a fairly simple 
+Python programming knowledge, limited to be able to perform mathematical modeling
+and manipulate Numpy arrays, and (ii) be able to interact with ``opyrability's``
+functions, namely ``multimodel_rep``, ``OI_eval`` and ``nlp_based_approach``.
+[Figure 2](#figure2) illustrates the process: 
+
+<a id="figure2"></a>
+![``Opyrability`` multimodel representation. (A) Jupyter notebook illustrating
+the use of the ``multimodel_rep`` and  ``OI_eval`` functions, as well as
+the set-up to use these. (B) Visualization of the Achievable Output Set (AOS) for 
+the CSTR example: The user is able to easily visualize the frontiers of the process.
+(C) Quantification of the Operability Index (OI), in which opyrability calculates that
+only 39.14% of the desired operation can be achieved.](./images/cstr_1.pdf)
+
 
 
 ![Operability index (OI) evaluation for the CSTR example. For the ranges of temperature and
-radii chosen, the process is ]
+radii chosen, the process is analyzed to obtain information about its inherent operability features.]
 
 
 

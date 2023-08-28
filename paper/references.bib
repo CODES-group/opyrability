@@ -420,9 +420,8 @@ doi = {https://doi.org/10.1016/B978-0-444-64241-7.50390-6},
 url = {https://www.sciencedirect.com/science/article/pii/B9780444642417503906},
 author = {Vitor Gazzaneo and Juan C. Carrasco and Fernando V. Lima},
 keywords = {Operability, Process Intensification, Modular Systems, Energy Systems, Optimization},
-abstract = {A mixed-integer linear programming (MILP) operability approach is developed for the design of high-dimensional and nonlinear systems. For the approach formulation, classical operability concepts are extended to attain process intensification towards system modularity. Motivated by natural gas utilization processes, a catalytic membrane reactor for the direct methane aromatization (DMA-MR) conversion to hydrogen and benzene is chosen as case study. The DMA-MR is described by a system whose design is challenged by complexity, including nonlinearities and a highly-constrained environment. A DMA-MR subsystem is addressed, for which 80% reduction in membrane area and 78% reduction in reactor volume is obtained when compared to a base case with equivalent performance. The proposed approach presents a computational time reduction greater than 3 orders of magnitude compared with previously introduced nonlinear programming-based operability approaches. These results indicate that the proposed approach is computationally efficient and thus can be extended to address higher dimensional cases.}
 }
-}
+
 
 @article{lima10b,
 author = {Lima, Fernando V. and Jia, Zhenya and Ierapetritou, Marianthi and Georgakis, Christos},
@@ -465,7 +464,7 @@ eprint = {https://doi.org/10.1021/ie0109814}
 }
 
 
-@article{alves22,
+@article{alves23,
 author = {Alves, Victor and Kitchin, John R. and Lima, Fernando V.},
 title = {An inverse mapping approach for process systems engineering using automatic differentiation and the implicit function theorem},
 journal = {AIChE Journal},
@@ -501,4 +500,19 @@ year = {2006}
   url = {http://github.com/google/jax},
   version = {0.3.13},
   year = {2018},
+}
+
+
+@article{alves22,
+title = {A machine learning-based process operability framework using Gaussian processes},
+journal = {Computers & Chemical Engineering},
+volume = {163},
+pages = {107835},
+year = {2022},
+issn = {0098-1354},
+doi = {https://doi.org/10.1016/j.compchemeng.2022.107835},
+url = {https://www.sciencedirect.com/science/article/pii/S0098135422001739},
+author = {Victor Alves and Vitor Gazzaneo and Fernando V. Lima},
+keywords = {Process operability, Machine learning, Kriging, Gaussian process regression, Surrogate modeling},
+abstract = {The objective in this work is to develop a machine learning-based framework for process operability using surrogate responses based on Kriging (also known as Gaussian Process Regression). Currently, the available operability approaches for nonlinear systems are limited by the problem dimensionality that they can address, not being computationally tractable for high-dimensional systems. The proposed approach will use Kriging-based models to substitute the developed first-principles or process simulation-based models. The built surrogate models can generate responses that are comparable to the first-principles nonlinear models in terms of accuracy, while reducing the computational effort. To achieve this goal, a framework for the systematic analysis of highly nonlinear, large-dimensional systems at steady state is developed. The proposed approach is benchmarked against current operability methods and provides a new direction in the process operability field employing Kriging models. Two case studies associated with natural/shale gas conversion are addressed to illustrate the effectiveness of the proposed methods, namely a membrane reactor for direct methane conversion to fuels and chemicals and a natural gas combined cycle power plant. It is shown that the computational time for operability calculations is significantly decreased when using the developed approach, with reductions of up to four orders of magnitude, while the relative errors with respect to the output responses is below 0.3\% for the worst-case scenario considering all cases. This work thus contributes to machine learning formulations and algorithms for process operability to enable the improved design, operations and manufacturing of chemical and energy systems.}
 }
