@@ -104,11 +104,11 @@ Secondly, ``opyrability`` is built on well-celebrated packages such as [numpy](h
 [scipy](https://numpy.org/), for linear algebra and scientific computing; [matplotlib](https://matplotlib.org/) for visualizing the operable regions in 2D/3D; [cvxopt](https://cvxopt.org/) allowing access to 
 [glpk](https://www.gnu.org/software/glpk/) for linear programming, enabling efficient polytopic calculations when using [polytope](https://tulip-control.github.io/polytope/). Lastly, [cyipopt](https://cyipopt.readthedocs.io/en/latest/?badge=latest) allows access to IPOPT [@Wachter2006], a state-of-the-art
 nonlinear programming solver, allowing efficient inverse mapping operation within the operability framework. The inverse mapping task is further extended with full support for automatic differentiation, powered by JAX [@jax2018github]. This effort thus might further facilitate the 
-dissemination of operability concepts in the PSE field. [Figure 1](#figure1) 
+dissemination of operability concepts in the PSE field. \autoref{fig:fig1}
 illustrates the dependency graph for ``opyrability``.
 
-<a id="figure1"></a>
-![Dependency graph generated with [pydeps](https://github.com/thebjorn/pydeps/) illustrating all numerical packages and visualization tools that allow for ``opyrability`` to exist.](./images/dependencies_opyrability.pdf)
+
+![Dependency graph generated with [pydeps](https://github.com/thebjorn/pydeps/) illustrating all numerical packages and visualization tools that allow for ``opyrability`` to exist.\label{fig:fig1}](./images/dependencies_opyrability.pdf)
 
 # Vignette
 
@@ -135,17 +135,16 @@ In the example below, the user only needs to possess (i) a fairly simple
 Python programming knowledge, limited to be able to perform mathematical modeling
 and manipulate Numpy arrays, and (ii) be able to interact with ``opyrability's``
 functions, namely ``multimodel_rep``, ``OI_eval`` and ``nlp_based_approach``.
-[Figure 2](#figure2) illustrates the process: 
+\autoref{fig:cstr1} illustrates the process: 
 
-<a id="figure2"></a>
-![``Opyrability`` multimodel representation. (A) Jupyter notebook illustrating the use of the ``multimodel_rep`` and  ``OI_eval`` functions, as well as the set-up to use these. (B) Visualization of the Achievable Output Set (AOS) for the CSTR example: The user is able to easily visualize the frontiers of the process. (C) Quantification of the Operability Index (OI), in which ``opyrability`` calculates that only 39.14% of the desired operation can be achieved.](./images/cstr_process_1.pdf)
 
-Lastly, [Figure 3](#figure3) depicts the use of ``opyrability's`` inverse mapping
+![``Opyrability`` multimodel representation. (A) Chemical reactor schematic. (B) Jupyter notebook illustrating the use of the ``multimodel_rep`` and  ``OI_eval`` functions, as well as the set-up to use these. (C) Visualization of the Achievable Output Set (AOS) for the CSTR example: The user is able to easily visualize the frontiers of the process. (D) Quantification of the Operability Index (OI), in which ``opyrability`` calculates that only 39.14% of the desired operation can be achieved.\label{fig:cstr1}](./images/cstr_process_1.pdf)
+
+Lastly, \autoref{fig:cstr2} depicts the use of ``opyrability's`` inverse mapping
 features, allowing to obtain from a desired region in the output space, the region
 in the input space that guarantees the desired operation:
 
-<a id="figure3"></a>
-![``opyrability's`` inverse mapping, namely ``nlp_based_approach``, in which the input space that guarantees the desired output set region is attained can be obtained.](./images/cstr_process_2.pdf)
+![``opyrability's`` inverse mapping, namely ``nlp_based_approach``, in which the input space that guarantees the desired output set region is attained can be obtained.\label{fig:cstr2}](./images/cstr_process_2.pdf)
 
 # Availability
 
