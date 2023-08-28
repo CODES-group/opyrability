@@ -108,7 +108,7 @@ dissemination of operability concepts in the PSE field. \autoref{fig:fig1}
 illustrates the dependency graph for ``opyrability``.
 
 
-![Dependency graph generated with [pydeps](https://github.com/thebjorn/pydeps/) illustrating all numerical packages and visualization tools that allow for ``opyrability`` to exist.\label{fig:fig1}](./images/dependencies_opyrability.pdf)
+![Dependency graph generated with [pydeps](https://github.com/thebjorn/pydeps/) illustrating all numerical packages and visualization tools that allow for ``opyrability`` to exist.\label{fig:fig1}](./images/dependencies_opyrability2.pdf)
 
 # Vignette
 
