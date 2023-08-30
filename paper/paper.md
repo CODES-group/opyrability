@@ -79,7 +79,7 @@ process operability is formalized as **a systematic framework to simultaneously 
 
 To achieve the systematic assessment design and control objectives simultaneously, 
 process operability is based on the definition of **operability sets**. These are spaces in the cartesian system that are defined with respect to the available inputs of a given process, their respective achievable outputs, the desired regions of operation in the input and output spaces and lastly, any expected disturbances that may be present. The thorough definitions of these spaces are
-readily available in the literature [@gazzaneo20], as well as in our [documentation](https://codes-group.github.io/PyPO/operability_overview.html).
+readily available in the literature [@gazzaneo20], as well as in our [documentation](https://codes-group.github.io/opyrability/operability_overview.html).
 
 Therefore, ``opyrability`` is a Python package for process operability calculations, with its
 API designed to provide a user-friendly interface to enable users to perform process operability analysis effortlessly, reducing the complexity of dealing with the programming aspects of nonlinear programming [@carrasco16] and computational geometry [@gazzaneo19], typical
