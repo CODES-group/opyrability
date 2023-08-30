@@ -6,7 +6,7 @@ From PyPI:
 pip install opyrability
 ```
 
-Then install [Cyipopt](https://github.com/mechmotum/cyipopt) from conda (non-automated dependency on PyPI):
+Then install [Cyipopt](https://github.com/mechmotum/cyipopt) from **conda** (non-automated dependency on PyPI):
 
 ```console
 conda install -c conda-forge cyipopt
