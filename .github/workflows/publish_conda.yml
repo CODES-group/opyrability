@@ -1,4 +1,4 @@
-name: publish_to_conda
+name: publish_to_conda_test
 
 on:
   release:
