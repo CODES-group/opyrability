@@ -29,7 +29,7 @@ requirements:
     - cyipopt >=1.2.0
     - pip
     - pip:
-      - polytope >=0.2.4
+      - polytope==0.2.4
     
 
 test:
