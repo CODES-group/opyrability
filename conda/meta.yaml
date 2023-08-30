@@ -1,9 +1,13 @@
+{% set name = "opyrability" %}
+{% set version = "1.2.1" %}
+
 package:
-  name: opyrability
-  version: 1.2.1
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  git_url: https://github.com/CODES-group/opyrability.git
+  url: https://github.com/CODES-group/opyrability/archive/{{ version }}.tar.gz
+  sha256: ecf25c8791d65af554995bff4cc1cf3eb8f28317cdc0e1d3d5ce7b204d3f71a9
 
 build:
   noarch: python
@@ -20,20 +24,19 @@ requirements:
     - pip
   run:
     - python >=3.9.0,<4.0.0
+    - pip
+    - pip:
+        - polytope >=0.2.4,<0.3.0
     - numpy >=1.24.1,<2.0.0
     - scipy >=1.10.0,<2.0.0
     - tqdm >=4.64.1,<5.0.0
     - matplotlib-base >=3.6.2,<4.0.0
     - jax >=0.4.13,<0.5.0
     - cvxopt >=1.2.7,<2.0.0
-    - cyipopt >=1.2.0
-    - pip
-    - pip:
-      - polytope==0.2.4
-    
 
 test:
   imports:
+    - PolyhedraVolAprox
     - opyrability
   commands:
     - pip check
@@ -41,10 +44,9 @@ test:
     - pip
 
 about:
-  summary: Process operability analysis in Python
+  home: None
   license: MIT
-  license_url: https://github.com/CODES-group/opyrability/blob/main/LICENSE
-  doc_url: https://codes-group.github.io/opyrability/intro.html
+  license_file: LICENSE
 
 extra:
   recipe-maintainers:
