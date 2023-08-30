@@ -1,6 +1,6 @@
 package:
   name: opyrability
-  version: 1.2
+  version: 1.2.1
 
 source:
   git_url: https://github.com/CODES-group/opyrability.git
