@@ -18,14 +18,10 @@ From PyPI:
 pip install opyrability
 ```
 
-Then install [Cyipopt](https://github.com/mechmotum/cyipopt) (non-automated dependency) and [Polytope's latest version hosted on GitHub](https://github.com/tulip-control/polytope):
+Then install [Cyipopt](https://github.com/mechmotum/cyipopt) (non-automated dependency):
 
 ```console
 conda install -c conda-forge cyipopt
-```
-
-```
-pip install git+https://github.com/tulip-control/polytope.git@main
 ```
 
 Conda packaging coming soon.
