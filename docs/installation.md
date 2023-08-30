@@ -1,13 +1,5 @@
 ## Installation
 
-From Conda (recommended):
-
-```console
-conda install -c codes-group opyrability
-```
-
-This installs opyrability and all necessary dependencies automatically.
-
 From PyPI:
 
 ```console
