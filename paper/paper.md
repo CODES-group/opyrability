@@ -37,8 +37,8 @@ bibliography: references.bib
 
 # Summary
 
-When designing a chemical process/plant, two main tasks
-naturally arise, when considering the processing of 
+When designing a chemical process/plant two main tasks
+naturally arise when considering the processing of 
 raw materials into value-added products such as chemicals
 or energy:
 
@@ -92,7 +92,7 @@ operations needed when performing a process operability analysis.
 analysis in a single-bundle fashion type of package. In broader terms, process operability
 gives a formal and mathematically tractable framework to systematically investigate the
 operability and achievability of industrial processes earlier in the conceptual phase. This
-eliminates the need for recurring to ***ad-hoc***-type solutions to the designing and control
+eliminates the need for resorting to ***ad-hoc***-type solutions to the designing and control
 of industrial processes, which are inherently with loss of generality. The use of the process
 operability framework guarantees a solution to the operability and achievability problems that
 is generalizable to any process, as long as a mathematical model of the given application is available.
@@ -100,7 +100,7 @@ Hence, the availability of a package such as ```opyrability``` in a popular, and
 available programming language such as Python, provides the process systems engineering (PSE) community a package that enables
 researchers and practitioners to focus on investigating the operability aspects of emerging and 
 existent large-scale, industrial processes with ease, and to have it in an open-source and community-driven environment.
-Secondly, ``opyrability`` is built on well-celebrated packages such as [numpy](https://numpy.org/),
+Secondly, ``opyrability`` is built on well-known and developed packages such as [numpy](https://numpy.org/),
 [scipy](https://numpy.org/), for linear algebra and scientific computing; [matplotlib](https://matplotlib.org/) for visualizing the operable regions in 2D/3D; [cvxopt](https://cvxopt.org/) allowing access to 
 [glpk](https://www.gnu.org/software/glpk/) for linear programming, enabling efficient polytopic calculations when using [polytope](https://tulip-control.github.io/polytope/). Lastly, [cyipopt](https://cyipopt.readthedocs.io/en/latest/?badge=latest) allows access to IPOPT [@Wachter2006], a state-of-the-art
 nonlinear programming solver, allowing efficient inverse mapping operation within the operability framework. The inverse mapping task is further extended with full support for automatic differentiation, powered by JAX [@jax2018github]. This effort thus might further facilitate the 
@@ -113,7 +113,7 @@ illustrates the dependency graph for ``opyrability``.
 # Vignette
 
 As a quick example of ``opyrability's`` capabilities, the example below available
-in the [examples gallery of the proposed tool](https://codes-group.github.io/PyPO/examples_gallery/index_example_gallery.html)
+in the [examples gallery of the proposed tool](https://codes-group.github.io/opyrability/examples_gallery/index_example_gallery.html)
 depicts the operability analysis of a continuous stirred tank reactor (CSTR), in 
 which the operability index (OI) is evaluated for a desired region of operation for the concentration of reactants A and B, respectively. It is desired to obtain intuition
 about the design and operating region of this process, in terms of the reactor
@@ -148,10 +148,10 @@ in the input space that guarantees the desired operation:
 
 # Availability
 
-``opyrability`` is freely available in both [PyPI](https://pypi.org/) and [conda-forge](https://conda-forge.org/) stores, as well as 
-having its source code hosted on [GitHub](https://github.com/CODES-group/PyPO). In addition, its documentation contains
-not only a thorough [description of the API](https://codes-group.github.io/PyPO/api.html) but also a [theoretical background discussion](https://codes-group.github.io/PyPO/operability_overview.html)
-on process operability concepts, an [examples gallery](https://codes-group.github.io/PyPO/examples_gallery/index_example_gallery.html) with live code capabilities, and [instructions](https://codes-group.github.io/PyPO/process_model.html) on how to set up a process model
+``opyrability`` is freely available in both [PyPI](https://pypi.org/project/opyrability/) and [conda](https://conda.org/) stores, as well as 
+having its source code hosted on [GitHub](https://github.com/CODES-group/opyrability). In addition, its documentation contains
+not only a thorough [description of the API](https://codes-group.github.io/opyrability/api.html) but also a [theoretical background discussion](https://codes-group.github.io/opyrability/operability_overview.html)
+on process operability concepts, an [examples gallery](https://codes-group.github.io/opyrability/examples_gallery/index_example_gallery.html), and [instructions](https://codes-group.github.io/opyrability/process_model.html) on how to set up a process model
 following ``opyrability`` design principles. The idea is not only to supply proper documentation to
 the users in the PSE community but also to give the users the necessary amount of theory allowing them
 to use process operability principles in their specific application.
