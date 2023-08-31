@@ -1,4 +1,4 @@
-name: publish_to_conda_test
+name: publish to conda
 
 on:
   release:
@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: publish-to-conda
-      uses: fcakyon/conda-publish-action@v1.3
+      uses: siboles/conda-publish-action@v1
       with:
         subdir: 'conda'
         anacondatoken: ${{ secrets.ANACONDA_SECRET }}
