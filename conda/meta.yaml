@@ -1,4 +1,4 @@
-{% set version = "1.4.0" %}
+{% set version = "1.4.1" %}
 
 package:
   name: opyrability
@@ -9,7 +9,7 @@ source:
   git_rev: {{ version }}
 
 build:
-  script: {{ PYTHON}} -m pip install . -vv
+  script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   host:
