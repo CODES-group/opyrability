@@ -16,5 +16,5 @@ jobs:
       uses: siboles/conda-publish-action@v1
       with:
         subdir: 'conda'
-        anacondatoken: ${{ secrets.ANACONDA_SECRET }}
+        anacondatoken: ${{ secrets.ANACONDA_TOKEN }}
         platforms: 'win osx linux'

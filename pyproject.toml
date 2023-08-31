@@ -6,7 +6,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "opyrability"
-version = "1.3.5"
+version = "1.3.6"
 description = "Process operability analysis in Python"
 authors = ["Victor Alves"]
 license = "MIT License"
