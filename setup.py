@@ -7,17 +7,17 @@ package_dir = \
 modules = \
 ['opyrability', 'PolyhedraVolAprox']
 install_requires = \
-['cvxopt>=1.2.7,<2.0.0',
+['cvxopt',
  'jax[cpu]>=0.4.13,<0.5.0',
- 'matplotlib>=3.6.2,<4.0.0',
- 'numpy>=1.24.1,<2.0.0',
+ 'matplotlib',
+ 'numpy',
  'polytope>=0.2.4,<0.3.0',
- 'scipy>=1.10.0,<2.0.0',
- 'tqdm>=4.64.1,<5.0.0']
+ 'scipy',
+ 'tqdm']
 
 setup_kwargs = {
     'name': 'opyrability',
-    'version': '1.3.2',
+    'version': '1.3.3',
     'description': 'Process operability analysis in Python',
     'author': 'Victor Alves',
     'author_email': 'None',
