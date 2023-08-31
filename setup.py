@@ -27,7 +27,7 @@ setup_kwargs = {
     'package_dir': package_dir,
     'py_modules': modules,
     'install_requires': install_requires,
-    'python_requires': '>=3.9.0,<4.0.0',
+    'python_requires': '>=3.9',
 }
 
 
