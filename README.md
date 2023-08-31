@@ -12,19 +12,26 @@ Authors:
 
 ## Installation
 
+From conda (recommended):
+
+```console
+conda install -c codes-group opyrability
+```
+
+This will install opyrability and all requirements/dependencies automatically.
+
 From PyPI:
 
 ```console
 pip install opyrability
 ```
 
-Then install [Cyipopt](https://github.com/mechmotum/cyipopt) (non-automated dependency):
+Then install [Cyipopt](https://github.com/mechmotum/cyipopt) from **conda** (non-automated dependency on PyPI):
 
 ```console
 conda install -c conda-forge cyipopt
 ```
 
-Conda packaging coming soon.
 
 ## Documentation and Process Operability Principles
 
