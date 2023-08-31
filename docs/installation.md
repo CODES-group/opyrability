@@ -1,6 +1,15 @@
 ## Installation
 
-From PyPI:
+
+### From conda (recommended):
+
+```console
+conda install -c codes-group opyrability
+```
+
+This will install opyrability and all requirements/dependencies automatically.
+
+#### From PyPI:
 
 ```console
 pip install opyrability
@@ -14,7 +23,7 @@ conda install -c conda-forge cyipopt
 
 ## Dependencies
 
-opyrability is allowed to exist thanks to the following libraries that are dependencies:
+Opyrability is allowed to exist thanks to the following libraries that are dependencies:
 
 - [Numpy](https://numpy.org/) - Linear Algebra.
 - [Scipy](https://scipy.org/) - Scientific computing in Python.

@@ -14,5 +14,4 @@ dependencies:
   - cvxopt>=1.2.7
   - cyipopt>=1.2.0
   - opyrability >= 1.1
-  - pip:
-    - polytope >=0.2.4
+  - polytope >=0.2.4
