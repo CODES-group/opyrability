@@ -1,8 +1,8 @@
-{% set version = "1.3.3" %}
 {% set data = load_setup_py_data() %}
+
 package:
   name: opyrability
-  version: {{ version }}
+  version: {{ data['version'] }}
 
 source:
   path: ..
@@ -39,6 +39,6 @@ test:
 
 
 about:
-  home: {{ data['url'] }}
-  license: {{ data['license'] }}
+  home: https://github.com/CODES-group/opyrability
+  license: MIT
 
