@@ -12,27 +12,20 @@ build:
   script: {{ PYTHON}} -m pip install . -vv
 
 requirements:
-  build:
-    - python>=3.9
   host:
-    - python>=3.9
-    - setuptools
-    - poetry-core
-    - wheel
-    - setuptools-scm
-    - pip
+    - python=3.9
     - cython
   run:
     - python>=3.9
     - cython
-    - polytope >=0.2.4,<0.3.0
     - numpy 
     - scipy
+    - cvxopt
     - tqdm
-    - matplotlib-base
+    - matplotlib
+    - polytope >=0.2.4,<0.3.0
     - jaxlib >=0.4.13,<0.5.0
     - jax >=0.4.13,<0.5.0
-    - cvxopt
     - cyipopt >=1.2.0, <2.0.0
 
 test:
