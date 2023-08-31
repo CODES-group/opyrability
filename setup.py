@@ -17,7 +17,7 @@ install_requires = \
 
 setup_kwargs = {
     'name': 'opyrability',
-    'version': '1.4.1',
+    'version': '1.4.2',
     'description': 'Process operability analysis in Python',
     'author': 'Victor Alves',
     'author_email': 'None',
@@ -27,7 +27,7 @@ setup_kwargs = {
     'package_dir': package_dir,
     'py_modules': modules,
     'install_requires': install_requires,
-    'python_requires': '>=3.9',
+    'python_requires': '>=3.9.0,<4.0.0',
 }
 
 
