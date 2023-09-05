@@ -4,7 +4,7 @@ import warnings
 from itertools import permutations as perms
 import string
 from typing import Callable,Union
-from tqdm import tqdm
+from tqdm.auto import tqdm
 
 # Linear Algebra
 import numpy as np
