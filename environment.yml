@@ -2,7 +2,6 @@ name: opyrability-env
 channels:
   - defaults
   - conda-forge
-  - codes-group
 dependencies:
   - python>=3.9.0
   - setuptools>=61.2.0

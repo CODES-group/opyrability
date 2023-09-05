@@ -1,24 +1,28 @@
 ## Installation
 
+The Anaconda distribution is needed to have some of opyrability's dependencies.
 
-### From conda (recommended):
 
-```console
-conda install -c codes-group opyrability
-```
+#### From PyPI/conda (Windows, Linux and macOS):
 
-This will install opyrability and all requirements/dependencies automatically.
-
-#### From PyPI:
+The following commands will install opyrability and all dependencies on any OS (Windows, Linux and macOS):
 
 ```console
 pip install opyrability
 ```
 
-Then install [Cyipopt](https://github.com/mechmotum/cyipopt) from **conda** (non-automated dependency on PyPI):
+Then install [Cyipopt](https://github.com/mechmotum/cyipopt) from **conda**:
 
 ```console
 conda install -c conda-forge cyipopt
+```
+
+### From conda (Linux and macOS only):
+
+The single command below will install opyrability and all requirements/dependencies on Linux/macOS  operating systems automatically:
+
+```console
+conda install -c codes-group opyrability
 ```
 
 ## Dependencies

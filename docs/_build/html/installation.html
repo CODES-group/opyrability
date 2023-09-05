@@ -65,7 +65,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Process Operability Overview" href="operability_overview.html" />
-    <link rel="prev" title="Opyrability Documentation - v1.3.1" href="intro.html" />
+    <link rel="prev" title="Opyrability Documentation - v1.4.3" href="intro.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -152,7 +152,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Opyrability Documentation - v1.3.1
+                    Opyrability Documentation - v1.4.3
                 </a>
             </li>
         </ul>
@@ -161,7 +161,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l1"><a class="reference internal" href="operability_overview.html">Process Operability Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Process Operability Algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="process_model.html">The Process Model (M) - Programming Aspects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
@@ -359,10 +362,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Installation</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-conda-recommended">From conda (recommended):</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-pypi">From PyPI:</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-pypi-conda-windows-linux-and-macos">From PyPI/conda (Windows, Linux and macOS):</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-conda-linux-and-macos-only">From conda (Linux and macOS only):</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
@@ -380,22 +381,24 @@ document.write(`
                   
   <section id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h1>
-<section id="from-conda-recommended">
-<h2>From conda (recommended):<a class="headerlink" href="#from-conda-recommended" title="Permalink to this heading">#</a></h2>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda install -c codes-group opyrability</span>
-</pre></div>
-</div>
-<p>This will install opyrability and all requirements/dependencies automatically.</p>
-<section id="from-pypi">
-<h3>From PyPI:<a class="headerlink" href="#from-pypi" title="Permalink to this heading">#</a></h3>
+<p>The Anaconda distribution is needed to have some of opyrability’s dependencies.</p>
+<section id="from-pypi-conda-windows-linux-and-macos">
+<h2>From PyPI/conda (Windows, Linux and macOS):<a class="headerlink" href="#from-pypi-conda-windows-linux-and-macos" title="Permalink to this heading">#</a></h2>
+<p>The following commands will install opyrability and all dependencies on any OS (Windows, Linux and macOS):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip install opyrability</span>
 </pre></div>
 </div>
-<p>Then install <a class="reference external" href="https://github.com/mechmotum/cyipopt">Cyipopt</a> from <strong>conda</strong> (non-automated dependency on PyPI):</p>
+<p>Then install <a class="reference external" href="https://github.com/mechmotum/cyipopt">Cyipopt</a> from <strong>conda</strong>:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda install -c conda-forge cyipopt</span>
 </pre></div>
 </div>
 </section>
+<section id="from-conda-linux-and-macos-only">
+<h2>From conda (Linux and macOS only):<a class="headerlink" href="#from-conda-linux-and-macos-only" title="Permalink to this heading">#</a></h2>
+<p>The single command below will install opyrability and all requirements/dependencies on Linux/macOS  operating systems automatically:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda install -c codes-group opyrability</span>
+</pre></div>
+</div>
 </section>
 </section>
 <section id="dependencies">
@@ -450,7 +453,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Opyrability Documentation - v1.3.1</p>
+        <p class="prev-next-title">Opyrability Documentation - v1.4.3</p>
       </div>
     </a>
     <a class="right-next"
@@ -481,10 +484,8 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Installation</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-conda-recommended">From conda (recommended):</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-pypi">From PyPI:</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-pypi-conda-windows-linux-and-macos">From PyPI/conda (Windows, Linux and macOS):</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-conda-linux-and-macos-only">From conda (Linux and macOS only):</a></li>
 </ul>
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
