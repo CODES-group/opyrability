@@ -9,12 +9,15 @@ opyrability is developed by the Control, Optimization and Design for Energy and 
 Authors:
 [Victor Alves](https://github.com/victoraalves) and [San Dinh](https://github.com/sanqdinh)
 
+## Documentation and Process Operability Principles
+
+Full documentation and discussion regarding process operability principles are available in [opyrability's online portal.](https://codes-group.github.io/opyrability/)
 
 ## Installation
 
 The Anaconda distribution is needed to have some of opyrability's dependencies.
 
-#### From PyPI/conda (Windows, Linux and macOS):
+### From PyPI/conda (Windows, Linux and macOS):
 
 The following commands will install opyrability and all dependencies on any OS (Windows, Linux and macOS):
 
@@ -35,11 +38,5 @@ The single command below will install opyrability and all requirements/dependenc
 ```console
 conda install -c codes-group opyrability
 ```
-
-
-## Documentation and Process Operability Principles
-
-Full documentation and discussion regarding process operability principles are available in [opyrability's online portal.](https://codes-group.github.io/opyrability/)
-
 
 
