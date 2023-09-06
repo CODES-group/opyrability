@@ -1808,7 +1808,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     if derivative == 'jax':
         from jax.config import config
         config.update("jax_enable_x64", True)
-        import jax.numpy as np
+        import jax.numpy as jnp
         from jax import jit, jacrev
         from jax.experimental.ode import odeint as odeint
         dFdi = jacrev(F, 0)
@@ -1823,14 +1823,14 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     if jit:
         @jit
         def dodi(ii,oo):
-            return -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
+            return -jnp.linalg.pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
         
         @jit
         def dods(oo, s, s_length, i0, iplus):
             return dodi(i0 + (s/s_length)*(iplus - i0), oo) \
                 @((iplus - i0)/s_length)
     else:
-        def dodi(ii, oo): return -pinv(dFdo(ii, oo)) @ dFdi(ii, oo)
+        def dodi(ii, oo): return -jnp.linalg.pinv(dFdo(ii, oo)) @ dFdi(ii, oo)
         def dods(oo, s, s_length, i0, iplus): return dodi(
             i0 + (s/s_length)*(iplus - i0), oo)@((iplus - i0)/s_length)
 
