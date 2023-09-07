@@ -36,7 +36,7 @@ conda install -c conda-forge cyipopt
 The single command below will install opyrability and all requirements/dependencies on Linux/macOS  operating systems automatically:
 
 ```console
-conda install -c codes-group opyrability
+conda install -c codes-group -c conda-forge opyrability
 ```
 
 
