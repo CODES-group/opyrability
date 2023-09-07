@@ -6,7 +6,7 @@ tags:
   - Process operability
   - Process design and control
   - Computational geometry
-  - nonlinear optimization
+  - Nonlinear optimization
 authors:
   - name: Victor Alves
     affiliation: 1
@@ -31,7 +31,7 @@ affiliations:
  - name: Air Products and Chemicals Inc., Allentown, Pennsylvania, USA
    index: 4
 
-date: 15 August 2023
+date: 07 September 2023
 bibliography: references.bib
 ---
 
@@ -45,40 +45,37 @@ or energy:
 1.	**Process design**: Which decisions should be
 	made with respect to the design variables of a given process,
 	in a way that its overall objectives are
-	achieved (economic profitability, constraints related to
-	product purity/pollutant emissions, etc.)?
+	achieved? (e.g., economic profitability, constraints related to
+	product purity/pollutant emissions).
 
 2.	**Control objectives**: Which variables
 	should be controlled, yielding the maximum operability of this process?
 	That is, can the process "reach" its maximum operational capacity, given the 
 	ranges of the manipulated/input variables?
 
-Historically, tasks 1 and 2 were performed in a sequential manner:
-Firstly, an engineer/practitioner would come up with the design decisions, 
-and only then the control objectives are assessed. Unfortunately, this can 
+Historically, tasks 1 and 2 were performed sequentially: Engineers/practitioners would come up with the design decisions, 
+and only then the control objectives were assessed. Unfortunately, this can 
 yield a process that is designed in a way that its operability capabilities
 are hindered. In other words, because the control objectives were
 not considered early in the design phase, the process itself might be not
-controlled or operable at all. To give you perspective on how challenging this
-problem is, there are reports dating back to the 40's from Ziegler and Nichols 
-[@ziegler1943process]
-(The same ones from the controller tuning laws) stressing this problem,
-mentioning the importance of interconnecting design and control.
+controlled or operable at all. To give some perspective on how challenging this
+problem can be, there are reports dating back to the 40's from well-known authors in the process control field such as Ziegler and Nichols 
+[@ziegler1943process] mentioning the importance of interconnecting design and control.
 
-With this in mind, the need of quantifying achievability of a general nonlinear
+Considering the aforementioned context, the need of quantifying achievability of a general nonlinear
 process naturally arises. The question: "Can one quantify achievability
 of process design and control objectives simultaneously?" was the underlying motivation
 for Prof. Christos Georgakis and his collaborators 
 [@georgakis00;@vinson00;@siva05;@lima10]
-to formally define **process operability**
-and define a metric called the **operability index (OI) **. The OI, an inherent nonlinear
+to formally define *process operability*
+and define a metric called the *operability index (OI)*. The OI, an inherent nonlinear
 measure [@vinson00] that is independent of the control strategy and inventory control layer [@vinson02],
 allows for efficient ranking of competing designs and/or control structures [@lima10b] and allows
 for the systematic assessment of operability characteristics under disturbances. Hence,
-process operability is formalized as **a systematic framework to simultaneously assess design and control objectives early in the conceptual phase of industrial, typically large-scale, and nonlinear chemical processes.**
+process operability is formalized as a systematic framework to simultaneously assess design and control objectives early in the conceptual phase of industrial, typically large-scale, and nonlinear chemical processes.
 
 To achieve the systematic assessment design and control objectives simultaneously, 
-process operability is based on the definition of **operability sets**. These are spaces in the cartesian system that are defined with respect to the available inputs of a given process, their respective achievable outputs, the desired regions of operation in the input and output spaces and lastly, any expected disturbances that may be present. The thorough definitions of these spaces are
+process operability is based on the definition of *operability sets*. These are spaces in the cartesian system that are defined with respect to the available inputs of a given process, their respective achievable outputs, the desired regions of operation in the input and output spaces and lastly, any expected disturbances that may be present. The thorough definitions of these spaces are
 readily available in the literature [@gazzaneo20], as well as in our [documentation](https://codes-group.github.io/opyrability/operability_overview.html).
 
 Therefore, ``opyrability`` is a Python package for process operability calculations, with its
@@ -92,7 +89,7 @@ operations needed when performing a process operability analysis.
 analysis in a single-bundle fashion type of package. In broader terms, process operability
 gives a formal and mathematically tractable framework to systematically investigate the
 operability and achievability of industrial processes earlier in the conceptual phase. This
-eliminates the need for resorting to ***ad-hoc***-type solutions to the designing and control
+eliminates the need for resorting to *ad-hoc*-type solutions to the designing and control
 of industrial processes, which are inherently with loss of generality. The use of the process
 operability framework guarantees a solution to the operability and achievability problems that
 is generalizable to any process, as long as a mathematical model of the given application is available.
@@ -138,7 +135,7 @@ functions, namely ``multimodel_rep``, ``OI_eval`` and ``nlp_based_approach``.
 \autoref{fig:cstr1} illustrates the process: 
 
 
-![``Opyrability`` multimodel representation. (A) Chemical reactor schematic. (B) Jupyter notebook illustrating the use of the ``multimodel_rep`` and  ``OI_eval`` functions, as well as the set-up to use these. (C) Visualization of the Achievable Output Set (AOS) for the CSTR example: The user is able to easily visualize the frontiers of the process. (D) Quantification of the Operability Index (OI), in which ``opyrability`` calculates that only 39.14% of the desired operation can be achieved.\label{fig:cstr1}](./images/cstr_process_1.pdf)
+![``Opyrability`` multimodel representation. (A) Chemical reactor schematic. (B) Jupyter notebook illustrating the use of the ``multimodel_rep`` and  ``OI_eval`` functions, as well as the set-up to use these. (C) Visualization of the Achievable Output Set (AOS) for the CSTR example: The user is able to easily visualize the operable boundaries of the process studied. (D) Quantification of the Operability Index (OI), in which ``opyrability`` calculates that only 39.14% of the desired operation can be achieved.\label{fig:cstr1}](./images/cstr_process_1.pdf)
 
 Lastly, \autoref{fig:cstr2} depicts the use of ``opyrability's`` inverse mapping
 features, allowing to obtain from a desired region in the output space, the region
@@ -148,13 +145,12 @@ in the input space that guarantees the desired operation:
 
 # Availability
 
-``opyrability`` is freely available in both [PyPI](https://pypi.org/project/opyrability/) and [conda](https://conda.org/) stores, as well as 
+``opyrability`` is freely available in both [PyPI](https://pypi.org/project/opyrability/) and [conda](https://anaconda.org/codes-group/opyrability) stores, as well as 
 having its source code hosted on [GitHub](https://github.com/CODES-group/opyrability). In addition, its documentation contains
 not only a thorough [description of the API](https://codes-group.github.io/opyrability/api.html) but also a [theoretical background discussion](https://codes-group.github.io/opyrability/operability_overview.html)
 on process operability concepts, an [examples gallery](https://codes-group.github.io/opyrability/examples_gallery/index_example_gallery.html), and [instructions](https://codes-group.github.io/opyrability/process_model.html) on how to set up a process model
-following ``opyrability`` design principles. The idea is not only to supply proper documentation to
-the users in the PSE community but also to give the users the necessary amount of theory allowing them
-to use process operability principles in their specific application.
+following ``opyrability`` design principles. The idea is to supply both proper documentation to
+the users in the PSE community as well as to give the users the necessary amount of theory allowing them to use process operability principles in their specific application.
  
 # Acknowledgements
 
