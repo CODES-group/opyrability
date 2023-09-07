@@ -415,7 +415,7 @@ def FF1_implicit(u,y):
     return jnp.array([LHS0, LHS1])
 
 
-import matplotlib.pyplot as plt
+
 from matplotlib.patches import Polygon
 
 def makeplot(AOS_poly):
@@ -430,29 +430,29 @@ def makeplot(AOS_poly):
     ax.autoscale_view()
 
 #%% Test DMA-MR inverse
-# DOS_bound = np.array([[22.4, 22.8],
-#                     [39.4, 40.0]])
+DOS_bound = np.array([[22.4, 22.8],
+                    [39.4, 40.0]])
 
-# DOSresolution = [10, 10]
+DOSresolution = [10, 10]
 
-# output_init = np.array([20.0, 0.9])
+output_init = np.array([20.0, 0.9])
 
-# DOS, DIS, DOS_poly, DIS_poly = implicit_map(F_DMA_MR_eqn, 
-#                                             DOS_bound, 
-#                                             DOSresolution, 
-#                                             output_init, 
-#                                             direction = 'inverse')
+DOS, DIS, DOS_poly, DIS_poly = imap(F_DMA_MR_eqn,
+                                    DOS_bound,
+                                    DOSresolution,
+                                    output_init,
+                                    direction='inverse')
 
 # %% Test shower forward
-# AIS_bound = np.array([[0.1, 10.0],
-#                     [0.1, 10.0]])
+AIS_bound = np.array([[0.1, 10.0],
+                    [0.1, 10.0]])
 
-# # AIS_bound =  np.array([[5.0, 10.0],
-# #                       [80.0, 100.0]])
+# AIS_bound =  np.array([[5.0, 10.0],
+#                       [80.0, 100.0]])
 
-# AISresolution = [5, 5]
+AISresolution = [5, 5]
 
-# output_init = np.array([0.0, 10.0])
+output_init = np.array([0.0, 10.0])
 
 # t1 = time.time()
 # # AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
@@ -480,30 +480,30 @@ def makeplot(AOS_poly):
 # ax4.scatter(AOS_infeas_plot[:,0], AOS_infeas_plot[:,1])
 
 
-# %% DMA-MR inverse
+# %% DMA-MR inverse (Broken)
 
-DOS_bound = np.array([[15.0, 25.0],
-                    [35.0, 45.0]])
+# DOS_bound = np.array([[15.0, 25.0],
+#                     [35.0, 45.0]])
 
 
-DOS_bound = np.array([[22.4, 23],
-                    [39.4, 42.0]])
+# DOS_bound = np.array([[22.4, 23],
+#                     [39.4, 42.0]])
 
-DOSresolution = [5, 5]
+# DOSresolution = [5, 5]
 
-output_init = np.array([50.0, 2.0])
+# output_init = np.array([50.0, 2.0])
 
-t2 = time.time()
-AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
-                                            DOS_bound, 
-                                            DOSresolution, 
-                                            output_init,
-                                            continuation='Explicit RK4',
-                                            direction='inverse')
+# t2 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
+#                                             DOS_bound, 
+#                                             DOSresolution, 
+#                                             output_init,
+#                                             continuation='Explicit RK4',
+#                                             direction='inverse')
 
-elapsed_RK4 = time.time() -  t2
+# elapsed_RK4 = time.time() -  t2
 
-makeplot(AOS_poly)
+# makeplot(AOS_poly)
 
 # %%
 # elapsed_odeint = time.time() -  t1
@@ -513,7 +513,7 @@ makeplot(AOS_poly)
 
 
 # t2 = time.time()
-# AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
+# AIS, AOS, AIS_poly, AOS_poly = imap(shower_implicit, 
 #                                             AIS_bound, 
 #                                             AISresolution, 
 #                                             output_init,
@@ -526,28 +526,33 @@ makeplot(AOS_poly)
 
 
 # # %%
-# # DOS_bound = np.array([[22.4, 23],
-# #                     [39.4, 42.0]])
+# DOS_bound = np.array([[22.4, 23],
+#                     [39.4, 42.0]])
 
 # DOS_bound = np.array([[22.0, 25.0],
 #                     [39.5, 45.0]])
 
-# # DOS_bound = np.array([[22.0, 32.0],
-# #                     [39.5, 49.0]])
-# DOSresolution =  [25, 25]
+# DOS_bound = np.array([[22.0, 32.0],
+#                     [39.5, 49.0]])
+
+# DOS_bound = np.array([[22.4, 22.8],
+#                     [39.4, 40.0]])
+
+
+
+# DOSresolution =  [5, 5]
 
 # output_init = np.array([20.0, 0.9])
 
-# # %%
+# %%
 # t2 = time.time()
-# AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
+# AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
 #                                             DOS_bound, 
 #                                             DOSresolution , 
 #                                             output_init,
 #                                             continuation='Explicit RK4',
 #                                             direction='inverse',
-#                                             validation = 'predictor-corrector',
-#                                             step_cutting = True)
+#                                             validation = 'predictor-corrector')
 # elapsed_RK4 = time.time() -  t2
 
 # print('RK4 time (s)')
@@ -564,7 +569,7 @@ makeplot(AOS_poly)
 
 # %%
 # # t1 = time.time()
-# AIS, AOS, AIS_poly, AOS_poly = implicit_map(F_DMA_MR_eqn, 
+# AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
 #                                             DOS_bound, 
 #                                             DOSresolution , 
 #                                             output_init,
