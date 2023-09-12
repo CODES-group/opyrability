@@ -29,7 +29,7 @@ affiliations:
  - name: Department of Chemical Engineering, Universidad de Concepción, Concepción, Chile
    index: 3
 
-date: 07 September 2023
+date: 12 September 2023
 bibliography: references.bib
 ---
 
@@ -61,7 +61,7 @@ problem can be, there are reports dating back to the 40's from well-known author
 [@ziegler1943process] mentioning the importance of interconnecting design and control.
 
 Considering this, the need of quantifying achievability for a general nonlinear
-process naturally arises. The underlying motivation of determining whether it would be possible to measure the operability of a process to simultaneously achieve process design and control objectives lead Prof. Georgakis and coworkers [@georgakis00;@vinson00;@siva05;@lima10]
+process naturally arises. The underlying motivation of determining whether it would be possible to measure the operability of a process to simultaneously achieve process design and control objectives led Prof. Georgakis and coworkers [@georgakis00;@vinson00;@siva05;@lima10]
 to formally define *process operability*
 and a metric called the *Operability Index (OI)*. The OI was conceptualized as a measure to quantify achievability of nonlinear processes [@vinson00], which was proven to be independent of the control strategy and inventory control layer [@vinson02]. In addition, it allows for the efficient ranking of competing designs and/or control structures [@lima10b] and enables the systematic assessment of operability characteristics under the presence of disturbances. Hence,
 process operability was formalized as *a systematic framework to simultaneously assess design and control objectives early in the conceptual phase of industrial, typically large-scale, and nonlinear chemical processes.*
@@ -83,7 +83,7 @@ operability and achievability of industrial processes earlier in the conceptual 
 eliminates the need for resorting to *ad-hoc*-type solutions to the design and control
 of industrial processes, which are inherently with loss of generality. The use of this framework thus guarantees a solution to the operability problem that
 is generalizable to any process, as long as a mathematical model of the given application is available.
-Hence, the introduction of ``opyrability`` in Python, a widely used and freely available programming language, is a significant advancement in the process operability field. Being open-source and hosted in a community-driven environment, it offers a valuable resource to the process systems engineering (PSE), computational catalysis and material sciences communities that would benefit from operability direct/inverse mappings. This package empowers researchers and practitioners to easily investigate the operability aspects of both emerging and existing large-scale industrial processes. Additionally, on a lab scale, it can aid in the examination of material properties that guide design decisions, such as reactions rates and membrane parameters that would be needed to reach certain product specifications.
+Hence, the introduction of ``opyrability`` in Python, a widely used and freely available programming language, is a significant advancement in the process operability field. Being open-source and hosted in a community-driven environment, it offers a valuable resource to the process systems engineering (PSE), computational catalysis and material sciences communities that would benefit from operability direct/inverse mappings. This package empowers researchers and practitioners to easily investigate the operability aspects of both emerging and existing large-scale industrial processes. Additionally, on a lab scale, it can aid in the examination of material properties that guide design decisions, such as reactions rate and membrane parameters that would be needed to reach certain product specifications.
 
 Moreover, ``opyrability`` is built on well-known and developed packages such as (i) [numpy](https://numpy.org/) and (ii) [scipy](https://numpy.org/) for linear algebra and scientific computing; (iii) [matplotlib](https://matplotlib.org/) for visualizing the operable regions in 2D/3D; (iv) [cvxopt](https://cvxopt.org/) that allows access to 
 [glpk](https://www.gnu.org/software/glpk/) for linear programming; (v) [polytope](https://tulip-control.github.io/polytope/) that enables efficient polytopic calculations; and (vi) [cyipopt](https://cyipopt.readthedocs.io/en/latest/?badge=latest) that allows access to IPOPT [@Wachter2006], a state-of-the-art
@@ -96,7 +96,7 @@ illustrates the dependency graph for ``opyrability``.
 
 # Vignette
 
-As a quick example of ``opyrability's`` capabilities, the example below available
+As a quick illustration of ``opyrability's`` capabilities, the example below available
 in the [examples gallery of the proposed tool](https://codes-group.github.io/opyrability/examples_gallery/index_example_gallery.html)
 depicts the operability analysis of a continuous stirred tank reactor (CSTR). In this example,
 the OI is evaluated for a desired region of operation for the concentration of reactants A and B (as outputs). In particular, it is desired to obtain insight
