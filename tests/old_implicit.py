@@ -1,18 +1,18 @@
 from typing import Callable,Union
-import time
+
 import jax
 from jax.config import config
-from jax import lax, jacfwd, jacrev
+from jax import jacrev
 from jax.numpy.linalg import pinv
 config.update("jax_enable_x64", True)
 
-from scipy.integrate import odeint as odeintscipy
+
 from numpy.linalg import norm 
 import jax.numpy as jnp
 import numpy as np
 from jax.experimental.ode import odeint
 
-from scipy.optimize import root, fsolve
+from scipy.optimize import root
 from tqdm import tqdm
 # %% REMOVE THIS BEFORE RELEASE
 from DMA_MR_ss import *
@@ -22,16 +22,17 @@ from opyrability import implicit_map as imap
 
 # %% Functions
 def implicit_map(model:             Callable[...,Union[float,np.ndarray]], 
-                 domain_bound:      np.ndarray, 
-                 domain_resolution: np.ndarray, 
                  image_init:        np.ndarray ,
+                 domain_bound:      np.ndarray = None, 
+                 domain_resolution: np.ndarray = None, 
                  direction:         str = 'forward', 
                  validation:        str = 'predictor-corrector', 
                  tol_cor:           float = 1e-4, 
                  continuation:      str = 'Explicit RK4',
                  derivative:        str = 'jax',
                  jit:               bool = True,
-                 step_cutting:      bool = False):
+                 step_cutting:      bool = False,
+                 domain_points:     np.ndarray = None):
     '''
     Performs implicit mapping of a implicitly defined process F(u,y) = 0. 
     F can be a vector-valued, multivariable function, which is typically the 
@@ -160,8 +161,8 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
             i0 + (s/s_length)*(iplus - i0), oo)@((iplus - i0)/s_length)
 
         
-    #  Initialization step: obtaining first solution
-    sol = root(F_io, image_init,args=domain_bound[:,0])
+    # #  Initialization step: obtaining first solution
+    # sol = root(F_io, image_init,args=domain_bound[:,0])
     
     #  Predictor scheme selection
     if continuation == 'Explicit RK4':
@@ -178,33 +179,93 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         do_predict = dods
     else:
         print('Incorrect continuation method')
-    # Pre-alocating the domain set
-    numInput = np.prod(domain_resolution)
-    nInput = domain_bound.shape[0]
-    nOutput = image_init.shape[0]
-    Input_u = []
+        
+    
+    
+    if domain_points is not None:
+        # Determine dimension
+        d = domain_points.shape[1]
+        
+        # Calculate side length of grid (assumes cubic/square grid)
+        side_length = int(domain_points.shape[0] ** (1/d))
+        
+        # Reshape into the desired shape
+        domain_set = domain_points.reshape(*([side_length]*d), d)
+    
+        # Update other dependent parameters
+        nInput = domain_set.shape[-1]
+        numInput = np.prod([side_length]*d)
+        domain_resolution = [side_length]*d  # inferred resolution
+        image_set = np.zeros(domain_resolution + [nInput])*np.nan
+        #  Initialization step: obtaining first solution
+        sol = root(F_io, image_init,args=domain_points[:,0])
+        image_set[0, 0] = sol.x
+        nOutput = image_init.shape[0]
+        
+        for i in range(numInput):
+            inputID = [0]*nInput
+            inputID[0] = int(np.mod(i, domain_resolution[0]))
+    
+    else:
+        # Pre-alocating the domain set
+        numInput = np.prod(domain_resolution)
+        nInput = domain_bound.shape[0]
+        nOutput = image_init.shape[0]
+        Input_u = []
 
-    # Create discretized AIS based on bounds and resolution information.
-    for i in range(nInput):
-        Input_u.append(list(np.linspace(domain_bound[i, 0],
-                                        domain_bound[i, 1],
-                                        domain_resolution[i])))
+        # Create discretized AIS based on bounds and resolution information.
+        for i in range(nInput):
+            Input_u.append(list(np.linspace(domain_bound[i, 0],
+                                            domain_bound[i, 1],
+                                            domain_resolution[i])))
 
-    domain_set = np.zeros(domain_resolution + [nInput])
-    image_set = np.zeros(domain_resolution + [nInput])*np.nan
-    image_set[0, 0] = sol.x
+        domain_set = np.zeros(domain_resolution + [nInput])
+        image_set = np.zeros(domain_resolution + [nInput])*np.nan
+        #  Initialization step: obtaining first solution
+        sol = root(F_io, image_init,args=domain_bound[:,0])
+        image_set[0, 0] = sol.x
 
-    for i in range(numInput):
-        inputID = [0]*nInput
-        inputID[0] = int(np.mod(i, domain_resolution[0]))
-        domain_val = [Input_u[0][inputID[0]]]
+        for i in range(numInput):
+            inputID = [0]*nInput
+            inputID[0] = int(np.mod(i, domain_resolution[0]))
+            domain_val = [Input_u[0][inputID[0]]]
 
-        for j in range(1, nInput):
-            inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),
-                                    domain_resolution[j]))
-            domain_val.append(Input_u[j][inputID[j]])
+            for j in range(1, nInput):
+                inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),
+                                        domain_resolution[j]))
+                domain_val.append(Input_u[j][inputID[j]])
 
-        domain_set[tuple(inputID)] = domain_val
+            domain_set[tuple(inputID)] = domain_val
+        
+
+    
+    # # Pre-alocating the domain set
+    # numInput = np.prod(domain_resolution)
+    # nInput = domain_bound.shape[0]
+    # nOutput = image_init.shape[0]
+    # Input_u = []
+
+    # # Create discretized AIS based on bounds and resolution information.
+    # for i in range(nInput):
+    #     Input_u.append(list(np.linspace(domain_bound[i, 0],
+    #                                     domain_bound[i, 1],
+    #                                     domain_resolution[i])))
+
+    # domain_set = np.zeros(domain_resolution + [nInput])
+    # image_set = np.zeros(domain_resolution + [nInput])*np.nan
+    # image_set[0, 0] = sol.x
+
+    # for i in range(numInput):
+    #     inputID = [0]*nInput
+    #     inputID[0] = int(np.mod(i, domain_resolution[0]))
+    #     domain_val = [Input_u[0][inputID[0]]]
+
+    #     for j in range(1, nInput):
+    #         inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),
+    #                                 domain_resolution[j]))
+    #         domain_val.append(Input_u[j][inputID[j]])
+
+    #     domain_set[tuple(inputID)] = domain_val
 
     cube_vertices = list()
     for n in range(2**(nInput)):
@@ -372,7 +433,7 @@ def shower_implicit(u,y):
     d = jnp.zeros(2)
     y0_aux = (u[0]+u[1])
     
-    y0_aux= jnp.where(y0_aux <= 1e-9, 1e-16, y0_aux)
+    y0_aux= jnp.where(y0_aux <= 1e-9, 1e-9, y0_aux)
     
     
     LHS1 = y[0] - (u[0]+u[1])
@@ -389,6 +450,9 @@ def shower_implicit(u,y):
         
     
     return jnp.array([LHS1, LHS2])
+
+
+
 def shower(u):
     y = np.zeros(2)
     d = jnp.zeros(2)
@@ -430,36 +494,76 @@ def makeplot(AOS_poly):
     ax.autoscale_view()
 
 #%% Test DMA-MR inverse
-DOS_bound = np.array([[22.4, 22.8],
-                    [39.4, 40.0]])
+# DOS_bound = np.array([[22.4, 22.8],
+#                     [39.4, 40.0]])
 
-DOSresolution = [10, 10]
+# DOSresolution = [10, 10]
 
-output_init = np.array([20.0, 0.9])
+# output_init = np.array([20.0, 0.9])
 
-DOS, DIS, DOS_poly, DIS_poly = imap(F_DMA_MR_eqn,
-                                    DOS_bound,
-                                    DOSresolution,
-                                    output_init,
-                                    direction='inverse')
+# DOS, DIS, DOS_poly, DIS_poly = imap(F_DMA_MR_eqn,
+#                                     DOS_bound,
+#                                     DOSresolution,
+#                                     output_init,
+#                                     direction='inverse')
 
 # %% Test shower forward
-AIS_bound = np.array([[0.1, 10.0],
-                    [0.1, 10.0]])
+# AIS_bound = np.array([[0.1, 10.0],
+#                     [0.1, 10.0]])
 
-# AIS_bound =  np.array([[5.0, 10.0],
-#                       [80.0, 100.0]])
+# # AIS_bound =  np.array([[5.0, 10.0],
+# #                       [80.0, 100.0]])
 
-AISresolution = [5, 5]
+# AISresolution = [5, 5]
 
-output_init = np.array([0.0, 10.0])
+# output_init = np.array([0.0, 10.0])
+
+
+# theta = np.linspace(0.01, 4 * np.pi, 400)
+
+# phi = np.pi / 4
+# a, b= 0.15, 1
+# y1 = 5 + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+#                                   b * np.sin(theta) * np.sin(phi))  
+# y2 = 5 + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+#                                   a * np.cos(theta) * np.cos(phi))
+
+
+# AIS_PTS=np.array([y1,y2]).T
+# AIS_PTS = data = np.array([
+#     [0.1, 0.1],
+#     [0.1, 2.575],
+#     [0.1, 5.05],
+#     [0.1, 7.525],
+#     [0.1, 10],
+#     [2.575, 0.1],
+#     [2.575, 2.575],
+#     [2.575, 5.05],
+#     [2.575, 7.525],
+#     [2.575, 10],
+#     [5.05, 0.1],
+#     [5.05, 2.575],
+#     [5.05, 5.05],
+#     [5.05, 7.525],
+#     [5.05, 10],
+#     [7.525, 0.1],
+#     [7.525, 2.575],
+#     [7.525, 5.05],
+#     [7.525, 7.525],
+#     [7.525, 10],
+#     [10, 0.1],
+#     [10, 2.575],
+#     [10, 5.05],
+#     [10, 7.525],
+#     [10, 10]
+# ])
+
 
 # t1 = time.time()
-# # AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit, 
-# #                                             AIS_bound, 
-# #                                             AISresolution, 
-# #                                             output_init,
-# #                                             continuation='odeint')
+# AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit,  
+#                                             output_init,
+#                                             continuation='odeint',
+#                                             domain_points=AIS_PTS)
 
 
 # from opyrability import implicit_map as imap
@@ -479,6 +583,106 @@ output_init = np.array([0.0, 10.0])
 # fig4, ax4 = plt.subplots()
 # ax4.scatter(AOS_infeas_plot[:,0], AOS_infeas_plot[:,1])
 
+# %% DMA-MR uncertainty - Forward
+# phi = np.pi / 4
+# a, b= 150, 500
+# theta = np.linspace(0, 3 * np.pi, 100)
+# y1 = 1173.15  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+#                                   b * np.sin(theta) * np.sin(phi))  
+# y2 = 1500.00   + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+#                                   a * np.cos(theta) * np.cos(phi))
+# # 
+# # # Center coordinates
+# # h, k = 1173.15 , 1500
+# # a, b = 500, 450  # Adjust a and b as needed
+
+# # # # h, k = 1173.15 , 101325.0
+# # # # a, b = 500, 450  # Adjust a and b as needed
+
+# # # # # h, k = 4   , 56.38
+# # # # # a, b = 2, 20  # Adjust a and b as needed
+# # alpha = np.pi / 4  # 45 degree rotation, adjust as needed
+# # theta = np.linspace(0, 2 * np.pi, 100)
+
+# # Ellipse equations
+# # x = a * np.cos(theta)
+# # y = b * np.sin(theta)
+
+# # # Rotated ellipse equations centered at (1500, 0.0036)
+# # y1 = h + (x * np.sin(alpha) + y * np.cos(alpha))
+# # y2 = k + (x * np.cos(alpha) - y * np.sin(alpha))
+
+
+# AIS_PTS=np.array([y1,y2]).T
+# # from matplotlib import pyplot as plt
+# plt.plot(AIS_PTS[:,0], AIS_PTS[:,1])
+# output_init = np.array([22.4, 39.4])
+# AIS, AOS, AIS_poly, AOS_poly = implicit_map(dma_mr_uncertain,  
+#                                             output_init,
+#                                             continuation='Explicit RK4',
+#                                             domain_points=AIS_PTS)
+
+
+# AOS_PTS = AOS.reshape(-1,2)
+# from matplotlib import pyplot
+# pyplot.figure()
+# plt.plot(AOS_PTS[:,0], AOS_PTS[:,1])
+
+# %% DMA-MR uncertainty - Inverse
+phi = np.pi / 4
+a, b= 20265.00, 10132.50
+theta = np.linspace(0, 3 * np.pi, 100)
+y1 = 101325.00  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+                                  b * np.sin(theta) * np.sin(phi))  
+y2 = 101325.00   + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+                                  a * np.cos(theta) * np.cos(phi))
+
+
+# phi = np.pi / 4
+# a, b= 0.01, 0.085
+# theta = np.linspace(0, 3 * np.pi, 100)
+# y1 = 21.00  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+#                                   b * np.sin(theta) * np.sin(phi))  
+# y2 = 35.00  + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+#                                   a * np.cos(theta) * np.cos(phi))
+# 
+# # Center coordinates
+# h, k = 1173.15 , 1500
+# a, b = 500, 450  # Adjust a and b as needed
+
+# # # h, k = 1173.15 , 101325.0
+# # # a, b = 500, 450  # Adjust a and b as needed
+
+# # # # h, k = 4   , 56.38
+# # # # a, b = 2, 20  # Adjust a and b as needed
+# alpha = np.pi / 4  # 45 degree rotation, adjust as needed
+# theta = np.linspace(0, 2 * np.pi, 100)
+
+# Ellipse equations
+# x = a * np.cos(theta)
+# y = b * np.sin(theta)
+
+# # Rotated ellipse equations centered at (1500, 0.0036)
+# y1 = h + (x * np.sin(alpha) + y * np.cos(alpha))
+# y2 = k + (x * np.cos(alpha) - y * np.sin(alpha))
+
+
+AIS_PTS=np.array([y1,y2]).T
+# from matplotlib import pyplot as plt
+plt.plot(AIS_PTS[:,0], AIS_PTS[:,1])
+output_init = np.array([22.4, 39.4])
+# output_init = np.array([101325.0 , 101325.0])
+AIS, AOS, AIS_poly, AOS_poly = imap(dma_mr_uncertain_inv,  
+                                            output_init,
+                                            continuation='Explicit RK4',
+                                            domain_points=AIS_PTS,
+                                            direction = 'forward')
+
+
+AOS_PTS = AOS.reshape(-1,2)
+from matplotlib import pyplot
+pyplot.figure()
+plt.plot(AOS_PTS[:,0], AOS_PTS[:,1])
 
 # %% DMA-MR inverse (Broken)
 

@@ -1674,9 +1674,10 @@ def points2polyhedra(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
 
 
 def implicit_map(model:             Callable[...,Union[float,np.ndarray]], 
-                 domain_bound:      np.ndarray, 
-                 domain_resolution: np.ndarray, 
-                 image_init:        np.ndarray ,
+                 image_init:        np.ndarray, 
+                 domain_bound:      np.ndarray = None, 
+                 domain_resolution: np.ndarray = None, 
+                 domain_points:     np.ndarray = None,
                  direction:         str = 'forward', 
                  validation:        str = 'predictor-corrector', 
                  tol_cor:           float = 1e-4, 
@@ -1836,7 +1837,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
 
         
     #  Initialization step: obtaining first solution
-    sol = root(F_io, image_init,args=domain_bound[:,0])
+    # sol = root(F_io, image_init,args=domain_bound[:,0])
     
     #  Predictor scheme selection
     if continuation == 'Explicit RK4':
@@ -1880,35 +1881,101 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     else:
         print('Ivalid continuation method. Exiting algorithm.')
         sys.exit()
+      
         
-    # Pre-allocating the domain set
-    numInput = np.prod(domain_resolution)
-    nInput = domain_bound.shape[0]
-    nOutput = image_init.shape[0]
-    Input_u = []
+    # This code below is a partial implementation of implicit mapping with a
+    # closed path. It works for applications in which the meshgrid can be 
+    # inferred from a discrete path.
+    # TODO: Work in a definitive solution that can be generalized.
+    if domain_points is not None:
+        # Determine dimension
+        d = domain_points.shape[1]
+        
+        # Calculate side length of grid (assumes cubic/square grid)
+        side_length = int(domain_points.shape[0] ** (1/d))
+        
+        # Reshape into the desired shape
+        domain_set = domain_points.reshape(*([side_length]*d), d)
+    
+        # Update other dependent parameters
+        nInput = domain_set.shape[-1]
+        numInput = np.prod([side_length]*d)
+        domain_resolution = [side_length]*d  # inferred resolution
+        image_set = np.zeros(domain_resolution + [nInput])*np.nan
+        #  Initialization step: obtaining first solution
+        sol = root(F_io, image_init,args=domain_points[:,0])
+        image_set[0, 0] = sol.x
+        nOutput = image_init.shape[0]
+        
+        for i in range(numInput):
+            inputID = [0]*nInput
+            inputID[0] = int(np.mod(i, domain_resolution[0]))
+    
+    else:
+        # Pre-alocating the domain set
+        numInput = np.prod(domain_resolution)
+        nInput = domain_bound.shape[0]
+        nOutput = image_init.shape[0]
+        Input_u = []
 
-    # Create discretized AIS based on bounds and resolution information.
-    for i in range(nInput):
-        Input_u.append(list(np.linspace(domain_bound[i, 0],
-                                        domain_bound[i, 1],
-                                        domain_resolution[i])))
+        # Create discretized AIS based on bounds and resolution information.
+        for i in range(nInput):
+            Input_u.append(list(np.linspace(domain_bound[i, 0],
+                                            domain_bound[i, 1],
+                                            domain_resolution[i])))
 
-    domain_set = np.zeros(domain_resolution + [nInput])
-    image_set = np.zeros(domain_resolution + [nInput])*np.nan
-    image_set[0, 0] = sol.x
+        domain_set = np.zeros(domain_resolution + [nInput])
+        image_set = np.zeros(domain_resolution + [nInput])*np.nan
+        #  Initialization step: obtaining first solution
+        sol = root(F_io, image_init,args=domain_bound[:,0])
+        image_set[0, 0] = sol.x
 
-    for i in range(numInput):
-        inputID = [0]*nInput
-        inputID[0] = int(np.mod(i, domain_resolution[0]))
-        domain_val = [Input_u[0][inputID[0]]]
+        for i in range(numInput):
+            inputID = [0]*nInput
+            inputID[0] = int(np.mod(i, domain_resolution[0]))
+            domain_val = [Input_u[0][inputID[0]]]
 
-        for j in range(1, nInput):
-            inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),
-                                    domain_resolution[j]))
-            domain_val.append(Input_u[j][inputID[j]])
+            for j in range(1, nInput):
+                inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),
+                                        domain_resolution[j]))
+                domain_val.append(Input_u[j][inputID[j]])
 
-        domain_set[tuple(inputID)] = domain_val
+            domain_set[tuple(inputID)] = domain_val
+     
+    # End of partial implementation. Below we have the OG code that I will leave
+    # here for my own sake of sanity.
+    
+    # --------------------------- Previous strategy ------------------------- #
+    # # Pre-allocating the domain set
+    # numInput = np.prod(domain_resolution)
+    # nInput = domain_bound.shape[0]
+    # nOutput = image_init.shape[0]
+    # Input_u = []
 
+    # # Create discretized AIS based on bounds and resolution information.
+    # for i in range(nInput):
+    #     Input_u.append(list(np.linspace(domain_bound[i, 0],
+    #                                     domain_bound[i, 1],
+    #                                     domain_resolution[i])))
+
+    # domain_set = np.zeros(domain_resolution + [nInput])
+    # image_set = np.zeros(domain_resolution + [nInput])*np.nan
+    # image_set[0, 0] = sol.x
+
+    # for i in range(numInput):
+    #     inputID = [0]*nInput
+    #     inputID[0] = int(np.mod(i, domain_resolution[0]))
+    #     domain_val = [Input_u[0][inputID[0]]]
+
+    #     for j in range(1, nInput):
+    #         inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),
+    #                                 domain_resolution[j]))
+    #         domain_val.append(Input_u[j][inputID[j]])
+
+    #     domain_set[tuple(inputID)] = domain_val
+
+    # --------------------------- End of Previous strategy ------------------ #
+    
     cube_vertices = list()
     for n in range(2**(nInput)):
         cube_vertices.append([int(x) for x in
