@@ -178,4 +178,6 @@ from opyrability import create_grid
 
 AIS_grid = create_grid(AIS_bound, AIS_resolution)
 
+AIS_grid = AIS_grid.reshape(100,2)
+
 # AIS_nan =  AIS_grid[np.isnan(AIS)]
