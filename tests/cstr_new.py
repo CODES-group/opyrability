@@ -4,7 +4,11 @@ import matplotlib.pyplot as plt
 from opyrability import AIS2AOS_map
 from jax import jacrev
 
+from jax.config import config
+config.update("jax_enable_x64", True)
 
+
+# Values from Ray #
 beta = 0.35
 xi = 1.00
 gamma = 20.00
@@ -18,17 +22,41 @@ x20 = 0.00
 x30 = -0.05
 
 
-# beta = 1.33
-# xi = 0.6
-# gamma = 25.18
-# phi = 19.26
-# sigma_s = 91.42
-# sigma_b = 11.43
-# q0 = 1.00
-# x10 = 1.00
-# x20 =  -0.12
-# x30 = - 0.12
-# qc  = 6.56
+
+# ------------------------ Values from Luyben ------------------------------ #
+
+def findA(E,k):
+    R,T = 1.99, 599.67
+    
+    
+    return k / np.exp(-E/(R*T))
+
+E1, E2 = 30000, 15000
+k1, k2 = 0.5, 0.05
+
+Aa =  findA(E1,k1)
+Ab =  findA(E2, k2)
+
+
+beta = 1.33
+xi = 0.6
+gamma = 25.18
+phi = 19.26
+sigma_s = 91.42
+sigma_b = 11.43
+q0 = 1.00
+x10 = 1.00
+x20 =  -0.12
+x30 = - 0.12
+qc  = 6.56
+
+dH1 = 20000
+dH2 = 20000
+eta1 = E1/E2
+eta2 = dH1/dH2
+
+phi2 = (Ab * np.exp(-gamma*(eta1 - 1 ))) / Aa
+
 
 
 
@@ -48,10 +76,21 @@ def cstr(x, AIS):
     return g_x1
 
 
-# jac_cstr_raw=jacrev(cstr)
 
-# def jac_cstr(x, *args):
-#     return np.array(jac_cstr_raw(x, *args))
+def cstr2(x, AIS):
+    
+    fx3 = np.exp((gamma*x)/(1+x))
+    
+    term1 = q0*(x30 - x)
+    term2 = phi*fx3*AIS[1]*beta
+    term3 = (q0*x10)/(q0 + phi*fx3*AIS[1])
+    term4 = 
+
+
+jac_cstr1_raw=jacrev(cstr)
+
+def jac_cstr(x, *args):
+    return np.array(jac_cstr1_raw(x, *args))
 
 # Define m function
 # def m(u):
@@ -76,15 +115,18 @@ def cstr(x, AIS):
     
     
 #     return np.array([Temp_dimensionless, conversion]).reshape(2,)
-
+ftol=1e-8
 
 def m(u):
     try:
-        solution = root(cstr, x0=0.1, args=u, method='hybr', tol=1e-16)
+        options = {'xtol': 1e-8, 'ftol': ftol }
+        solution = root(cstr, x0=0.1, args=u, method='lm', jac=jac_cstr, 
+                        tol=ftol, options = options)
         
         if not solution.success:
             # If the first attempt failed, try with the last iteration as the initial guess
-            solution = root(cstr, x0=solution.x, args=u, method='hybr', tol=1e-16)
+            solution = root(cstr, x0=solution.x, args=u, method='lm', jac=jac_cstr, 
+                            tol=ftol, options = options)
         
         # If the second attempt is also unsuccessful, raise an exception to move to the except block
         if not solution.success:
@@ -94,16 +136,45 @@ def m(u):
         fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
         xA_dimensionless = ((q0*x10) / (q0 + phi*fx1*u[1]))
         conversion = 1 - (xA_dimensionless / x10)
+        jacket_temp = (qc*u[0]*x30 + xi*(sigma_s*u[1] + sigma_b)*xA_dimensionless)/ \
+            (qc*u[0] +  xi*(sigma_s*u[1] + sigma_b))
         
     except ValueError:
         Temp_dimensionless = np.nan
         fx1 = np.nan
         xA_dimensionless = np.nan
         conversion = np.nan
+        jacket_temp = np.nan
 
     return np.array([Temp_dimensionless, conversion]).reshape(2,)
 
-# # Initialize the u values
+def generate_edge_points(bounds, n_points):
+    """
+    Generates boundary points on the edges of a hypercube defined by the given bounds.
+    
+    Parameters:
+    - bounds: numpy array with shape (n_dimensions, 2) where each row is [lower_bound, upper_bound] for a dimension.
+    - n_points: total number of points to generate.
+    
+    Returns:
+    - edge_points: numpy array with the boundary points.
+    """
+    
+    n_dims = bounds.shape[0]
+    points_per_dim = int(round(n_points ** (1/n_dims)))
+    
+    edge_sets = []
+    for i in range(n_dims):
+        for bound in bounds[i]:
+            slice_points = [np.linspace(bounds[j, 0], bounds[j, 1], points_per_dim) if j != i else np.array([bound]) 
+                            for j in range(n_dims)]
+            mesh = np.array(np.meshgrid(*slice_points)).T.reshape(-1, n_dims)
+            edge_sets.append(mesh)
+    
+    edge_points = np.vstack(edge_sets)
+    return edge_points
+
+# Initialize the u values
 # u_values = np.array([
 #     [0.553030303, 1.001104566],
 #     [0.58030303, 1.001104566],
@@ -150,11 +221,28 @@ def m(u):
 # Temps = []
 # Conversions = []
 
+# AIS_bound =  np.array([[0.00, 1.00],
+#                         [0.25, 1.00]])
+
+# n_points = 100000
+
+# u_values = generate_edge_points(AIS_bound, n_points)
+
+
 # for u in u_values:
 #     result = m(u)
 #     Temps.append(result[0])
 #     Conversions.append(result[1])
 
+
+# # Plotting
+# plt.figure(figsize=(10, 5))
+# plt.scatter(u_values[:,0], u_values[:,1], marker='o', color='b', linestyle='-')
+# plt.xlabel("Normalized Coolant flow")
+# plt.ylabel("Normalized Volume")
+# plt.grid(True)
+# plt.title("Normalized Coolant flow vs. Normalized Volume")
+# plt.show()
 
 # # Plotting
 # plt.figure(figsize=(10, 5))
@@ -165,19 +253,76 @@ def m(u):
 # plt.title("Conversion vs. Temperature (Dimensionless)")
 # plt.show()
 
+# import cyipopt
 
-AIS_bound =  np.array([[0.00, 0.75],
-                       [0.25, 1.00]])
 
-AIS_resolution = [10, 10]
-AOS, AIS = AIS2AOS_map(m, AIS_bound, AIS_resolution)
+# class NonlinearSystemSolver:
+#     def __init__(self, funcs, args):
+#         self.funcs = funcs
+#         self.args = args
+#         # Compute the Jacobian of the vector function using jacrev
+#         self.jac_func = jacrev(self.vector_func)
+    
+#     def vector_func(self, x):
+#         """Vector function representing the system of equations."""
+#         return np.array([f(x, self.args) for f in self.funcs])
+    
+#     def objective(self, x):
+#         """Objective function: sum of squares of residuals."""
+#         residuals = np.array([f(x, self.args) for f in self.funcs])
+#         return np.sum(residuals**2)
+    
+#     def gradient(self, x):
+#         """Calculate gradient using the Jacobian."""
+#         # Evaluate the Jacobian at the current x
+#         J = self.jac_func(x)
+#         # Compute the gradient as J^T * f(x)
+#         return J.T @ self.vector_func(x)
+    
+#     def solve(self, x0):
+#         """Solve the system using IPOPT."""
+#         n = len(x0)
+#         x_L = np.ones(n) * -1.0e19
+#         x_U = np.ones(n) * 1.0e19
+#         problem = cyipopt.Problem(n=n, m=0, problem_obj=self, lb=x_L, ub=x_U)
+#         x, info = problem.solve(x0)
+#         return x
 
-AIS = AIS.reshape(100,-1)
+# def m2(u):
+#     x0=np.array([0.1])
+#     solver = NonlinearSystemSolver([cstr],u)
+#     # x0 = np.array([0.5, 0.5])
+#     solution = solver.solve(x0)
+   
+    
+#     Temp_dimensionless = solution
+#     fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
+#     xA_dimensionless = ((q0*x10) / (q0 + phi*fx1*u[1]))
+#     conversion = 1 - (xA_dimensionless / x10)
+#     jacket_temp = (qc*u[0]*x30 + xi*(sigma_s*u[1] + sigma_b)*xA_dimensionless)/ \
+#         (qc*u[0] +  xi*(sigma_s*u[1] + sigma_b))
+        
+#     return np.array([Temp_dimensionless, conversion]).reshape(2,)
+        
+        
+    
 
-from opyrability import create_grid
 
-AIS_grid = create_grid(AIS_bound, AIS_resolution)
 
-AIS_grid = AIS_grid.reshape(100,2)
+
+
+# AIS_bound =  np.array([[0.25,  0.75],
+#                         [0.25, 1.00]])
+
+# AIS_resolution = [100, 100]
+# AOS, AIS = AIS2AOS_map(m, AIS_bound, AIS_resolution)
+
+# AIS = AIS.reshape(100,-1)
+
+# from opyrability import create_grid
+
+# AIS_grid = create_grid(AIS_bound, AIS_resolution)
+
+# AIS_grid = AIS_grid.reshape(100,2)
 
 # AIS_nan =  AIS_grid[np.isnan(AIS)]
