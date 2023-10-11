@@ -1,5 +1,5 @@
 import jax.numpy as np
-from scipy.optimize import root, root_scalar
+from scipy.optimize import root, root_scalar, fsolve
 import matplotlib.pyplot as plt
 from opyrability import AIS2AOS_map
 from jax import jacrev, grad, jit, jacfwd, hessian
@@ -9,57 +9,57 @@ config.update("jax_enable_x64", True)
 
 
 # Values from Ray #
-# beta = 0.35
-# xi = 1.00
-# gamma = 20.00
-# phi = 0.11
-# sigma_s = 0.44
-# sigma_b = 0.06
-# q0 = 1.00
-# qc = 1.00
-# x10 = 1.00
-# x20 = 0.00
-# x30 = -0.05
+beta = 0.35
+xi = 1.00
+gamma = 20.00
+phi = 0.11
+sigma_s = 0.44
+sigma_b = 0.06
+q0 = 1.00
+qc = 1.00
+x10 = 1.00
+x20 = 0.00
+x30 = -0.05
 
 
 
 # ------------------------ Values from Luyben ------------------------------ #
 
-def findA(E,k):
-    R,T = 1.99, 599.67
+# def findA(E,k):
+#     R,T = 1.99, 599.67
     
     
-    return k / np.exp(-E/(R*T))
+#     return k / np.exp(-E/(R*T))
 
-E1, E2 = 30000, 15000
-k1, k2 = 0.5, 0.05
+# E1, E2 = 30000, 15000
+# k1, k2 = 0.5, 0.05
 
-Aa =  findA(E1,k1)
-Ab =  findA(E2, k2)
+# Aa =  findA(E1,k1)
+# Ab =  findA(E2, k2)
 
 
-beta = 1.33
-xi = 0.6
-gamma = 25.18
-phi = 19.26
-sigma_s = 91.42
-sigma_b = 11.43
-q0 = 1.00
-x10 = 1.00
-x20 =  -0.12
-x30 = - 0.12
-qc  = 6.56
+# beta = 1.33
+# xi = 0.6
+# gamma = 25.18
+# phi = 19.26
+# sigma_s = 91.42
+# sigma_b = 11.43
+# q0 = 1.00
+# x10 = 1.00
+# x20 =  -0.12
+# x30 = - 0.12
+# qc  = 6.56
 
-dH1 = 20000
-dH2 = 20000
-eta1 = E1/E2
-eta2 = dH1/dH2
-Tr  = 599.67
-Tc0 = 529.67
+# dH1 = 20000
+# dH2 = 20000
+# eta1 = E1/E2
+# eta2 = dH1/dH2
+# Tr  = 599.67
+# Tc0 = 529.67
 
-x40 =  (Tc0 - Tr)/ Tr
+# x40 =  (Tc0 - Tr)/ Tr
 
-phi2 = (Ab * np.exp(-gamma*(eta1 - 1 ))) / Aa
+# phi2 = (Ab * np.exp(-gamma*(eta1 - 1 ))) / Aa
 
 
 
@@ -68,11 +68,11 @@ phi2 = (Ab * np.exp(-gamma*(eta1 - 1 ))) / Aa
 def cstr(x, AIS):
     
 
-    fx1 = np.exp((gamma*x)/(1+x))
+    fx2 = np.exp((gamma*x)/(1+x))
     
     term1 =  q0*(x20 - x)
-    term2 =  (beta*phi*fx1*AIS[1]*q0*x10) / (q0 + phi*fx1*AIS[1])
-    term3 = ((sigma_s*AIS[1] + sigma_b)*AIS[0]*qc)/(qc*AIS[0] + xi*(sigma_s*AIS[1] + sigma_b))
+    term2 =  (beta*phi*fx2*AIS[1]*q0*x10) / (q0 + phi*fx2*AIS[1])
+    term3 = (((sigma_s*AIS[1] + sigma_b)*AIS[0]*qc)/(qc*AIS[0] + xi*(sigma_s*AIS[1] + sigma_b)))
     term4 = (x - x30)
     
     g_x1 = term1 + term2 - (term3*term4)
@@ -80,7 +80,7 @@ def cstr(x, AIS):
     return g_x1
 
 
-
+@jit
 def cstr2(x, AIS):
     
     fx3 = np.exp((gamma*x)/(1+x))
@@ -101,7 +101,7 @@ def cstr2(x, AIS):
 
 
 jac_cstr1_raw=jacrev(cstr)
-hess_cstr_raw = jacfwd(jacrev(cstr2))
+hess_cstr_raw = jacfwd(jacrev(cstr))
 
 grad_cstr2_raw =  jacrev(cstr2)
 
@@ -145,27 +145,68 @@ def hess_cstr2(x, *args):
     
     
 #     return np.array([Temp_dimensionless, conversion]).reshape(2,)
-ftol=1e-8
+ftol=1e-12
 
 def m(u):
     try:
-        options = {'xtol': 1e-8, 'ftol': ftol }
-        solution = root(cstr, x0=0.1, args=u, method='lm', jac=jac_cstr, 
+        options = {'xtol': 1e-12, 'ftol': ftol, 'maxiter': 4000, 'maxfev': 4000}
+        solution = root(cstr, x0=0.1, args=u, method='hybr', jac=jac_cstr, 
                         tol=ftol, options = options)
         
-        if not solution.success:
+        print(solution.fun)
+       
+        if not solution.fun > ftol:
             # If the first attempt failed, try with the last iteration as the initial guess
-            solution = root(cstr, x0=solution.x, args=u, method='lm', jac=jac_cstr, 
+            solution = root(cstr, x0=solution.x, args=u, method='hybr', jac=jac_cstr, 
                             tol=ftol, options = options)
         
-        # If the second attempt is also unsuccessful, raise an exception to move to the except block
-        if not solution.success:
+        # If the second attempt is also unsuccessful, raise an 
+        # exception to move to the except block
+        if solution.fun > ftol:
             raise ValueError("Solver failed to converge.")
         
         Temp_dimensionless = solution.x
         fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
         xA_dimensionless = ((q0*x10) / (q0 + phi*fx1*u[1]))
-        conversion = 1 - (xA_dimensionless / x10)
+        conversion = 1 - xA_dimensionless 
+        jacket_temp = (qc*u[0]*x30 + xi*(sigma_s*u[1] + sigma_b)*xA_dimensionless)/ \
+            (qc*u[0] +  xi*(sigma_s*u[1] + sigma_b))
+        
+    except ValueError:
+        print('sad')
+        Temp_dimensionless = np.nan
+        fx1 = np.nan
+        xA_dimensionless = np.nan
+        conversion = np.nan
+        jacket_temp = np.nan
+
+    return np.array([Temp_dimensionless, conversion]).reshape(2,)
+
+
+def m_fsolve(u):
+    try:
+        # options = {'xtol': 1e-5, 'ftol': ftol, 'maxiter': 4000, 'maxfev': 4000}
+        # solution = root(cstr, x0=0.1, args=u, method='broyden1', jac=jac_cstr, 
+        #                 tol=ftol, options = options)
+        
+        solution = fsolve(cstr, 0.5, args=u, fprime=jac_cstr, 
+                          xtol=1.49012e-12, maxfev=4000, 
+                          factor=100, full_output=1)
+        
+        if solution[-2] != 1:
+            # If the first attempt failed, try with the last iteration as the initial guess
+            solution = fsolve(cstr, solution[0], args=u, fprime=jac_cstr, 
+                              xtol=1.49012e-12, maxfev=4000, 
+                              factor=100, full_output=1)
+        
+        # If the second attempt is also unsuccessful, raise an exception to move to the except block
+        if solution[-2] != 1:
+            raise ValueError("Solver failed to converge.")
+        
+        Temp_dimensionless = solution[0]
+        fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
+        xA_dimensionless = ((q0*x10) / (q0 + phi*fx1*u[1]))
+        conversion = 1 - xA_dimensionless 
         jacket_temp = (qc*u[0]*x30 + xi*(sigma_s*u[1] + sigma_b)*xA_dimensionless)/ \
             (qc*u[0] +  xi*(sigma_s*u[1] + sigma_b))
         
@@ -283,41 +324,51 @@ def generate_edge_points(bounds, n_points):
 #     [0.413636364, 0.800810015]
 # ])
 
-# # Run the model
-# Temps = []
-# Conversions = []
+u_values = np.array([
+    [0, 0.41200145787774667],
+    [0, 0.4237849779086895],
+    [0, 0.4399837848291458],
+    [0, 0.45618556701030943],
+    [0, 0.475329882],
+    [0, 0.49300441826215036],
+    [0, 0.5092032251826066],
+    [0, 0.5254050073637704],
+    [0, 0.5430780559646541],
+    [0, 0.5607496169351841],
+    [0, 0.5769499114859941],
+    [0, 0.5946229600868776],
+    [0.009090909, 0.61525193],
+    [0.015151515151515138, 0.6226216509721666],
+    [0.057575758, 0.6712641882744977],
+    [0.13181818181818183, 0.7405565225152855],
+    [0.21060606060606063, 0.8039623034468396],
+    [0.2954545454545454, 0.8600102646494401],
+    [0.3818181818181818, 0.9116414513321731],
+    [0.4712121212121212, 0.960330105],
+    [0.5212121212121212, 0.9854160158283871],
+    [0.5515151515151515, 1.0016460629862693],
+    [0.553030303, 1.001647550616623],
+    [0.5787878787878787, 1.0016728403326343],
+    [0.6045454545454546, 1.0016981300486456],
+    [0.6287878787878788, 1.0017219321343034],
+    [0.6545454545454545, 1.0017472218503147],
+    [0.6803030303030303, 1.001772511566326],
+    [0.7060606060606062, 1.0017978012823374],
+    [0.7318181818181818, 1.0018230909983488],
+    [0.7318181818181818, 1.0018230909983488],
+    [0.7060606060606062, 0.9855975067315275],
+    [0.6303030303030304, 0.9428132577617114],
+    [0.5590909090909092, 0.8970879635828091],
+    [0.48484848484848486, 0.8498869400931257],
+    [0.4136363636363637, 0.8012161378140761],
+    [0.34242424242424246, 0.7525453355350264],
+    [0.2727272727272727, 0.700930513],
+    [0.20606060606060606, 0.6463731571978997],
+    [0.14090909090909087, 0.5888717811398225],
+    [0.08030303, 0.52842936]
+])
 
-# AIS_bound =  np.array([[0.00, 1.00],
-#                         [0.25, 1.00]])
 
-# n_points = 100000
-
-# u_values = generate_edge_points(AIS_bound, n_points)
-
-
-# for u in u_values:
-#     result = m(u)
-#     Temps.append(result[0])
-#     Conversions.append(result[1])
-
-
-# # Plotting
-# plt.figure(figsize=(10, 5))
-# plt.scatter(u_values[:,0], u_values[:,1], marker='o', color='b', linestyle='-')
-# plt.xlabel("Normalized Coolant flow")
-# plt.ylabel("Normalized Volume")
-# plt.grid(True)
-# plt.title("Normalized Coolant flow vs. Normalized Volume")
-# plt.show()
-
-# # Plotting
-# plt.figure(figsize=(10, 5))
-# plt.scatter(Temps, Conversions, marker='o', color='b', linestyle='-')
-# plt.xlabel("Temperature (Dimensionless)")
-# plt.ylabel("Conversion")
-# plt.grid(True)
-# plt.title("Conversion vs. Temperature (Dimensionless)")
-# plt.show()
 
 import cyipopt
 
@@ -356,29 +407,23 @@ class NonlinearSystemSolver:
     def solve(self, x0):
         """Solve the system using IPOPT."""
         n = len(x0)
-        x_L = np.ones(n) * -1.0e5
-        x_U = np.ones(n) * 1.0e5
+        x_L = np.ones(n) * -1.0e0
+        x_U = np.ones(n) * 1.0e0
         problem = cyipopt.Problem(n=n, m=0, problem_obj=self, lb=x_L, ub=x_U)
         problem.addOption('print_level', 0)
         x, info = problem.solve(x0)
         return x
 
 def m2(u):
-    x0=np.array([0.1])
+    x0=np.array([0.25])
     solver = NonlinearSystemSolver([cstr],u)
-    # x0 = np.array([0.5, 0.5])
     solution = solver.solve(x0)
-    # solution = root_scalar(cstr, x0=0.1, args=u, method='newton',
-    #                        fprime=jac_cstr, fprime2 = hess_cstr,
-    #                        bracket= [0, 1.00], maxiter=5000, xtol=1e-10,
-    #                        rtol= 1e-11)
-    
-    # print(solution.converged)
+
     
     Temp_dimensionless = solution
     fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
     xA_dimensionless = ((q0*x10) / (q0 + phi*fx1*u[1]))
-    conversion = 1 - (xA_dimensionless / x10)
+    conversion = 1 - xA_dimensionless
     jacket_temp = (qc*u[0]*x30 + xi*(sigma_s*u[1] + sigma_b)*xA_dimensionless)/ \
         (qc*u[0] +  xi*(sigma_s*u[1] + sigma_b))
         
@@ -387,21 +432,59 @@ def m2(u):
         
     
 
+# # Run the model
+Temps = []
+Conversions = []
+
+# AIS_bound =  np.array([[0.00, 0.75],
+#                         [0.40, 1.00]])
+
+# n_points = 10000
+
+# u_values = generate_edge_points(AIS_bound, n_points)
+
+
+# for u in u_values:
+#     result = m(u)
+#     Temps.append(result[0])
+#     Conversions.append(result[1])
+
+
+# # # Plotting
+# plt.figure(figsize=(10, 5))
+# plt.scatter(u_values[:,0], u_values[:,1], marker='o', color='b', linestyle='-')
+# plt.xlabel("Normalized Coolant flow")
+# plt.ylabel("Normalized Volume")
+# plt.grid(True)
+# plt.title("Normalized Coolant flow vs. Normalized Volume")
+# plt.show()
+
+# # Plotting
+# plt.figure(figsize=(10, 5))
+# plt.scatter(Temps, Conversions, marker='o', color='b', linestyle='-')
+# plt.xlabel("Temperature (Dimensionless)")
+# plt.ylabel("Conversion")
+# plt.grid(True)
+# plt.title("Conversion vs. Temperature (Dimensionless)")
+# plt.show()
 
 
 
 
-# AIS_bound =  np.array([[0.00,  0.75],
-#                        [0.00,  1.00]])
+AIS_bound =  np.array([[0.00,  0.75],
+                        [0.45,  1.00]])
 
-# AIS_resolution = [20, 20]
-# AOS, AIS = AIS2AOS_map(m2, AIS_bound, AIS_resolution)
+# AIS_bound =  np.array([[0.00,  1.5],
+#                         [0.00,  1.5]])
 
-AIS_bound2 =  np.array([[0.8,   16.00],
-                        [0.2,   6.00]])
+AIS_resolution = [200, 200]
+AOS, AIS = AIS2AOS_map(m, AIS_bound, AIS_resolution)
 
-AIS_resolution2 = [5, 5]
-AOS, AIS = AIS2AOS_map(m_cstr22, AIS_bound2, AIS_resolution2)
+# AIS_bound2 =  np.array([[0.8,   16.00],
+#                         [0.2,   6.00]])
+
+# AIS_resolution2 = [5, 5]
+# AOS, AIS = AIS2AOS_map(m_cstr22, AIS_bound2, AIS_resolution2)
 
 
 # # Run the model
