@@ -100,12 +100,12 @@ def cstr2(x, AIS):
 
 
 
-jac_cstr1_raw=jacrev(cstr)
-hess_cstr_raw = jacfwd(jacrev(cstr))
+jac_cstr1_raw=grad(cstr)
+hess_cstr_raw = grad(grad(cstr))
 
-grad_cstr2_raw =  jacrev(cstr2)
+grad_cstr2_raw =  grad(cstr2)
 
-hess_cstr2_raw = jacfwd(jacrev(cstr2))
+hess_cstr2_raw = grad(grad(cstr2))
 
 
 
@@ -145,42 +145,65 @@ def hess_cstr2(x, *args):
     
     
 #     return np.array([Temp_dimensionless, conversion]).reshape(2,)
-ftol=1e-12
+rtol=1e-11
+xtol= 1e-10
 
 def m(u):
-    try:
-        options = {'xtol': 1e-12, 'ftol': ftol, 'maxiter': 4000, 'maxfev': 4000}
-        solution = root(cstr, x0=0.1, args=u, method='hybr', jac=jac_cstr, 
-                        tol=ftol, options = options)
+    
+    # try:
+        # options = {'xtol': 1e-12, 'ftol': ftol, 'maxiter': 4000, 'maxfev': 4000}
+        # solution = root(cstr, x0=0.1, args=u, method='lm', jac=jac_cstr, 
+        #                 tol=ftol, options = options)
         
-        print(solution.fun)
+        solution=root_scalar(cstr, args=u, method='secant',
+                    bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
+                    x0=0.1, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
+        
+        # print(solution.fun)
+        # print(cstr(solution.root, u))
        
-        if not solution.fun > ftol:
+        # if solution.fun > ftol:
+        if cstr(solution.root, u) > rtol:
+            print('before corrector:')
+            print(solution.converged)
             # If the first attempt failed, try with the last iteration as the initial guess
-            solution = root(cstr, x0=solution.x, args=u, method='hybr', jac=jac_cstr, 
-                            tol=ftol, options = options)
-        
+            # solution = root(cstr, x0=solution.x, args=u, method='lm', jac=jac_cstr, 
+            #                 tol=ftol, options = options)
+            solution=root_scalar(cstr, args=u, method='secant',
+                        bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
+                        x0=solution.root, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
+            print('after corrector:')
+            print(cstr(solution.root, u))
+            print(solution.converged)
+            solution2 = solution
         # If the second attempt is also unsuccessful, raise an 
         # exception to move to the except block
-        if solution.fun > ftol:
-            raise ValueError("Solver failed to converge.")
+        # if solution.fun > ftol:
+            # if cstr(solution2.root, u) > tol:
+            #     print('didnt work')
+            #     print(solution2.converged)
+            #     print(cstr(solution2.root, u))
+            #     raise ValueError("Solver failed to converge.")
+            
         
-        Temp_dimensionless = solution.x
+        # Temp_dimensionless = solution.x
+        Temp_dimensionless = solution.root
         fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
         xA_dimensionless = ((q0*x10) / (q0 + phi*fx1*u[1]))
         conversion = 1 - xA_dimensionless 
         jacket_temp = (qc*u[0]*x30 + xi*(sigma_s*u[1] + sigma_b)*xA_dimensionless)/ \
             (qc*u[0] +  xi*(sigma_s*u[1] + sigma_b))
         
-    except ValueError:
-        print('sad')
-        Temp_dimensionless = np.nan
-        fx1 = np.nan
-        xA_dimensionless = np.nan
-        conversion = np.nan
-        jacket_temp = np.nan
+    # except ValueError:
+    #     print('sad')
+    #     print(cstr(solution.root, u))
+    #     Temp_dimensionless = np.nan
+    #     fx1 = np.nan
+    #     xA_dimensionless = np.nan
+    #     conversion = np.nan
+    #     jacket_temp = np.nan
 
-    return np.array([Temp_dimensionless, conversion]).reshape(2,)
+        return np.array([Temp_dimensionless, conversion]).reshape(2,)
 
 
 def m_fsolve(u):
@@ -477,7 +500,7 @@ AIS_bound =  np.array([[0.00,  0.75],
 # AIS_bound =  np.array([[0.00,  1.5],
 #                         [0.00,  1.5]])
 
-AIS_resolution = [200, 200]
+AIS_resolution = [100, 100]
 AOS, AIS = AIS2AOS_map(m, AIS_bound, AIS_resolution)
 
 # AIS_bound2 =  np.array([[0.8,   16.00],
