@@ -3,6 +3,7 @@ from scipy.optimize import root, root_scalar, fsolve
 import matplotlib.pyplot as plt
 from opyrability import AIS2AOS_map
 from jax import jacrev, grad, jit, jacfwd, hessian
+import cyipopt
 
 from jax.config import config
 config.update("jax_enable_x64", True)
@@ -67,16 +68,16 @@ x30 = -0.05
 # Define cstr function
 def cstr(x, AIS):
     
-
     fx2 = np.exp((gamma*x)/(1+x))
-    
-    term1 =  q0*(x20 - x)
-    term2 =  (beta*phi*fx2*AIS[1]*q0*x10) / (q0 + phi*fx2*AIS[1])
-    term3 = (((sigma_s*AIS[1] + sigma_b)*AIS[0]*qc)/(qc*AIS[0] + xi*(sigma_s*AIS[1] + sigma_b)))
+
+    term1 = q0*(x20 - x)
+    term2 = (beta*phi*fx2*AIS[1]*q0*x10) / (q0 + phi*fx2*AIS[1])
+    term3 = (((sigma_s*AIS[1] + sigma_b)*AIS[0]*qc) /
+             (qc*AIS[0] + xi*(sigma_s*AIS[1] + sigma_b)))
     term4 = (x - x30)
-    
+
     g_x1 = term1 + term2 - (term3*term4)
-    
+
     return g_x1
 
 
@@ -84,17 +85,17 @@ def cstr(x, AIS):
 def cstr2(x, AIS):
     
     fx3 = np.exp((gamma*x)/(1+x))
-    
+
     term1 = q0*(x30 - x)
     term2 = phi*fx3*AIS[1]*beta
     term3 = (q0*x10)/(q0 + phi*fx3*AIS[1])
     term4 = (eta2*phi2*(fx3**(eta1-1)))/(q0 + phi*phi2*(fx3**(eta1))*AIS[1])
     term5 = (q0*x20 + (phi*fx3*AIS[1]*q0*x10)/(q0 + phi*fx3*AIS[1]))
     term6 = (sigma_s*AIS[1] + sigma_b)*qc*AIS[0]*(x - x40)
-    term7 = (qc*AIS[0] + (sigma_s*AIS[1] +  sigma_b)*xi)
-    
+    term7 = (qc*AIS[0] + (sigma_s*AIS[1] + sigma_b)*xi)
+
     g = term1 + term2*(term3 + (term4*term5)) + (term6/term7)
-    
+
     return g
 
 
@@ -104,7 +105,6 @@ jac_cstr1_raw=grad(cstr)
 hess_cstr_raw = grad(grad(cstr))
 
 grad_cstr2_raw =  grad(cstr2)
-
 hess_cstr2_raw = grad(grad(cstr2))
 
 
@@ -122,71 +122,35 @@ def grad_cstr2(x, *args):
 @jit
 def hess_cstr2(x, *args):
     return np.array(hess_cstr2_raw(x, *args))
-# Define m function
-# def m(u):
-    
-    
-    
-#     solution = root(cstr, x0 = 0.1, args=u, method='hybr', tol=1e-16)
- 
-#     if solution.success is True:
-#         Temp_dimensionless = solution.x
-#         fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
-#         xA_dimensionless =  ((q0*x10)/ (q0 + phi*fx1*u[1]))
-#         # conversion = ((x10 - xA_dimensionless)/ x10)
-#         conversion = 1 - ( xA_dimensionless / x10)
-#     else:
-#         Temp_dimensionless = np.nan
-#         fx1 = np.nan
-#         xA_dimensionless = np.nan
-#         conversion = np.nan
-        
-    
-    
-    
-#     return np.array([Temp_dimensionless, conversion]).reshape(2,)
+
+
+
 rtol=1e-11
 xtol= 1e-10
 
 def m(u):
     
-    # try:
-        # options = {'xtol': 1e-12, 'ftol': ftol, 'maxiter': 4000, 'maxfev': 4000}
-        # solution = root(cstr, x0=0.1, args=u, method='lm', jac=jac_cstr, 
-        #                 tol=ftol, options = options)
-        
         solution=root_scalar(cstr, args=u, method='secant',
                     bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
                     x0=0.1, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
         
-        # print(solution.fun)
-        # print(cstr(solution.root, u))
-       
-        # if solution.fun > ftol:
         if cstr(solution.root, u) > rtol:
             print('before corrector:')
-            print(solution.converged)
-            # If the first attempt failed, try with the last iteration as the initial guess
-            # solution = root(cstr, x0=solution.x, args=u, method='lm', jac=jac_cstr, 
-            #                 tol=ftol, options = options)
+            
             solution=root_scalar(cstr, args=u, method='secant',
                         bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
                         x0=solution.root, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
             print('after corrector:')
             print(cstr(solution.root, u))
             print(solution.converged)
-            solution2 = solution
-        # If the second attempt is also unsuccessful, raise an 
-        # exception to move to the except block
-        # if solution.fun > ftol:
-            # if cstr(solution2.root, u) > tol:
-            #     print('didnt work')
-            #     print(solution2.converged)
-            #     print(cstr(solution2.root, u))
-            #     raise ValueError("Solver failed to converge.")
             
-        
-        # Temp_dimensionless = solution.x
+            
+        if solution.converged is not True:
+            solution=root_scalar(cstr, args=u, method='secant',
+                        bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
+                        x0=0.25, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
+            
+       
         Temp_dimensionless = solution.root
         fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
         xA_dimensionless = ((q0*x10) / (q0 + phi*fx1*u[1]))
@@ -194,59 +158,33 @@ def m(u):
         jacket_temp = (qc*u[0]*x30 + xi*(sigma_s*u[1] + sigma_b)*xA_dimensionless)/ \
             (qc*u[0] +  xi*(sigma_s*u[1] + sigma_b))
         
-    # except ValueError:
-    #     print('sad')
-    #     print(cstr(solution.root, u))
-    #     Temp_dimensionless = np.nan
-    #     fx1 = np.nan
-    #     xA_dimensionless = np.nan
-    #     conversion = np.nan
-    #     jacket_temp = np.nan
 
         return np.array([Temp_dimensionless, conversion]).reshape(2,)
+    
+    
 
-
-def m_fsolve(u):
-    try:
-        # options = {'xtol': 1e-5, 'ftol': ftol, 'maxiter': 4000, 'maxfev': 4000}
-        # solution = root(cstr, x0=0.1, args=u, method='broyden1', jac=jac_cstr, 
-        #                 tol=ftol, options = options)
-        
-        solution = fsolve(cstr, 0.5, args=u, fprime=jac_cstr, 
-                          xtol=1.49012e-12, maxfev=4000, 
-                          factor=100, full_output=1)
-        
-        if solution[-2] != 1:
-            # If the first attempt failed, try with the last iteration as the initial guess
-            solution = fsolve(cstr, solution[0], args=u, fprime=jac_cstr, 
-                              xtol=1.49012e-12, maxfev=4000, 
-                              factor=100, full_output=1)
-        
-        # If the second attempt is also unsuccessful, raise an exception to move to the except block
-        if solution[-2] != 1:
-            raise ValueError("Solver failed to converge.")
-        
-        Temp_dimensionless = solution[0]
-        fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
-        xA_dimensionless = ((q0*x10) / (q0 + phi*fx1*u[1]))
-        conversion = 1 - xA_dimensionless 
-        jacket_temp = (qc*u[0]*x30 + xi*(sigma_s*u[1] + sigma_b)*xA_dimensionless)/ \
-            (qc*u[0] +  xi*(sigma_s*u[1] + sigma_b))
-        
-    except ValueError:
-        Temp_dimensionless = np.nan
-        fx1 = np.nan
-        xA_dimensionless = np.nan
-        conversion = np.nan
-        jacket_temp = np.nan
-
-    return np.array([Temp_dimensionless, conversion]).reshape(2,)
 
 
 def m_cstr2(u):
-    solution = root_scalar(cstr2, x0=0.1, args=u, method='halley',
-                           fprime=grad_cstr2, fprime2 = hess_cstr2,
-                           bracket= (0, 1))
+    solution=root_scalar(cstr2, args=u, method='secant',
+                bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
+                x0=0.1, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
+    
+    if cstr(solution.root, u) > rtol:
+        print('before corrector:')
+        
+        solution=root_scalar(cstr2, args=u, method='secant',
+                    bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
+                    x0=solution.root, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
+        print('after corrector:')
+        print(cstr(solution.root, u))
+        print(solution.converged)
+        
+        
+    if solution.converged is not True:
+        solution=root_scalar(cstr2, args=u, method='secant',
+                    bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
+                    x0=0.25, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
     
     
     Temp_dimensionless = solution.root
@@ -260,10 +198,10 @@ def m_cstr2(u):
     return np.array([conversion, Temp]).reshape(2,)
         
 
-def m_cstr22(u):
+def m_cstr2_ipopt(u):
     x0=np.array([0.1])
     solver = NonlinearSystemSolver([cstr2],u)
-    # x0 = np.array([0.5, 0.5])
+    
     solution = solver.solve(x0)
     
     
@@ -289,18 +227,18 @@ def generate_edge_points(bounds, n_points):
     Returns:
     - edge_points: numpy array with the boundary points.
     """
-    
+
     n_dims = bounds.shape[0]
     points_per_dim = int(round(n_points ** (1/n_dims)))
-    
+
     edge_sets = []
     for i in range(n_dims):
         for bound in bounds[i]:
-            slice_points = [np.linspace(bounds[j, 0], bounds[j, 1], points_per_dim) if j != i else np.array([bound]) 
+            slice_points = [np.linspace(bounds[j, 0], bounds[j, 1], points_per_dim) if j != i else np.array([bound])
                             for j in range(n_dims)]
             mesh = np.array(np.meshgrid(*slice_points)).T.reshape(-1, n_dims)
             edge_sets.append(mesh)
-    
+
     edge_points = np.vstack(edge_sets)
     return edge_points
 
@@ -393,9 +331,6 @@ u_values = np.array([
 
 
 
-import cyipopt
-
-
 class NonlinearSystemSolver:
     def __init__(self, funcs, args):
         self.funcs = funcs
@@ -437,71 +372,56 @@ class NonlinearSystemSolver:
         x, info = problem.solve(x0)
         return x
 
-def m2(u):
-    x0=np.array([0.25])
-    solver = NonlinearSystemSolver([cstr],u)
-    solution = solver.solve(x0)
 
-    
-    Temp_dimensionless = solution
-    fx1 = np.exp((gamma*Temp_dimensionless)/(1 + Temp_dimensionless))
-    xA_dimensionless = ((q0*x10) / (q0 + phi*fx1*u[1]))
-    conversion = 1 - xA_dimensionless
-    jacket_temp = (qc*u[0]*x30 + xi*(sigma_s*u[1] + sigma_b)*xA_dimensionless)/ \
-        (qc*u[0] +  xi*(sigma_s*u[1] + sigma_b))
         
-    return np.array([Temp_dimensionless, conversion]).reshape(2,)
-        
-        
-    
 
 # # Run the model
 Temps = []
 Conversions = []
 
-# AIS_bound =  np.array([[0.00, 0.75],
-#                         [0.40, 1.00]])
+AIS_bound =  np.array([[0.00, 0.75],
+                        [0.40, 1.00]])
 
-# n_points = 10000
+n_points = 10000
 
-# u_values = generate_edge_points(AIS_bound, n_points)
-
-
-# for u in u_values:
-#     result = m(u)
-#     Temps.append(result[0])
-#     Conversions.append(result[1])
+u_values = generate_edge_points(AIS_bound, n_points)
 
 
-# # # Plotting
-# plt.figure(figsize=(10, 5))
-# plt.scatter(u_values[:,0], u_values[:,1], marker='o', color='b', linestyle='-')
-# plt.xlabel("Normalized Coolant flow")
-# plt.ylabel("Normalized Volume")
-# plt.grid(True)
-# plt.title("Normalized Coolant flow vs. Normalized Volume")
-# plt.show()
+for u in u_values:
+    result = m(u)
+    Temps.append(result[0])
+    Conversions.append(result[1])
+
 
 # # Plotting
-# plt.figure(figsize=(10, 5))
-# plt.scatter(Temps, Conversions, marker='o', color='b', linestyle='-')
-# plt.xlabel("Temperature (Dimensionless)")
-# plt.ylabel("Conversion")
-# plt.grid(True)
-# plt.title("Conversion vs. Temperature (Dimensionless)")
-# plt.show()
+plt.figure(figsize=(10, 5))
+plt.scatter(u_values[:,0], u_values[:,1], marker='o', color='b', linestyle='-')
+plt.xlabel("Normalized Coolant flow")
+plt.ylabel("Normalized Volume")
+plt.grid(True)
+plt.title("Normalized Coolant flow vs. Normalized Volume")
+plt.show()
+
+# Plotting
+plt.figure(figsize=(10, 5))
+plt.scatter(Temps, Conversions, marker='o', color='b', linestyle='-')
+plt.xlabel("Temperature (Dimensionless)")
+plt.ylabel("Conversion")
+plt.grid(True)
+plt.title("Conversion vs. Temperature (Dimensionless)")
+plt.show()
 
 
 
 
-AIS_bound =  np.array([[0.00,  0.75],
-                        [0.45,  1.00]])
+# AIS_bound =  np.array([[0.00,  0.75],
+#                         [0.45,  1.00]])
 
-# AIS_bound =  np.array([[0.00,  1.5],
-#                         [0.00,  1.5]])
+# # AIS_bound =  np.array([[0.00,  1.5],
+# #                         [0.00,  1.5]])
 
-AIS_resolution = [100, 100]
-AOS, AIS = AIS2AOS_map(m, AIS_bound, AIS_resolution)
+# AIS_resolution = [100, 100]
+# AOS, AIS = AIS2AOS_map(m, AIS_bound, AIS_resolution)
 
 # AIS_bound2 =  np.array([[0.8,   16.00],
 #                         [0.2,   6.00]])
@@ -550,7 +470,46 @@ AOS, AIS = AIS2AOS_map(m, AIS_bound, AIS_resolution)
 
 # from opyrability import create_grid
 
-# AIS_grid = create_grid(AIS_bound, AIS_resolution)
+# AIS_grid = create_grid(AIS_bound, AIS_resolution).reshape(AIS_resolution[0]*AIS_resolution[1], -1)
+
+# AIS_reshaped = AIS.reshape(100*100,-1) 
+
+# row_idx, col_idx = np.where(np.isnan(AIS_reshaped))
+
+
+
+# AIS_nan =  AIS_grid[row_idx]
+
+# # # Run the model
+# Temps = []
+# Conversions = []
+
+# u_values = AIS_nan
+
+
+# for u in u_values:
+#     result = m_debug(u)
+#     Temps.append(result[0])
+#     Conversions.append(result[1])
+
+
+# # Plotting
+# plt.figure(figsize=(10, 5))
+# plt.scatter(u_values[:,0], u_values[:,1], marker='o', color='b', linestyle='-')
+# plt.xlabel("Normalized Coolant flow")
+# plt.ylabel("Normalized Volume")
+# plt.grid(True)
+# plt.title("Normalized Coolant flow vs. Normalized Volume")
+# plt.show()
+
+# # Plotting
+# plt.figure(figsize=(10, 5))
+# plt.scatter(Conversions,Temps, marker='o', color='b', linestyle='-')
+# plt.xlabel("Temperature (Dimensionless)")
+# plt.ylabel("Conversion")
+# plt.grid(True)
+# plt.title("Conversion vs. Temperature (Dimensionless)")
+# plt.show()
 
 # AIS_grid = AIS_grid.reshape(100,2)
 
