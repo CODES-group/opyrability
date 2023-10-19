@@ -1821,7 +1821,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
 
                  
 
-    if jit:
+    if jit is True:
         @jit
         def dodi(ii,oo):
             return -jnp.linalg.pinv(dFdo(ii,oo)) @ dFdi(ii,oo)

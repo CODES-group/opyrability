@@ -486,7 +486,7 @@ class NonlinearSystemSolver:
 
 
 # %% Run models using opyrability
-
+from jaxopt import ScipyRootFinding
 def m_implicit(input_vector, output_vector):
         # 1st CSTR
         
@@ -494,16 +494,18 @@ def m_implicit(input_vector, output_vector):
         # flowrate = u[0]
         # volume = u[1]
         
-        T_adim =  output_vector[0]
-        Conv   =  output_vector[1]
+        T_adim, Conv =  output_vector
+       
+        # x0=np.array([0.1])
+        # solver = NonlinearSystemSolver([cstr], input_vector)
         
-        x0=np.array([0.1])
-        solver = NonlinearSystemSolver([cstr], input_vector)
-        
-        solution = solver.solve(x0)
+        # solution = solver.solve(x0)
         
         
-        Temp_dimensionless = solution
+        # Temp_dimensionless = solution
+        
+        # Initialize root solver
+        # cstr_solver = ScipyRootFinding(method="hybr", optimality_fun=cstr)
         
         # solution=root_scalar(cstr, args=input_vector, method='newton',
         #             bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
@@ -524,9 +526,16 @@ def m_implicit(input_vector, output_vector):
         #     solution=root_scalar(cstr, args=input_vector, method='newton',
         #                 bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
         #                 x0=0.25, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
-            
+        
+        # The cstr_equation function for ScipyRootFinding
+        def cstr_equation(Temp_dimensionless, AIS):
+            return cstr(Temp_dimensionless, AIS)
        
+        cstr_solver = ScipyRootFinding(method="lm", optimality_fun=cstr_equation)
         # Temp_dimensionless = solution.root  # (x2)
+        init_temp_dim = np.array([0.1])
+        solution = cstr_solver.run(init_temp_dim, AIS=input_vector)
+        Temp_dimensionless = solution.params[0]
         fx1 = np.exp((gamma_1*Temp_dimensionless)/(1 + Temp_dimensionless))
         xA_dimensionless = ((q0_1*x10_1) / (q0_1 + phi_1*fx1*input_vector[1])) # Equation B.6 (x1)
         conversion = 1 - xA_dimensionless 
@@ -573,7 +582,7 @@ AIS, AOS, AIS_poly, AOS_poly = imap(m_implicit, initial_estimate,
                                     domain_bound = AIS_bound, 
                                     domain_resolution = AIS_resolution,
                                     direction = 'forward',
-                                    jit = False)
+                                    jit = True)
 
 
 
