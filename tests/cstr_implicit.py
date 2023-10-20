@@ -3,11 +3,12 @@ import jax.numpy as np
 from scipy.optimize import root, root_scalar, fsolve
 import matplotlib.pyplot as plt
 from opyrability import AIS2AOS_map, create_grid
-from jax import jacrev, grad, jit, jacfwd, hessian, vmap
+from jax import jacrev, jit, vmap
 import cyipopt
 import pandas as pd
-from jaxopt import ScipyRootFinding, Broyden, Bisection
+from jaxopt import ScipyRootFinding, Broyden
 from opyrability import implicit_map as imap
+import time
 
 from jax.config import config
 config.update("jax_enable_x64", True)
@@ -38,48 +39,6 @@ def generate_edge_points(bounds, n_points):
 
     edge_points = np.vstack(edge_sets)
     return edge_points
-
-
-class NonlinearSystemSolver:
-    def __init__(self, funcs, args):
-        self.funcs = funcs
-        self.args = args
-        # Compute the Jacobian of the vector function using jacrev
-        self.jac_func = jacrev(self.vector_func)
-        self.hess_func = hessian(self.objective)
-    
-    def vector_func(self, x):
-        """Vector function representing the system of equations."""
-        return np.array([f(x, self.args) for f in self.funcs])
-    
-    def objective(self, x):
-        """Objective function: sum of squares of residuals."""
-        residuals = np.array([f(x, self.args) for f in self.funcs])
-        return np.sum(residuals**2)
-    
-    def gradient(self, x):
-        """Calculate gradient using the Jacobian."""
-        # Evaluate the Jacobian at the current x
-        J = self.jac_func(x)
-        # Compute the gradient as J^T * f(x)
-        return J.T @ self.vector_func(x)
-    
-    def hessian(self, x, lagrange, obj_factor):
-        """Calculate Hessian of the objective function."""
-        # For systems of equations without constraints, the Hessian of the Lagrangian 
-        # is just obj_factor times the Hessian of the objective.
-        H = self.hess_func(x)
-        return obj_factor * H
-    
-    def solve(self, x0):
-        """Solve the system using IPOPT."""
-        n = len(x0)
-        x_L = np.ones(n) * -1.0e0
-        x_U = np.ones(n) * 1.0e0
-        problem = cyipopt.Problem(n=n, m=0, problem_obj=self, lb=x_L, ub=x_U)
-        problem.addOption('print_level', 0)
-        x, info = problem.solve(x0)
-        return x
 
 
 # ---------------------------- Set I of parameters -------------------------- #
@@ -140,7 +99,7 @@ phi2    = (Ab * np.exp(-gamma*(eta1 - 1 ))) / Aa
 
 # ---------------------------- 1d CSTR functions ---------------------------- #
 # Define cstr functions
-@jit
+# @jit
 def cstr(x, AIS):
     
     beta_1    = 0.35
@@ -172,7 +131,7 @@ def cstr(x, AIS):
     Eqn = Eqn.astype(float)
     return Eqn
 
-
+# @jit
 def cstr2(x, AIS):
     
     fx3 = np.exp((gamma*x)/(1+x))
@@ -203,10 +162,15 @@ def cstr2(x, AIS):
 def cstr_equation(Temp_dimensionless, AIS):
     return cstr(Temp_dimensionless, AIS)
 
-rtol=1e-12
+rtol=1e-6
 xtol= 1e-6
 gtol = 1e-6
 
+
+# Using JaxOPT (Differentiable Root-finding from Google)
+cstr_solver = Broyden(cstr_equation, tol=rtol, maxls=1000, jit=True)
+
+# Other option is to use the Scipy.optimize.root wrapper written by Google:
 # cstr_solver = ScipyRootFinding(method="hybr",
 #                                optimality_fun=cstr_equation,
 #                                jit=True,
@@ -214,61 +178,28 @@ gtol = 1e-6
 #                                options={'ftol': rtol, 'xtol': xtol, 
 #                                         "factor": 1.0})
 
-cstr_solver = Broyden(cstr_equation, tol=rtol, maxls=500, jit=True)
-
-# cstr_solver= Bisection(cstr_equation, lower=0, upper=0.5, maxiter=2000, tol=rtol, 
-#                         check_bracket=True)
 
 
-
-def m_uni(u):
-        # 1st CSTR
-        solution=root_scalar(cstr, args=u, method='secant',
-                    bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
-                    x0=0.1, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
-        
-        if cstr(solution.root, u) > rtol:
-            print('before corrector:')
-            
-            solution=root_scalar(cstr, args=u, method='secant',
-                        bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
-                        x0=solution.root, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
-            print('after corrector:')
-            print(cstr(solution.root, u))
-            print(solution.converged)
-            
-            
-        if solution.converged is not True:
-            solution=root_scalar(cstr, args=u, method='secant',
-                        bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
-                        x0=0.25, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
-            
-       
-        Temp_dimensionless = solution.root  # (x2)
-        fx1 = np.exp((gamma_1*Temp_dimensionless)/(1 + Temp_dimensionless))
-        xA_dimensionless = ((q0_1*x10_1) / (q0_1 + phi_1*fx1*u[1])) # Equation B.6 (x1)
-        conversion = 1 - xA_dimensionless 
-        
-        # Jacket temperature (optional variable).
-        jacket_temp = (qc_1*u[0]*x30_1 + xi_1*(sigma_s_1*u[1] + sigma_b_1)*xA_dimensionless)/ \
-            (qc_1*u[0] +  xi_1*(sigma_s_1*u[1] + sigma_b_1))
-        
-
-        return np.array([Temp_dimensionless, conversion]).reshape(2,)
-
-@jit
+# Models for Operability analysis (AIS-AOS maps)
+# @jit
 def m_jax(u):
         # 1st CSTR
-        init_temp_dim = np.array([0.1])
-        solution = cstr_solver.run(init_temp_dim, AIS=u)
-        jax.clear_caches()
-        sol_old = solution.params
+        initial_estimate = np.array([0.1])
+        solution = cstr_solver.run(initial_estimate, AIS=u)
         
+        # This line avoids memory leak in JaxOpt. 
+        # See https://github.com/google/jaxopt/issues/380 and
+        # https://github.com/google/jaxopt/issues/548. Works well. :)
+        jax.clear_caches()
+        
+        
+        # This is the equivalent of a if statment (control flow), Jax-compatible.
         def true_fun(_):
             # print('before corrector:')
-            solution_corrected = cstr_solver.run(np.array([0.3]), AIS=u)
+            initial_estimate = np.array([0.25])
+            solution_corrected = cstr_solver.run(initial_estimate, AIS=u)
             # print('after corrector:')
-            print(cstr(solution_corrected.params, u))
+            # print(cstr(solution_corrected.params, u))
             return solution_corrected
         
         def false_fun(_):
@@ -277,170 +208,96 @@ def m_jax(u):
         condition = cstr(solution.params, u)[0] > rtol
         solution = jax.lax.cond(condition, true_fun, false_fun, None)
         
-        # if cstr(solution.params, u) > rtol:
-            # print('before corrector:')
-            # print(solution.state.success)
-            # print(cstr(solution.params, u))
-            # solution = cstr_solver.run(np.array([0.3]), AIS=u)
-            # print('after corrector:')
-            # print(cstr(solution.params, u))
-            # print(solution.state.success)
+       
             
-            
-            # if solution.state.success is not True:
-            #     solution = cstr_solver.run(0.25, AIS=u)
-            #     print('after 2nd corrector:')
-            #     print(cstr(solution.params, u))
-            #     print(solution.state.success)   
-            
-        
-        Temp_dimensionless = solution.params
+        # Calculating Outputs from the nonlinear equation results.
+        Temp_dimensionless = solution.params # x(2) 
         
         fx1 = np.exp((gamma_1*Temp_dimensionless)/(1 + Temp_dimensionless))
+        
         xA_dimensionless = ((q0_1*x10_1) / (q0_1 + phi_1*fx1*u[1])) # Equation B.6 (x1)
+        
         conversion = 1 - xA_dimensionless 
         
         # Jacket temperature (optional variable).
-        # jacket_temp = (qc_1*input_vector[0]*x30_1 + xi_1*(sigma_s_1*input_vector[1] + sigma_b_1)*xA_dimensionless)/ \
-        #     (qc_1*input_vector[0] +  xi_1*(sigma_s_1*input_vector[1] + sigma_b_1))
+        # jacket_temp = (qc_1*u[0]*x30_1 + xi_1*(sigma_s_1*u[1] + sigma_b_1)*xA_dimensionless)/ \
+        #     (qc_1*u[0] +  xi_1*(sigma_s_1*u[1] + sigma_b_1))
         
- 
+        # conversion = jacket_temp       
+        
         return np.array([Temp_dimensionless, conversion]).reshape(2,)
     
 
 
-
-
-
-
-
-# High-order data (Jacobians/Hessians) for both models.
-jac_cstr1_raw=jacrev(cstr)
-hess_cstr1_raw = jacrev(jacrev(cstr))
-
-grad_cstr2_raw =  jacrev(cstr2)
-hess_cstr2_raw = jacrev(jacrev(cstr2))
-
-
-# "Jiitize".
-# @jit
-def jac_cstr(x, *args):
-    return np.array(jac_cstr1_raw(x, *args))
-
-# @jit
-def hess_cstr(x, *args):
-    return np.array(hess_cstr1_raw(x, *args))
-# @jit
-def jac_cstr2(x, *args):
-    return np.array(grad_cstr2_raw(x, *args))
-# @jit
-def hess_cstr2(x, *args):
-    return np.array(hess_cstr2_raw(x, *args))
-
-
-
-def newton_method(f, x0, param, tol=1e-6, max_iter=1000):
-    """
-    Find a root of a nonlinear function using Newton's method.
-    """
-    f_prime = grad(f, argnums=0)
-    x = x0
-    
-    for i in range(max_iter):
-        fx = f(x, param)
-        if np.abs(fx) < tol:
-            success = True
-            return x, success
-        x -= fx / f_prime(x, param)
-        print(f"Iteration {i}: x = {x}, fx = {fx}, f_prime = {f_prime(x, param)}")
-    raise ValueError(f"Newton's method did not converge after {max_iter} iterations")
-
-
-
-
 # @jit
 def m_implicit(input_vector, output_vector):
-        # 1st CSTR
+    
+        # 1st CSTR in implicit form F(u,y) = 0
         T_adim, Conv =  output_vector
+        u = input_vector
+        
+        # 1st CSTR
+        initial_estimate = np.array([0.1])
+        solution = cstr_solver.run(initial_estimate, AIS=u)
+        
+        # This line avoids memory leak in JaxOpt. 
+        # See https://github.com/google/jaxopt/issues/380 and
+        # https://github.com/google/jaxopt/issues/548. Works well. :)
+        jax.clear_caches()
+        
+        
+        # This is the equivalent of a if statment (control flow), Jax-compatible.
+        def true_fun(_):
+            # print('before corrector:')
+            initial_estimate = np.array([0.25])
+            solution_corrected = cstr_solver.run(initial_estimate, AIS=u)
+            # print('after corrector:')
+            # print(cstr(solution_corrected.params, u))
+            return solution_corrected
+        
+        def false_fun(_):
+            return solution
+        
+        condition = cstr(solution.params, u)[0] > rtol
+        solution = jax.lax.cond(condition, true_fun, false_fun, None)
+        
        
-        
-        init_temp_dim = np.array([0.1])
-        solution = cstr_solver.run(init_temp_dim, AIS=input_vector)
-        
-        if cstr(solution.params, input_vector) > rtol or solution.state.success is not True:
-            solution = cstr_solver.run(np.array([0.25]), AIS=input_vector)
             
-            
-        Temp_dimensionless = solution.params[0]
+        # Calculating Outputs from the nonlinear equation results.
+        Temp_dimensionless = solution.params # x(2) 
+        
         fx1 = np.exp((gamma_1*Temp_dimensionless)/(1 + Temp_dimensionless))
-        xA_dimensionless = ((q0_1*x10_1) / (q0_1 + phi_1*fx1*input_vector[1])) # Equation B.6 (x1)
-        conversion = 1 - xA_dimensionless 
         
-        # Jacket temperature (optional variable).
-        # jacket_temp = (qc_1*input_vector[0]*x30_1 + xi_1*(sigma_s_1*input_vector[1] + sigma_b_1)*xA_dimensionless)/ \
-        #     (qc_1*input_vector[0] +  xi_1*(sigma_s_1*input_vector[1] + sigma_b_1))
+        xA_dimensionless = ((q0_1*x10_1) / (q0_1 + phi_1*fx1*u[1])) # Equation B.6 (x1)
+        
+        conversion = 1 - xA_dimensionless 
         
         LHS1 = T_adim - Temp_dimensionless
         LHS2 = Conv - conversion
         
         
+        # jacket_temp = (qc_1*input_vector[0]*x30_1 + xi_1*(sigma_s_1*input_vector[1] + sigma_b_1)*xA_dimensionless)/ \
+        #     (qc_1*input_vector[0] +  xi_1*(sigma_s_1*input_vector[1] + sigma_b_1))
+        
+        
         
         return np.array([LHS1, LHS2]).reshape(2,)
     
-
-def m_uni_imp(u, y):
-        # 1st CSTR
-        u = np.asarray(y)
-        y = np.asarray(y)
-        solution=root_scalar(cstr, args=u, method='secant',
-                    bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
-                    x0=0.1, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
-        
-        if cstr(solution.root, u) > rtol:
-            print('before corrector:')
-            
-            solution=root_scalar(cstr, args=u, method='secant',
-                        bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
-                        x0=solution.root, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
-            print('after corrector:')
-            print(cstr(solution.root, u))
-            print(solution.converged)
-            
-            
-        if solution.converged is not True:
-            solution=root_scalar(cstr, args=u, method='secant',
-                        bracket=[-0.5, 1], fprime=jac_cstr, fprime2=hess_cstr, 
-                        x0=0.25, x1=0.5, xtol=xtol, rtol=rtol, maxiter=10000)
-            
-       
-        Temp_dimensionless = solution.root  # (x2)
-        fx1 = np.exp((gamma_1*Temp_dimensionless)/(1 + Temp_dimensionless))
-        xA_dimensionless = ((q0_1*x10_1) / (q0_1 + phi_1*fx1*u[1])) # Equation B.6 (x1)
-        conversion = 1 - xA_dimensionless 
-        
-        # Jacket temperature (optional variable).
-        jacket_temp = (qc_1*u[0]*x30_1 + xi_1*(sigma_s_1*u[1] + sigma_b_1)*xA_dimensionless)/ \
-            (qc_1*u[0] +  xi_1*(sigma_s_1*u[1] + sigma_b_1))
-        
-        
-        LHS1 = y[0] - Temp_dimensionless
-        LHS2 = y[1] - conversion
-
-        return np.asarray([LHS1, LHS2])
-
+# %% Implicit mapping
 # AIS_bound =  np.array([[0.00,  0.75],
 #                         [0.45,  1.00]])
 
 
-# AIS_resolution = [10, 10]
+# AIS_resolution = [5, 5]
 
-# initial_estimate = np.array([0.5, 0.5])
-# AIS, AOS, AIS_poly, AOS_poly = imap(m_uni_imp, initial_estimate, 
-#                                     continuation='Explicit RK4', 
+# initial_estimate = np.array([0.1, 0.1])
+# AIS, AOS, AIS_poly, AOS_poly = imap(m_implicit, initial_estimate, 
+#                                     continuation='odeint', 
 #                                     domain_bound = AIS_bound, 
 #                                     domain_resolution = AIS_resolution,
 #                                     direction = 'forward',
-#                                     jit = True)    
+#                                     step_cutting = False,
+#                                     validation = 'predictor')    
 
 
 # AIS_plot = np.reshape(AIS,(-1,2))
@@ -451,71 +308,39 @@ def m_uni_imp(u, y):
 
 # fig2, ax2 = plt.subplots()
 # ax2.scatter(AOS_plot[:,0], AOS_plot[:,1])
-# %%  Model Run
+# %%  Brute force enumeration
 # Run the models
-Temps = []
-Conversions = []
 
-AIS_bound =  np.array([[0.00,  1.45],
-                        [0.40,  1.40]])
+AIS_bound =  np.array([[0.25,  1.20],
+                        [0.50, 1.20]])
 
-AIS_resolution = [150, 150]
-
-# n_points = 100
+AIS_resolution = [100, 100]
+# 
+# n_points = 10000
 
 # u_values = generate_edge_points(AIS_bound, n_points)
 
 u_values = create_grid(AIS_bound, AIS_resolution).reshape(AIS_resolution[0]**2, -1)
 # 
 # Multiplicity Region from  Subramanian (2003) - Digitized Using Webplotidigitizer.
-MR_data = pd.read_excel('mr_data_2.xlsx')
+MR_data = pd.read_excel('mr_data.xlsx')
 # u_values = np.vstack((np.array(MR_data), u_values))
-MR_reg =  np.array(MR_data)
+# MR_reg =  np.array(MR_data)
 
-# for i, u in enumerate(u_values):
-#     print(f"\nIteration {i + 1}:")
-#     result = m_jax(u)
-#     Temps.append(result[0])
-#     Conversions.append(result[1])
-    
-    
-# Plotting
-# plt.figure(figsize=(10, 5))
-# plt.scatter(u_values[:,0], u_values[:,1], marker='o', linestyle='-',
-#             c=np.sqrt(u_values[:, 0]**2 + u_values[:, 1]**2), cmap='rainbow')
-# # plt.scatter(MR_reg[:,0], MR_reg[:,1], color = 'black')
-# plt.xlabel("Normalized Coolant flow")
-# plt.ylabel("Normalized Volume")
-# plt.grid(True)
-# plt.title("Normalized Coolant flow vs. Normalized Volume - 1st CSTR")
-# plt.show()
 
-# # Plotting
-# plt.figure(figsize=(10, 5))
-# plt.scatter(Temps, Conversions, marker='o', linestyle='-',
-#             c=np.sqrt(u_values[:, 0]**2 + u_values[:, 1]**2) , cmap='rainbow')
-# # plt.scatter(Temps[0:MR_reg.shape[0]], Conversions[0:MR_reg.shape[0]], color = 'black')
-# plt.xlabel("Temperature (Dimensionless)")
-# plt.ylabel("Conversion")
-# plt.grid(True)
-# plt.title("Conversion vs. Temperature (Dimensionless) - 1st CSTR")
-# plt.show()
-
-# %%
-import time
-
-vect_m = vmap(m_jax)
+# Vectorized map using Jax (fasssssssssssssst :) )
+vectorized_map = vmap(m_jax)
 
 start_time = time.time()
-results = vect_m(u_values)
+results = vectorized_map(u_values)
 elapsed_time = time.time() - start_time
 print(f"Elapsed time: {elapsed_time:.2f} seconds")
 
-Temps2 = results[:, 0]
-Conversions2 = results[:, 1]
-
-
-# Plotting
+Temps = results[:, 0]
+Conversions = results[:, 1]
+    
+    
+# Plotting AIS
 plt.figure(figsize=(10, 5))
 plt.scatter(u_values[:,0], u_values[:,1], marker='o', linestyle='-',
             c=np.sqrt(u_values[:, 0]**2 + u_values[:, 1]**2), cmap='rainbow')
@@ -526,9 +351,9 @@ plt.grid(True)
 plt.title("Normalized Coolant flow vs. Normalized Volume - 1st CSTR")
 plt.show()
 
-# Plotting
+# Plotting AOS
 plt.figure(figsize=(10, 5))
-plt.scatter(Temps2, Conversions2, marker='o', linestyle='-',
+plt.scatter(Temps, Conversions, marker='o', linestyle='-',
             c=np.sqrt(u_values[:, 0]**2 + u_values[:, 1]**2) , cmap='rainbow')
 # plt.scatter(Temps[0:MR_reg.shape[0]], Conversions[0:MR_reg.shape[0]], color = 'black')
 plt.xlabel("Temperature (Dimensionless)")
@@ -536,3 +361,5 @@ plt.ylabel("Conversion")
 plt.grid(True)
 plt.title("Conversion vs. Temperature (Dimensionless) - 1st CSTR")
 plt.show()
+
+
