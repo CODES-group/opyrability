@@ -20,6 +20,433 @@ import matplotlib.pyplot as plt
 
 from opyrability import implicit_map as imap
 
+
+
+# %% Test area! REMOVE BEFORE RELEASE!!!!
+def shower_implicit(u,y):
+    d = jnp.zeros(2)
+    y0_aux = (u[0]+u[1])
+    
+    y0_aux= jnp.where(y0_aux <= 1e-9, 1e-9, y0_aux)
+    
+    
+    LHS1 = y[0] - (u[0]+u[1])
+    LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(y0_aux)
+    
+    
+    # LHS2_AX = y[1] - (60+120)/2
+    LHS2_AX = y[1] - (60+120)/2
+    LHS2 = jnp.where(y0_aux <= 1e-9, LHS2_AX, LHS2)
+    
+    # if y[0]!=0:
+    #     LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
+    # else:
+        
+    
+    return jnp.array([LHS1, LHS2])
+
+
+
+def shower(u):
+    y = np.zeros(2)
+    d = jnp.zeros(2)
+    y[0] = (u[0]+u[1])
+    # LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
+    if y[0]!=0:
+        y[1] = (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
+    else:
+        y[1] = (60+120)/2
+    
+    return jnp.array(y)
+
+def FF1(u):
+    y = np.zeros(2)
+    # y[0] = u[1]**2*u[0]
+    y[0] = u[0] - 2*u[1]
+    y[1] = 3*u[0] + 4*u[1]
+    return jnp.array(y)
+
+def FF1_implicit(u,y):
+    # LHS0 = y[0] - u[1]**2*u[0]
+    LHS0 = y[0] - (u[0] - 2*u[1])
+    LHS1 = y[1] - (3*u[0] + 4*u[1])
+    return jnp.array([LHS0, LHS1])
+
+
+
+from matplotlib.patches import Polygon
+
+def makeplot(AOS_poly):
+    fig, ax = plt.subplots()
+    for i in range(len(AOS_poly)):
+        x = AOS_poly[i][0]
+        y = AOS_poly[i][1]
+        order = np.argsort(np.arctan2(y - y.mean(), x - x.mean()))
+        A = AOS_poly[i].T
+        polygon = Polygon(A[order] ,facecolor='tab:blue', edgecolor='black', linewidth=1)
+        ax.add_patch(polygon)
+    ax.autoscale_view()
+
+#%% Test DMA-MR inverse
+# DOS_bound = np.array([[22.4, 22.8],
+#                     [39.4, 40.0]])
+
+# DOSresolution = [10, 10]
+
+# output_init = np.array([20.0, 0.9])
+
+# DOS, DIS, DOS_poly, DIS_poly = imap(F_DMA_MR_eqn,
+#                                     DOS_bound,
+#                                     DOSresolution,
+#                                     output_init,
+#                                     direction='inverse')
+
+# %% Test shower forward
+# AIS_bound = np.array([[0.1, 10.0],
+#                     [0.1, 10.0]])
+
+# # AIS_bound =  np.array([[5.0, 10.0],
+# #                       [80.0, 100.0]])
+
+# AISresolution = [5, 5]
+
+# output_init = np.array([0.0, 10.0])
+
+
+# theta = np.linspace(0.01, 4 * np.pi, 400)
+
+# phi = np.pi / 4
+# a, b= 0.15, 1
+# y1 = 5 + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+#                                   b * np.sin(theta) * np.sin(phi))  
+# y2 = 5 + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+#                                   a * np.cos(theta) * np.cos(phi))
+
+
+# AIS_PTS=np.array([y1,y2]).T
+# AIS_PTS = data = np.array([
+#     [0.1, 0.1],
+#     [0.1, 2.575],
+#     [0.1, 5.05],
+#     [0.1, 7.525],
+#     [0.1, 10],
+#     [2.575, 0.1],
+#     [2.575, 2.575],
+#     [2.575, 5.05],
+#     [2.575, 7.525],
+#     [2.575, 10],
+#     [5.05, 0.1],
+#     [5.05, 2.575],
+#     [5.05, 5.05],
+#     [5.05, 7.525],
+#     [5.05, 10],
+#     [7.525, 0.1],
+#     [7.525, 2.575],
+#     [7.525, 5.05],
+#     [7.525, 7.525],
+#     [7.525, 10],
+#     [10, 0.1],
+#     [10, 2.575],
+#     [10, 5.05],
+#     [10, 7.525],
+#     [10, 10]
+# ])
+
+
+# t1 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit,  
+#                                             output_init,
+#                                             continuation='odeint',
+#                                             domain_points=AIS_PTS)
+
+
+# from opyrability import implicit_map as imap
+
+# AIS, AOS, AIS_poly, AOS_poly = imap(shower_implicit, 
+#                                             AIS_bound, 
+#                                             AISresolution, 
+#                                             output_init,
+#                                             continuation='odeint')
+
+# AIS_infeas_plot = np.reshape(AIS,(-1,2))
+# AOS_infeas_plot = np.reshape(AOS,(-1,2))
+
+# fig3, ax3 = plt.subplots()
+# ax3.scatter(AIS_infeas_plot[:,0], AIS_infeas_plot[:,1])
+
+# fig4, ax4 = plt.subplots()
+# ax4.scatter(AOS_infeas_plot[:,0], AOS_infeas_plot[:,1])
+
+# %% DMA-MR uncertainty - Forward
+# phi = np.pi / 4
+# a, b= 150, 500
+# theta = np.linspace(0, 3 * np.pi, 100)
+# y1 = 1173.15  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+#                                   b * np.sin(theta) * np.sin(phi))  
+# y2 = 1500.00   + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+#                                   a * np.cos(theta) * np.cos(phi))
+# # 
+# # # Center coordinates
+# # h, k = 1173.15 , 1500
+# # a, b = 500, 450  # Adjust a and b as needed
+
+# # # # h, k = 1173.15 , 101325.0
+# # # # a, b = 500, 450  # Adjust a and b as needed
+
+# # # # # h, k = 4   , 56.38
+# # # # # a, b = 2, 20  # Adjust a and b as needed
+# # alpha = np.pi / 4  # 45 degree rotation, adjust as needed
+# # theta = np.linspace(0, 2 * np.pi, 100)
+
+# # Ellipse equations
+# # x = a * np.cos(theta)
+# # y = b * np.sin(theta)
+
+# # # Rotated ellipse equations centered at (1500, 0.0036)
+# # y1 = h + (x * np.sin(alpha) + y * np.cos(alpha))
+# # y2 = k + (x * np.cos(alpha) - y * np.sin(alpha))
+
+
+# AIS_PTS=np.array([y1,y2]).T
+# # from matplotlib import pyplot as plt
+# plt.plot(AIS_PTS[:,0], AIS_PTS[:,1])
+# output_init = np.array([22.4, 39.4])
+# AIS, AOS, AIS_poly, AOS_poly = implicit_map(dma_mr_uncertain,  
+#                                             output_init,
+#                                             continuation='Explicit RK4',
+#                                             domain_points=AIS_PTS)
+
+
+# AOS_PTS = AOS.reshape(-1,2)
+# from matplotlib import pyplot
+# pyplot.figure()
+# plt.plot(AOS_PTS[:,0], AOS_PTS[:,1])
+
+# %% DMA-MR uncertainty - Forward
+# phi = np.pi / 4
+# a, b= 20265.00, 10132.50
+# theta = np.linspace(0, 3 * np.pi, 100)
+# y1 = 101325.00  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+#                                   b * np.sin(theta) * np.sin(phi))  
+# y2 = 101325.00   + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+#                                   a * np.cos(theta) * np.cos(phi))
+
+
+# phi = np.pi / 4
+# a, b= 0.01, 0.085
+# theta = np.linspace(0, 3 * np.pi, 100)
+# y1 = 21.00  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+#                                   b * np.sin(theta) * np.sin(phi))  
+# y2 = 35.00  + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+#                                   a * np.cos(theta) * np.cos(phi))
+# 
+# # Center coordinates
+# h, k = 1173.15 , 1500
+# a, b = 500, 450  # Adjust a and b as needed
+
+# # # h, k = 1173.15 , 101325.0
+# # # a, b = 500, 450  # Adjust a and b as needed
+
+# # # # h, k = 4   , 56.38
+# # # # a, b = 2, 20  # Adjust a and b as needed
+# alpha = np.pi / 4  # 45 degree rotation, adjust as needed
+# theta = np.linspace(0, 2 * np.pi, 100)
+
+# Ellipse equations
+# x = a * np.cos(theta)
+# y = b * np.sin(theta)
+
+# # Rotated ellipse equations centered at (1500, 0.0036)
+# y1 = h + (x * np.sin(alpha) + y * np.cos(alpha))
+# y2 = k + (x * np.cos(alpha) - y * np.sin(alpha))
+
+
+# AIS_PTS=np.array([y1,y2]).T
+# # from matplotlib import pyplot as plt
+# plt.plot(AIS_PTS[:,0], AIS_PTS[:,1])
+# output_init = np.array([22.4, 39.4])
+# # output_init = np.array([101325.0 , 101325.0])
+# AIS, AOS, AIS_poly, AOS_poly = imap(dma_mr_uncertain_inv,  
+#                                             output_init,
+#                                             continuation='Explicit RK4',
+#                                             domain_points=AIS_PTS,
+#                                             direction = 'forward')
+
+
+# AOS_PTS = AOS.reshape(-1,2)
+# from matplotlib import pyplot
+# pyplot.figure()
+# plt.plot(AOS_PTS[:,0], AOS_PTS[:,1])
+
+
+# %% DMA-MR uncertainty - Inv
+# phi = np.pi / 4
+# a, b= 1, 2
+# theta = np.linspace(0, 3 * np.pi, 400)
+# y1 = 22.4  + np.exp(-0.1 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+#                                   b * np.sin(theta) * np.sin(phi))  
+# y2 = 39.4   + np.exp(-0.1 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+#                                   a * np.cos(theta) * np.cos(phi))
+
+
+# phi = np.pi / 4
+# a, b= 0.01, 0.085
+# theta = np.linspace(0, 3 * np.pi, 100)
+# y1 = 21.00  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
+#                                   b * np.sin(theta) * np.sin(phi))  
+# y2 = 35.00  + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
+#                                   a * np.cos(theta) * np.cos(phi))
+# 
+# # Center coordinates
+# h, k = 1173.15 , 1500
+# a, b = 500, 450  # Adjust a and b as needed
+
+# # h, k = 1173.15 , 101325.0
+# # # a, b = 500, 450  # Adjust a and b as needed
+
+# # # # h, k = 4   , 56.38
+# # # # a, b = 2, 20  # Adjust a and b as needed
+# alpha = np.pi / 4  # 45 degree rotation, adjust as needed
+# theta = np.linspace(0, 2 * np.pi, 100)
+
+# Ellipse equations
+# x = a * np.cos(theta)
+# y = b * np.sin(theta)
+
+# # Rotated ellipse equations centered at (1500, 0.0036)
+# y1 = h + (x * np.sin(alpha) + y * np.cos(alpha))
+# y2 = k + (x * np.cos(alpha) - y * np.sin(alpha))
+
+
+# Without centered path to middle of ellipse.
+theta = np.linspace(0, 2 * np.pi, 400)
+phi = np.pi / 4
+a, b= 0.15, 1
+h, k = 22.4 , 39.4
+y1 = h +  (a * np.cos(theta) * np.cos(phi) - b * np.sin(theta) * np.sin(phi))  
+y2 = k +  (b * np.sin(theta) * np.cos(phi) + a * np.cos(theta) * np.cos(phi))
+
+AIS_PTS=np.array([y1,y2]).T
+# from matplotlib import pyplot as plt
+plt.plot(AIS_PTS[:,0], AIS_PTS[:,1])
+# output_init = np.array([1173.15, 101325.0])
+output_init = np.array([480.00, 600.00])
+# output_init = np.array([101325.0 , 101325.0])
+AIS, AOS, AIS_poly, AOS_poly = imap(dma_mr_uncertain_flows,  
+                                            output_init,
+                                            continuation='Explicit RK4',
+                                            domain_points=AIS_PTS,
+                                            direction = 'inverse')
+
+
+AOS_PTS = AOS.reshape(-1,2)
+from matplotlib import pyplot
+pyplot.figure()
+plt.plot(AOS_PTS[1:,0], AOS_PTS[1:,1])
+
+# %% DMA-MR inverse (Broken)
+
+# DOS_bound = np.array([[15.0, 25.0],
+#                     [35.0, 45.0]])
+
+
+# DOS_bound = np.array([[22.4, 23],
+#                     [39.4, 42.0]])
+
+# DOSresolution = [5, 5]
+
+# output_init = np.array([50.0, 2.0])
+
+# t2 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
+#                                             DOS_bound, 
+#                                             DOSresolution, 
+#                                             output_init,
+#                                             continuation='Explicit RK4',
+#                                             direction='inverse')
+
+# elapsed_RK4 = time.time() -  t2
+
+# makeplot(AOS_poly)
+
+# %%
+# elapsed_odeint = time.time() -  t1
+
+# print('ODEINT time (s)')
+# print(elapsed_odeint)
+
+
+# t2 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = imap(shower_implicit, 
+#                                             AIS_bound, 
+#                                             AISresolution, 
+#                                             output_init,
+#                                             continuation='Explicit RK4')
+
+# elapsed_RK4 = time.time() -  t2
+
+# print('RK4 time (s)')
+# print(elapsed_RK4)
+
+
+# # %%
+# DOS_bound = np.array([[22.4, 23],
+#                     [39.4, 42.0]])
+
+# DOS_bound = np.array([[22.0, 25.0],
+#                     [39.5, 45.0]])
+
+# DOS_bound = np.array([[22.0, 32.0],
+#                     [39.5, 49.0]])
+
+# DOS_bound = np.array([[22.4, 22.8],
+#                     [39.4, 40.0]])
+
+
+
+# DOSresolution =  [5, 5]
+
+# output_init = np.array([20.0, 0.9])
+
+# %%
+# t2 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
+#                                             DOS_bound, 
+#                                             DOSresolution , 
+#                                             output_init,
+#                                             continuation='Explicit RK4',
+#                                             direction='inverse',
+#                                             validation = 'predictor-corrector')
+# elapsed_RK4 = time.time() -  t2
+
+# print('RK4 time (s)')
+# print(elapsed_RK4)
+
+# AIS_plot = np.reshape(AIS,(-1,2))
+# AOS_plot = np.reshape(AOS,(-1,2))
+
+# fig1, ax1 = plt.subplots()
+# ax1.scatter(AIS_plot[:,0], AIS_plot[:,1])
+
+# fig2, ax2 = plt.subplots()
+# ax2.scatter(AOS_plot[:,0], AOS_plot[:,1])
+
+# %%
+# # t1 = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
+#                                             DOS_bound, 
+#                                             DOSresolution , 
+#                                             output_init,
+#                                             continuation='odeint',
+#                                             direction= 'inverse')
+
+# elapsed_odeint = time.time() -  t1
+
+# print('ODEINT time (s)')
+# print(elapsed_odeint)
+
+
+
 # %% Functions
 def implicit_map(model:             Callable[...,Union[float,np.ndarray]], 
                  image_init:        np.ndarray ,
@@ -427,361 +854,3 @@ def predict_RK4(dodi,i0, iplus ,o0):
 
 def predict_eEuler(dodi,i0, iplus ,o0):
     return o0 + dodi(i0,o0)@(iplus -i0)
-
-# %% Test area! REMOVE BEFORE RELEASE!!!!
-def shower_implicit(u,y):
-    d = jnp.zeros(2)
-    y0_aux = (u[0]+u[1])
-    
-    y0_aux= jnp.where(y0_aux <= 1e-9, 1e-9, y0_aux)
-    
-    
-    LHS1 = y[0] - (u[0]+u[1])
-    LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(y0_aux)
-    
-    
-    # LHS2_AX = y[1] - (60+120)/2
-    LHS2_AX = y[1] - (60+120)/2
-    LHS2 = jnp.where(y0_aux <= 1e-9, LHS2_AX, LHS2)
-    
-    # if y[0]!=0:
-    #     LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    # else:
-        
-    
-    return jnp.array([LHS1, LHS2])
-
-
-
-def shower(u):
-    y = np.zeros(2)
-    d = jnp.zeros(2)
-    y[0] = (u[0]+u[1])
-    # LHS2 = y[1] - (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    if y[0]!=0:
-        y[1] = (u[0]*(60+d[0])+u[1]*(120+d[1]))/(u[0]+u[1])
-    else:
-        y[1] = (60+120)/2
-    
-    return jnp.array(y)
-
-def FF1(u):
-    y = np.zeros(2)
-    # y[0] = u[1]**2*u[0]
-    y[0] = u[0] - 2*u[1]
-    y[1] = 3*u[0] + 4*u[1]
-    return jnp.array(y)
-
-def FF1_implicit(u,y):
-    # LHS0 = y[0] - u[1]**2*u[0]
-    LHS0 = y[0] - (u[0] - 2*u[1])
-    LHS1 = y[1] - (3*u[0] + 4*u[1])
-    return jnp.array([LHS0, LHS1])
-
-
-
-from matplotlib.patches import Polygon
-
-def makeplot(AOS_poly):
-    fig, ax = plt.subplots()
-    for i in range(len(AOS_poly)):
-        x = AOS_poly[i][0]
-        y = AOS_poly[i][1]
-        order = np.argsort(np.arctan2(y - y.mean(), x - x.mean()))
-        A = AOS_poly[i].T
-        polygon = Polygon(A[order] ,facecolor='tab:blue', edgecolor='black', linewidth=1)
-        ax.add_patch(polygon)
-    ax.autoscale_view()
-
-#%% Test DMA-MR inverse
-# DOS_bound = np.array([[22.4, 22.8],
-#                     [39.4, 40.0]])
-
-# DOSresolution = [10, 10]
-
-# output_init = np.array([20.0, 0.9])
-
-# DOS, DIS, DOS_poly, DIS_poly = imap(F_DMA_MR_eqn,
-#                                     DOS_bound,
-#                                     DOSresolution,
-#                                     output_init,
-#                                     direction='inverse')
-
-# %% Test shower forward
-# AIS_bound = np.array([[0.1, 10.0],
-#                     [0.1, 10.0]])
-
-# # AIS_bound =  np.array([[5.0, 10.0],
-# #                       [80.0, 100.0]])
-
-# AISresolution = [5, 5]
-
-# output_init = np.array([0.0, 10.0])
-
-
-# theta = np.linspace(0.01, 4 * np.pi, 400)
-
-# phi = np.pi / 4
-# a, b= 0.15, 1
-# y1 = 5 + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
-#                                   b * np.sin(theta) * np.sin(phi))  
-# y2 = 5 + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
-#                                   a * np.cos(theta) * np.cos(phi))
-
-
-# AIS_PTS=np.array([y1,y2]).T
-# AIS_PTS = data = np.array([
-#     [0.1, 0.1],
-#     [0.1, 2.575],
-#     [0.1, 5.05],
-#     [0.1, 7.525],
-#     [0.1, 10],
-#     [2.575, 0.1],
-#     [2.575, 2.575],
-#     [2.575, 5.05],
-#     [2.575, 7.525],
-#     [2.575, 10],
-#     [5.05, 0.1],
-#     [5.05, 2.575],
-#     [5.05, 5.05],
-#     [5.05, 7.525],
-#     [5.05, 10],
-#     [7.525, 0.1],
-#     [7.525, 2.575],
-#     [7.525, 5.05],
-#     [7.525, 7.525],
-#     [7.525, 10],
-#     [10, 0.1],
-#     [10, 2.575],
-#     [10, 5.05],
-#     [10, 7.525],
-#     [10, 10]
-# ])
-
-
-# t1 = time.time()
-# AIS, AOS, AIS_poly, AOS_poly = implicit_map(shower_implicit,  
-#                                             output_init,
-#                                             continuation='odeint',
-#                                             domain_points=AIS_PTS)
-
-
-# from opyrability import implicit_map as imap
-
-# AIS, AOS, AIS_poly, AOS_poly = imap(shower_implicit, 
-#                                             AIS_bound, 
-#                                             AISresolution, 
-#                                             output_init,
-#                                             continuation='odeint')
-
-# AIS_infeas_plot = np.reshape(AIS,(-1,2))
-# AOS_infeas_plot = np.reshape(AOS,(-1,2))
-
-# fig3, ax3 = plt.subplots()
-# ax3.scatter(AIS_infeas_plot[:,0], AIS_infeas_plot[:,1])
-
-# fig4, ax4 = plt.subplots()
-# ax4.scatter(AOS_infeas_plot[:,0], AOS_infeas_plot[:,1])
-
-# %% DMA-MR uncertainty - Forward
-# phi = np.pi / 4
-# a, b= 150, 500
-# theta = np.linspace(0, 3 * np.pi, 100)
-# y1 = 1173.15  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
-#                                   b * np.sin(theta) * np.sin(phi))  
-# y2 = 1500.00   + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
-#                                   a * np.cos(theta) * np.cos(phi))
-# # 
-# # # Center coordinates
-# # h, k = 1173.15 , 1500
-# # a, b = 500, 450  # Adjust a and b as needed
-
-# # # # h, k = 1173.15 , 101325.0
-# # # # a, b = 500, 450  # Adjust a and b as needed
-
-# # # # # h, k = 4   , 56.38
-# # # # # a, b = 2, 20  # Adjust a and b as needed
-# # alpha = np.pi / 4  # 45 degree rotation, adjust as needed
-# # theta = np.linspace(0, 2 * np.pi, 100)
-
-# # Ellipse equations
-# # x = a * np.cos(theta)
-# # y = b * np.sin(theta)
-
-# # # Rotated ellipse equations centered at (1500, 0.0036)
-# # y1 = h + (x * np.sin(alpha) + y * np.cos(alpha))
-# # y2 = k + (x * np.cos(alpha) - y * np.sin(alpha))
-
-
-# AIS_PTS=np.array([y1,y2]).T
-# # from matplotlib import pyplot as plt
-# plt.plot(AIS_PTS[:,0], AIS_PTS[:,1])
-# output_init = np.array([22.4, 39.4])
-# AIS, AOS, AIS_poly, AOS_poly = implicit_map(dma_mr_uncertain,  
-#                                             output_init,
-#                                             continuation='Explicit RK4',
-#                                             domain_points=AIS_PTS)
-
-
-# AOS_PTS = AOS.reshape(-1,2)
-# from matplotlib import pyplot
-# pyplot.figure()
-# plt.plot(AOS_PTS[:,0], AOS_PTS[:,1])
-
-# %% DMA-MR uncertainty - Inverse
-phi = np.pi / 4
-a, b= 20265.00, 10132.50
-theta = np.linspace(0, 3 * np.pi, 100)
-y1 = 101325.00  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
-                                  b * np.sin(theta) * np.sin(phi))  
-y2 = 101325.00   + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
-                                  a * np.cos(theta) * np.cos(phi))
-
-
-# phi = np.pi / 4
-# a, b= 0.01, 0.085
-# theta = np.linspace(0, 3 * np.pi, 100)
-# y1 = 21.00  + np.exp(-0.05 / theta) * (a * np.cos(theta) * np.cos(phi) + 
-#                                   b * np.sin(theta) * np.sin(phi))  
-# y2 = 35.00  + np.exp(-0.05 / theta) * (b * np.sin(theta) * np.cos(phi) - 
-#                                   a * np.cos(theta) * np.cos(phi))
-# 
-# # Center coordinates
-# h, k = 1173.15 , 1500
-# a, b = 500, 450  # Adjust a and b as needed
-
-# # # h, k = 1173.15 , 101325.0
-# # # a, b = 500, 450  # Adjust a and b as needed
-
-# # # # h, k = 4   , 56.38
-# # # # a, b = 2, 20  # Adjust a and b as needed
-# alpha = np.pi / 4  # 45 degree rotation, adjust as needed
-# theta = np.linspace(0, 2 * np.pi, 100)
-
-# Ellipse equations
-# x = a * np.cos(theta)
-# y = b * np.sin(theta)
-
-# # Rotated ellipse equations centered at (1500, 0.0036)
-# y1 = h + (x * np.sin(alpha) + y * np.cos(alpha))
-# y2 = k + (x * np.cos(alpha) - y * np.sin(alpha))
-
-
-AIS_PTS=np.array([y1,y2]).T
-# from matplotlib import pyplot as plt
-plt.plot(AIS_PTS[:,0], AIS_PTS[:,1])
-output_init = np.array([22.4, 39.4])
-# output_init = np.array([101325.0 , 101325.0])
-AIS, AOS, AIS_poly, AOS_poly = imap(dma_mr_uncertain_inv,  
-                                            output_init,
-                                            continuation='Explicit RK4',
-                                            domain_points=AIS_PTS,
-                                            direction = 'forward')
-
-
-AOS_PTS = AOS.reshape(-1,2)
-from matplotlib import pyplot
-pyplot.figure()
-plt.plot(AOS_PTS[:,0], AOS_PTS[:,1])
-
-# %% DMA-MR inverse (Broken)
-
-# DOS_bound = np.array([[15.0, 25.0],
-#                     [35.0, 45.0]])
-
-
-# DOS_bound = np.array([[22.4, 23],
-#                     [39.4, 42.0]])
-
-# DOSresolution = [5, 5]
-
-# output_init = np.array([50.0, 2.0])
-
-# t2 = time.time()
-# AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
-#                                             DOS_bound, 
-#                                             DOSresolution, 
-#                                             output_init,
-#                                             continuation='Explicit RK4',
-#                                             direction='inverse')
-
-# elapsed_RK4 = time.time() -  t2
-
-# makeplot(AOS_poly)
-
-# %%
-# elapsed_odeint = time.time() -  t1
-
-# print('ODEINT time (s)')
-# print(elapsed_odeint)
-
-
-# t2 = time.time()
-# AIS, AOS, AIS_poly, AOS_poly = imap(shower_implicit, 
-#                                             AIS_bound, 
-#                                             AISresolution, 
-#                                             output_init,
-#                                             continuation='Explicit RK4')
-
-# elapsed_RK4 = time.time() -  t2
-
-# print('RK4 time (s)')
-# print(elapsed_RK4)
-
-
-# # %%
-# DOS_bound = np.array([[22.4, 23],
-#                     [39.4, 42.0]])
-
-# DOS_bound = np.array([[22.0, 25.0],
-#                     [39.5, 45.0]])
-
-# DOS_bound = np.array([[22.0, 32.0],
-#                     [39.5, 49.0]])
-
-# DOS_bound = np.array([[22.4, 22.8],
-#                     [39.4, 40.0]])
-
-
-
-# DOSresolution =  [5, 5]
-
-# output_init = np.array([20.0, 0.9])
-
-# %%
-# t2 = time.time()
-# AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
-#                                             DOS_bound, 
-#                                             DOSresolution , 
-#                                             output_init,
-#                                             continuation='Explicit RK4',
-#                                             direction='inverse',
-#                                             validation = 'predictor-corrector')
-# elapsed_RK4 = time.time() -  t2
-
-# print('RK4 time (s)')
-# print(elapsed_RK4)
-
-# AIS_plot = np.reshape(AIS,(-1,2))
-# AOS_plot = np.reshape(AOS,(-1,2))
-
-# fig1, ax1 = plt.subplots()
-# ax1.scatter(AIS_plot[:,0], AIS_plot[:,1])
-
-# fig2, ax2 = plt.subplots()
-# ax2.scatter(AOS_plot[:,0], AOS_plot[:,1])
-
-# %%
-# # t1 = time.time()
-# AIS, AOS, AIS_poly, AOS_poly = imap(F_DMA_MR_eqn, 
-#                                             DOS_bound, 
-#                                             DOSresolution , 
-#                                             output_init,
-#                                             continuation='odeint',
-#                                             direction= 'inverse')
-
-# elapsed_odeint = time.time() -  t1
-
-# print('ODEINT time (s)')
-# print(elapsed_odeint)
-

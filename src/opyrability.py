@@ -945,8 +945,9 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
         print('plot not supported. Dimension higher than 3.')
         pass
     else:
-
-        if plot is True:
+        if plot is False:
+            pass
+        elif plot is True:
             
             if fDIS.shape[1] == 2 and fDOS.shape[1] == 2:
                 _, (ax1, ax2) = plt.subplots(nrows=1,ncols=2, 
@@ -1102,8 +1103,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                 print('plot not supported. Dimension higher than 3.')
                 plot is False
                 pass
-
-
+        
     return fDIS, fDOS, message_list
 
 
@@ -1887,6 +1887,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     # closed path. It works for applications in which the meshgrid can be 
     # inferred from a discrete path.
     # TODO: Work in a definitive solution that can be generalized.
+    solv_method =  'hybr'
     if domain_points is not None:
         # Determine dimension
         d = domain_points.shape[1]
@@ -1903,7 +1904,8 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         domain_resolution = [side_length]*d  # inferred resolution
         image_set = np.zeros(domain_resolution + [nInput])*np.nan
         #  Initialization step: obtaining first solution
-        sol = root(F_io, image_init,args=domain_points[:,0])
+        
+        sol = root(F_io, image_init,args=domain_points[0,:], method=solv_method)
         image_set[0, 0] = sol.x
         nOutput = image_init.shape[0]
         
@@ -1927,7 +1929,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         domain_set = np.zeros(domain_resolution + [nInput])
         image_set = np.zeros(domain_resolution + [nInput])*np.nan
         #  Initialization step: obtaining first solution
-        sol = root(F_io, image_init,args=domain_bound[:,0])
+        sol = root(F_io, image_init,args=domain_bound[0,:], method=solv_method)
         image_set[0, 0] = sol.x
 
         for i in range(numInput):
@@ -2066,7 +2068,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
                                 np.isnan(max_residual)):
                                 
                                 # Call the corrector:
-                                sol = root(F_io, image_0, args=domain_k)
+                                sol = root(F_io, image_0, args=domain_k, method=solv_method)
                                 found_sol = sol.success
                                 
                                 # Treat case in which solution is not found:
@@ -2102,7 +2104,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
                         domain_k = domain_set[ID_cell]
                         V_domain_id[:,k] = domain_k
                         
-                        sol = root(F_io, image_0, args=domain_k)
+                        sol = root(F_io, image_0, args=domain_k, method=solv_method)
                         image_k = sol.x
                         
                         image_set[ID_cell] = image_k

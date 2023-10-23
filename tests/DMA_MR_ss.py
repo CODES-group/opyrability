@@ -255,6 +255,138 @@ def dma_mr_uncertain_inv(input_vec, output_vec):
 
 
 
+def dma_mr_uncertain_flows(input_vec, output_vec):
+    
+    # T = input_vec[0]              # Temperature[K]
+    # Q = input_vec[0]              # Temperature[K]
+    # selec =  input_vec[1]         # Selectivity
+    # Pt = input_vec[1]           # Pressure [Pa](1atm)
+    # Pt = input_vec[0]
+    # Ps = input_vec[1]
+    T = 1173.15
+    selec = 1500.00
+    benz = output_vec[0]
+    conv = output_vec[1]
+    # k2 = input_vec[0]                 # [s-¹]
+    # k2_Inv = input_vec[1]               # [cm³/s-mol]
+    v0 = input_vec[0] 
+    v_He = input_vec[1] 
+    
+    # Kinetic  and general parameters
+    R = 8.314e6                 # [Pa.cm³/(K.mol.)]
+    k1 = 0.04                   # [s-¹]
+    k1_Inv = 6.40e6             # [cm³/s-mol]
+    k2 = 4.20                   # [s-¹]
+    k2_Inv = 56.38              # [cm³/s-mol]
+    
+    # k2 = input_vec[0]                  # [s-¹]
+    # k2_Inv = input_vec[1]             # [cm³/s-mol]
+
+    # Molecular weights
+    MM_B = 78.00                # [g/mol] Benzene
+
+
+    # Fixed Reactor Values
+    Q = 3600 * 0.01e-4          # [mol/(h.cm².atm1/4)]
+
+    # Tube side
+    Pt = 101325.0               # Pressure [Pa](1atm)
+    # v0 = 3600 * (2 / 15)        # Vol. Flowrate [cm³ h-¹]
+    Ft0 = Pt * v0 / (R * T)     # Initial molar flowrate[mol/h] - Pure CH4
+
+    # Shell side
+    Ps = 101325.0               # Pressure [Pa](1atm)
+    ds = 3                      # Diameter[cm]
+    # v_He = 3600 * (1 / 6)       # Vol. flowrate[cm³/h]
+    F_He = Ps * v_He / (R * T)  # Sweep gas molar flowrate [mol/h]
+    
+    
+
+    # Initial conditions
+    y0 = jnp.hstack((Ft0, jnp.zeros(7)))
+    rtol, atol = 1e-10, 1e-10
+
+    z = jnp.linspace(0, 17.2283, 2000)
+    # z = jnp.linspace(0, 30, 2000)
+    F = odeint(dma_mr_ST, y0, z, selec,F_He, Ft0, v0, Pt, Ps, k1,k1_Inv,
+               k2,k2_Inv, Q, rtol=rtol, atol=atol)
+
+    
+    F_C6H6 = ((F[-1, 3] * 1000) * MM_B)
+    X_CH4  = (100 * (Ft0 - F[-1, 0] - F[-1, 4]) / Ft0)
+    
+    LHS1 = benz - F_C6H6
+    LHS2 = conv - X_CH4
+
+    return jnp.array([LHS1, LHS2])
+
+
+
+def dma_mr_uncertain_flows_check(u):
+    
+    # T = input_vec[0]              # Temperature[K]
+    # Q = input_vec[0]              # Temperature[K]
+    # selec =  input_vec[1]         # Selectivity
+    # Pt = input_vec[1]           # Pressure [Pa](1atm)
+    # Pt = input_vec[0]
+    # Ps = input_vec[1]
+    T = 1173.15
+    selec = 1500.00
+    # benz = output_vec[0]
+    # conv = output_vec[1]
+    # k2 = input_vec[0]                 # [s-¹]
+    # k2_Inv = input_vec[1]               # [cm³/s-mol]
+    v0 = u[0] 
+    v_He = u[1] 
+    
+    # Kinetic  and general parameters
+    R = 8.314e6                 # [Pa.cm³/(K.mol.)]
+    k1 = 0.04                   # [s-¹]
+    k1_Inv = 6.40e6             # [cm³/s-mol]
+    k2 = 4.20                   # [s-¹]
+    k2_Inv = 56.38              # [cm³/s-mol]
+    
+    # k2 = input_vec[0]                  # [s-¹]
+    # k2_Inv = input_vec[1]             # [cm³/s-mol]
+
+    # Molecular weights
+    MM_B = 78.00                # [g/mol] Benzene
+
+
+    # Fixed Reactor Values
+    Q = 3600 * 0.01e-4          # [mol/(h.cm².atm1/4)]
+
+    # Tube side
+    Pt = 101325.0               # Pressure [Pa](1atm)
+    # v0 = 3600 * (2 / 15)        # Vol. Flowrate [cm³ h-¹]
+    Ft0 = Pt * v0 / (R * T)     # Initial molar flowrate[mol/h] - Pure CH4
+
+    # Shell side
+    Ps = 101325.0               # Pressure [Pa](1atm)
+    ds = 3                      # Diameter[cm]
+    # v_He = 3600 * (1 / 6)       # Vol. flowrate[cm³/h]
+    F_He = Ps * v_He / (R * T)  # Sweep gas molar flowrate [mol/h]
+    
+    
+
+    # Initial conditions
+    y0 = jnp.hstack((Ft0, jnp.zeros(7)))
+    rtol, atol = 1e-10, 1e-10
+
+    z = jnp.linspace(0, 17.2283, 2000)
+    # z = jnp.linspace(0, 30, 2000)
+    F = odeint(dma_mr_ST, y0, z, selec,F_He, Ft0, v0, Pt, Ps, k1,k1_Inv,
+               k2,k2_Inv, Q, rtol=rtol, atol=atol)
+
+    
+    F_C6H6 = ((F[-1, 3] * 1000) * MM_B)
+    X_CH4  = (100 * (Ft0 - F[-1, 0] - F[-1, 4]) / Ft0)
+    
+    LHS1 = F_C6H6
+    LHS2 = X_CH4
+
+    return jnp.array([LHS1, LHS2])
+
 
 
 def dma_mr_ST(F, z, selec, F_He, Ft0, v0, Pt, Ps, k1,k1_Inv,k2,k2_Inv, Q):

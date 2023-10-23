@@ -128,7 +128,7 @@ def cstr(x, AIS):
     D   = (x - x30_1)
 
     Eqn = A + B - (C*D)
-    Eqn = Eqn.astype(float)
+    # Eqn = Eqn.astype(float)
     return Eqn
 
 # @jit
@@ -169,7 +169,8 @@ gtol = 1e-6
 
 # Using JaxOPT (Differentiable Root-finding from Google)
 cstr_solver = Broyden(cstr_equation, tol=rtol, maxls=1000, jit=True)
-
+cstr_solver_nojit = cstr_solver
+# cstr_solver_nojit = ScipyRootFinding(optimality_fun=cstr_equation , method='hybr', jit=False)
 # Other option is to use the Scipy.optimize.root wrapper written by Google:
 # cstr_solver = ScipyRootFinding(method="hybr",
 #                                optimality_fun=cstr_equation,
@@ -208,6 +209,13 @@ def m_jax(u):
         condition = cstr(solution.params, u)[0] > rtol
         solution = jax.lax.cond(condition, true_fun, false_fun, None)
         
+        # condition_val = jax.device_get(cstr(solution.params, u)[0] > rtol)
+
+        # if condition_val:
+        #     solution = true_fun(None)
+        # else:
+        #     solution = false_fun(None)
+        
        
             
         # Calculating Outputs from the nonlinear equation results.
@@ -238,7 +246,7 @@ def m_implicit(input_vector, output_vector):
         
         # 1st CSTR
         initial_estimate = np.array([0.1])
-        solution = cstr_solver.run(initial_estimate, AIS=u)
+        solution = cstr_solver_nojit.run(initial_estimate, AIS=u)
         
         # This line avoids memory leak in JaxOpt. 
         # See https://github.com/google/jaxopt/issues/380 and
@@ -260,6 +268,13 @@ def m_implicit(input_vector, output_vector):
         
         condition = cstr(solution.params, u)[0] > rtol
         solution = jax.lax.cond(condition, true_fun, false_fun, None)
+        
+        # condition_val = jax.device_get(cstr(solution.params, u)[0] > rtol)
+
+        # if condition_val:
+        #     solution = true_fun(None)
+        # else:
+        #     solution = false_fun(None)
         
        
             
@@ -284,20 +299,19 @@ def m_implicit(input_vector, output_vector):
         return np.array([LHS1, LHS2]).reshape(2,)
     
 # %% Implicit mapping
-# AIS_bound =  np.array([[0.00,  0.75],
-#                         [0.45,  1.00]])
+# AIS_bound =  np.array([[0.25,  1.2],
+#                         [0.50,  1.2]])
 
 
 # AIS_resolution = [5, 5]
 
 # initial_estimate = np.array([0.1, 0.1])
 # AIS, AOS, AIS_poly, AOS_poly = imap(m_implicit, initial_estimate, 
-#                                     continuation='odeint', 
+#                                     continuation='Explicit RK4', 
 #                                     domain_bound = AIS_bound, 
 #                                     domain_resolution = AIS_resolution,
-#                                     direction = 'forward',
-#                                     step_cutting = False,
-#                                     validation = 'predictor')    
+#                                     direction = 'forward', jit= True,
+#                                     validation= 'Corrector')    
 
 
 # AIS_plot = np.reshape(AIS,(-1,2))
@@ -323,7 +337,7 @@ AIS_resolution = [100, 100]
 u_values = create_grid(AIS_bound, AIS_resolution).reshape(AIS_resolution[0]**2, -1)
 # 
 # Multiplicity Region from  Subramanian (2003) - Digitized Using Webplotidigitizer.
-MR_data = pd.read_excel('mr_data.xlsx')
+# MR_data = pd.read_excel('mr_data.xlsx')
 # u_values = np.vstack((np.array(MR_data), u_values))
 # MR_reg =  np.array(MR_data)
 
