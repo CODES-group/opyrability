@@ -159,9 +159,13 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Installation</a></li>
 
+
 <li class="toctree-l1"><a class="reference internal" href="operability_overview.html">Process Operability Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Process Operability Algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="process_model.html">The Process Model (M) - Programming Aspects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
@@ -363,6 +367,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-conda-linux-and-macos-only">From conda (Linux and macOS <strong>only</strong>):</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#using-in-a-google-colab-environment">Using in a Google Colab environment:</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
 </ul>
 
@@ -397,6 +402,16 @@ document.write(`
 </pre></div>
 </div>
 </section>
+</section>
+<section id="using-in-a-google-colab-environment">
+<h1>Using in a Google Colab environment:<a class="headerlink" href="#using-in-a-google-colab-environment" title="Permalink to this heading">#</a></h1>
+<p>You can set up opyrability in your Google Colab session as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">!pip install -q condacolab</span>
+<span class="go">import condacolab</span>
+<span class="go">condacolab.install()</span>
+<span class="go">!conda install -c codes-group -c conda-forge opyrability</span>
+</pre></div>
+</div>
 </section>
 <section id="dependencies">
 <h1>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">#</a></h1>
@@ -485,6 +500,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-conda-linux-and-macos-only">From conda (Linux and macOS <strong>only</strong>):</a></li>
 </ul>
 </li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#using-in-a-google-colab-environment">Using in a Google Colab environment:</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">Dependencies</a></li>
 </ul>
 
