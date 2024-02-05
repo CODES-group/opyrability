@@ -715,6 +715,8 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
     https://doi.org/10.1016/j.compchemeng.2016.12.010
 
     '''
+    
+    
     from scipy.optimize import NonlinearConstraint
     # Use JAX.numpy if differentiable programming is available.
     if ad is False:
@@ -746,6 +748,11 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
         import jax.numpy as np
         from jax import jacrev, grad
         
+        # Make sure that the arrays contain floats (Reviewer #2 bug @ JOSS)
+        u0 = u0.astype(np.float64)
+        lb = lb.astype(np.float64)
+        ub = ub.astype(np.float64)
+        DOS_bounds = DOS_bounds.astype(np.float64)
         
         def p1(u: np.ndarray,
                model: Callable[..., Union[float, np.ndarray]],

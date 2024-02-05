@@ -25,6 +25,17 @@ The single command below will install opyrability and all requirements/dependenc
 conda install -c codes-group -c conda-forge opyrability
 ```
 
+## Using in a Google Colab environment:
+
+You can set up opyrability in your Google Colab session as follows:
+```console
+!pip install -q condacolab
+import condacolab
+condacolab.install()
+!conda install -c codes-group -c conda-forge opyrability
+```
+
+
 ## Dependencies
 
 Opyrability is allowed to exist thanks to the following libraries that are dependencies:
