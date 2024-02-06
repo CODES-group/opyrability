@@ -154,7 +154,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Opyrability Documentation - v1.4.5
+                    Opyrability Documentation -  
                 </a>
             </li>
         </ul>
@@ -483,7 +483,7 @@ function, <strong>opyrability will work</strong>.</p>
 in order to be opyrability-compatible:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">process_model</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">process_model</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
 
         <span class="c1"># u is a vector with the AIS variables.</span>
         <span class="c1"># d is a vector with the EDS variables.</span>
@@ -505,7 +505,7 @@ are explicit and algebraic, being solved directly. The process model Python func
 would be, in this case:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">shower_problem</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">shower_problem</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
@@ -534,7 +534,7 @@ are calculated based on the calculated states of the following ODE system,
 described by the <code class="docutils literal notranslate"><span class="pre">dma_mr_model</span></code> function below:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
     <span class="kn">from</span> <span class="nn">jax.numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
     <span class="kn">from</span> <span class="nn">jax.experimental.ode</span> <span class="kn">import</span> <span class="n">odeint</span>
 
@@ -655,7 +655,7 @@ Hence, the process model function that will be used in opyrability can be
 written in the following form:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
 
 
         <span class="n">L</span> <span class="o">=</span>  <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                   <span class="c1"># Tube length   [cm2]</span>
