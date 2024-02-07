@@ -483,7 +483,7 @@ function, <strong>opyrability will work</strong>.</p>
 in order to be opyrability-compatible:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">process_model</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">process_model</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
 
         <span class="c1"># u is a vector with the AIS variables.</span>
         <span class="c1"># d is a vector with the EDS variables.</span>
@@ -500,12 +500,12 @@ in order to be opyrability-compatible:</p>
 </div>
 <section id="process-model-defined-as-a-set-of-algebraic-equations">
 <h2>Process Model Defined as a Set of Algebraic Equations<a class="headerlink" href="#process-model-defined-as-a-set-of-algebraic-equations" title="Permalink to this heading">#</a></h2>
-<p>This might be the simplest case, one example being the <a class="reference internal" href="examples_gallery/operability_index_shower.html"><span class="doc std std-doc">Shower Problem</span></a><span id="id1">[<a class="reference internal" href="bibliography.html#id34" title="Fernando V. Lima, Zhenya Jia, Marianthi Ierapetritou, and Christos Georgakis. Similarities and differences between the concepts of operability and flexibility: the steady-state case. AIChE Journal, 56(3):702-716, 2010. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.12021, doi:https://doi.org/10.1002/aic.12021.">10</a>, <a class="reference internal" href="bibliography.html#id22" title="David R Vinson and Christos Georgakis. A new measure of process output controllability. Journal of Process Control, 10(2):185 - 194, 2000. URL: http://www.sciencedirect.com/science/article/pii/S0959152499000451, doi:https://doi.org/10.1016/S0959-1524(99)00045-1.">12</a>]</span>. The model equations
+<p>This might be the simplest case, one example being the <a class="reference internal" href="examples_gallery/operability_index_shower.html"><span class="doc std std-doc">Shower Problem</span></a><span id="id1">[<a class="reference internal" href="bibliography.html#id34" title="Fernando V. Lima, Zhenya Jia, Marianthi Ierapetritou, and Christos Georgakis. Similarities and differences between the concepts of operability and flexibility: the steady-state case. AIChE Journal, 56(3):702-716, 2010. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.12021, doi:https://doi.org/10.1002/aic.12021.">11</a>, <a class="reference internal" href="bibliography.html#id22" title="David R Vinson and Christos Georgakis. A new measure of process output controllability. Journal of Process Control, 10(2):185 - 194, 2000. URL: http://www.sciencedirect.com/science/article/pii/S0959152499000451, doi:https://doi.org/10.1016/S0959-1524(99)00045-1.">13</a>]</span>. The model equations
 are explicit and algebraic, being solved directly. The process model Python function
 would be, in this case:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">shower_problem</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">shower_problem</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
@@ -527,14 +527,14 @@ integrated. Irrespective of the increased complexity, as long as you follow the
 syntax that is opyrability-compatible, the process operability calculations performed
 by opyrability will work effortlessly.</p>
 <p>One example is the
-<a class="reference internal" href="examples_gallery/membrane_reactor.html"><span class="doc std std-doc">DMA-MR</span></a> <span id="id2">[<a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">4</a>]</span>
+<a class="reference internal" href="examples_gallery/membrane_reactor.html"><span class="doc std std-doc">DMA-MR</span></a> <span id="id2">[<a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">5</a>]</span>
 in which the AIS variables are design parameters (tube length and tube diameter)
 and AOS variables correspond to methane conversion and benzene production. Both
 are calculated based on the calculated states of the following ODE system,
 described by the <code class="docutils literal notranslate"><span class="pre">dma_mr_model</span></code> function below:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
     <span class="kn">from</span> <span class="nn">jax.numpy</span> <span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
     <span class="kn">from</span> <span class="nn">jax.experimental.ode</span> <span class="kn">import</span> <span class="n">odeint</span>
 
@@ -655,7 +655,7 @@ Hence, the process model function that will be used in opyrability can be
 written in the following form:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span> <span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
 
 
         <span class="n">L</span> <span class="o">=</span>  <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                   <span class="c1"># Tube length   [cm2]</span>
@@ -779,7 +779,7 @@ By Victor Alves @ Control, Optimization and Design for Energy and Sustainability
     
   <p class="copyright">
     
-      © Copyright 2023.
+      © Copyright 2022-2024.
       <br/>
     
   </p>

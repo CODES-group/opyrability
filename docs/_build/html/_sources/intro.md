@@ -1,4 +1,4 @@
-# Opyrability Documentation - ![PyPI - Version](https://img.shields.io/pypi/v/opyrability) ![Conda Version](https://img.shields.io/conda/vn/codes-group/opyrability)
+# Opyrability Documentation ![PyPI - Version](https://img.shields.io/pypi/v/opyrability) ![Conda Version](https://img.shields.io/conda/vn/codes-group/opyrability)
 
 
 
