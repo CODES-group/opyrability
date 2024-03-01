@@ -59,14 +59,14 @@ y_1 = 0\rightarrow y_2 = 90
 Defining the AIS bounds, as well as the discretization resolution:
 ```{code-cell}
     AIS_bounds =  np.array([[0, 10], [0, 10]])
-    resolution =  [5, 5]
+    resolution =  [25, 25]
 ```
 
 Obtain discretized AIS/AOS.
 
 ```{code-cell}
     AIS, AOS =  AIS2AOS_map(shower_problem, AIS_bounds,  resolution, plot = True)
-    print(AOS)
+    
 ```
 
 ### Inverse mapping (AOS/DOS to AIS/DIS)
@@ -299,8 +299,17 @@ Generating paired simplicial polytopes for the AIS/AOS generated for the
 shower problem example.
 
 ```{code-cell}
+    from opyrability import AIS2AOS_map
     from opyrability import points2simplices
 
+    # Obtain an input-output mapping using AIS2AOS_map
+    AIS_bounds =  np.array([[0, 10], [0, 10]])
+    resolution =  [5, 5]
+
+    # The shower_problem function is the same one from the AIS2AOS_map example.
+    AIS, AOS =  AIS2AOS_map(shower_problem, AIS_bounds,  resolution, plot = False)
+    
+    # Obtain simplices.
     AIS_poly, AOS_poly = points2simplices(AIS,AOS)
 
     print('AIS Simplices \n', AIS_poly)

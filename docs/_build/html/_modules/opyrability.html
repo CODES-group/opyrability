@@ -149,7 +149,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    Opyrability Documentation - v1.4.5
+                    Opyrability Documentation -  
                 </a>
             </li>
         </ul>
@@ -1031,6 +1031,8 @@ document.write(`
 <span class="sd">    https://doi.org/10.1016/j.compchemeng.2016.12.010</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
+    
+    
     <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">NonlinearConstraint</span>
     <span class="c1"># Use JAX.numpy if differentiable programming is available.</span>
     <span class="k">if</span> <span class="n">ad</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
@@ -1062,6 +1064,11 @@ document.write(`
         <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
         <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">jacrev</span><span class="p">,</span> <span class="n">grad</span>
         
+        <span class="c1"># Make sure that the arrays contain floats (Reviewer #2 bug @ JOSS)</span>
+        <span class="n">u0</span> <span class="o">=</span> <span class="n">u0</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">lb</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="n">ub</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">DOS_bounds</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         
         <span class="k">def</span> <span class="nf">p1</span><span class="p">(</span><span class="n">u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                <span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
@@ -1990,10 +1997,9 @@ document.write(`
 
 
 <div class="viewcode-block" id="implicit_map"><a class="viewcode-back" href="../api.html#opyrability.implicit_map">[docs]</a><span class="k">def</span> <span class="nf">implicit_map</span><span class="p">(</span><span class="n">model</span><span class="p">:</span>             <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> 
-                 <span class="n">image_init</span><span class="p">:</span>        <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
-                 <span class="n">domain_bound</span><span class="p">:</span>      <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
-                 <span class="n">domain_resolution</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
-                 <span class="n">domain_points</span><span class="p">:</span>     <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">domain_bound</span><span class="p">:</span>      <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                 <span class="n">domain_resolution</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
+                 <span class="n">image_init</span><span class="p">:</span>        <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="p">,</span>
                  <span class="n">direction</span><span class="p">:</span>         <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;forward&#39;</span><span class="p">,</span> 
                  <span class="n">validation</span><span class="p">:</span>        <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;predictor-corrector&#39;</span><span class="p">,</span> 
                  <span class="n">tol_cor</span><span class="p">:</span>           <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">,</span> 
@@ -2123,16 +2129,11 @@ document.write(`
 
     <span class="c1"># Use JAX.numpy if differentiable programming is available.</span>
     <span class="k">if</span> <span class="n">derivative</span> <span class="o">==</span> <span class="s1">&#39;jax&#39;</span><span class="p">:</span>
-        
         <span class="kn">from</span> <span class="nn">jax.config</span> <span class="kn">import</span> <span class="n">config</span>
-        <span class="kn">from</span> <span class="nn">jaxopt</span> <span class="kn">import</span> <span class="n">Broyden</span>
         <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-        <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+        <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
         <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">jit</span><span class="p">,</span> <span class="n">jacrev</span>
         <span class="kn">from</span> <span class="nn">jax.experimental.ode</span> <span class="kn">import</span> <span class="n">odeint</span> <span class="k">as</span> <span class="n">odeint</span>
-        <span class="n">solver</span> <span class="o">=</span> <span class="n">Broyden</span><span class="p">(</span><span class="n">F_io</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="n">tol_cor</span><span class="p">,</span> <span class="n">jit</span><span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
-        
-        
         <span class="n">dFdi</span> <span class="o">=</span> <span class="n">jacrev</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">dFdo</span> <span class="o">=</span> <span class="n">jacrev</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -2145,20 +2146,20 @@ document.write(`
     <span class="k">if</span> <span class="n">jit</span><span class="p">:</span>
         <span class="nd">@jit</span>
         <span class="k">def</span> <span class="nf">dodi</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">oo</span><span class="p">):</span>
-            <span class="k">return</span> <span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">dFdo</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">oo</span><span class="p">))</span> <span class="o">@</span> <span class="n">dFdi</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">oo</span><span class="p">)</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">pinv</span><span class="p">(</span><span class="n">dFdo</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">oo</span><span class="p">))</span> <span class="o">@</span> <span class="n">dFdi</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span><span class="n">oo</span><span class="p">)</span>
         
         <span class="nd">@jit</span>
         <span class="k">def</span> <span class="nf">dods</span><span class="p">(</span><span class="n">oo</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">s_length</span><span class="p">,</span> <span class="n">i0</span><span class="p">,</span> <span class="n">iplus</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">dodi</span><span class="p">(</span><span class="n">i0</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span><span class="o">/</span><span class="n">s_length</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">iplus</span> <span class="o">-</span> <span class="n">i0</span><span class="p">),</span> <span class="n">oo</span><span class="p">)</span> \
                 <span class="o">@</span><span class="p">((</span><span class="n">iplus</span> <span class="o">-</span> <span class="n">i0</span><span class="p">)</span><span class="o">/</span><span class="n">s_length</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">def</span> <span class="nf">dodi</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">oo</span><span class="p">):</span> <span class="k">return</span> <span class="o">-</span><span class="n">jnp</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">pinv</span><span class="p">(</span><span class="n">dFdo</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">oo</span><span class="p">))</span> <span class="o">@</span> <span class="n">dFdi</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">oo</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">dodi</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">oo</span><span class="p">):</span> <span class="k">return</span> <span class="o">-</span><span class="n">pinv</span><span class="p">(</span><span class="n">dFdo</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">oo</span><span class="p">))</span> <span class="o">@</span> <span class="n">dFdi</span><span class="p">(</span><span class="n">ii</span><span class="p">,</span> <span class="n">oo</span><span class="p">)</span>
         <span class="k">def</span> <span class="nf">dods</span><span class="p">(</span><span class="n">oo</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">s_length</span><span class="p">,</span> <span class="n">i0</span><span class="p">,</span> <span class="n">iplus</span><span class="p">):</span> <span class="k">return</span> <span class="n">dodi</span><span class="p">(</span>
             <span class="n">i0</span> <span class="o">+</span> <span class="p">(</span><span class="n">s</span><span class="o">/</span><span class="n">s_length</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">iplus</span> <span class="o">-</span> <span class="n">i0</span><span class="p">),</span> <span class="n">oo</span><span class="p">)</span><span class="o">@</span><span class="p">((</span><span class="n">iplus</span> <span class="o">-</span> <span class="n">i0</span><span class="p">)</span><span class="o">/</span><span class="n">s_length</span><span class="p">)</span>
 
         
     <span class="c1">#  Initialization step: obtaining first solution</span>
-    <span class="c1"># sol = root(F_io, image_init,args=domain_bound[:,0])</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">root</span><span class="p">(</span><span class="n">F_io</span><span class="p">,</span> <span class="n">image_init</span><span class="p">,</span><span class="n">args</span><span class="o">=</span><span class="n">domain_bound</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
     
     <span class="c1">#  Predictor scheme selection</span>
     <span class="k">if</span> <span class="n">continuation</span> <span class="o">==</span> <span class="s1">&#39;Explicit RK4&#39;</span><span class="p">:</span>
@@ -2202,106 +2203,35 @@ document.write(`
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Ivalid continuation method. Exiting algorithm.&#39;</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-      
         
-    <span class="c1"># This code below is a partial implementation of implicit mapping with a</span>
-    <span class="c1"># closed path. It works for applications in which the meshgrid can be </span>
-    <span class="c1"># inferred from a discrete path.</span>
-    <span class="c1"># TODO: Work in a definitive solution that can be generalized.</span>
-    <span class="k">if</span> <span class="n">domain_points</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># Determine dimension</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">domain_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        
-        <span class="c1"># Calculate side length of grid (assumes cubic/square grid)</span>
-        <span class="n">side_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">domain_points</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">d</span><span class="p">))</span>
-        
-        <span class="c1"># Reshape into the desired shape</span>
-        <span class="n">domain_set</span> <span class="o">=</span> <span class="n">domain_points</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">*</span><span class="p">([</span><span class="n">side_length</span><span class="p">]</span><span class="o">*</span><span class="n">d</span><span class="p">),</span> <span class="n">d</span><span class="p">)</span>
-    
-        <span class="c1"># Update other dependent parameters</span>
-        <span class="n">nInput</span> <span class="o">=</span> <span class="n">domain_set</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">numInput</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">([</span><span class="n">side_length</span><span class="p">]</span><span class="o">*</span><span class="n">d</span><span class="p">)</span>
-        <span class="n">domain_resolution</span> <span class="o">=</span> <span class="p">[</span><span class="n">side_length</span><span class="p">]</span><span class="o">*</span><span class="n">d</span>  <span class="c1"># inferred resolution</span>
-        <span class="n">image_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">domain_resolution</span> <span class="o">+</span> <span class="p">[</span><span class="n">nInput</span><span class="p">])</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="c1">#  Initialization step: obtaining first solution</span>
-        <span class="c1"># sol = root(F_io, image_init,args=domain_points[:,0])</span>
-        <span class="c1"># image_set[0, 0] = sol.x</span>
-        <span class="n">sol2</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">image_init</span><span class="p">,</span> <span class="n">domain_points</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">image_set</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sol2</span><span class="o">.</span><span class="n">params</span>
-        <span class="n">nOutput</span> <span class="o">=</span> <span class="n">image_init</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numInput</span><span class="p">):</span>
-            <span class="n">inputID</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nInput</span>
-            <span class="n">inputID</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">domain_resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-    
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># Pre-alocating the domain set</span>
-        <span class="n">numInput</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">domain_resolution</span><span class="p">)</span>
-        <span class="n">nInput</span> <span class="o">=</span> <span class="n">domain_bound</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">nOutput</span> <span class="o">=</span> <span class="n">image_init</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">Input_u</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Pre-allocating the domain set</span>
+    <span class="n">numInput</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">domain_resolution</span><span class="p">)</span>
+    <span class="n">nInput</span> <span class="o">=</span> <span class="n">domain_bound</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">nOutput</span> <span class="o">=</span> <span class="n">image_init</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">Input_u</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="c1"># Create discretized AIS based on bounds and resolution information.</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nInput</span><span class="p">):</span>
-            <span class="n">Input_u</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">domain_bound</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
-                                            <span class="n">domain_bound</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-                                            <span class="n">domain_resolution</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
+    <span class="c1"># Create discretized AIS based on bounds and resolution information.</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nInput</span><span class="p">):</span>
+        <span class="n">Input_u</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">domain_bound</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                                        <span class="n">domain_bound</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+                                        <span class="n">domain_resolution</span><span class="p">[</span><span class="n">i</span><span class="p">])))</span>
 
-        <span class="n">domain_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">domain_resolution</span> <span class="o">+</span> <span class="p">[</span><span class="n">nInput</span><span class="p">])</span>
-        <span class="n">image_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">domain_resolution</span> <span class="o">+</span> <span class="p">[</span><span class="n">nInput</span><span class="p">])</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-        <span class="c1">#  Initialization step: obtaining first solution</span>
-        <span class="c1"># sol = root(F_io, image_init,args=domain_bound[:,0])</span>
-        <span class="c1"># image_set[0, 0] = sol.x</span>
-        <span class="n">sol2</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">image_init</span><span class="p">,</span> <span class="n">domain_bound</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">image_set</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sol2</span><span class="o">.</span><span class="n">params</span>
-        
+    <span class="n">domain_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">domain_resolution</span> <span class="o">+</span> <span class="p">[</span><span class="n">nInput</span><span class="p">])</span>
+    <span class="n">image_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">domain_resolution</span> <span class="o">+</span> <span class="p">[</span><span class="n">nInput</span><span class="p">])</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">image_set</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">x</span>
 
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numInput</span><span class="p">):</span>
-            <span class="n">inputID</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nInput</span>
-            <span class="n">inputID</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">domain_resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-            <span class="n">domain_val</span> <span class="o">=</span> <span class="p">[</span><span class="n">Input_u</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">inputID</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numInput</span><span class="p">):</span>
+        <span class="n">inputID</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">nInput</span>
+        <span class="n">inputID</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">domain_resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="n">domain_val</span> <span class="o">=</span> <span class="p">[</span><span class="n">Input_u</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">inputID</span><span class="p">[</span><span class="mi">0</span><span class="p">]]]</span>
 
-            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nInput</span><span class="p">):</span>
-                <span class="n">inputID</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">domain_resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">j</span><span class="p">])),</span>
-                                        <span class="n">domain_resolution</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
-                <span class="n">domain_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Input_u</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">inputID</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nInput</span><span class="p">):</span>
+            <span class="n">inputID</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">domain_resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">j</span><span class="p">])),</span>
+                                    <span class="n">domain_resolution</span><span class="p">[</span><span class="n">j</span><span class="p">]))</span>
+            <span class="n">domain_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Input_u</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">inputID</span><span class="p">[</span><span class="n">j</span><span class="p">]])</span>
 
-            <span class="n">domain_set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">inputID</span><span class="p">)]</span> <span class="o">=</span> <span class="n">domain_val</span>
-     
-    <span class="c1"># End of partial implementation. Below we have the OG code that I will leave</span>
-    <span class="c1"># here for my own sake of sanity.</span>
-    
-    <span class="c1"># --------------------------- Previous strategy ------------------------- #</span>
-    <span class="c1"># # Pre-allocating the domain set</span>
-    <span class="c1"># numInput = np.prod(domain_resolution)</span>
-    <span class="c1"># nInput = domain_bound.shape[0]</span>
-    <span class="c1"># nOutput = image_init.shape[0]</span>
-    <span class="c1"># Input_u = []</span>
+        <span class="n">domain_set</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">inputID</span><span class="p">)]</span> <span class="o">=</span> <span class="n">domain_val</span>
 
-    <span class="c1"># # Create discretized AIS based on bounds and resolution information.</span>
-    <span class="c1"># for i in range(nInput):</span>
-    <span class="c1">#     Input_u.append(list(np.linspace(domain_bound[i, 0],</span>
-    <span class="c1">#                                     domain_bound[i, 1],</span>
-    <span class="c1">#                                     domain_resolution[i])))</span>
-
-    <span class="c1"># domain_set = np.zeros(domain_resolution + [nInput])</span>
-    <span class="c1"># image_set = np.zeros(domain_resolution + [nInput])*np.nan</span>
-    <span class="c1"># image_set[0, 0] = sol.x</span>
-
-    <span class="c1"># for i in range(numInput):</span>
-    <span class="c1">#     inputID = [0]*nInput</span>
-    <span class="c1">#     inputID[0] = int(np.mod(i, domain_resolution[0]))</span>
-    <span class="c1">#     domain_val = [Input_u[0][inputID[0]]]</span>
-
-    <span class="c1">#     for j in range(1, nInput):</span>
-    <span class="c1">#         inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),</span>
-    <span class="c1">#                                 domain_resolution[j]))</span>
-    <span class="c1">#         domain_val.append(Input_u[j][inputID[j]])</span>
-
-    <span class="c1">#     domain_set[tuple(inputID)] = domain_val</span>
-
-    <span class="c1"># --------------------------- End of Previous strategy ------------------ #</span>
-    
     <span class="n">cube_vertices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="n">nInput</span><span class="p">)):</span>
         <span class="n">cube_vertices</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
@@ -2312,7 +2242,6 @@ document.write(`
     <span class="n">image_polyhedra</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">numInput</span><span class="p">)):</span>
-    <span class="c1"># for i in (range(numInput)):</span>
         <span class="n">inputID</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">domain_resolution</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 
         <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nInput</span><span class="p">):</span>
@@ -2393,18 +2322,14 @@ document.write(`
                                 <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">max_residual</span><span class="p">)):</span>
                                 
                                 <span class="c1"># Call the corrector:</span>
-                                <span class="c1"># sol = root(F_io, image_0, args=domain_k)</span>
-                                
-                                <span class="n">sol2</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">image_0</span><span class="p">,</span> <span class="n">domain_k</span><span class="p">)</span>
-                                <span class="c1"># image_set[0, 0] = sol.x</span>
-                                
-                                <span class="c1"># found_sol = sol.success</span>
+                                <span class="n">sol</span> <span class="o">=</span> <span class="n">root</span><span class="p">(</span><span class="n">F_io</span><span class="p">,</span> <span class="n">image_0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">domain_k</span><span class="p">)</span>
+                                <span class="n">found_sol</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">success</span>
                                 
                                 <span class="c1"># Treat case in which solution is not found:</span>
-                                <span class="c1"># if found_sol:</span>
-                                <span class="c1">#     image_k = sol.x</span>
-                                <span class="c1"># else:</span>
-                                <span class="c1">#     image_k = np.nan</span>
+                                <span class="k">if</span> <span class="n">found_sol</span><span class="p">:</span>
+                                    <span class="n">image_k</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">x</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">image_k</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
                                     
                             
                             <span class="n">image_set</span><span class="p">[</span><span class="n">ID_cell</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_k</span>
@@ -2433,10 +2358,8 @@ document.write(`
                         <span class="n">domain_k</span> <span class="o">=</span> <span class="n">domain_set</span><span class="p">[</span><span class="n">ID_cell</span><span class="p">]</span>
                         <span class="n">V_domain_id</span><span class="p">[:,</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">domain_k</span>
                         
-                        <span class="c1"># sol = root(F_io, image_0, args=domain_k)</span>
-                        <span class="c1"># image_k = sol.x</span>
-                        <span class="n">sol2</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">image_0</span><span class="p">,</span> <span class="n">domain_k</span><span class="p">)</span>
-                        <span class="n">image_k</span> <span class="o">=</span> <span class="n">sol2</span><span class="o">.</span><span class="n">params</span>
+                        <span class="n">sol</span> <span class="o">=</span> <span class="n">root</span><span class="p">(</span><span class="n">F_io</span><span class="p">,</span> <span class="n">image_0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">domain_k</span><span class="p">)</span>
+                        <span class="n">image_k</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">x</span>
                         
                         <span class="n">image_set</span><span class="p">[</span><span class="n">ID_cell</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_k</span>
                         <span class="n">V_image_id</span><span class="p">[:,</span><span class="n">k</span><span class="p">]</span>    <span class="o">=</span> <span class="n">image_k</span>
@@ -2644,7 +2567,7 @@ By Victor Alves @ Control, Optimization and Design for Energy and Sustainability
     
   <p class="copyright">
     
-      © Copyright 2023.
+      © Copyright 2022-2024.
       <br/>
     
   </p>
