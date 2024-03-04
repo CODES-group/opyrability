@@ -6,7 +6,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "opyrability"
-version = "1.4.6"
+version = "1.4.7"
 description = "Process operability analysis in Python"
 authors = ["Victor Alves"]
 license = "MIT License"
@@ -30,7 +30,7 @@ exclude = ["*.tests", "*.tests.*", "tests.*", "tests", "*.obsolete", "*.obsolete
 
 [tool.poetry.dependencies]
 python = "^3.9.0"
-numpy = ">=1.24.1,<1.26.0"
+numpy = ">=1.24.1"
 scipy = "^1.10.0"
 tqdm = "^4.64.1"
 matplotlib = ">=3.6.2, <3.8.0"
