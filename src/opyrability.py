@@ -741,7 +741,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
         print(" You have selected automatic differentiation as a method for"
        " obtaining higher-order data (Jacobians/Hessian),")
         print(" Make sure your process model is JAX-compatible implementation-wise.")
-        from jax.config import config
+        from jax import config
         config.update("jax_enable_x64", True)
         config.update('jax_platform_name', 'cpu')
         warnings.filterwarnings('ignore', module='jax._src.lib.xla_bridge')
@@ -1814,7 +1814,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
 
     # Use JAX.numpy if differentiable programming is available.
     if derivative == 'jax':
-        from jax.config import config
+        from jax import config
         config.update("jax_enable_x64", True)
         import jax.numpy as jnp
         from jax import jit, jacrev
