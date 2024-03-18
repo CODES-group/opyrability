@@ -149,12 +149,13 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    Opyrability Documentation - v1.4.3
+                    Opyrability Documentation -  
                 </a>
             </li>
         </ul>
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+
 
 <li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
@@ -319,7 +320,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">permutations</span> <span class="k">as</span> <span class="n">perms</span>
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span><span class="n">Union</span>
-<span class="kn">from</span> <span class="nn">tqdm.auto</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">tqdm.notebook</span> <span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="c1"># Linear Algebra</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -1030,6 +1031,8 @@ document.write(`
 <span class="sd">    https://doi.org/10.1016/j.compchemeng.2016.12.010</span>
 
 <span class="sd">    &#39;&#39;&#39;</span>
+    
+    
     <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">NonlinearConstraint</span>
     <span class="c1"># Use JAX.numpy if differentiable programming is available.</span>
     <span class="k">if</span> <span class="n">ad</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
@@ -1061,6 +1064,11 @@ document.write(`
         <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">np</span>
         <span class="kn">from</span> <span class="nn">jax</span> <span class="kn">import</span> <span class="n">jacrev</span><span class="p">,</span> <span class="n">grad</span>
         
+        <span class="c1"># Make sure that the arrays contain floats (Reviewer #2 bug @ JOSS)</span>
+        <span class="n">u0</span> <span class="o">=</span> <span class="n">u0</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">lb</span> <span class="o">=</span> <span class="n">lb</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">ub</span> <span class="o">=</span> <span class="n">ub</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">DOS_bounds</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
         
         <span class="k">def</span> <span class="nf">p1</span><span class="p">(</span><span class="n">u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                <span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
@@ -2559,7 +2567,7 @@ By Victor Alves @ Control, Optimization and Design for Energy and Sustainability
     
   <p class="copyright">
     
-      © Copyright 2023.
+      © Copyright 2022-2024.
       <br/>
     
   </p>

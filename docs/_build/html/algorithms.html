@@ -154,16 +154,20 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Opyrability Documentation - v1.4.3
+                    Opyrability Documentation -  
                 </a>
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 
+
 <li class="toctree-l1"><a class="reference internal" href="operability_overview.html">Process Operability Overview</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Process Operability Algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="process_model.html">The Process Model (M) - Programming Aspects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">Bibliography</a></li>
@@ -394,7 +398,7 @@ of a given process model. This section will go briefly over these methods but th
 reader is encouraged to go over the <a class="reference internal" href="bibliography.html#bibliography"><span class="std std-ref">Bibliography</span></a> for a more thorough explanation of them.</p>
 <section id="multimodel-approach">
 <h2>Multimodel Approach<a class="headerlink" href="#multimodel-approach" title="Permalink to this heading">#</a></h2>
-<p>The multimodel approach <span id="id1">[<a class="reference internal" href="bibliography.html#id33" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">5</a>, <a class="reference internal" href="bibliography.html#id5" title="Vitor Gazzaneo, Juan C. Carrasco, David R. Vinson, and Fernando V. Lima. Process operability algorithms: past, present, and future developments. Industrial &amp; Engineering Chemistry Research, 59(6):2457-2470, 2020. URL: https://doi.org/10.1021/acs.iecr.9b05181, arXiv:https://doi.org/10.1021/acs.iecr.9b05181, doi:10.1021/acs.iecr.9b05181.">6</a>, <a class="reference internal" href="bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">7</a>]</span> employs
+<p>The multimodel approach <span id="id1">[<a class="reference internal" href="bibliography.html#id33" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">6</a>, <a class="reference internal" href="bibliography.html#id5" title="Vitor Gazzaneo, Juan C. Carrasco, David R. Vinson, and Fernando V. Lima. Process operability algorithms: past, present, and future developments. Industrial &amp; Engineering Chemistry Research, 59(6):2457-2470, 2020. URL: https://doi.org/10.1021/acs.iecr.9b05181, arXiv:https://doi.org/10.1021/acs.iecr.9b05181, doi:10.1021/acs.iecr.9b05181.">7</a>, <a class="reference internal" href="bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">8</a>]</span> employs
 the paradigm of a series of polytopes being able
 to represent any nonlinear space. This approach
 simplifies the calculation of operability sets since polytopes are by definition convex and can be described by their half-space representation (<span class="math notranslate nohighlight">\(\mathcal{H}-rep\)</span>) or vertex representation (<span class="math notranslate nohighlight">\(\mathcal{V}-rep\)</span>), as a system of linear
@@ -433,7 +437,7 @@ competing design and control structures.</p></li>
 </section>
 <section id="nonlinear-programming-based-nlp-based-approach">
 <h2>Nonlinear Programming-Based (NLP-based) Approach<a class="headerlink" href="#nonlinear-programming-based-nlp-based-approach" title="Permalink to this heading">#</a></h2>
-<p>The NLP-based approach <span id="id2">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">3</a>, <a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">4</a>]</span> converts the inverse mapping
+<p>The NLP-based approach <span id="id2">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">4</a>, <a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">5</a>]</span> converts the inverse mapping
 task into a nonlinear programming formulation.
 The premise of this algorithm is that the DOS can be discretized into a series of
 coordinate points in the output space (AOS/DOS) and that an objective function of
@@ -472,7 +476,7 @@ points will be shifted as close as possible to enable feasible operation represe
 the error minimization between feasible and desired operation are named slightly differently as
 the Feasible Desired Output Set (DOS*) and Feasible Desired Input Set (DIS*).</p>
 <p>Lastly, the NLP-based approach can be extended to encompass the search for intensified
-and/or modular designs, as proposed in the literature <span id="id3">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">3</a>]</span>.</p>
+and/or modular designs, as proposed in the literature <span id="id3">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">4</a>]</span>.</p>
 </section>
 </section>
 
@@ -568,7 +572,7 @@ By Victor Alves @ Control, Optimization and Design for Energy and Sustainability
     
   <p class="copyright">
     
-      © Copyright 2023.
+      © Copyright 2022-2024.
       <br/>
     
   </p>

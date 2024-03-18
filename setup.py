@@ -9,7 +9,7 @@ modules = \
 install_requires = \
 ['cvxopt',
  'jax[cpu]>=0.4.13,<0.5.0',
- 'matplotlib',
+ 'matplotlib<3.8.0',
  'numpy',
  'polytope>=0.2.4,<0.3.0',
  'scipy',
@@ -17,7 +17,7 @@ install_requires = \
 
 setup_kwargs = {
     'name': 'opyrability',
-    'version': '1.4.3',
+    'version': '1.4.7',
     'description': 'Process operability analysis in Python',
     'author': 'Victor Alves',
     'author_email': 'None',

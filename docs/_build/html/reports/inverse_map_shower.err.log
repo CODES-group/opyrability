@@ -18,19 +18,65 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-from opyrability import nlp_based_approach
-import numpy as np
+u0 = np.array([0, 10])
+lb = np.array([0, 0])
+ub = np.array([100,100])
 
-import time
+DOS_bound = np.array([[17.5, 21.0],
+                    [80.0, 100.0]])
+
+DOSresolution = [10, 10]
+    
+
+t = time.time()
+fDIS, fDOS, message = nlp_based_approach(DOS_bound, 
+                                          DOSresolution, 
+                                          shower2x2, 
+                                          u0, 
+                                          lb,
+                                          ub, 
+                                          method='ipopt', 
+                                          plot=True, 
+                                          ad=False,
+                                          warmstart=False)
+    
+    
+elapsed = time.time() - t
 ------------------
 
 
 [1;31m---------------------------------------------------------------------------[0m
-[1;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [1;32mIn[1], line 1[0m
-[1;32m----> 1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mopyrability[39;00m [38;5;28;01mimport[39;00m nlp_based_approach
-[0;32m      2[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
-[0;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mtime[39;00m
+[1;31mIndexError[0m                                Traceback (most recent call last)
+Cell [1;32mIn[3], line 12[0m
+[0;32m      8[0m DOSresolution [38;5;241m=[39m [[38;5;241m10[39m, [38;5;241m10[39m]
+[0;32m     11[0m t [38;5;241m=[39m time[38;5;241m.[39mtime()
+[1;32m---> 12[0m fDIS, fDOS, message [38;5;241m=[39m [43mnlp_based_approach[49m[43m([49m[43mDOS_bound[49m[43m,[49m[43m [49m
+[0;32m     13[0m [43m                                          [49m[43mDOSresolution[49m[43m,[49m[43m [49m
+[0;32m     14[0m [43m                                          [49m[43mshower2x2[49m[43m,[49m[43m [49m
+[0;32m     15[0m [43m                                          [49m[43mu0[49m[43m,[49m[43m [49m
+[0;32m     16[0m [43m                                          [49m[43mlb[49m[43m,[49m
+[0;32m     17[0m [43m                                          [49m[43mub[49m[43m,[49m[43m [49m
+[0;32m     18[0m [43m                                          [49m[43mmethod[49m[38;5;241;43m=[39;49m[38;5;124;43m'[39;49m[38;5;124;43mipopt[39;49m[38;5;124;43m'[39;49m[43m,[49m[43m [49m
+[0;32m     19[0m [43m                                          [49m[43mplot[49m[38;5;241;43m=[39;49m[38;5;28;43;01mTrue[39;49;00m[43m,[49m[43m [49m
+[0;32m     20[0m [43m                                          [49m[43mad[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m[43m,[49m
+[0;32m     21[0m [43m                                          [49m[43mwarmstart[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m[43m)[49m
+[0;32m     24[0m elapsed [38;5;241m=[39m time[38;5;241m.[39mtime() [38;5;241m-[39m t
 
-[1;31mModuleNotFoundError[0m: No module named 'opyrability'
+File [1;32mV:\Documents\python_operability\src\opyrability.py:800[0m, in [0;36mnlp_based_approach[1;34m(model, DOS_bounds, DOS_resolution, u0, lb, ub, constr, method, plot, ad, warmstart)[0m
+[0;32m    797[0m     [38;5;28;01mpass[39;00m
+[0;32m    799[0m dimDOS [38;5;241m=[39m DOS_bounds[38;5;241m.[39mshape[[38;5;241m0[39m]
+[1;32m--> 800[0m DOSPts [38;5;241m=[39m [43mcreate_grid[49m[43m([49m[43mDOS_bounds[49m[43m,[49m[43m [49m[43mDOS_resolution[49m[43m)[49m
+[0;32m    801[0m DOSPts [38;5;241m=[39m DOSPts[38;5;241m.[39mreshape([38;5;241m-[39m[38;5;241m1[39m, dimDOS)
+[0;32m    802[0m u00    [38;5;241m=[39m u0
+
+File [1;32mV:\Documents\python_operability\src\opyrability.py:1158[0m, in [0;36mcreate_grid[1;34m(region_bounds, region_resolution)[0m
+[0;32m   1156[0m [38;5;66;03m# Create discretized region based on bounds and resolution information.[39;00m
+[0;32m   1157[0m [38;5;28;01mfor[39;00m i [38;5;129;01min[39;00m [38;5;28mrange[39m(nInput):
+[1;32m-> 1158[0m     Input_u[38;5;241m.[39mappend([38;5;28mlist[39m(np[38;5;241m.[39mlinspace([43mregion_bounds[49m[43m[[49m[43mi[49m[43m,[49m[43m [49m[38;5;241;43m0[39;49m[43m][49m,
+[0;32m   1159[0m                                     region_bounds[i, [38;5;241m1[39m],
+[0;32m   1160[0m                                     region_resolution[i])))
+[0;32m   1162[0m [38;5;66;03m# Create slack variables for preallocation purposes.[39;00m
+[0;32m   1163[0m region_grid [38;5;241m=[39m np[38;5;241m.[39mzeros(region_resolution [38;5;241m+[39m [nInput])
+
+[1;31mIndexError[0m: too many indices for array: array is 1-dimensional, but 2 were indexed
 
