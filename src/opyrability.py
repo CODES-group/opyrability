@@ -741,7 +741,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
         print(" You have selected automatic differentiation as a method for"
        " obtaining higher-order data (Jacobians/Hessian),")
         print(" Make sure your process model is JAX-compatible implementation-wise.")
-        from jax.config import config
+        from jax import config
         config.update("jax_enable_x64", True)
         config.update('jax_platform_name', 'cpu')
         warnings.filterwarnings('ignore', module='jax._src.lib.xla_bridge')
@@ -952,8 +952,9 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
         print('plot not supported. Dimension higher than 3.')
         pass
     else:
-
-        if plot is True:
+        if plot is False:
+            pass
+        elif plot is True:
             
             if fDIS.shape[1] == 2 and fDOS.shape[1] == 2:
                 _, (ax1, ax2) = plt.subplots(nrows=1,ncols=2, 
@@ -1109,8 +1110,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                 print('plot not supported. Dimension higher than 3.')
                 plot is False
                 pass
-
-
+        
     return fDIS, fDOS, message_list
 
 
@@ -1681,9 +1681,10 @@ def points2polyhedra(AIS: np.ndarray, AOS: np.ndarray) -> Union[np.ndarray,
 
 
 def implicit_map(model:             Callable[...,Union[float,np.ndarray]], 
-                 domain_bound:      np.ndarray, 
-                 domain_resolution: np.ndarray, 
-                 image_init:        np.ndarray ,
+                 image_init:        np.ndarray, 
+                 domain_bound:      np.ndarray = None, 
+                 domain_resolution: np.ndarray = None, 
+                 domain_points:     np.ndarray = None,
                  direction:         str = 'forward', 
                  validation:        str = 'predictor-corrector', 
                  tol_cor:           float = 1e-4, 
@@ -1813,9 +1814,9 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
 
     # Use JAX.numpy if differentiable programming is available.
     if derivative == 'jax':
-        from jax.config import config
+        from jax import config
         config.update("jax_enable_x64", True)
-        import jax.numpy as np
+        import jax.numpy as jnp
         from jax import jit, jacrev
         from jax.experimental.ode import odeint as odeint
         dFdi = jacrev(F, 0)
@@ -1827,23 +1828,23 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
 
                  
 
-    if jit:
+    if jit is True:
         @jit
         def dodi(ii,oo):
-            return -pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
+            return -jnp.linalg.pinv(dFdo(ii,oo)) @ dFdi(ii,oo)
         
         @jit
         def dods(oo, s, s_length, i0, iplus):
             return dodi(i0 + (s/s_length)*(iplus - i0), oo) \
                 @((iplus - i0)/s_length)
     else:
-        def dodi(ii, oo): return -pinv(dFdo(ii, oo)) @ dFdi(ii, oo)
+        def dodi(ii, oo): return -jnp.linalg.pinv(dFdo(ii, oo)) @ dFdi(ii, oo)
         def dods(oo, s, s_length, i0, iplus): return dodi(
             i0 + (s/s_length)*(iplus - i0), oo)@((iplus - i0)/s_length)
 
         
     #  Initialization step: obtaining first solution
-    sol = root(F_io, image_init,args=domain_bound[:,0])
+    # sol = root(F_io, image_init,args=domain_bound[:,0])
     
     #  Predictor scheme selection
     if continuation == 'Explicit RK4':
@@ -1887,35 +1888,103 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     else:
         print('Ivalid continuation method. Exiting algorithm.')
         sys.exit()
+      
         
-    # Pre-allocating the domain set
-    numInput = np.prod(domain_resolution)
-    nInput = domain_bound.shape[0]
-    nOutput = image_init.shape[0]
-    Input_u = []
+    # This code below is a partial implementation of implicit mapping with a
+    # closed path. It works for applications in which the meshgrid can be 
+    # inferred from a discrete path.
+    # TODO: Work in a definitive solution that can be generalized.
+    solv_method =  'hybr'
+    if domain_points is not None:
+        # Determine dimension
+        d = domain_points.shape[1]
+        
+        # Calculate side length of grid (assumes cubic/square grid)
+        side_length = int(domain_points.shape[0] ** (1/d))
+        
+        # Reshape into the desired shape
+        domain_set = domain_points.reshape(*([side_length]*d), d)
+    
+        # Update other dependent parameters
+        nInput = domain_set.shape[-1]
+        numInput = np.prod([side_length]*d)
+        domain_resolution = [side_length]*d  # inferred resolution
+        image_set = np.zeros(domain_resolution + [nInput])*np.nan
+        #  Initialization step: obtaining first solution
+        
+        sol = root(F_io, image_init,args=domain_points[0,:], method=solv_method)
+        image_set[0, 0] = sol.x
+        nOutput = image_init.shape[0]
+        
+        for i in range(numInput):
+            inputID = [0]*nInput
+            inputID[0] = int(np.mod(i, domain_resolution[0]))
+    
+    else:
+        # Pre-alocating the domain set
+        numInput = np.prod(domain_resolution)
+        nInput = domain_bound.shape[0]
+        nOutput = image_init.shape[0]
+        Input_u = []
 
-    # Create discretized AIS based on bounds and resolution information.
-    for i in range(nInput):
-        Input_u.append(list(np.linspace(domain_bound[i, 0],
-                                        domain_bound[i, 1],
-                                        domain_resolution[i])))
+        # Create discretized AIS based on bounds and resolution information.
+        for i in range(nInput):
+            Input_u.append(list(np.linspace(domain_bound[i, 0],
+                                            domain_bound[i, 1],
+                                            domain_resolution[i])))
 
-    domain_set = np.zeros(domain_resolution + [nInput])
-    image_set = np.zeros(domain_resolution + [nInput])*np.nan
-    image_set[0, 0] = sol.x
+        domain_set = np.zeros(domain_resolution + [nInput])
+        image_set = np.zeros(domain_resolution + [nInput])*np.nan
+        #  Initialization step: obtaining first solution
+        sol = root(F_io, image_init,args=domain_bound[0,:], method=solv_method)
+        image_set[0, 0] = sol.x
 
-    for i in range(numInput):
-        inputID = [0]*nInput
-        inputID[0] = int(np.mod(i, domain_resolution[0]))
-        domain_val = [Input_u[0][inputID[0]]]
+        for i in range(numInput):
+            inputID = [0]*nInput
+            inputID[0] = int(np.mod(i, domain_resolution[0]))
+            domain_val = [Input_u[0][inputID[0]]]
 
-        for j in range(1, nInput):
-            inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),
-                                    domain_resolution[j]))
-            domain_val.append(Input_u[j][inputID[j]])
+            for j in range(1, nInput):
+                inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),
+                                        domain_resolution[j]))
+                domain_val.append(Input_u[j][inputID[j]])
 
-        domain_set[tuple(inputID)] = domain_val
+            domain_set[tuple(inputID)] = domain_val
+     
+    # End of partial implementation. Below we have the OG code that I will leave
+    # here for my own sake of sanity.
+    
+    # --------------------------- Previous strategy ------------------------- #
+    # # Pre-allocating the domain set
+    # numInput = np.prod(domain_resolution)
+    # nInput = domain_bound.shape[0]
+    # nOutput = image_init.shape[0]
+    # Input_u = []
 
+    # # Create discretized AIS based on bounds and resolution information.
+    # for i in range(nInput):
+    #     Input_u.append(list(np.linspace(domain_bound[i, 0],
+    #                                     domain_bound[i, 1],
+    #                                     domain_resolution[i])))
+
+    # domain_set = np.zeros(domain_resolution + [nInput])
+    # image_set = np.zeros(domain_resolution + [nInput])*np.nan
+    # image_set[0, 0] = sol.x
+
+    # for i in range(numInput):
+    #     inputID = [0]*nInput
+    #     inputID[0] = int(np.mod(i, domain_resolution[0]))
+    #     domain_val = [Input_u[0][inputID[0]]]
+
+    #     for j in range(1, nInput):
+    #         inputID[j] = int(np.mod(np.floor(i/np.prod(domain_resolution[0:j])),
+    #                                 domain_resolution[j]))
+    #         domain_val.append(Input_u[j][inputID[j]])
+
+    #     domain_set[tuple(inputID)] = domain_val
+
+    # --------------------------- End of Previous strategy ------------------ #
+    
     cube_vertices = list()
     for n in range(2**(nInput)):
         cube_vertices.append([int(x) for x in
@@ -2006,7 +2075,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
                                 np.isnan(max_residual)):
                                 
                                 # Call the corrector:
-                                sol = root(F_io, image_0, args=domain_k)
+                                sol = root(F_io, image_0, args=domain_k, method=solv_method)
                                 found_sol = sol.success
                                 
                                 # Treat case in which solution is not found:
@@ -2042,7 +2111,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
                         domain_k = domain_set[ID_cell]
                         V_domain_id[:,k] = domain_k
                         
-                        sol = root(F_io, image_0, args=domain_k)
+                        sol = root(F_io, image_0, args=domain_k, method=solv_method)
                         image_k = sol.x
                         
                         image_set[ID_cell] = image_k
