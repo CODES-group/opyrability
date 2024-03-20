@@ -1,5 +1,6 @@
 import jax
 import jax.numpy as np
+# import numpy as np
 from scipy.optimize import root, root_scalar, fsolve
 import matplotlib.pyplot as plt
 from opyrability import AIS2AOS_map, create_grid
@@ -245,7 +246,7 @@ def m_implicit(input_vector, output_vector):
         u = input_vector
         
         # 1st CSTR
-        initial_estimate = np.array([0.1])
+        initial_estimate = np.array([0.25])
         solution = cstr_solver_nojit.run(initial_estimate, AIS=u)
         
         # This line avoids memory leak in JaxOpt. 
@@ -254,20 +255,20 @@ def m_implicit(input_vector, output_vector):
         jax.clear_caches()
         
         
-        # This is the equivalent of a if statment (control flow), Jax-compatible.
-        def true_fun(_):
-            # print('before corrector:')
-            initial_estimate = np.array([0.25])
-            solution_corrected = cstr_solver.run(initial_estimate, AIS=u)
-            # print('after corrector:')
-            # print(cstr(solution_corrected.params, u))
-            return solution_corrected
+        # # This is the equivalent of a if statment (control flow), Jax-compatible.
+        # def true_fun(_):
+        #     # print('before corrector:')
+        #     initial_estimate = np.array([0.25])
+        #     solution_corrected = cstr_solver.run(initial_estimate, AIS=u)
+        #     # print('after corrector:')
+        #     # print(cstr(solution_corrected.params, u))
+        #     return solution_corrected
         
-        def false_fun(_):
-            return solution
+        # def false_fun(_):
+        #     return solution
         
-        condition = cstr(solution.params, u)[0] > rtol
-        solution = jax.lax.cond(condition, true_fun, false_fun, None)
+        # condition = cstr(solution.params, u)[0] > rtol
+        # solution = jax.lax.cond(condition, true_fun, false_fun, None)
         
         # condition_val = jax.device_get(cstr(solution.params, u)[0] > rtol)
 
@@ -298,39 +299,120 @@ def m_implicit(input_vector, output_vector):
         
         return np.array([LHS1, LHS2]).reshape(2,)
     
-# %% Implicit mapping
-# AIS_bound =  np.array([[0.25,  1.2],
+# %% 
+from scipy.optimize import fsolve
+def m_scipy(u):
+    # 1st CSTR
+    initial_estimate = np.array([0.1])
+    solution = fsolve(cstr, initial_estimate, args=(u,))
+    Temp_dimensionless = solution[0]
+
+    # Conditional logic for correction, if needed
+    # if cstr(Temp_dimensionless, u) > 1e-5:
+    #     initial_estimate = np.array([0.25])
+    #     solution_corrected = fsolve(cstr, initial_estimate, args=(u,))
+    #     Temp_dimensionless = solution_corrected[0]
+
+    # Calculating Outputs from the nonlinear equation results
+    fx1 = np.exp((gamma_1*Temp_dimensionless) / (1 + Temp_dimensionless))
+    xA_dimensionless = (q0_1*x10_1) / (q0_1 + phi_1*fx1*u[1])  # Equation B.6 (x1)
+    
+    conversion = 1 - xA_dimensionless 
+
+    # Return the dimensional temperature and conversion rate
+    return np.array([Temp_dimensionless, conversion])
+    
+
+def m_scipy_implicit(input_vector, output_vector):
+    
+    # 1st CSTR in implicit form F(u,y) = 0
+    T_adim, Conv =  output_vector
+    u = input_vector
+    # 1st CSTR
+    initial_estimate = np.array([0.1])
+    solution = fsolve(cstr, initial_estimate, args=(u,))
+    Temp_dimensionless = solution[0]
+
+    # Conditional logic for correction, if needed
+    # if cstr(Temp_dimensionless, u) > 1e-5:
+    #     initial_estimate = np.array([0.25])
+    #     solution_corrected = fsolve(cstr, initial_estimate, args=(u,))
+    #     Temp_dimensionless = solution_corrected[0]
+
+    # Calculating Outputs from the nonlinear equation results
+    fx1 = np.exp((gamma_1*Temp_dimensionless) / (1 + Temp_dimensionless))
+    xA_dimensionless = (q0_1*x10_1) / (q0_1 + phi_1*fx1*u[1])  # Equation B.6 (x1)
+    
+    conversion = 1 - xA_dimensionless 
+    
+    LHS1 = T_adim - Temp_dimensionless
+    LHS2 = Conv - conversion
+
+    # Return the dimensional temperature and conversion rate
+    return np.array([LHS1, LHS2]).reshape(2,)
+
+
+
+# %%
+# AIS_bounds =  np.array([[0.25,  1.2],
 #                         [0.50,  1.2]])
 
 
 # AIS_resolution = [5, 5]
 
-# initial_estimate = np.array([0.1, 0.1])
-# AIS, AOS, AIS_poly, AOS_poly = imap(m_implicit, initial_estimate, 
+# # AIS, AOS =  AIS2AOS_map(m_scipy, AIS_bounds,  AIS_resolution, plot = True)
+
+# initial_estimate = np.array([1, 1])
+
+# start_time = time.time()
+# AIS, AOS, AIS_poly, AOS_poly = imap(m_scipy_implicit, 
+#                                     initial_estimate, 
 #                                     continuation='Explicit RK4', 
-#                                     domain_bound = AIS_bound, 
+#                                     domain_bound = AIS_bounds, 
 #                                     domain_resolution = AIS_resolution,
-#                                     direction = 'forward', jit= True,
-#                                     validation= 'Corrector')    
+#                                     direction = 'forward', jit= False)    
+
+# elapsed_time = time.time() - start_time
+    
+
+# %% Implicit mapping
+AIS_bound =  np.array([[0.25,  1.2],
+                        [0.50,  1.2]])
 
 
-# AIS_plot = np.reshape(AIS,(-1,2))
-# AOS_plot = np.reshape(AOS,(-1,2))
+AIS_resolution = [5, 5]
 
-# fig1, ax1 = plt.subplots()
-# ax1.scatter(AIS_plot[:,0], AIS_plot[:,1])
+# initial_estimate = np.array([0.1, 0.1])
 
-# fig2, ax2 = plt.subplots()
-# ax2.scatter(AOS_plot[:,0], AOS_plot[:,1])
+initial_estimate = np.array([10, 10])
+
+start_time = time.time()
+AIS, AOS, AIS_poly, AOS_poly = imap(m_implicit, 
+                                    initial_estimate, 
+                                    continuation='Explicit Euler', 
+                                    domain_bound = AIS_bound, 
+                                    domain_resolution = AIS_resolution,
+                                    direction = 'forward', jit= True)    
+
+elapsed_time = time.time() - start_time
+print(f"Elapsed time: {elapsed_time:.2f} seconds")
+AIS_plot = np.reshape(AIS,(-1,2))
+AOS_plot = np.reshape(AOS,(-1,2))
+
+fig1, ax1 = plt.subplots()
+ax1.scatter(AIS_plot[:,0], AIS_plot[:,1])
+
+fig2, ax2 = plt.subplots()
+ax2.scatter(AOS_plot[:,0], AOS_plot[:,1])
 # %%  Brute force enumeration
 # Run the models
 
 AIS_bound =  np.array([[0.25,  1.20],
                         [0.50, 1.20]])
 
-AIS_resolution = [100, 100]
+AIS_resolution = [10, 10]
 # 
-# n_points = 10000
+# n_points = 100000
 
 # u_values = generate_edge_points(AIS_bound, n_points)
 
