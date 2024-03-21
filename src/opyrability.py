@@ -1816,6 +1816,8 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     if derivative == 'jax':
         from jax import config
         config.update("jax_enable_x64", True)
+        config.update('jax_platform_name', 'cpu')
+        warnings.filterwarnings('ignore', module='jax._src.lib.xla_bridge')
         import jax.numpy as jnp
         from jax import jit, jacrev
         from jax.experimental.ode import odeint as odeint
