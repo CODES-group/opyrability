@@ -1889,7 +1889,8 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         print('Ivalid continuation method. Exiting algorithm.')
         sys.exit()
       
-        
+    def predict_eEuler(dodi,i0, iplus ,o0):
+        return o0 + dodi(i0,o0)@(iplus -i0)
     # This code below is a partial implementation of implicit mapping with a
     # closed path. It works for applications in which the meshgrid can be 
     # inferred from a discrete path.
