@@ -1,1 +1,5 @@
-*.pyc 
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
+tests/.ipynb_checkpoints/
+tests/.pytest_cache/
