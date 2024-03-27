@@ -69,7 +69,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         lower and upper bound of each AIS or DOS variable.
     resolution : np.ndarray
         Array containing the resolution of the discretization grid for the AIS or
-        DOS.Each element corresponds to the resolution of each variable. For a 
+        DOS. Each element corresponds to the resolution of each variable. For a
         resolution defined as k, it will generate d^k points (in which d is the
         dimensionality of the AIS or DOS).
     polytopic_trace: str, Optional.
@@ -700,7 +700,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
     fDIS: np.ndarray
         Feasible Desired Input Set (DIS*). Array containing the solution for
         each point of the inverse-mapping.
-    fDIS: np.ndarray
+    fDOS: np.ndarray
         Feasible Desired Output Set (DOS*). Array containing the feasible
         output for each feasible input calculated via inverse-mapping.
     message_list: list
