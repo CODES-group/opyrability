@@ -138,7 +138,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                                 EDS_resolution=EDS_resolution, 
                                 plot= False)
     else:
-        u0_input = input('Enter an initial estimate for your inverse model'
+        u0_input = input('Enter an initial estimate for your inverse model '
                          'separated only by commas (,) : ')
         
         input_list = [float(u0_input) for u0_input in u0_input.split(',')]
