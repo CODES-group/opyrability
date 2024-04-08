@@ -1221,7 +1221,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
     AIS : np.ndarray
         Discretized Available Input Set (AIS).
     AOS : np.ndarray
-        Discretized Available Output Set (AIS).
+        Discretized Available Output Set (AOS).
 
     '''
     
