@@ -77,7 +77,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         polyhedrons. Default is 'simplices'. Additional option is 'polyhedra'.
     perspective: str, Optional.
         Defines if the calculation is to be done from the inputs/outputs
-        perspective. Affects only labels in plots. Default is 'outputs'.
+        perspective. Also affects labels in plots. Default is 'outputs'.
     plot: str, Optional.
         Defines if the plot of operability sets is desired (If the dimension
         is <= 3). Default is 'True'.
