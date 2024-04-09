@@ -411,7 +411,6 @@ def OI_eval(AS: pc.Region,
             
             for i in range(len(intersection)):
                 intersect_i = intersection[i]
-                # print(i)
                 v_intersect = pc.extreme(intersect_i)
                 
                 if v_intersect is None:
