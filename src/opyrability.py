@@ -43,9 +43,9 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                   resolution: np.ndarray,
                   polytopic_trace: str = 'simplices',
                   perspective: str = 'outputs',
-                  plot: str = True,
-                  EDS_bound: str = None,
-                  EDS_resolution: str = None):
+                  plot: bool = True,
+                  EDS_bound = None,
+                  EDS_resolution = None):
     
     """
     Obtain a multimodel representation based on polytopes of Process Operability
@@ -303,9 +303,10 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
 
 
 def OI_eval(AS: pc.Region,
-       DS: np.ndarray, perspective  = 'outputs',
-       hypervol_calc:           str = 'robust',
-       plot:                str = True):
+            DS: np.ndarray,
+            perspective='outputs',
+            hypervol_calc: str = 'robust',
+            plot: bool = True):
     
     '''
     Operability Index (OI) calculation. From a Desired Output
