@@ -32,6 +32,8 @@ DOS_bound = np.array([[17.5, 21.0],
                       [80.0, 100.0]])
 
 DOSresolution = [5, 5]
+
+label = ['Cold water flow rate', 'Hot water flow rate', 'Total flow rate', 'Temperature']
     
 # Obtaining DOS* and DIS*
 fDIS, fDOS, message = nlp_based_approach(shower2x2,
@@ -43,7 +45,8 @@ fDIS, fDOS, message = nlp_based_approach(shower2x2,
                                          method='ipopt',
                                          plot=True,
                                          ad=False,
-                                         warmstart=False)
+                                         warmstart=False,
+                                         labels=label)
 
 
 norm_fDIS = np.linalg.norm(fDIS)
@@ -64,7 +67,10 @@ DOS_bound = np.array([[17.5, 21.0],
                     [80.0, 100.0],
                     [-10, 10]])
 
-DOS_resolution = [10, 10, 10]
+DOS_resolution = [15, 15, 15]
+
+label = ['Cold water flow rate', 'Hot water flow rate', 'Disturbance',
+         'Total flow rate', 'Temperature', 'Cold water flow rate']
     
 # Obtaining DOS* and DIS*
 fDIS, fDOS, message = nlp_based_approach(shower3x3,
@@ -76,7 +82,8 @@ fDIS, fDOS, message = nlp_based_approach(shower3x3,
                                           method='ipopt', 
                                           plot=True, 
                                           ad=False,
-                                          warmstart=True)
+                                          warmstart=True,
+                                          labels = label)
     
 # %% Shower problem inverse mapping - 2x3 - Nonsquare
 
@@ -92,7 +99,10 @@ DOS_bound = np.array([[17.5, 21.0],
                     [80.0, 100.0],
                     [-10, 10]])
 
-DOS_resolution = [10, 10, 10]
+DOS_resolution = [15, 15, 15]
+
+label = ['Cold water flow rate', 'Hot water flow rate', 
+         'Total flow rate', 'Temperature', 'Cold water flow rate']
     
 # Obtaining DOS* and DIS*
 fDIS, fDOS, message = nlp_based_approach(shower2x3, 
@@ -116,7 +126,7 @@ DOS_bounds = np.array([[15,25],
                         [35,45]])
 
 # Discretization Grid - 10x10 grid for DOS.
-DOS_resolution =  [10, 10]
+DOS_resolution =  [3, 3]
 
 # Lower and upper bounds of AIS (design)
 lb = np.array([10,  0.5])
@@ -131,6 +141,10 @@ def plug_flow(u):
 
 con= {'type': 'ineq', 'fun': plug_flow}
 
+legends = ['Length [cm]', 'Diameter [cm]', 
+           '$Benzene \, production \, F_{C_{6}H_{6}} [mg/h]$',
+           '$Methane \, conversion \, X_{CH_{4}} [\%]']
+
 # # Obtain inverse mapping: DOS* and DIS*                                             
 fDIS, fDOS, convergence = nlp_based_approach(dma_mr_design,
                                               DOS_bounds, 
@@ -141,5 +155,6 @@ fDIS, fDOS, convergence = nlp_based_approach(dma_mr_design,
                                               method='ipopt', 
                                               plot=True,
                                               ad=True,
-                                              warmstart=True)
+                                              warmstart=True,
+                                              labels = legends)
                                 

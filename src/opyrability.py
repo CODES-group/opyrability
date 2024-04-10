@@ -44,8 +44,9 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                   polytopic_trace: str = 'simplices',
                   perspective: str = 'outputs',
                   plot: bool = True,
-                  EDS_bound = None,
-                  EDS_resolution = None):
+                  EDS_bound: np.ndarray = None,
+                  EDS_resolution: np.ndarray = None,
+                  labels: str = None):
     
     """
     Obtain a multimodel representation based on polytopes of Process Operability
@@ -86,7 +87,12 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         is 'None'.
     EDS_resolution : np.ndarray
         Resolution for the Expected Disturbance Set (EDS). This will be used to
-        discretize the EDS, similar to the AIS_resolution   
+        discretize the EDS, similar to the AIS_resolution  
+    labels: str, Optional.
+        labels for axes. Accepts TeX math input as it uses matplotlib math
+        rendering. Should be in order y1, y2, y3, and so on: 
+        labels= ['first label','second label']. Default is False.
+        
         
 
     Returns
@@ -235,9 +241,21 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                 ax.set_title(str_title)
 
             ax.legend(handles=[AS_patch, extra])
-
-            ax.set_xlabel('$y_{1}$')
-            ax.set_ylabel('$y_{2}$')
+            
+            if labels is not None:
+                if len(labels) != 2:
+                        raise ValueError('You need two entries for your custom '+
+                                  'labels for your 2D system, but entered ' +
+                                  'an incorrect number of labels.')
+                else:
+                    ax.set_xlabel(labels[0])
+                    ax.set_ylabel(labels[1])
+                            
+            else:
+                ax.set_xlabel('$y_{1}$')
+                ax.set_ylabel('$y_{2}$')
+                    
+            
             plt.show()
             
         elif mapped_region.dim == 3:
@@ -279,14 +297,27 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
 
             ax.legend(handles=[AS_patch, extra])
 
-            ax.set_xlabel('$y_{1}$')
-            ax.set_ylabel('$y_{2}$')
-            ax.set_zlabel('$y_{3}$')
+            if labels is not None:
+                if labels is not None:
+                    if len(labels) != 3:
+                            raise ValueError('You need three entries for your custom '+
+                                      'labels for your 3D system, but entered ' +
+                                      'an incorrect number of labels.')
+                else:
+                    ax.set_xlabel(labels[0])
+                    ax.set_ylabel(labels[1])
+                    ax.set_zlabel(labels[2])
+                
+            else:
+                ax.set_xlabel('$y_{1}$')
+                ax.set_ylabel('$y_{2}$')
+                ax.set_zlabel('$y_{3}$')
+
             plt.show()
             
 
         else:
-            print('plot not supported. Dimension different greater than 3.')
+            print('plot not supported. Dimension greater than 3.')
             AS_coords = np.concatenate(Vertices_list, axis=0)
 
     else:
@@ -306,7 +337,8 @@ def OI_eval(AS: pc.Region,
             DS: np.ndarray,
             perspective='outputs',
             hypervol_calc: str = 'robust',
-            plot: bool = True):
+            plot: bool = True,
+            labels: str = None):
     
     '''
     Operability Index (OI) calculation. From a Desired Output
@@ -345,6 +377,10 @@ def OI_eval(AS: pc.Region,
         any dimension.
     plot: bool, Optional.
         Defines if the plot of operability sets is desired. Default is True.
+    labels: str, Optional.
+        labels for axes. Accepts TeX math input as it uses matplotlib math
+        rendering. Should be in order y1, y2, y3, and so on: 
+        labels= ['first label','second label']. Default is False.
 
     Returns
     -------
@@ -527,8 +563,20 @@ def OI_eval(AS: pc.Region,
 
             ax.legend(handles=[DS_patch, AS_patch, INTERSECT_patch, extra])
 
-            ax.set_xlabel('$y_{1}$')
-            ax.set_ylabel('$y_{2}$')
+            
+            if labels is not None:
+                if len(labels) != 2:
+                    raise ValueError('You need two entries for your custom '+
+                                  'labels for your 2D system, but entered ' +
+                                  'an incorrect number of labels.')
+                else:   
+                    ax.set_xlabel(labels[0])
+                    ax.set_ylabel(labels[1])
+            else:
+                ax.set_xlabel('$y_{1}$')
+                ax.set_ylabel('$y_{2}$')
+
+
             plt.show()
         
         elif DS_region.dim == 3:
@@ -598,9 +646,21 @@ def OI_eval(AS: pc.Region,
 
             ax.legend(handles=[DS_patch, AS_patch, INTERSECT_patch, extra])
 
-            ax.set_xlabel('$y_{1}$')
-            ax.set_ylabel('$y_{2}$')
-            ax.set_zlabel('$y_{3}$')
+            if labels is not None:
+                    if len(labels) != 3:
+                        raise ValueError('You need three entries for your custom '+
+                                      'labels for your 3D system, but entered ' +
+                                      'an incorrect number of labels.')
+                        
+                    else:
+                        ax.set_xlabel(labels[0])
+                        ax.set_ylabel(labels[1])
+                        ax.set_zlabel(labels[2])
+            else:
+                ax.set_xlabel('$y_{1}$')
+                ax.set_ylabel('$y_{2}$')
+                ax.set_zlabel('$y_{3}$')
+                
             plt.show()
 
         elif DS_region.dim > 3:
@@ -623,11 +683,12 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                        u0: np.ndarray,
                        lb: np.ndarray,
                        ub: np.ndarray,
-                       constr=None,
-                       method: str = 'ipopt', 
-                       plot: bool = True, 
-                       ad: bool = False,
-                       warmstart: bool = True) -> Union[np.ndarray, np.ndarray, list]:
+                       constr          = None,
+                       method: str     = 'ipopt', 
+                       plot: bool      = True, 
+                       ad: bool        = False,
+                       warmstart: bool = True,
+                       labels: str = None) -> Union[np.ndarray, np.ndarray, list]:
     '''
     Inverse mapping for Process Operability calculations. From a Desired Output
     Set (DOS) defined by the user, this function calculates the closest
@@ -695,7 +756,14 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
        installed, high-order data (jacobians, hessians) are obtained using AD.
        Default is False.
     warmstart: bool
-       Reconcile solution at initial estimate. Default is True.
+        Turn on/off warm-start of NLP. If 'on', the sucessful solution of the
+        current iteration is used as an estimate to the next one. Default is
+        True.
+    labels: str, Optional.
+        labels for axes. Accepts TeX math input as it uses matplotlib math
+        rendering. Should be in order u1,u2,u3, y1, y2, y3, and so on: 
+        labels= ['first u label','second u label', 'first y label', 'second y label']. 
+        Default is False.
 
     Returns
     -------
@@ -965,8 +1033,8 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                             cmap=cmap, antialiased=True,
                             lw=lineweight, marker='s',
                             edgecolors=edgecolors, label='DIS*')
-                ax1.set_ylabel('$u_{2}$')
-                ax1.set_xlabel('$u_{1}$')
+                
+                
                 ax1.set_title('Feasible Desired Input Set (DIS*)', fontsize=10)
                 
                 vertices_DOS =  [(DOS_bounds[0, 0], DOS_bounds[1, 0]),
@@ -987,8 +1055,25 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                             cmap=cmap, antialiased=True,
                             lw=lineweight, marker='o',
                             edgecolors=edgecolors, label='DOS*')
-                ax2.set_ylabel('$y_{2}$')
-                ax2.set_xlabel('$y_{1}$')
+                
+                
+                if labels is not None:
+                    if len(labels) != 4:
+                        raise ValueError('You need four entries for your custom '+
+                                  'labels for your 2x2 system, but entered ' +
+                                  'an incorrect number of labels.')
+                        
+                    else:
+                        ax1.set_xlabel(labels[0])
+                        ax1.set_ylabel(labels[1])
+                        ax2.set_xlabel(labels[2])
+                        ax2.set_ylabel(labels[3])
+                else:
+                    ax1.set_ylabel('$u_{2}$')
+                    ax1.set_xlabel('$u_{1}$')
+                    ax2.set_ylabel('$y_{2}$')
+                    ax2.set_xlabel('$y_{1}$')
+                
                 ax2.set_title('Feasible Desired Output Set (DOS*)', fontsize=10)
                 plt.legend()
                 
@@ -1007,10 +1092,24 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
                 
-                ax.set_xlabel('$u_{1}$')
-                ax.set_ylabel('$u_{2}$')
-                ax.set_zlabel('$u_{3}$')
                 
+                
+                if labels is not None:
+                    if len(labels) != 6:
+                        raise ValueError('You need six entries for your custom '+
+                                  'labels for your 3x3 system, but entered ' +
+                                  'an incorrect number of labels.')
+                    else:     
+                        ax.set_xlabel(labels[0])
+                        ax.set_ylabel(labels[1])
+                        ax.set_zlabel(labels[2])
+
+                else:
+                    ax.set_xlabel('$u_{1}$')
+                    ax.set_ylabel('$u_{2}$')
+                    ax.set_zlabel('$u_{3}$')
+                   
+                    
                 ax.set_title('DIS*')
                 
                 ax = fig.add_subplot(1,2,2, projection='3d')
@@ -1027,9 +1126,20 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                            lw=lineweight, 
                            marker='o',
                            edgecolors=edgecolors)
-                ax.set_ylabel('$y_{2}$')
-                ax.set_xlabel('$y_{1}$')
-                ax.set_zlabel('$y_{3}$')
+                
+                
+                if labels is not None:
+                    ax.set_xlabel(labels[3])
+                    ax.set_ylabel(labels[4])
+                    ax.set_zlabel(labels[5])
+
+                else:
+                    ax.set_xlabel('$y_{1}$')
+                    ax.set_ylabel('$y_{2}$')
+                    ax.set_zlabel('$y_{3}$')
+                
+                
+                
                 ax.set_title('$DOS*$')
                 
                 
@@ -1046,8 +1156,20 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
                 
-                ax.set_xlabel('$u_{1}$')
-                ax.set_ylabel('$u_{2}$')
+                
+                
+                if labels is not None:
+                    if len(labels) != 5:
+                        raise ValueError('You need five entries for your custom '+
+                                  'labels for your 2x3 system, but entered ' +
+                                  'an incorrect number of labels.')
+                    else:
+                        ax.set_xlabel(labels[0])
+                        ax.set_ylabel(labels[1])
+                        
+                else:
+                    ax.set_xlabel('$u_{1}$')
+                    ax.set_ylabel('$u_{2}$')
                 
                 
                 ax.set_title('DIS*')
@@ -1066,9 +1188,18 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                            lw=lineweight, 
                            marker='o',
                            edgecolors=edgecolors)
-                ax.set_ylabel('$y_{2}$')
-                ax.set_xlabel('$y_{1}$')
-                ax.set_zlabel('$y_{3}$')
+                
+                
+                if labels is not None:
+                    ax.set_xlabel(labels[2])
+                    ax.set_ylabel(labels[3])
+                    ax.set_zlabel(labels[4])
+
+                else:
+                    ax.set_xlabel('$y_{1}$')
+                    ax.set_ylabel('$y_{2}$')
+                    ax.set_zlabel('$y_{3}$')
+                    
                 ax.set_title('$DOS*$')
                 
             elif fDIS.shape[1] == 3 and fDOS.shape[1] == 2:
@@ -1085,9 +1216,21 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                         lw=lineweight, marker='s',
                         edgecolors=edgecolors)
                 
-                ax.set_xlabel('$u_{1}$')
-                ax.set_ylabel('$u_{2}$')
-                ax.set_zlabel('$u_{3}$')
+                
+                if labels is not None:
+                    if len(labels) != 5:
+                        raise ValueError('You need five entries for your custom '+
+                                  'labels for your 3x2 system, but entered ' +
+                                  'an incorrect number of labels.')
+                    else:   
+                        ax.set_xlabel(labels[0])
+                        ax.set_ylabel(labels[1])
+                        ax.set_zlabel(labels[2])
+                        
+                else:
+                    ax.set_xlabel('$u_{1}$')
+                    ax.set_ylabel('$u_{2}$')
+                    ax.set_zlabel('$u_{3}$')
                 
                 
                 ax.set_title('DIS*')
@@ -1104,8 +1247,16 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                            lw=lineweight, 
                            marker='o',
                            edgecolors=edgecolors)
-                ax.set_ylabel('$y_{2}$')
-                ax.set_xlabel('$y_{1}$')
+                
+                
+                if labels is not None:
+                    ax.set_xlabel(labels[3])
+                    ax.set_ylabel(labels[4])
+
+                else:
+                    ax.set_xlabel('$y_{1}$')
+                    ax.set_ylabel('$y_{2}$')
+                
                 ax.set_title('$DOS*$')   
             else:
                 print('plot not supported. Dimension higher than 3.')
@@ -1179,9 +1330,11 @@ def create_grid(region_bounds: np.ndarray, region_resolution: np.ndarray):
 
 
 def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
-     AIS_bound: np.ndarray,
-     AIS_resolution: np.ndarray, EDS_bound: np.ndarray = None,
-     EDS_resolution: np.ndarray = None, plot: bool = True)-> Union[np.ndarray,np.ndarray]:
+                AIS_bound: np.ndarray,
+                AIS_resolution: np.ndarray, 
+                EDS_bound: np.ndarray = None,
+                EDS_resolution: np.ndarray = None, 
+                plot: bool = True)-> Union[np.ndarray,np.ndarray]:
     '''
     Forward mapping for Process Operability calculations (From AIS to AOS). 
     From an Available Input Set (AIS) bounds and discretization resolution both
