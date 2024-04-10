@@ -78,9 +78,9 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
     perspective: str, Optional.
         Defines if the calculation is to be done from the inputs/outputs
         perspective. Also affects labels in plots. Default is 'outputs'.
-    plot: str, Optional.
+    plot: bool, Optional.
         Defines if the plot of operability sets is desired (If the dimension
-        is <= 3). Default is 'True'.
+        is <= 3). Default is True.
     EDS_bound : np.ndarray
         Lower and upper bounds for the Expected Disturbance Set (EDS). Default
         is 'None'.
@@ -343,6 +343,8 @@ def OI_eval(AS: pc.Region,
         the problem. Additional option is 'polytope', Polytope's package own
         implementation of hypervolumes evaluation being used in problems of 
         any dimension.
+    plot: bool, Optional.
+        Defines if the plot of operability sets is desired. Default is True.
 
     Returns
     -------
@@ -1760,7 +1762,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     jit:  bool True, optional
         JAX's Just-in-time compilation (JIT) of implicit function and its 
         respective multidimensional derivatives (Jacobians). JIT allows faster
-        computation of the implicit map. The default is 'True'.
+        computation of the implicit map. The default is True.
     step_cutting:      bool, False, optional
         Cutting step strategy to subdivide the domain/image in case of stiffness.
         The default is 'False'.
