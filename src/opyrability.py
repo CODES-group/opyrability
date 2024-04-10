@@ -1694,10 +1694,10 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
                  jit:               bool = True,
                  step_cutting:      bool = False):
     '''
-    Performs implicit mapping of a implicitly defined process F(u,y) = 0. 
+    Performs implicit mapping of an implicitly defined process F(u,y) = 0.
     F can be a vector-valued, multivariable function, which is typically the 
     case for chemical processes studied in Process Operability. 
-    This method relies in the implicit function theorem and automatic
+    This method relies on the implicit function theorem and automatic
     differentiation in order to obtain the mapping of the required 
     input/output space. The
     mapping "direction" can be set by changing the 'direction' parameter.
