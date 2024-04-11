@@ -67,7 +67,7 @@ DOS_bound = np.array([[17.5, 21.0],
                     [80.0, 100.0],
                     [-10, 10]])
 
-DOS_resolution = [15, 15, 15]
+DOS_resolution = [5, 5, 5]
 
 label = ['Cold water flow rate', 'Hot water flow rate', 'Disturbance',
          'Total flow rate', 'Temperature', 'Cold water flow rate']
@@ -99,7 +99,7 @@ DOS_bound = np.array([[17.5, 21.0],
                     [80.0, 100.0],
                     [-10, 10]])
 
-DOS_resolution = [15, 15, 15]
+DOS_resolution = [5, 5, 5]
 
 label = ['Cold water flow rate', 'Hot water flow rate', 
          'Total flow rate', 'Temperature', 'Cold water flow rate']
@@ -143,7 +143,7 @@ con= {'type': 'ineq', 'fun': plug_flow}
 
 legends = ['Length [cm]', 'Diameter [cm]', 
            '$Benzene \, production \, F_{C_{6}H_{6}} [mg/h]$',
-           '$Methane \, conversion \, X_{CH_{4}} [\%]']
+           '$Methane \, conversion \, X_{CH_{4}} [\%]$']
 
 # # Obtain inverse mapping: DOS* and DIS*                                             
 fDIS, fDOS, convergence = nlp_based_approach(dma_mr_design,
