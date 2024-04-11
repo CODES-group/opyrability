@@ -28,18 +28,22 @@ DOS_bounds =  np.array([[20, 25],
 AIS_bounds =  np.array([[10, 150],
                         [0.5, 2]])
 
-AIS_resolution =  [20, 20]
+AIS_resolution =  [5, 5]
 
 
 model  = dma_mr_design
+
+legends = ['$Benzene \, production \, F_{C_{6}H_{6}} [mg/h]$',
+           '$Methane \, conversion \, X_{CH_{4}} [\%]$']
 
 # Obtaining AOS and evaluating the OI
 AOS_region  =  multimodel_rep(model, 
                               AIS_bounds, 
                               AIS_resolution,
-                              polytopic_trace='simplices')
+                              polytopic_trace='simplices',
+                              labels=legends)
 
-OI = OI_eval(AOS_region, DOS_bounds)
+OI = OI_eval(AOS_region, DOS_bounds, labels = legends)
 
 
 # %% DMA-MR - 2x2 System - Manipulated Variables - Shell and tube flow rates
@@ -57,12 +61,16 @@ AIS_resolution =  [5, 5]
 
 model  = dma_mr_mvs
 
+legends = ['$Benzene \, production \, F_{C_{6}H_{6}} [mg/h]$',
+           '$Methane \, conversion \, X_{CH_{4}} [\%]$']
+
 # Obtaining AOS and evaluating the OI
 AOS_region  =  multimodel_rep(model, 
                               AIS_bounds,  
-                              AIS_resolution,)
+                              AIS_resolution,
+                              labels = legends)
 
-OI = OI_eval(AOS_region, DOS_bounds)
+OI = OI_eval(AOS_region, DOS_bounds, labels = legends)
 
 # %% Shower problem 2x2 - Classic problem
 from shower import shower2x2
