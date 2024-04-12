@@ -1,14 +1,14 @@
 # Basic python tools
 import sys
 import warnings
-from itertools import permutations as perms
 import string
-from typing import Callable,Union
+from itertools import permutations as perms
+from typing import Callable, Union
 from tqdm import tqdm
 
 # Linear Algebra
 import numpy as np
-from   numpy.linalg import norm , pinv
+from numpy.linalg import norm
 
 # Optimization algorithms
 import scipy as sp
@@ -43,9 +43,9 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                   resolution: np.ndarray,
                   polytopic_trace: str = 'simplices',
                   perspective: str = 'outputs',
-                  plot: str = True,
-                  EDS_bound: str = None,
-                  EDS_resolution: str = None,
+                  plot: bool = True,
+                  EDS_bound: np.ndarray = None,
+                  EDS_resolution: np.ndarray = None,
                   labels: str = None):
     
     """
@@ -70,7 +70,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         lower and upper bound of each AIS or DOS variable.
     resolution : np.ndarray
         Array containing the resolution of the discretization grid for the AIS or
-        DOS.Each element corresponds to the resolution of each variable. For a 
+        DOS. Each element corresponds to the resolution of each variable. For a
         resolution defined as k, it will generate d^k points (in which d is the
         dimensionality of the AIS or DOS).
     polytopic_trace: str, Optional.
@@ -78,10 +78,10 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         polyhedrons. Default is 'simplices'. Additional option is 'polyhedra'.
     perspective: str, Optional.
         Defines if the calculation is to be done from the inputs/outputs
-        perspective. Affects only labels in plots. Default is 'outputs'.
-    plot: str, Optional.
+        perspective. Also affects labels in plots. Default is 'outputs'.
+    plot: bool, Optional.
         Defines if the plot of operability sets is desired (If the dimension
-        is <= 3). Default is 'True'.
+        is <= 3). Default is True.
     EDS_bound : np.ndarray
         Lower and upper bounds for the Expected Disturbance Set (EDS). Default
         is 'None'.
@@ -144,7 +144,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                                 EDS_resolution=EDS_resolution, 
                                 plot= False)
     else:
-        u0_input = input('Enter an initial estimate for your inverse model'
+        u0_input = input('Enter an initial estimate for your inverse model '
                          'separated only by commas (,) : ')
         
         input_list = [float(u0_input) for u0_input in u0_input.split(',')]
@@ -334,10 +334,11 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
 
 
 def OI_eval(AS: pc.Region,
-            DS: np.ndarray, perspective  = 'outputs',
-            hypervol_calc:           str = 'robust',
-            plot:                    str = True,
-            labels:                  str = None):
+            DS: np.ndarray,
+            perspective='outputs',
+            hypervol_calc: str = 'robust',
+            plot: bool = True,
+            labels: str = None):
     
     '''
     Operability Index (OI) calculation. From a Desired Output
@@ -374,6 +375,8 @@ def OI_eval(AS: pc.Region,
         the problem. Additional option is 'polytope', Polytope's package own
         implementation of hypervolumes evaluation being used in problems of 
         any dimension.
+    plot: bool, Optional.
+        Defines if the plot of operability sets is desired. Default is True.
     labels: str, Optional.
         labels for axes. Accepts TeX math input as it uses matplotlib math
         rendering. Should be in order y1, y2, y3, and so on: 
@@ -447,7 +450,6 @@ def OI_eval(AS: pc.Region,
             
             for i in range(len(intersection)):
                 intersect_i = intersection[i]
-                # print(i)
                 v_intersect = pc.extreme(intersect_i)
                 
                 if v_intersect is None:
@@ -745,17 +747,14 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                 -'DE'
                 
                 -'SLSQP'
-                
     plot: bool
         Turn on/off plot. If dimension is d<=3, plot is available and
         both the Feasible Desired Output Set (DOS*) and Feasible Desired Input
         Set (DIS*) are plotted. Default is True.
-
     ad: bool
        Turn on/off use of Automatic Differentiation using JAX. If Jax is 
        installed, high-order data (jacobians, hessians) are obtained using AD.
        Default is False.
-       
     warmstart: bool
         Turn on/off warm-start of NLP. If 'on', the sucessful solution of the
         current iteration is used as an estimate to the next one. Default is
@@ -771,7 +770,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
     fDIS: np.ndarray
         Feasible Desired Input Set (DIS*). Array containing the solution for
         each point of the inverse-mapping.
-    fDIS: np.ndarray
+    fDOS: np.ndarray
         Feasible Desired Output Set (DOS*). Array containing the feasible
         output for each feasible input calculated via inverse-mapping.
     message_list: list
@@ -1268,7 +1267,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
 
 
 
-def create_grid(region_bounds: np.ndarray, region_resolution: tuple):
+def create_grid(region_bounds: np.ndarray, region_resolution: np.ndarray):
     
     '''
     Create a multidimensional, discretized grid, given the bounds and the
@@ -1376,7 +1375,7 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
     AIS : np.ndarray
         Discretized Available Input Set (AIS).
     AOS : np.ndarray
-        Discretized Available Output Set (AIS).
+        Discretized Available Output Set (AOS).
 
     '''
     
@@ -1848,10 +1847,10 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
                  jit:               bool = True,
                  step_cutting:      bool = False):
     '''
-    Performs implicit mapping of a implicitly defined process F(u,y) = 0. 
+    Performs implicit mapping of an implicitly defined process F(u,y) = 0.
     F can be a vector-valued, multivariable function, which is typically the 
     case for chemical processes studied in Process Operability. 
-    This method relies in the implicit function theorem and automatic
+    This method relies on the implicit function theorem and automatic
     differentiation in order to obtain the mapping of the required 
     input/output space. The
     mapping "direction" can be set by changing the 'direction' parameter.
@@ -1915,7 +1914,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     jit:  bool True, optional
         JAX's Just-in-time compilation (JIT) of implicit function and its 
         respective multidimensional derivatives (Jacobians). JIT allows faster
-        computation of the implicit map. The default is 'True'.
+        computation of the implicit map. The default is True.
     step_cutting:      bool, False, optional
         Cutting step strategy to subdivide the domain/image in case of stiffness.
         The default is 'False'.
@@ -2007,7 +2006,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     if continuation == 'Explicit RK4':
         print('Selected RK4')
         
-        def predict_RK4(dodi,i0, iplus ,o0):
+        def predict_RK4(dodi, i0, iplus, o0):
             h = iplus -i0
             k1 = dodi( i0          ,  o0           )
             k2 = dodi( i0 + (1/2)*h,  o0 + (h/2) @ k1)
@@ -2023,7 +2022,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         
         print('Selected Euler')
         
-        def predict_eEuler(dodi,i0, iplus ,o0):
+        def predict_eEuler(dodi, i0, iplus, o0):
             return o0 + dodi(i0,o0)@(iplus -i0)
         
         predict = predict_eEuler
@@ -2033,7 +2032,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         
         print('Selected odeint')
         
-        def predict_odeint(dods, i0, iplus ,o0):
+        def predict_odeint(dods, i0, iplus, o0):
             s_length = norm(iplus - i0)
             s_span = np.linspace(0.0, s_length, 10)
             sol = odeint(dods, o0, s_span, s_length, i0, iplus)
@@ -2046,7 +2045,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         print('Ivalid continuation method. Exiting algorithm.')
         sys.exit()
       
-    def predict_eEuler(dodi,i0, iplus ,o0):
+    def predict_eEuler(dodi, i0, iplus, o0):
         return o0 + dodi(i0,o0)@(iplus -i0)
     # This code below is a partial implementation of implicit mapping with a
     # closed path. It works for applications in which the meshgrid can be 
