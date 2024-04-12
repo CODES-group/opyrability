@@ -1,14 +1,14 @@
 # Basic python tools
 import sys
 import warnings
-from itertools import permutations as perms
 import string
-from typing import Callable,Union
+from itertools import permutations as perms
+from typing import Callable, Union
 from tqdm import tqdm
 
 # Linear Algebra
 import numpy as np
-from   numpy.linalg import norm
+from numpy.linalg import norm
 
 # Optimization algorithms
 import scipy as sp
