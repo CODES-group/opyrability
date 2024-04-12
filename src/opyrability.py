@@ -2003,7 +2003,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     if continuation == 'Explicit RK4':
         print('Selected RK4')
         
-        def predict_RK4(dodi,i0, iplus ,o0):
+        def predict_RK4(dodi, i0, iplus, o0):
             h = iplus -i0
             k1 = dodi( i0          ,  o0           )
             k2 = dodi( i0 + (1/2)*h,  o0 + (h/2) @ k1)
@@ -2019,7 +2019,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         
         print('Selected Euler')
         
-        def predict_eEuler(dodi,i0, iplus ,o0):
+        def predict_eEuler(dodi, i0, iplus, o0):
             return o0 + dodi(i0,o0)@(iplus -i0)
         
         predict = predict_eEuler
@@ -2029,7 +2029,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         
         print('Selected odeint')
         
-        def predict_odeint(dods, i0, iplus ,o0):
+        def predict_odeint(dods, i0, iplus, o0):
             s_length = norm(iplus - i0)
             s_span = np.linspace(0.0, s_length, 10)
             sol = odeint(dods, o0, s_span, s_length, i0, iplus)
@@ -2042,7 +2042,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         print('Ivalid continuation method. Exiting algorithm.')
         sys.exit()
       
-    def predict_eEuler(dodi,i0, iplus ,o0):
+    def predict_eEuler(dodi, i0, iplus, o0):
         return o0 + dodi(i0,o0)@(iplus -i0)
     # This code below is a partial implementation of implicit mapping with a
     # closed path. It works for applications in which the meshgrid can be 
