@@ -8,7 +8,7 @@ from tqdm import tqdm
 
 # Linear Algebra
 import numpy as np
-from   numpy.linalg import norm , pinv
+from   numpy.linalg import norm
 
 # Optimization algorithms
 import scipy as sp
@@ -743,12 +743,10 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                 -'DE'
                 
                 -'SLSQP'
-                
     plot: bool
         Turn on/off plot. If dimension is d<=3, plot is available and
         both the Feasible Desired Output Set (DOS*) and Feasible Desired Input
         Set (DIS*) are plotted. Default is True.
-
     ad: bool
        Turn on/off use of Automatic Differentiation using JAX. If Jax is 
        installed, high-order data (jacobians, hessians) are obtained using AD.
@@ -1266,7 +1264,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
 
 
 
-def create_grid(region_bounds: np.ndarray, region_resolution: tuple):
+def create_grid(region_bounds: np.ndarray, region_resolution: np.ndarray):
     
     '''
     Create a multidimensional, discretized grid, given the bounds and the
