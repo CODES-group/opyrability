@@ -11,7 +11,6 @@ from tqdm import tqdm
 # Linear Algebra
 import numpy as np
 from numpy.linalg import norm
-from numpy.linalg import norm
 
 # Optimization algorithms
 import scipy as sp
@@ -48,7 +47,8 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                   perspective: str = 'outputs',
                   plot: bool = True,
                   EDS_bound = None,
-                  EDS_resolution = None):
+                  EDS_resolution = None,
+                  labels: str = None):
     
     """
     Obtain a multimodel representation based on polytopes of Process Operability
@@ -94,7 +94,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
     labels: str, Optional.
         labels for axes. Accepts TeX math input as it uses matplotlib math
         rendering. Should be in order y1, y2, y3, and so on: 
-        labels= ['first label','second label']. Default is False.
+        labels= ['first label','second label']. Default is None.
         
         
 
@@ -147,7 +147,6 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                                 EDS_resolution=EDS_resolution, 
                                 plot= False)
     else:
-        u0_input = input('Enter an initial estimate for your inverse model '
         u0_input = input('Enter an initial estimate for your inverse model '
                          'separated only by commas (,) : ')
         
@@ -341,7 +340,8 @@ def OI_eval(AS: pc.Region,
             DS: np.ndarray,
             perspective='outputs',
             hypervol_calc: str = 'robust',
-            plot: bool = True):
+            plot: bool = True,
+            labels: str = None):
     
     '''
     Operability Index (OI) calculation. From a Desired Output
@@ -383,7 +383,7 @@ def OI_eval(AS: pc.Region,
     labels: str, Optional.
         labels for axes. Accepts TeX math input as it uses matplotlib math
         rendering. Should be in order y1, y2, y3, and so on: 
-        labels= ['first label','second label']. Default is False.
+        labels= ['first label','second label']. Default is None.
 
     Returns
     -------
@@ -1272,7 +1272,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
 
 
 def create_grid(region_bounds: np.ndarray, region_resolution: np.ndarray):
-def create_grid(region_bounds: np.ndarray, region_resolution: np.ndarray):
+    
     
     '''
     Create a multidimensional, discretized grid, given the bounds and the
@@ -2014,7 +2014,7 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     if continuation == 'Explicit RK4':
         print('Selected RK4')
         
-        def predict_RK4(dodi, i0, iplus, o0):
+        
         def predict_RK4(dodi, i0, iplus, o0):
             h = iplus -i0
             k1 = dodi( i0          ,  o0           )
@@ -2032,7 +2032,6 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         print('Selected Euler')
         
         def predict_eEuler(dodi, i0, iplus, o0):
-        def predict_eEuler(dodi, i0, iplus, o0):
             return o0 + dodi(i0,o0)@(iplus -i0)
         
         predict = predict_eEuler
@@ -2042,7 +2041,6 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         
         print('Selected odeint')
         
-        def predict_odeint(dods, i0, iplus, o0):
         def predict_odeint(dods, i0, iplus, o0):
             s_length = norm(iplus - i0)
             s_span = np.linspace(0.0, s_length, 10)
@@ -2056,7 +2054,6 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
         print('Ivalid continuation method. Exiting algorithm.')
         sys.exit()
       
-    def predict_eEuler(dodi, i0, iplus, o0):
     def predict_eEuler(dodi, i0, iplus, o0):
         return o0 + dodi(i0,o0)@(iplus -i0)
     # This code below is a partial implementation of implicit mapping with a
