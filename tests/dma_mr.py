@@ -159,6 +159,27 @@ def dma_mr_design(u):
     return jnp.array([F_C6H6, X_CH4])
 
 
+
+def dma_mr_2x1(u):
+    
+
+    L =  u[0]
+    dt = u[1]
+
+    # Initial conditions
+    y0 = jnp.hstack((Ft0, jnp.zeros(7)))
+    rtol, atol = 1e-10, 1e-10
+
+    z = jnp.linspace(0, L, 2000)
+    F = odeint(dma_mr_jax, y0, z, dt, rtol=rtol, atol=atol)
+
+    
+    F_C6H6 = ((F[-1, 3] * 1000) * MM_B)
+    # X_CH4  = (100 * (Ft0 - F[-1, 0] - F[-1, 4]) / Ft0)
+
+    return jnp.array([F_C6H6])
+
+
 def dma_mr_mvs(u):
     
     
