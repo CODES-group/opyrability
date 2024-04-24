@@ -1465,7 +1465,66 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
     if plot is False:
         pass
     elif plot is True:
-        if input_map.shape[-1]  == 2 and AOS.shape[-1] == 2:
+        
+        if input_map.shape[-1]  == 1 and AOS.shape[-1] == 1:
+            
+            
+            input_plot = input_map.reshape(np.prod(input_map.shape[0:-1]),
+                                         input_map.shape[-1])
+            
+            AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
+            
+            _, ax = plt.subplots(nrows=1,ncols=1, 
+                                          constrained_layout=True)
+            
+            plt.rcParams['figure.facecolor'] = 'white'
+            ax.scatter(input_plot[:, 0], AOS_plot[:, 1], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='s',
+                        edgecolors=edgecolors)
+            
+        
+        elif input_map.shape[-1]  == 2 and AOS.shape[-1] == 1:
+            
+            
+            input_plot = input_map.reshape(np.prod(input_map.shape[0:-1]),
+                                         input_map.shape[-1])
+            
+            AOS_plot = AOS.reshape(np.prod(AOS.shape[0:-1]), AOS.shape[-1])
+            
+            _, (ax1, ax2) = plt.subplots(nrows=1,ncols=2, 
+                                          constrained_layout=True)
+            
+            plt.rcParams['figure.facecolor'] = 'white'
+            ax1.scatter(input_plot[:, 0], input_plot[:, 1], s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='s',
+                        edgecolors=edgecolors)
+            
+            ax1.set_xlabel('$u_{1}$')
+            if (EDS_bound and EDS_resolution) is None:
+                ax1.set_title('$AIS_{u}$')
+                ax1.set_ylabel('$u_{2}$')
+            else:
+                ax1.set_title('$AIS_{u} \, and \, EDS_{d}$')
+                ax1.set_ylabel('$d_{1}$')
+           
+            
+            ax2.scatter(AOS_plot[:, 0], np.array([np.zeros(AOS_plot[:,0].size),]).T, s=16,
+                        c=np.sqrt(AOS_plot[:, 0]**2),
+                        cmap=cmap, antialiased=True,
+                        lw=lineweight, marker='o',
+                        edgecolors=edgecolors)
+            
+            # ax2.set_ylabel('$y_{2}$')
+            plt.xlabel('$y_{1}$')
+            plt.yticks([])
+            
+            ax2.set_title('$AOS$')
+            
+        elif input_map.shape[-1]  == 2 and AOS.shape[-1] == 2:
             
             input_plot = input_map.reshape(np.prod(input_map.shape[0:-1]),
                                          input_map.shape[-1])
