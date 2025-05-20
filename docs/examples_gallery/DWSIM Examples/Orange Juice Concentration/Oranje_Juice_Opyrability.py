@@ -13,7 +13,6 @@ import clr
 
 dwsimpath = "C:\\Users\\nicol\\AppData\\Local\\DWSIM\\"             #Change your DWSIM installation path
 
-
 clr.AddReference(dwsimpath + "\\CapeOpen.dll")
 clr.AddReference(dwsimpath + "\\DWSIM.Automation.dll")
 clr.AddReference(dwsimpath + "\\DWSIM.Interfaces.dll")
@@ -24,7 +23,6 @@ clr.AddReference(dwsimpath + "\\DWSIM.UnitOperations.dll")
 clr.AddReference(dwsimpath + "\\DWSIM.Inspector.dll")
 clr.AddReference(dwsimpath + "\\System.Buffers.dll")
 clr.AddReference(dwsimpath + "\\DWSIM.Thermodynamics.ThermoC.dll")
-
 
 ########################################################################################################################
 # Open DWSIM Automation
@@ -38,101 +36,56 @@ def open_DWSIM(dwsimpath, FlowsheetFile):
 ########################################################################################################################
 # Open DWSIM Automation
 ########################################################################################################################
-FlowsheetFile = "Shower.dwxmz"
+FlowsheetFile = "Orange Juice Concentration.dwxmz"
 manager, myflowsheet = open_DWSIM(dwsimpath, FlowsheetFile)
 
 ########################################################################################################################
 # Call DWSIM -> Change Input Parameters -> Solve - Get Output Parameters
 ########################################################################################################################
+case = 0
 def opyrability_model(AIS):
     global manager, myflowsheet
+    global case
     # Set Input Parameter
-    obj = myflowsheet.GetFlowsheetSimulationObject('Hot Water')
-    feed = obj.GetAsObject()
-    feed.SetVolumetricFlow(AIS[0] / 3600)  #m3/s
-
-    obj = myflowsheet.GetFlowsheetSimulationObject('Cold Water')
-    feed = obj.GetAsObject()
-    feed.SetVolumetricFlow(AIS[1] / 3600)  # m3/s
+    su = myflowsheet.FlowsheetOptions.SelectedUnitSystem
+    evaporator = myflowsheet.GetFlowsheetSimulationObject('V-1').GetAsObject()
+    evaporator.FlashTemperature =AIS[0] + 273.15
+    evaporator.FlashPressure= AIS[1]*100000
 
     # Request a calculation
     errors = manager.CalculateFlowsheet4(myflowsheet)
 
-    obj = myflowsheet.GetFlowsheetSimulationObject('Shower')
-    feed = obj.GetAsObject()
-    temperature = feed.GetTemperature() - 273.15        #Celcius
-    volumetric_flow = feed.GetVolumetricFlow() * 3600   #m3/h
+    obj = myflowsheet.GetFlowsheetSimulationObject('Water Steam 5bar')
+    stream = obj.GetAsObject()
+    Steam_Mass_Flow = stream.GetMassFlow() * 3600  # Mass Flow in kg/h
 
-    result = np.array([volumetric_flow, temperature])
+    obj = myflowsheet.GetFlowsheetSimulationObject('MSTR-003')
+    stream = obj.GetAsObject()
+    Fructose = stream.GetPhase('Overall').Compounds['Fructose'].MassFraction
+
+    print(f'Case {case} simulated!')
+    case+=1
+    result = np.array([Steam_Mass_Flow, Fructose])
     return result
 
 ########################################################################################################################
 # Run One Case to Test
 ########################################################################################################################
-results = opyrability_model([1,5])
-print(f"Volumetric Flow = {results[0]:.2f} m3/h")
-print(f"Temperature = {results[1]:.2f} Celcius")
+results = opyrability_model([80, 0.35])             #80 Celcius + 0.41 bar
+print(f"Steam Mass Flow = {results[0]:.2f} m3/h")
+print(f"Fructose Mass Fraction = {results[1]:.3f}")
 
 ########################################################################################################################
 # Defining the AIS and DOS Bounds and Run Multimodel
 ########################################################################################################################
-DOS_bounds =  np.array([[10, 20],
-                        [70, 100]])
+DOS_bounds =  np.array([[750, 800],
+                        [0.5, 0.8]])
 
-AIS_bounds =  np.array([[1, 10],
-                        [1, 10]])
+AIS_bounds =  np.array([[80, 90],
+                        [0.30, 0.44]])
 
-AIS_resolution =  [10, 10]
+AIS_resolution =  [5, 5]
 
 AOS_region = multimodel_rep(opyrability_model, AIS_bounds, AIS_resolution, plot=True)
 
 OI = OI_eval(AOS_region, DOS_bounds, plot=True)
-
-########################################################################################################################
-# Obtain discretized AIS/AOS
-########################################################################################################################
-from opyrability import AIS2AOS_map
-AIS, AOS = AIS2AOS_map(opyrability_model, AIS_bounds, AIS_resolution, plot=True)
-
-plt.savefig('AIS2AOS_map.png')
-plt.show()
-plt.close()
-
-
-########################################################################################################################
-# Inverse Mapping
-########################################################################################################################
-from opyrability import nlp_based_approach
-
-# Initial estimate for the inverse mapping at each point.
-# Should have same dimension as model inputs.
-u0 = np.array([0, 10])
-
-# Lower bound on inputs.
-lb = np.array([0, 0])
-
-# Upper bound on inputs.
-ub = np.array([100,100])
-
-# Array containing the bounds of the Desired Output set (DOS).
-# Each row corresponds to the lower and upper bound of each variable.
-DOS_bounds = np.array([[17.5, 21.0],
-                       [80.0, 100.0]])
-
-DOS_resolution = [10, 10]
-
-# Obtaining inverse map of the Shower design
-fDIS, fDOS, message = nlp_based_approach(opyrability_model,
-                                        DOS_bounds,
-                                        DOS_resolution,
-                                        u0,
-                                        lb,
-                                        ub,
-                                        method='ipopt',
-                                        plot=True,
-                                        ad=False,
-                                        warmstart=True)
-
-plt.savefig('Inverse_Map.png')
-plt.show()
-plt.close()
