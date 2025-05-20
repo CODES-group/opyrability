@@ -29,7 +29,7 @@ clr.AddReference(dwsimpath + "\\DWSIM.Thermodynamics.ThermoC.dll")
 ########################################################################################################################
 # Open DWSIM Automation
 ########################################################################################################################
-def open_DWSIM_pitch(dwsimpath, FlowsheetFile):
+def open_DWSIM(dwsimpath, FlowsheetFile):
     from DWSIM.Automation import Automation3
     manager = Automation3()
     myflowsheet = manager.LoadFlowsheet(FlowsheetFile)
@@ -39,7 +39,7 @@ def open_DWSIM_pitch(dwsimpath, FlowsheetFile):
 # Open DWSIM Automation
 ########################################################################################################################
 FlowsheetFile = "Shower.dwxmz"
-manager, myflowsheet = open_DWSIM_pitch(dwsimpath, FlowsheetFile)
+manager, myflowsheet = open_DWSIM(dwsimpath, FlowsheetFile)
 
 ########################################################################################################################
 # Call DWSIM -> Change Input Parameters -> Solve - Get Output Parameters
