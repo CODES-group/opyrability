@@ -1,12 +1,13 @@
 
+
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="../" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Evaluation of the OI for the Shower Problem &#8212; Opyrability&#39;s documentation.</title>
   
@@ -28,35 +29,39 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
-    <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script src="../_static/togglebutton.js"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/operability_index_shower';</script>
@@ -160,18 +165,7 @@
   
   
 </a></div>
-        <div class="sidebar-primary-item">
-
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script></div>
-        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
@@ -223,9 +217,9 @@
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</button></div>
+</label></div>
       
     </div>
   
@@ -250,14 +244,14 @@
       
       <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/operability_index_shower.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch on Binder"
+   title="Launch onBinder"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+    <img src="../_static/images/logo_binder.svg">
   </span>
 <span class="btn__text-container">Binder</span>
 </a>
@@ -268,14 +262,14 @@
       
       <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/operability_index_shower.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch on Colab"
+   title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+    <img src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -459,7 +453,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="evaluation-of-the-oi-for-the-shower-problem">
-<h1>Evaluation of the OI for the Shower Problem<a class="headerlink" href="#evaluation-of-the-oi-for-the-shower-problem" title="Link to this heading">#</a></h1>
+<h1>Evaluation of the OI for the Shower Problem<a class="headerlink" href="#evaluation-of-the-oi-for-the-shower-problem" title="Permalink to this heading">#</a></h1>
 <p>As an introductory example, the shower problem will be assessed. Since its initial
 formulation <span id="id1">[<a class="reference internal" href="../bibliography.html#id22" title="David R Vinson and Christos Georgakis. A new measure of process output controllability. Journal of Process Control, 10(2):185 - 194, 2000. URL: http://www.sciencedirect.com/science/article/pii/S0959152499000451, doi:https://doi.org/10.1016/S0959-1524(99)00045-1.">15</a>]</span> it has been used thoroughly <span id="id2">[<a class="reference internal" href="../bibliography.html#id33" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">8</a>, <a class="reference internal" href="../bibliography.html#id5" title="Vitor Gazzaneo, Juan C. Carrasco, David R. Vinson, and Fernando V. Lima. Process operability algorithms: past, present, and future developments. Industrial &amp; Engineering Chemistry Research, 59(6):2457-2470, 2020. URL: https://doi.org/10.1021/acs.iecr.9b05181, arXiv:https://doi.org/10.1021/acs.iecr.9b05181, doi:10.1021/acs.iecr.9b05181.">9</a>, <a class="reference internal" href="../bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">10</a>, <a class="reference internal" href="../bibliography.html#id15" title="Christos Georgakis, Derya Uztürk, Sivakumar Subramanian, and David R. Vinson. On the operability of continuous processes. Control Engineering Practice, 11(8):859 - 869, 2003. Process Dynamics and Control. URL: http://www.sciencedirect.com/science/article/pii/S0967066102002174, doi:https://doi.org/10.1016/S0967-0661(02)00217-4.">11</a>, <a class="reference internal" href="../bibliography.html#id29" title="Fernando V. Lima and Christos Georgakis. Input-output operability of control systems: the steady-state case. Journal of Process Control, 20(6):769-776, 2010. URL: https://www.sciencedirect.com/science/article/pii/S095915241000079X, doi:https://doi.org/10.1016/j.jprocont.2010.04.008.">12</a>]</span> in process operability research as a benchmark
 to either illustrate operability concepts or test new algorithms and approaches.</p>
@@ -483,8 +477,8 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 <p>With the essentials covered, let’s start import opyrability’s modules:</p>
 <div class="cell tag_remove-output docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">opyrability</span> <span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -492,7 +486,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 <p>And defining the equations for the shower problem as a function:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">shower_problem_2x2</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">shower_problem_2x2</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="mi">0</span><span class="p">:</span>
@@ -529,60 +523,7 @@ y_2=\frac{\left(60 * u_1+120 * u_2\right)}{\left(u_1+u_2\right)} \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>preallocation completed
-
-iteration 1/25 completed
-
-iteration 2/25 completed
-
-iteration 3/25 completed
-
-iteration 4/25 completed
-
-iteration 5/25 completed
-
-iteration 6/25 completed
-
-iteration 7/25 completed
-
-iteration 8/25 completed
-
-iteration 9/25 completed
-
-iteration 10/25 completed
-
-iteration 11/25 completed
-
-iteration 12/25 completed
-
-iteration 13/25 completed
-
-iteration 14/25 completed
-
-iteration 15/25 completed
-
-iteration 16/25 completed
-
-iteration 17/25 completed
-
-iteration 18/25 completed
-
-iteration 19/25 completed
-
-iteration 20/25 completed
-
-iteration 21/25 completed
-
-iteration 22/25 completed
-
-iteration 23/25 completed
-
-iteration 24/25 completed
-
-iteration 25/25 completed
-</pre></div>
-</div>
-<img alt="../_images/29f84f521bd81620d43190b7b4733361199adbc40f78313daf1bc1344db0e8ea.png" src="../_images/29f84f521bd81620d43190b7b4733361199adbc40f78313daf1bc1344db0e8ea.png" />
+<img alt="../_images/e52b34d126a092d31ac436ebabdca6ed3a8b1b094cbce19021e4dc9663b68846.png" src="../_images/e52b34d126a092d31ac436ebabdca6ed3a8b1b094cbce19021e4dc9663b68846.png" />
 </div>
 </div>
 <p>Lastly, let’s evaluate how operable the shower problem is, using the OI as a metric:</p>
@@ -593,7 +534,7 @@ iteration 25/25 completed
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/40486bb92186db66d3966275503200e6692b8519448cc41e6cfe7b5f825cae82.png" src="../_images/40486bb92186db66d3966275503200e6692b8519448cc41e6cfe7b5f825cae82.png" />
+<img alt="../_images/3ad5faf1d0601fc52d1f0566adf21ada93f67d280f1be438299bee664671e2e0.png" src="../_images/3ad5faf1d0601fc52d1f0566adf21ada93f67d280f1be438299bee664671e2e0.png" />
 </div>
 </div>
 <p>The OI of <span class="math notranslate nohighlight">\(60.24\%\)</span> indicates that with the current limits of the AIS variables (hot and cold flow rates),
@@ -646,7 +587,7 @@ the process is not fully operable!</p>
   <div class="footer-item">
     
 <p class="component-author">
-By Victor Alves @ Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+By Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.
 </p>
 
   </div>
@@ -656,7 +597,7 @@ By Victor Alves @ Control, Optimization and Design for Energy and Sustainability
 
   <p class="copyright">
     
-      © Copyright 2022-2024.
+      © Copyright 2022-2025.
       <br/>
     
   </p>

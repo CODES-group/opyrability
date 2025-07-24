@@ -2,16 +2,24 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: Opyrability's documentation.
-author: Victor Alves @ Control, Optimization and Design for Energy and Sustainability (CODES) Group.  
+author: Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.  
 logo: opyrability_logo.png
-copyright: "2022-2024"  # Copyright year to be placed in the footer
+copyright: "2022-2025"  # Copyright year to be placed in the footer
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: force
+  execute_notebooks: 'auto'
+  exclude_patterns: 
+    - 'aps_connection.ipynb'
+    - 'aspen_connection.ipynb'
+    - 'idaes_connection.ipynb'
+    - 'unisim_connection.ipynb'
+    - 'membrane_reactor.ipynb'
+    - 'operability_index_shower.ipynb'
   timeout: -1
-  
+
+
 
 # Define the name of the latex output file for PDF builds
 latex:
@@ -33,6 +41,8 @@ repository:
 html:
   use_issues_button: true
   use_repository_button: true
+  extra_files:
+    - images/
   
 sphinx:
   extra_extensions:

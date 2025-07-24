@@ -6,7 +6,7 @@ from itertools import permutations as perms
 from typing import Callable, Union
 from itertools import permutations as perms
 from typing import Callable, Union
-from tqdm import tqdm
+from tqdm.notebook import tqdm
 
 # Linear Algebra
 import numpy as np
