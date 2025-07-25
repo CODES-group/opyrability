@@ -601,10 +601,10 @@ Test outputs: Syngas LHV = 4.41 MJ/Nm³, Tar Production = 7.00 g/Nm³
 </div>
 </div>
 </div>
-<p>Now that the interface is working, we’ll define the Available Input Space (AIS) for our operability analysis. This consists of the ranges we want to explore for temperature and equivalence ratio.</p>
+<p>Now that the interface is working, we’ll define the Available Input Set (AIS) for our operability analysis. This consists of the ranges we want to explore for temperature and equivalence ratio.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the Available Input Space (AIS) bounds</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the Available Input Set (AIS) bounds</span>
 <span class="n">AIS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
     <span class="p">[</span><span class="mf">1023.15</span><span class="p">,</span> <span class="mf">1123.15</span><span class="p">],</span>  <span class="c1"># Temperature in K (750-850°C)</span>
     <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]</span>           <span class="c1"># Equivalence ratio</span>
@@ -656,7 +656,7 @@ Elapsed time: 5.94 minutes
 </div>
 </div>
 <p>The AIS to AOS plots show how temperature and equivalence ratio affect syngas LHV and tar production. They reveal a trade-off where conditions favoring higher LHV also result in more (undesirable) tar.</p>
-<p>We can also generate a visualization of the Achievable Output Space (AOS) using the <code class="docutils literal notranslate"><span class="pre">multimodel_rep</span></code> function from opyrability (takes approximately the same time as the <code class="docutils literal notranslate"><span class="pre">AIS2AOS_map</span></code>).</p>
+<p>We can also generate a visualization of the Achievable Output Set (AOS) using the <code class="docutils literal notranslate"><span class="pre">multimodel_rep</span></code> function from opyrability (takes approximately the same time as the <code class="docutils literal notranslate"><span class="pre">AIS2AOS_map</span></code>).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate the AOS region representation</span>
@@ -676,7 +676,7 @@ Elapsed time: 5.94 minutes
 </div>
 </div>
 </div>
-<p>Now that we have the Achievable Output Space (AOS), we can define a Desired Output Space (DOS) and evaluate the Operability Index (OI). The OI quantifies the fraction of the DOS that is achievable by the process given the AIS.</p>
+<p>Now that we have the Achievable Output Set (AOS), we can define a Desired Output Set (DOS) and evaluate the Operability Index (OI). The OI quantifies the fraction of the DOS that is achievable by the process given the AIS.</p>
 <p>For this gasifier, we define the DOS based on common requirements for syngas utilization (e.g., in engines) and typical tar levels from fluidized bed gasifiers before extensive cleaning:</p>
 <ul class="simple">
 <li><p>Syngas LHV: 4.2 - 6.0 MJ/Nm³</p></li>
@@ -699,7 +699,7 @@ Elapsed time: 5.94 minutes
 <img alt="../_images/9e1db556e0fb65d4b11611a0a1b5659adcf8e1d9127388957e80ea9792ccc55b.png" src="../_images/9e1db556e0fb65d4b11611a0a1b5659adcf8e1d9127388957e80ea9792ccc55b.png" />
 </div>
 </div>
-<p>The plot above illustrates the Achievable Output Space (AOS) for the sewage sludge gasifier against the previously defined Desired Output Space (DOS).</p>
+<p>The plot above illustrates the Achievable Output Set (AOS) for the sewage sludge gasifier against the previously defined Desired Output Set (DOS).</p>
 <p>The calculated <strong>Operability Index (OI) of 54.95%</strong> quantifies the portion of the desired LHV and tar production targets that are achievable within the investigated ranges of temperature and equivalence ratio (with SB fixed at 0.5).</p>
 <p>This result indicates the extent to which the gasifier can meet the desired performance specifications. The highlighted overlap in the plot shows the specific operating outcomes that satisfy both the process capabilities and the desired targets.</p>
 <p>These results help select operating conditions that meet specific requirements for syngas LHV and tar.</p>
