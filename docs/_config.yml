@@ -13,7 +13,7 @@ execute:
   exclude_patterns: 
     - 'aps_connection.ipynb'
     - 'aspen_connection.ipynb'
-    - 'idaes_connection.ipynb'
+    # - 'idaes_connection.ipynb'
     - 'unisim_connection.ipynb'
     - 'membrane_reactor.ipynb'
     - 'operability_index_shower.ipynb'
