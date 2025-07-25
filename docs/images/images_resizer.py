@@ -7,16 +7,19 @@ THUMBS = ROOT / "thumbs"
 THUMBS.mkdir(exist_ok=True)
 
 # Target image width
-TARGET_W = 600
+TARGET_W = 300
 
 # Explicitly name all the image files you're trying to resize
+# images = [
+#     "shower_oi.gif",
+#     "dma-mr.PNG",
+#     "m-DAC_ProcessPFD.png",
+#     "aspen_flowsheet.png",
+#     "unisim_flowsheet.png",
+#     "H_SOEC.png",
+# ]
 images = [
-    "shower_oi.gif",
-    "dma-mr.PNG",
-    "m-DAC_ProcessPFD.png",
-    "aspen_flowsheet.png",
-    "unisim_flowsheet.png",
-    "H_SOEC.png",
+    "air_cooling.png",
 ]
 
 # Resize each image
