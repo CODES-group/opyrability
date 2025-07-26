@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -15,19 +15,19 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
@@ -38,8 +38,9 @@
     <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
@@ -74,19 +75,23 @@ const thebe_selector_output = ".output, .cell_output"
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -108,12 +113,20 @@ const thebe_selector_output = ".output, .cell_output"
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -128,9 +141,13 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="intro.html">
+  
   
   
   
@@ -140,8 +157,8 @@ const thebe_selector_output = ".output, .cell_output"
       
     
     
-    <img src="_static/opyrability_logo.png" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="_static/opyrability_logo.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
+    <script>document.write(`<img src="_static/opyrability_logo.png" class="logo__image only-dark" alt="Opyrability's documentation. - Home"/>`);</script>
   
   
 </a></div>
@@ -151,7 +168,7 @@ const thebe_selector_output = ".output, .cell_output"
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Opyrability Documentation -  
+                    Opyrability Documentation  
                 </a>
             </li>
         </ul>
@@ -161,10 +178,10 @@ const thebe_selector_output = ".output, .cell_output"
 
 <li class="toctree-l1"><a class="reference internal" href="operability_overview.html">Process Operability Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Process Operability Algorithms</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Documentation</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="_autosummary/opyrability.html">opyrability</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="process_model.html">The Process Model (M) - Programming Aspects</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples_gallery/index_example_gallery.html">Examples Gallery</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Bibliography</a></li>
@@ -183,7 +200,7 @@ const thebe_selector_output = ".output, .cell_output"
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
 
@@ -192,7 +209,7 @@ const thebe_selector_output = ".output, .cell_output"
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
@@ -321,20 +338,22 @@ const thebe_selector_output = ".output, .cell_output"
 </button>
 
 
+
 <script>
 document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script>
 
+
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
   </button>
 `);
 </script>
@@ -361,7 +380,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="bibliography">
 <h1>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this heading">#</a></h1>
@@ -386,44 +405,52 @@ document.write(`
 <span class="label"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></span>
 <p>Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. <em>AIChE Journal</em>, 63(3):975–983, 2017. URL: <a class="reference external" href="https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439">https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439</a>, <a class="reference external" href="https://arxiv.org/abs/https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439">arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1002/aic.15439">doi:https://doi.org/10.1002/aic.15439</a>.</p>
 </div>
-<div class="citation" id="id33" role="doc-biblioentry">
+<div class="citation" id="id40" role="doc-biblioentry">
 <span class="label"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></span>
+<p>J. M. de Andrés, M. Vedrenne, M. Brambilla, and E. Rodríguez. Modeling and model performance evaluation of sewage sludge gasification in fluidized-bed gasifiers using aspen plus. <em>Journal of the Air &amp; Waste Management Association</em>, 69(1):23–33, 2019. URL: <a class="reference external" href="https://doi.org/10.1080/10962247.2018.1505634">https://doi.org/10.1080/10962247.2018.1505634</a>, <a class="reference external" href="https://arxiv.org/abs/https://doi.org/10.1080/10962247.2018.1505634">arXiv:https://doi.org/10.1080/10962247.2018.1505634</a>, <a class="reference external" href="https://doi.org/10.1080/10962247.2018.1505634">doi:10.1080/10962247.2018.1505634</a>.</p>
+</div>
+<div class="citation" id="id41" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
+<p>Ulysses Guilherme Ferreira, Sérgio Mauro da Silva Neiro, Luís Cláudio Oliveira-Lopes, Thiago Vaz da Costa, Heleno Bispo, and Fernando Vines Lima. Operability for process flowsheet analysis. <em>Digital Chemical Engineering</em>, 15:100229, 2025. URL: <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S2772508125000134">https://www.sciencedirect.com/science/article/pii/S2772508125000134</a>, <a class="reference external" href="https://doi.org/10.1016/j.dche.2025.100229">doi:10.1016/j.dche.2025.100229</a>.</p>
+</div>
+<div class="citation" id="id33" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
 <p>Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, <em>13th International Symposium on Process Systems Engineering (PSE 2018)</em>, volume 44 of Computer Aided Chemical Engineering, pages 2371–2376. Elsevier, 2018. URL: <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/B9780444642417503906">https://www.sciencedirect.com/science/article/pii/B9780444642417503906</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/B978-0-444-64241-7.50390-6">doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6</a>.</p>
 </div>
 <div class="citation" id="id5" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>7<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></span>
 <p>Vitor Gazzaneo, Juan C. Carrasco, David R. Vinson, and Fernando V. Lima. Process operability algorithms: past, present, and future developments. <em>Industrial &amp; Engineering Chemistry Research</em>, 59(6):2457–2470, 2020. URL: <a class="reference external" href="https://doi.org/10.1021/acs.iecr.9b05181">https://doi.org/10.1021/acs.iecr.9b05181</a>, <a class="reference external" href="https://arxiv.org/abs/https://doi.org/10.1021/acs.iecr.9b05181">arXiv:https://doi.org/10.1021/acs.iecr.9b05181</a>, <a class="reference external" href="https://doi.org/10.1021/acs.iecr.9b05181">doi:10.1021/acs.iecr.9b05181</a>.</p>
 </div>
 <div class="citation" id="id7" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>8<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></span>
 <p>Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. <em>Industrial &amp; Engineering Chemistry Research</em>, 58(15):6069–6079, 2019. URL: <a class="reference external" href="https://doi.org/10.1021/acs.iecr.8b05482">https://doi.org/10.1021/acs.iecr.8b05482</a>, <a class="reference external" href="https://arxiv.org/abs/https://doi.org/10.1021/acs.iecr.8b05482">arXiv:https://doi.org/10.1021/acs.iecr.8b05482</a>, <a class="reference external" href="https://doi.org/10.1021/acs.iecr.8b05482">doi:10.1021/acs.iecr.8b05482</a>.</p>
 </div>
 <div class="citation" id="id15" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>9<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></span>
 <p>Christos Georgakis, Derya Uztürk, Sivakumar Subramanian, and David R. Vinson. On the operability of continuous processes. <em>Control Engineering Practice</em>, 11(8):859 – 869, 2003. Process Dynamics and Control. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0967066102002174">http://www.sciencedirect.com/science/article/pii/S0967066102002174</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/S0967-0661(02)00217-4">doi:https://doi.org/10.1016/S0967-0661(02)00217-4</a>.</p>
 </div>
 <div class="citation" id="id29" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>10<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></span>
 <p>Fernando V. Lima and Christos Georgakis. Input-output operability of control systems: the steady-state case. <em>Journal of Process Control</em>, 20(6):769–776, 2010. URL: <a class="reference external" href="https://www.sciencedirect.com/science/article/pii/S095915241000079X">https://www.sciencedirect.com/science/article/pii/S095915241000079X</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/j.jprocont.2010.04.008">doi:https://doi.org/10.1016/j.jprocont.2010.04.008</a>.</p>
 </div>
 <div class="citation" id="id34" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>11<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></span>
 <p>Fernando V. Lima, Zhenya Jia, Marianthi Ierapetritou, and Christos Georgakis. Similarities and differences between the concepts of operability and flexibility: the steady-state case. <em>AIChE Journal</em>, 56(3):702–716, 2010. URL: <a class="reference external" href="https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.12021">https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.12021</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1002/aic.12021">doi:https://doi.org/10.1002/aic.12021</a>.</p>
 </div>
 <div class="citation" id="id23" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>12<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></span>
 <p>Sivakumar Subramanian and Christos Georgakis. Methodology for the steady-state operability analysis of plantwide systems. <em>Industrial &amp; Engineering Chemistry Research</em>, 44(20):7770–7786, 2005. URL: <a class="reference external" href="https://doi.org/10.1021/ie0490076">https://doi.org/10.1021/ie0490076</a>, <a class="reference external" href="https://arxiv.org/abs/https://doi.org/10.1021/ie0490076">arXiv:https://doi.org/10.1021/ie0490076</a>, <a class="reference external" href="https://doi.org/10.1021/ie0490076">doi:10.1021/ie0490076</a>.</p>
 </div>
 <div class="citation" id="id22" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>13<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></span>
 <p>David R Vinson and Christos Georgakis. A new measure of process output controllability. <em>Journal of Process Control</em>, 10(2):185 – 194, 2000. URL: <a class="reference external" href="http://www.sciencedirect.com/science/article/pii/S0959152499000451">http://www.sciencedirect.com/science/article/pii/S0959152499000451</a>, <a class="reference external" href="https://doi.org/https://doi.org/10.1016/S0959-1524(99)00045-1">doi:https://doi.org/10.1016/S0959-1524(99)00045-1</a>.</p>
 </div>
 <div class="citation" id="id36" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>14<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>16<span class="fn-bracket">]</span></span>
 <p>David R. Vinson and Christos Georgakis. Inventory control structure independence of the process operability index. <em>Industrial &amp; Engineering Chemistry Research</em>, 41(16):3970–3983, 2002. URL: <a class="reference external" href="https://doi.org/10.1021/ie0109814">https://doi.org/10.1021/ie0109814</a>, <a class="reference external" href="https://arxiv.org/abs/https://doi.org/10.1021/ie0109814">arXiv:https://doi.org/10.1021/ie0109814</a>, <a class="reference external" href="https://doi.org/10.1021/ie0109814">doi:10.1021/ie0109814</a>.</p>
 </div>
 <div class="citation" id="id35" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span>15<span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span>17<span class="fn-bracket">]</span></span>
 <p>JG Ziegler and NB Nichols. Process lags in automatic-control circuits. <em>Transactions of the American Society of Mechanical Engineers</em>, 65(5):433–440, 1943.</p>
 </div>
 </div>
@@ -455,11 +482,10 @@ document.write(`
 
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="examples_gallery/index_example_gallery.html"
@@ -470,10 +496,7 @@ document.write(`
         <p class="prev-next-title">Examples Gallery</p>
       </div>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -489,16 +512,17 @@ document.write(`
   <div class="footer-item">
     
 <p class="component-author">
-By Victor Alves @ Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+By Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.
 </p>
 
   </div>
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
-      © Copyright 2022-2024.
+      © Copyright 2022-2025.
       <br/>
     
   </p>
@@ -522,8 +546,8 @@ By Victor Alves @ Control, Optimization and Design for Energy and Sustainability
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
