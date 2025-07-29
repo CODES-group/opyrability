@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Operability Mapping of Solid Oxide Electrolyzer Cell systems Using the IDAES and Opyrability Toolkit &#8212; Opyrability&#39;s documentation.</title>
+    <title>Operability Mapping of Solid Oxide Electrolyzer Cell Systems Using the IDAE Framework and Opyrability Toolkit &#8212; Opyrability&#39;s documentation.</title>
   
   
   
@@ -440,7 +440,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Operability Mapping of Solid Oxide Electrolyzer Cell systems Using the IDAES and Opyrability Toolkit</h1>
+    <h1>Operability Mapping of Solid Oxide Electrolyzer Cell Systems Using the IDAE Framework and Opyrability Toolkit</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -450,14 +450,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Operability Mapping of Solid Oxide Electrolyzer Cell systems Using the IDAES and Opyrability Toolkit</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Operability Mapping of Solid Oxide Electrolyzer Cell Systems Using the IDAE Framework and Opyrability Toolkit</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-soec-model">Overview of the SOEC Model</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#software-and-library-requirements">Software and Library Requirements</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-integration">Step-by-Step Integration</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-forward-mapping">Case 1: Forward Mapping</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#constants-and-expressions">Constants and expressions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#constants-and-expressions">Constants and Expressions</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-model-for-operability-analysis">3. Define the Model for Operability Analysis</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#define-input-space-for-operability-analysis">4. Define Input Space for Operability Analysis</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#define-input-set-for-operability-analysis">4. Define Input Set for Operability Analysis</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-forward-mapping">Case 2 : Forward Mapping</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-desired-output-set-bounds">Setup Desired Output Set Bounds</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desired-output-set-and-operability-index-evaluation-for-soec-based-hydrogen-production">Desired Output Set and Operability Index Evaluation for SOEC-Based Hydrogen Production</a><ul class="nav section-nav flex-column">
@@ -478,20 +478,20 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="operability-mapping-of-solid-oxide-electrolyzer-cell-systems-using-the-idaes-and-opyrability-toolkit">
-<h1>Operability Mapping of Solid Oxide Electrolyzer Cell systems Using the IDAES and Opyrability Toolkit<a class="headerlink" href="#operability-mapping-of-solid-oxide-electrolyzer-cell-systems-using-the-idaes-and-opyrability-toolkit" title="Permalink to this heading">#</a></h1>
-<p>Author: Krishna Murthy Busam, West Virginia University PhD Student</p>
-<p>This notebook demonstrates how to connect a Solid Oxide Electrolyzer Cell (SOEC) simulation model built with the IDAES platform to Python for operability analysis using the opyrability library. The approach focuses on visualizing the impact of varying current density and temperature on the SOEC voltage, which is crucial for optimizing stack performance and evaluating system flexibility.</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="operability-mapping-of-solid-oxide-electrolyzer-cell-systems-using-the-idae-framework-and-opyrability-toolkit">
+<h1>Operability Mapping of Solid Oxide Electrolyzer Cell Systems Using the IDAE Framework and Opyrability Toolkit<a class="headerlink" href="#operability-mapping-of-solid-oxide-electrolyzer-cell-systems-using-the-idae-framework-and-opyrability-toolkit" title="Permalink to this heading">#</a></h1>
+<p>Author: Krishna Murthy Busam, West Virginia University (PhD Student)</p>
+<p>This notebook demonstrates how to connect a Solid Oxide Electrolyzer Cell (SOEC) simulation model built with the IDAES platform for operability analysis using the opyrability library. The approach focuses on visualizing the impact of varying current density and temperature on the SOEC voltage, which is crucial for optimizing stack performance and evaluating system flexibility.</p>
 <p>This method serves as a general template for connecting Python-based process models with operability analysis tools. It can be extended to surrogate models, real-time simulations, or hybrid modeling workflows.</p>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="overview-of-the-soec-model">
 <h1>Overview of the SOEC Model<a class="headerlink" href="#overview-of-the-soec-model" title="Permalink to this heading">#</a></h1>
 <p><img alt="" src="../_images/H_SOEC.png" />
-Figure : Schematic of the operational principles governing SOEC.</p>
+Figure 1: <em>Schematic of the operational principles governing SOEC</em>.</p>
 <p>The IDAES-based SOEC model represents a simplified electrochemical block focused on design-point evaluation. It computes cell voltage based on user-specified values of:
 <strong>1.Current Density [A/cm²]</strong><br />
 <strong>2.Operating Temperature [K]</strong></p>
-<p>Operability study includes 2 cases which are stated below in the table. The electrochemical model includes reversible, activation and ohmic overpotentials and returns a computed cell voltage. This helps assess performance across a design space and guides the sizing and efficiency strategies of the SOEC system.</p>
+<p>The operability study performed includes 2 cases which are stated in the table below. The electrochemical model includes reversible, activation and ohmic overpotentials and returns a computed cell voltage. This helps assess performance across a design space and guides the sizing and efficiency strategies of the SOEC system.</p>
 <p><strong>Case 1</strong>: <span class="math notranslate nohighlight">\(\mathbb{R}^2 \rightarrow \mathbb{R}^1\)</span>(Input <span class="math notranslate nohighlight">\(\rightarrow\)</span> Output) system</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -579,7 +579,7 @@ Figure : Schematic of the operational principles governing SOEC.</p>
 </div>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="constants-and-expressions">
-<h1>Constants and expressions<a class="headerlink" href="#constants-and-expressions" title="Permalink to this heading">#</a></h1>
+<h1>Constants and Expressions<a class="headerlink" href="#constants-and-expressions" title="Permalink to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Constants</span>
@@ -637,8 +637,8 @@ Figure : Schematic of the operational principles governing SOEC.</p>
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="define-input-space-for-operability-analysis">
-<h1>4. Define Input Space for Operability Analysis<a class="headerlink" href="#define-input-space-for-operability-analysis" title="Permalink to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="define-input-set-for-operability-analysis">
+<h1>4. Define Input Set for Operability Analysis<a class="headerlink" href="#define-input-set-for-operability-analysis" title="Permalink to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">AIS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">923.0</span><span class="p">,</span> <span class="mf">1173.0</span><span class="p">]])</span>  <span class="c1"># [current density, temperature]</span>
@@ -781,7 +781,7 @@ Figure : Schematic of the operational principles governing SOEC.</p>
 <img alt="../_images/3f4ce692a321dae509e7a52e3e8f5551fb4d1c2f26828eb3e620b6e002f70fea.png" src="../_images/3f4ce692a321dae509e7a52e3e8f5551fb4d1c2f26828eb3e620b6e002f70fea.png" />
 </div>
 </div>
-<p>Additionally, we can create a visualization of the Achievable Output Space (AOS) by using the <code class="docutils literal notranslate"><span class="pre">multimodel_rep</span></code> function from opyrability, which takes about the same amount of time as the <code class="docutils literal notranslate"><span class="pre">AIS2AOS_map</span></code>.</p>
+<p>Additionally, we can create a visualization of the Achievable Output Set (AOS) by using the <code class="docutils literal notranslate"><span class="pre">multimodel_rep</span></code> function from opyrability, which takes about the same amount of time as the <code class="docutils literal notranslate"><span class="pre">AIS2AOS_map</span></code>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">multimodel_rep</span>
@@ -797,7 +797,7 @@ Figure : Schematic of the operational principles governing SOEC.</p>
 </section>
 <section id="desired-output-set-and-operability-index-evaluation-for-soec-based-hydrogen-production">
 <h2>Desired Output Set and Operability Index Evaluation for SOEC-Based Hydrogen Production<a class="headerlink" href="#desired-output-set-and-operability-index-evaluation-for-soec-based-hydrogen-production" title="Permalink to this heading">#</a></h2>
-<p>Now that the Achievable Output Space (AOS) has been established for the SOEC process, we can define various Desired Output Set (DOS) to reflect target operating regions based on system-level performance goals. The <strong>Operability Index (OI)</strong> is then used to quantify how much of each DOS is actually achievable by the process, given the Available Input Set (AIS). The OI is defined as the fraction of the DOS that overlaps with the AOS.</p>
+<p>Now that the Achievable Output Set (AOS) has been established for the SOEC process, we can define various Desired Output Set (DOS) to reflect target operating regions based on system-level performance goals. The <strong>Operability Index (OI)</strong> is then used to quantify how much of each DOS is actually achievable by the process, given the Available Input Set (AIS). The OI is defined as the fraction of the DOS that overlaps with the AOS.</p>
 <p>For this SOEC case study, the two outputs of interest are:</p>
 <ul class="simple">
 <li><p><strong>Cell Voltage [V]</strong></p></li>
@@ -845,7 +845,7 @@ Figure : Schematic of the operational principles governing SOEC.</p>
 <img alt="../_images/a3730e708fabe393bd06a3cb24cc1cc434529861d9f74d65794de0ab8ceadd7b.png" src="../_images/a3730e708fabe393bd06a3cb24cc1cc434529861d9f74d65794de0ab8ceadd7b.png" />
 </div>
 </div>
-<p>These DOS scenarios can be used to evaluate how the operability of the SOEC system changes with tighter hydrogen production targets. A higher OI indicates that a greater portion of the desired operating region is achievable by the system, while a lower OI may suggest the need for design modifications, advanced control strategies, or broader input flexibility.</p>
+<p>These DOS scenarios can be used to evaluate how the operability of the SOEC system changes with tighter hydrogen production targets. A higher OI indicates that a greater portion of the desired operating region is achievable by the system, while a lower OI may suggest the need for design modifications for advanced control strategies, or broader input flexibility.</p>
 <p>Desired Output Set (DOS) and their OI calculation</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -924,14 +924,14 @@ Figure : Schematic of the operational principles governing SOEC.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Operability Mapping of Solid Oxide Electrolyzer Cell systems Using the IDAES and Opyrability Toolkit</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Operability Mapping of Solid Oxide Electrolyzer Cell Systems Using the IDAE Framework and Opyrability Toolkit</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview-of-the-soec-model">Overview of the SOEC Model</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#software-and-library-requirements">Software and Library Requirements</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-integration">Step-by-Step Integration</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#case-1-forward-mapping">Case 1: Forward Mapping</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#constants-and-expressions">Constants and expressions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#constants-and-expressions">Constants and Expressions</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-model-for-operability-analysis">3. Define the Model for Operability Analysis</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#define-input-space-for-operability-analysis">4. Define Input Space for Operability Analysis</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#define-input-set-for-operability-analysis">4. Define Input Set for Operability Analysis</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#case-2-forward-mapping">Case 2 : Forward Mapping</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-desired-output-set-bounds">Setup Desired Output Set Bounds</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#desired-output-set-and-operability-index-evaluation-for-soec-based-hydrogen-production">Desired Output Set and Operability Index Evaluation for SOEC-Based Hydrogen Production</a><ul class="nav section-nav flex-column">
