@@ -9,8 +9,6 @@
 
 ![GitHub top language](https://img.shields.io/github/languages/top/codes-group/opyrability)
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/codes-group/opyrability/.github%2Fworkflows%2Fpython-publish.yml)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/codes-group/opyrability/.github%2Fworkflows%2Fpublish_conda.yml)
 
 
 ![Website](https://img.shields.io/website?url=https%3A%2F%2Fcodes-group.github.io%2Fopyrability%2F)
