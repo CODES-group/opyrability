@@ -1,10 +1,6 @@
 # Opyrability - Process Operability Analysis in Python.
 
-![PyPI - Downloads](https://img.shields.io/pypi/dm/opyrability)
-
-
-![PyPI - Version](https://img.shields.io/pypi/v/opyrability) 
-![Conda Version](https://img.shields.io/conda/v/codes-group/opyrability)
+[![PyPI Downloads](https://static.pepy.tech/badge/opyrability)](https://pepy.tech/projects/opyrability)
 
 
 ![GitHub forks](https://img.shields.io/github/forks/codes-group/opyrability)
