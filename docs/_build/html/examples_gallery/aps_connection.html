@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>&lt;no title&gt; &#8212; Opyrability&#39;s documentation.</title>
+    <title>Operability analysis of a multistage membrane separation process for direct air capture (m-DAC) using AVEVA Process Simulation &#8212; Opyrability&#39;s documentation.</title>
   
   
   
@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/aps_connection';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -438,7 +440,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>Operability analysis of a multistage membrane separation process for direct air capture (m-DAC) using AVEVA Process Simulation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -447,7 +449,25 @@ document.write(`
                 <h2> Contents </h2>
             </div>
             <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Operability analysis of a multistage membrane separation process for direct air capture (m-DAC) using AVEVA Process Simulation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#process-overview-multistage-membrane-based-direct-air-capture-dac">Process Overview: Multistage Membrane-Based Direct Air Capture (DAC)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-set-up-of-opyrability-with-aveva-process-simulation">Step-by-step set up of Opyrability with AVEVA Process Simulation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-necessary-imports-for-connection-with-aps-and-for-operability-computations">Step 1: Necessary imports for connection with APS and for Operability computations:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aps-connection-import">APS connection import</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-calling-the-simulation-file-you-want-to-work-with">Step 2: Calling the simulation file you want to work with:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-function-for-double-checking-if-simulation-exists">Step 3: Function for double checking if simulation exists:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-process-model-function-to-communicate-with-aps-and-opyrability">Step 4: Process model function to communicate with APS and <code class="docutils literal notranslate"><span class="pre">Opyrability</span></code>:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-defining-operability-study">Step 5: Defining Operability study</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#multimodel-representation">Multimodel representation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-function-for-multimodel-case">Process model function for Multimodel case:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-study-used-for-multimodel-representation">Defining study used for multimodel representation</a></li>
+</ul>
+</li>
 </ul>
 
             </nav>
@@ -460,29 +480,33 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>Operability analysis of a multistage membrane separation process for direct air capture (m-DAC) using AVEVA Process Simulation</h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="operability-analysis-of-a-multistage-membrane-separation-process-for-direct-air-capture-m-dac-using-aveva-process-simulation">
+<h1>Operability analysis of a multistage membrane separation process for direct air capture (m-DAC) using AVEVA Process Simulation<a class="headerlink" href="#operability-analysis-of-a-multistage-membrane-separation-process-for-direct-air-capture-m-dac-using-aveva-process-simulation" title="Permalink to this heading">#</a></h1>
 <p>Author: Vitor Gama, West Virginia University (PhD Student)</p>
-<p>To address the impacts of fossil fuel emissions on climate change, CO<sub>2</sub> capture has been expanded from point-source capture to CO<sub>2</sub> removal from the atmosphere. The figure shows the direct air capture process, which utilizes gas separation membranes for the CO<sub>2</sub> removal.</p>
+<p>To address the impacts of fossil fuel emissions on climate change, <span class="math notranslate nohighlight">\(CO_2\)</span> capture has been expanded from point-source capture to <span class="math notranslate nohighlight">\(CO_2\)</span> removal from the atmosphere. The figure shows the direct air capture process, which utilizes gas separation membranes for the <span class="math notranslate nohighlight">\(CO_2\)</span> removal.</p>
 <p><img alt="m-DAC Process flow diagram" src="../_images/m-DAC_ProcessPFD.png" /></p>
 <p><em>Figure 1: m-DAC Process flow diagram.</em></p>
-<h2>Process Overview: Multistage Membrane-Based Direct Air Capture (DAC)</h2>
-<p>
-This process is designed for <strong>direct air capture (DAC) of CO<sub>2</sub></strong>, using a multistage membrane separation approach 
-to concentrate carbon dioxide from atmospheric levels (~420 ppm) to a <strong>low-purity product (~5% CO<sub>2</sub> molar fraction)</strong>. 
-The system is engineered to handle approximately <strong>1 megaton of air per year</strong>, aligning with urgent 
-climate action goals.
-</p>
-<p>
-The final CO<sub>2</sub>-enriched stream is suitable for applications that tolerate lower purity, such as:
-<ul>
-    <li>Algae cultivation</li>
-    <li>Enhanced indoor farming and greenhouses</li>
-    <li>Mineral carbonation processes</li>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="process-overview-multistage-membrane-based-direct-air-capture-dac">
+<h1>Process Overview: Multistage Membrane-Based Direct Air Capture (DAC)<a class="headerlink" href="#process-overview-multistage-membrane-based-direct-air-capture-dac" title="Permalink to this heading">#</a></h1>
+<p>This process is designed for <strong>direct air capture (DAC) of <span class="math notranslate nohighlight">\(CO_2\)</span></strong>, using a multistage membrane separation approach
+to concentrate carbon dioxide from atmospheric levels (~420 ppm) to a <strong>low-purity product (~5% <span class="math notranslate nohighlight">\(CO_2\)</span> molar fraction)</strong>.
+The system is engineered to handle approximately <strong>1 megaton of air per year</strong>, aligning with urgent
+climate action goals.</p>
+<p>The final <span class="math notranslate nohighlight">\(CO_2\)</span>-enriched stream is suitable for applications that tolerate lower purity, such as:</p>
+<ul class="simple">
+<li><p>Algae cultivation</p></li>
+<li><p>Mineral carbonation processes</p></li>
 </ul>
-</p>
-<p>
-</p><p>Key operations include vacuuming the permeate using vacuum pumps, compressors to restore pressure, and heat exchangers to maintain temperatures to acceptable ranges in order to avoid membrane degradation <span id="id1">[<a class="reference internal" href="../bibliography.html#id39" title="Vitor Gama, Beatriz Dantas, Oishi Sanyal, and Fernando V. Lima. Process Operability Analysis of Membrane-Based Direct Air Capture for Low-Purity CO2 Production. ACS Eng. Au, March 2024. Publisher: American Chemical Society. URL: https://doi.org/10.1021/acsengineeringau.3c00069, doi:10.1021/acsengineeringau.3c00069.">8</a>]</span>.</p>
-<h2>Step-by-step set up of Opyrability with AVEVA Process Simulation</h2><h2>Step 1: Necessary imports for connection with APS and for Operability computations:</h2><h4> APS connection import</h4><div class="cell docutils container">
+<p>Key operations include vacuuming the permeate using vacuum pumps, compressors to restore pressure, and heat exchangers to maintain temperatures to acceptable ranges in order to avoid membrane degradation <code class="docutils literal notranslate"><span class="pre">Gama2024</span></code> .</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="step-by-step-set-up-of-opyrability-with-aveva-process-simulation">
+<h1>Step-by-step set up of Opyrability with AVEVA Process Simulation<a class="headerlink" href="#step-by-step-set-up-of-opyrability-with-aveva-process-simulation" title="Permalink to this heading">#</a></h1>
+<section id="step-1-necessary-imports-for-connection-with-aps-and-for-operability-computations">
+<h2>Step 1: Necessary imports for connection with APS and for Operability computations:<a class="headerlink" href="#step-1-necessary-imports-for-connection-with-aps-and-for-operability-computations" title="Permalink to this heading">#</a></h2>
+<section id="aps-connection-import">
+<h3>APS connection import<a class="headerlink" href="#aps-connection-import" title="Permalink to this heading">#</a></h3>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">simcentralconnect</span> <span class="c1">#AVEVA PROCESS SIMULATION REQUIRED IMPORT TO ENABLE CONNECTION</span>
 </pre></div>
@@ -514,7 +538,11 @@ The final CO<sub>2</sub>-enriched stream is suitable for applications that toler
 </div>
 </div>
 </div>
-<h2>Step 2: Calling the simulation file you want to work with:</h2><div class="cell docutils container">
+</section>
+</section>
+<section id="step-2-calling-the-simulation-file-you-want-to-work-with">
+<h2>Step 2: Calling the simulation file you want to work with:<a class="headerlink" href="#step-2-calling-the-simulation-file-you-want-to-work-with" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">simFile</span> <span class="o">=</span> <span class="s2">&quot;APS_mDAC&quot;</span>
 <span class="n">simName</span> <span class="o">=</span> <span class="s2">&quot;APS_mDAC&quot;</span> <span class="c1">#WARNING: Sometimes APS might rename your simulation as its opened so always make sure the name of the simulation you are working with aligns with the current opened simulation</span>
@@ -524,7 +552,10 @@ The final CO<sub>2</sub>-enriched stream is suitable for applications that toler
 </div>
 </div>
 </div>
-<h2>Step 3: Function for double checking if simulation exists:</h2><div class="cell docutils container">
+</section>
+<section id="step-3-function-for-double-checking-if-simulation-exists">
+<h2>Step 3: Function for double checking if simulation exists:<a class="headerlink" href="#step-3-function-for-double-checking-if-simulation-exists" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">open_simulation</span><span class="p">(</span><span class="n">simName</span><span class="p">):</span>
     <span class="n">opened</span> <span class="o">=</span> <span class="kc">False</span>
@@ -548,7 +579,11 @@ The final CO<sub>2</sub>-enriched stream is suitable for applications that toler
 </div>
 </div>
 </div>
-<h2>Step 4: Process model function to communicate with APS and Opyrability:</h2><div class="cell docutils container">
+</section>
+<section id="step-4-process-model-function-to-communicate-with-aps-and-opyrability">
+<h2>Step 4: Process model function to communicate with APS and <code class="docutils literal notranslate"><span class="pre">Opyrability</span></code>:<a class="headerlink" href="#step-4-process-model-function-to-communicate-with-aps-and-opyrability" title="Permalink to this heading">#</a></h2>
+<p>This function is the core of the operability analysis performed. In it, we are able to manipulate the membrane parameters mentioned in the following section (<strong>Step 5</strong>), and collect the achievable outcomes.</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">M</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
 
@@ -639,8 +674,10 @@ The final CO<sub>2</sub>-enriched stream is suitable for applications that toler
 </div>
 </div>
 </div>
-<h2>Step 5: Defining Operability study </h2>
-<p>The current case study aims to analyze how the membrane’s CO<sub>2</sub> permeance on both modules affect the overall capture of CO<sub>2</sub> in terms of its purity and recovery.</p>
+</section>
+<section id="step-5-defining-operability-study">
+<h2>Step 5: Defining Operability study<a class="headerlink" href="#step-5-defining-operability-study" title="Permalink to this heading">#</a></h2>
+<p>The current case study aims to analyze how the membrane’s <span class="math notranslate nohighlight">\(CO_2\)</span> permeance on both modules affect the overall capture of <span class="math notranslate nohighlight">\(CO_2\)</span> in terms of its purity and recovery.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input (AIS)</p></th>
@@ -648,11 +685,11 @@ The final CO<sub>2</sub>-enriched stream is suitable for applications that toler
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>CO<sub>2</sub> Permeance (Membrane module 1) [GPU]</p></td>
-<td><p>CO<sub>2</sub> purity [mol%]</p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(CO_2\)</span> Permeance (Membrane module 1) [GPU]</p></td>
+<td><p><span class="math notranslate nohighlight">\(CO_2\)</span> purity [mol%]</p></td>
 </tr>
-<tr class="row-odd"><td><p>CO<sub>2</sub> Permeance (Membrane module 2) [GPU]</p></td>
-<td><p>CO<sub>2</sub> recovery [%]</p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(CO_2\)</span> Permeance (Membrane module 2) [GPU]</p></td>
+<td><p><span class="math notranslate nohighlight">\(CO_2\)</span> recovery [%]</p></td>
 </tr>
 </tbody>
 </table>
@@ -1055,10 +1092,18 @@ Initial simulation status: False
 <img alt="../_images/d3def2673ffd3f81e4acef9fdd7dc1a9eddc3c09451f55ffb4dd354b69f7fb27.png" src="../_images/d3def2673ffd3f81e4acef9fdd7dc1a9eddc3c09451f55ffb4dd354b69f7fb27.png" />
 </div>
 </div>
-<p>The AIS axes represent the CO<sub>2</sub> permeance of each membrane module (u<sub>1</sub> = membrane module 1 and u<sub>2</sub> = membrane module 2).</p>
-<p>The AOS axes show the outputs of the simulation (y<sub>1</sub> = CO<sub>2</sub> purity in mol% and y<sub>2</sub> = CO<sub>2</sub> recovery in %). The color gradient maps input cases to their respective outputs, and a proportional relationship can be observed between CO<sub>2</sub> purity and recovery as the membrane properties vary. This showcases Opyrability’s capability to assess process outcomes via the manipulation of input variables.</p>
-<h2>Multimodel representation</h2><p>This section covers the application of another feature of the Opyrability package, the multimodel representation. With it, it is possible to generate an AOS visualization using paired polytopes, which could assist in effective OI calculations.</p>
-<h2> Process model function for Multimodel case:</h2><div class="cell docutils container">
+<p>In the figure above, the left plot depicts the Available Input Space (AIS​), where the axes correspond to the <span class="math notranslate nohighlight">\(CO_2\)</span> permeance of each membrane module (<span class="math notranslate nohighlight">\(u_1\)</span> = membrane module 1 and <span class="math notranslate nohighlight">\(u_2\)</span> = membrane module 2). The right plot shows the Achievable Output Space (AOS), with axes representing the key performance indicators: <span class="math notranslate nohighlight">\(CO_2\)</span> purity in mol% (<span class="math notranslate nohighlight">\(y_1\)</span>​) and <span class="math notranslate nohighlight">\(CO_2\)</span> recovery in % (<span class="math notranslate nohighlight">\(y_2\)</span>​​). The color gradient establishes a visual mapping between input conditions and their resulting output performance, allowing us to trace how variations in intrinsic membrane properties affect process-level outcomes.</p>
+<p>Interestingly, the results reveal a nonlinear relationship between inputs and outputs, where intermediate values of membrane permeance yield the most favorable performance. This emphasizes the importance of exploring the full design space rather than assuming monotonic improvements with increasing property values.</p>
+<p>Overall, the operability analysis, performed here using <code class="docutils literal notranslate"><span class="pre">Opyrability</span></code>, demonstrates its ability to not only determine whether a process can meet specific targets, but also evaluate how reliably and robustly it performs under varying input conditions and potential disturbances. In this case, it allows for a clear visualization of how membrane design choices, such as permeance values of individual modules translate into broader process performance metrics like <span class="math notranslate nohighlight">\(CO_2\)</span> recovery and purity, aiding both material selection and system-level optimization.</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="multimodel-representation">
+<h1>Multimodel representation<a class="headerlink" href="#multimodel-representation" title="Permalink to this heading">#</a></h1>
+<p>This section covers the application of another feature of the Opyrability package, the multimodel respresentation. With it, it is possible to generate an AOS a visualization using paired polytopes, which could assist in effective Operability Index (OI) calculations. Which in turn, can inform the researcher/engineer/practitioner how operable is the process considering different design or control structures.</p>
+<section id="process-model-function-for-multimodel-case">
+<h2>Process model function for Multimodel case:<a class="headerlink" href="#process-model-function-for-multimodel-case" title="Permalink to this heading">#</a></h2>
+<p>For this particular case the process function was adapted to take advantage of the knowledge the multimodel approach can provide on different design decisions. The input variables here, as shown in following table, are more directly related to the membrane module construction, and later on, using the OI calculation we can discuss further on how the process performs under a Desired Region of Operation (DOS).</p>
+<div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">Multi</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
 
@@ -1149,8 +1194,10 @@ Initial simulation status: False
 </div>
 </div>
 </div>
-<h2> Defining Operability study used for multimodel representation </h2>
-<p>The current case study analyzes how the available membrane surface area (<b>manipulated through the module’s number of fibers</b>) affects the overall capture of CO<sub>2</sub> in terms of CO<sub>2</sub> purity and recovery.</p>
+</section>
+<section id="defining-study-used-for-multimodel-representation">
+<h2>Defining study used for multimodel representation<a class="headerlink" href="#defining-study-used-for-multimodel-representation" title="Permalink to this heading">#</a></h2>
+<p>The current case study analyzes how the available membrane surface area (<em>manipulated through the module’s number of fibers</em>) affects the overall capture of <span class="math notranslate nohighlight">\(CO_2\)</span> in terms of its purity and recovery.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Input (AIS)</p></th>
@@ -1159,10 +1206,10 @@ Initial simulation status: False
 </thead>
 <tbody>
 <tr class="row-even"><td><p>Membrane module 1 number of fibers</p></td>
-<td><p>CO<sub>2</sub> purity [mol%]</p></td>
+<td><p><span class="math notranslate nohighlight">\(CO_2\)</span> purity [mol%]</p></td>
 </tr>
 <tr class="row-odd"><td><p>Membrane module 2 number of fibers</p></td>
-<td><p>CO<sub>2</sub> recovery [%]</p></td>
+<td><p><span class="math notranslate nohighlight">\(CO_2\)</span> recovery [%]</p></td>
 </tr>
 </tbody>
 </table>
@@ -1262,7 +1309,8 @@ Initial simulation status: True
 <img alt="../_images/1c5797ea7450e62cd4ae653bc7ea378515ebfaed1138f934ff3867ba66e1c59c.png" src="../_images/1c5797ea7450e62cd4ae653bc7ea378515ebfaed1138f934ff3867ba66e1c59c.png" />
 </div>
 </div>
-<p>Based on the region generated, the OI evaluation will provide a perspective on process’ operability within the DOS outlined for this case.</p>
+<p>As the number of fibers were manipulated, consequently modifying the modules design, the above region is formed. In it, the AOS axes show the achieavable region formed by outcomes outlined in the multimodel function defined previously, (<span class="math notranslate nohighlight">\(y_1\)</span> = <span class="math notranslate nohighlight">\(CO_2\)</span> purity in mol% and <span class="math notranslate nohighlight">\(y_2\)</span> = <span class="math notranslate nohighlight">\(CO_2\)</span> recovery in %).</p>
+<p>Now, based on the region generated, the OI evaluation will provide a perspective on process’ operability within the DOS outlined below. This calculation will provide insights on in how many of the cases studied (different module fiber packings) the process is operable within the desired region.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Desired Output Set (DOS)</p></th>
@@ -1270,10 +1318,10 @@ Initial simulation status: True
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>CO<sub>2</sub> purity [mol%] (y1)</p></td>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\(CO_2\)</span> purity [mol%] (<span class="math notranslate nohighlight">\(y_1\)</span>)</p></td>
 <td><p>3 - 7</p></td>
 </tr>
-<tr class="row-odd"><td><p>CO<sub>2</sub> recovery [%]  (y2)</p></td>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\(CO_2\)</span> recovery [%]  (<span class="math notranslate nohighlight">\(y_2\)</span>)</p></td>
 <td><p>11 - 15</p></td>
 </tr>
 </tbody>
@@ -1291,7 +1339,10 @@ Initial simulation status: True
 <img alt="../_images/218573051c93aebd586ee3c4060eb93412473505d7f5acac17035f041d8c6183.png" src="../_images/218573051c93aebd586ee3c4060eb93412473505d7f5acac17035f041d8c6183.png" />
 </div>
 </div>
-<p>The OI calculation shows that within the DOS the process is 70.61% operable.</p>
+<p>As seen in the figure above, the OI calculation indicates that in 70.61% of the evaluated cases, the process is <strong>operable</strong>.</p>
+<p>This result highlights the usefulness of operability analysis as a diagnostic tool to evaluate the feasibility and flexibility of membrane-based direct air capture (DAC) systems. The knowledge gained from the OI not only quantifies the likelihood of achieving desired outcomes under varying conditions but also deepens our understanding of how gas separation membranes perform in removing <span class="math notranslate nohighlight">\(CO_2\)</span> from ambient air. Given that the application of membrane separation for DAC is still in its early stages, the operability framework plays a critical role in guiding process development. It helps identifying favorable operating regions, determining membrane characteristics that most influence system performance, and setting realistic expectations for technology deployment. Most importantly, it provides a structured methodology to inform industrial partners on how to design, optimize, and scale up membrane-based DAC systems with greater confidence.</p>
+</section>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -1338,7 +1389,25 @@ Initial simulation status: True
     <i class="fa-solid fa-list"></i> Contents
   </div>
   <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Operability analysis of a multistage membrane separation process for direct air capture (m-DAC) using AVEVA Process Simulation</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#process-overview-multistage-membrane-based-direct-air-capture-dac">Process Overview: Multistage Membrane-Based Direct Air Capture (DAC)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step-set-up-of-opyrability-with-aveva-process-simulation">Step-by-step set up of Opyrability with AVEVA Process Simulation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-necessary-imports-for-connection-with-aps-and-for-operability-computations">Step 1: Necessary imports for connection with APS and for Operability computations:</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#aps-connection-import">APS connection import</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-calling-the-simulation-file-you-want-to-work-with">Step 2: Calling the simulation file you want to work with:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-function-for-double-checking-if-simulation-exists">Step 3: Function for double checking if simulation exists:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-process-model-function-to-communicate-with-aps-and-opyrability">Step 4: Process model function to communicate with APS and <code class="docutils literal notranslate"><span class="pre">Opyrability</span></code>:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-defining-operability-study">Step 5: Defining Operability study</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#multimodel-representation">Multimodel representation</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-function-for-multimodel-case">Process model function for Multimodel case:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-study-used-for-multimodel-representation">Defining study used for multimodel representation</a></li>
+</ul>
+</li>
 </ul>
 
   </nav></div>

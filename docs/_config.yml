@@ -18,6 +18,8 @@ execute:
     - 'membrane_reactor.ipynb'
     - 'operability_index_shower.ipynb'
     - 'dwsim_connection.ipynb'
+    - gp_surrogate_dma-mr.ipynb
+    - gp_surrogate_shower.ipynb
   timeout: -1
 
 

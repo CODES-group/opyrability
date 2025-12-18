@@ -1,0 +1,1218 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Surrogate-Based Operability Analysis of a Membrane Reactor &#8212; Opyrability&#39;s documentation.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/gp_surrogate_dma-mr';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
+    <script>document.write(`<img src="../_static/opyrability_logo.png" class="logo__image only-dark" alt="Opyrability's documentation. - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Opyrability Documentation  
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../process_model.html">The Process Model (M) - Programming Aspects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_example_gallery.html">Examples Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/gp_surrogate_dma-mr.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/gp_surrogate_dma-mr.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/gp_surrogate_dma-mr.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples_gallery/gp_surrogate_dma-mr.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Surrogate-Based Operability Analysis of a Membrane Reactor</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-principles-model">First-Principles Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-data-generation">Training Data Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gp-model-training-validation">GP Model Training &amp; Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jax-wrapper-for-surrogate-model">JAX Wrapper for Surrogate Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-mapping-comparison">Inverse Mapping Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-comparison">Results Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operability-index-evaluation">Operability Index Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="surrogate-based-operability-analysis-of-a-membrane-reactor">
+<h1>Surrogate-Based Operability Analysis of a Membrane Reactor<a class="headerlink" href="#surrogate-based-operability-analysis-of-a-membrane-reactor" title="Permalink to this heading">#</a></h1>
+<p>This notebook demonstrates how surrogate models (here, <strong>Gaussian Process (GP)</strong> regression) can replace computationally expensive first-principles models for process operability analysis.</p>
+<p>Operability calculations require many model evaluations. Particularly <strong>inverse mapping</strong>, which solves numerous optimization problems to find designs achieving a desired output specification. When each model evaluation is computationally expensive, a validated surrogate enables rapid exploration of different DOS specifications or constraint scenarios.</p>
+<p>We use the <strong>Direct Methane Aromatization Membrane Reactor (DMA-MR)</strong> as our case study, inspired by <span id="id1">[<a class="reference internal" href="../bibliography.html#id37" title="Victor Alves, Vitor Gazzaneo, and Fernando V. Lima. A machine learning-based process operability framework using gaussian processes. Computers &amp; Chemical Engineering, 163:107835, 2022. URL: https://www.sciencedirect.com/science/article/pii/S0098135422001557, doi:10.1016/j.compchemeng.2022.107835.">2</a>]</span>.</p>
+<p>For details on the first-principles model equations, see the <a class="reference internal" href="membrane_reactor.html"><span class="doc std std-doc">Membrane Reactor example</span></a> in this gallery.</p>
+<p><strong>Variables:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input (AIS)</p></th>
+<th class="head"><p>Output (AOS)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Tube Length [cm]</p></td>
+<td><p>Benzene Production [mg/h]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tube Diameter [cm]</p></td>
+<td><p>Methane Conversion [%]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="first-principles-model">
+<h2>First-Principles Model<a class="headerlink" href="#first-principles-model" title="Permalink to this heading">#</a></h2>
+<p>We first define the rigorous DMA-MR model that serves as our “ground truth” for generating training data. The model integrates a system of ODEs representing mole balances in a shell-and-tube membrane reactor.</p>
+<p>With the stage set, let’s start by importing some JAX modules since we will be building an automatic differentiation-based process model.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">pi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax.experimental.ode</span><span class="w"> </span><span class="kn">import</span> <span class="n">odeint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">config</span><span class="p">,</span> <span class="n">jit</span>
+<span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="s2">&quot;jax_enable_x64&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">RBF</span><span class="p">,</span> <span class="n">ConstantKernel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The model requires kinetic parameters, experiment conditions, and the ODE system for the mole balances. The <code class="docutils literal notranslate"><span class="pre">dma_mr_design</span></code> function maps design inputs (tube length and diameter) to process outputs (benzene production and methane conversion).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Kinetic and experiment parameters</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mf">8.314e6</span>                 <span class="c1"># [Pa.cm³/(K.mol.)]</span>
+<span class="n">k1</span> <span class="o">=</span> <span class="mf">0.04</span>                   <span class="c1"># [s⁻¹]</span>
+<span class="n">k1_Inv</span> <span class="o">=</span> <span class="mf">6.40e6</span>             <span class="c1"># [cm³/s-mol]</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="mf">4.20</span>                   <span class="c1"># [s⁻¹]</span>
+<span class="n">k2_Inv</span> <span class="o">=</span> <span class="mf">56.38</span>              <span class="c1"># [cm³/s-mol]</span>
+<span class="n">MM_B</span> <span class="o">=</span> <span class="mf">78.00</span>                <span class="c1"># Benzene molecular weight [g/mol]</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mf">1173.15</span>                 <span class="c1"># Temperature [K] = 900 [°C] (Isothermal)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mf">0.01e-4</span>          <span class="c1"># [mol/(h.cm².atm^1/4)]</span>
+<span class="n">selec</span> <span class="o">=</span> <span class="mi">1500</span>
+
+<span class="c1"># Tube side</span>
+<span class="n">Pt</span> <span class="o">=</span> <span class="mf">101325.0</span>               <span class="c1"># Pressure [Pa] (1 atm)</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">15</span><span class="p">)</span>        <span class="c1"># Vol. Flowrate [cm³/h]</span>
+<span class="n">Ft0</span> <span class="o">=</span> <span class="n">Pt</span> <span class="o">*</span> <span class="n">v0</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>     <span class="c1"># Initial molar flowrate [mol/h] - Pure CH4</span>
+
+<span class="c1"># Shell side</span>
+<span class="n">Ps</span> <span class="o">=</span> <span class="mf">101325.0</span>               <span class="c1"># Pressure [Pa] (1 atm)</span>
+<span class="n">v_He</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>       <span class="c1"># Vol. flowrate [cm³/h]</span>
+<span class="n">F_He</span> <span class="o">=</span> <span class="n">Ps</span> <span class="o">*</span> <span class="n">v_He</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>  <span class="c1"># Sweep gas molar flowrate [mol/h]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dma_mr_model</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">v_He</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">F_He</span><span class="p">,</span> <span class="n">Ft0</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ODE system for the DMA-MR mole balances.&quot;&quot;&quot;</span>
+    <span class="n">At</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+
+    <span class="n">Ft</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">Fs</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">F_He</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft</span> <span class="o">/</span> <span class="n">Ft0</span><span class="p">)</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">F</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="n">v</span>
+
+    <span class="n">P0t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P1t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P2t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P3t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P0s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    <span class="n">P1s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    <span class="n">P2s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    <span class="n">P3s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+
+    <span class="n">r0</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k1_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">k1</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="n">r0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r0</span><span class="p">)</span>
+    <span class="n">r1</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k2_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">k2</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">3</span><span class="p">)))</span>
+    <span class="n">r1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>
+
+    <span class="n">eff</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">vb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">Cat</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">vb</span><span class="p">)</span> <span class="o">*</span> <span class="n">eff</span>
+
+    <span class="n">dF0</span> <span class="o">=</span> <span class="o">-</span><span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P0t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P0s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF1</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P1t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P1s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF2</span> <span class="o">=</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">+</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="n">Q</span> <span class="o">*</span> <span class="p">((</span><span class="n">P2t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P2s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P3t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P3s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF4</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P0t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P0s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF5</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P1t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P1s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF6</span> <span class="o">=</span> <span class="n">Q</span> <span class="o">*</span> <span class="p">((</span><span class="n">P2t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P2s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF7</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P3t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P3s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dF0</span><span class="p">,</span> <span class="n">dF1</span><span class="p">,</span> <span class="n">dF2</span><span class="p">,</span> <span class="n">dF3</span><span class="p">,</span> <span class="n">dF4</span><span class="p">,</span> <span class="n">dF5</span><span class="p">,</span> <span class="n">dF6</span><span class="p">,</span> <span class="n">dF7</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;First-principles model: maps design inputs to outputs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        u: [Tube Length (cm), Tube Diameter (cm)]</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        [Benzene Production (mg/h), Methane Conversion (%)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">L</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Ft0</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">)))</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">dma_mr_model</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">v_He</span><span class="p">,</span> <span class="n">v0</span><span class="p">,</span> <span class="n">F_He</span><span class="p">,</span> <span class="n">Ft0</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+
+    <span class="n">F_C6H6</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">MM_B</span>   <span class="c1"># Benzene production [mg/h]</span>
+    <span class="n">X_CH4</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft0</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="n">Ft0</span>  <span class="c1"># Methane conversion [%]</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">F_C6H6</span><span class="p">,</span> <span class="n">X_CH4</span><span class="p">])</span>
+
+
+<span class="c1"># Verify model works</span>
+<span class="n">test_output</span> <span class="o">=</span> <span class="n">dma_mr_design</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test point (L=100 cm, D=1 cm):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Benzene Production: </span><span class="si">{</span><span class="n">test_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> mg/h&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Methane Conversion: </span><span class="si">{</span><span class="n">test_output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test point (L=100 cm, D=1 cm):
+  Benzene Production: 14.74 mg/h
+  Methane Conversion: 42.12 %
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-data-generation">
+<h2>Training Data Generation<a class="headerlink" href="#training-data-generation" title="Permalink to this heading">#</a></h2>
+<p>To train a surrogate, we need input-output data from the first-principles model. We use <strong>Latin Hypercube Sampling (LHS)</strong> to efficiently cover the input space with 2000 samples.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Lower Bound</p></th>
+<th class="head"><p>Upper Bound</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Tube Length [cm]</p></td>
+<td><p>10</p></td>
+<td><p>300</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tube Diameter [cm]</p></td>
+<td><p>0.1</p></td>
+<td><p>2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define AIS bounds and generate LHS samples</span>
+<span class="n">L_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">300</span><span class="p">]</span>
+<span class="n">D_bounds</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">2000</span>
+
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">samples_unit</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="n">X_samples</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">samples_unit</span><span class="p">,</span> <span class="p">[</span><span class="n">L_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">D_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">L_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">D_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generated </span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2"> LHS samples&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Length range: [</span><span class="si">{</span><span class="n">X_samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">X_samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">] cm&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Diameter range: [</span><span class="si">{</span><span class="n">X_samples</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">X_samples</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">] cm&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Generated 2000 LHS samples
+  Length range: [10.0, 300.0] cm
+  Diameter range: [0.10, 2.00] cm
+</pre></div>
+</div>
+</div>
+</div>
+<p>We evaluate the first-principles model at each sample point and split into training and test sets.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluate first-principles model on all samples</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Generating training data from first-principles model...&quot;</span><span class="p">)</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">Y_samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+    <span class="n">Y_samples</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dma_mr_design</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">X_samples</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">500</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Completed </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2"> samples...&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Data generation completed in </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+
+<span class="c1"># Train/Test split (1800 train, 200 test)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="n">n_train</span> <span class="o">=</span> <span class="mi">1800</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_samples</span><span class="p">[</span><span class="n">indices</span><span class="p">[:</span><span class="n">n_train</span><span class="p">]],</span> <span class="n">X_samples</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">n_train</span><span class="p">:]]</span>
+<span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span> <span class="o">=</span> <span class="n">Y_samples</span><span class="p">[</span><span class="n">indices</span><span class="p">[:</span><span class="n">n_train</span><span class="p">]],</span> <span class="n">Y_samples</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">n_train</span><span class="p">:]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training set: </span><span class="si">{</span><span class="n">n_train</span><span class="si">}</span><span class="s2"> samples&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test set: </span><span class="si">{</span><span class="n">n_samples</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">n_train</span><span class="si">}</span><span class="s2"> samples&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Generating training data from first-principles model...
+  Completed 500/2000 samples...
+  Completed 1000/2000 samples...
+  Completed 1500/2000 samples...
+  Completed 2000/2000 samples...
+
+Data generation completed in 52.4 seconds
+Training set: 1800 samples
+Test set: 200 samples
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="gp-model-training-validation">
+<h2>GP Model Training &amp; Validation<a class="headerlink" href="#gp-model-training-validation" title="Permalink to this heading">#</a></h2>
+<p>We train separate GP models for each output using scikit-learn. Inputs are standardized (Z-score) and we use a small regularization parameter since the training data is noise-free.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Standardize inputs</span>
+<span class="n">scaler_X</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Train GP models</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">ConstantKernel</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">RBF</span><span class="p">(</span><span class="n">length_scale</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="n">gpr_benzene</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span>
+    <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">gpr_benzene</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">gpr_conversion</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span>
+    <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">gpr_conversion</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Validate on test set</span>
+<span class="n">Y_pred_benzene</span> <span class="o">=</span> <span class="n">gpr_benzene</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+<span class="n">Y_pred_conversion</span> <span class="o">=</span> <span class="n">gpr_conversion</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validation Results (Hold-out Test Set):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Benzene Production:  R² = </span><span class="si">{</span><span class="n">r2_score</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">Y_pred_benzene</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;RMSE = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">Y_pred_benzene</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> mg/h&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Methane Conversion:  R² = </span><span class="si">{</span><span class="n">r2_score</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">Y_pred_conversion</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;RMSE = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">Y_pred_conversion</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation Results (Hold-out Test Set):
+  Benzene Production:  R² = 1.000000, RMSE = 0.0019 mg/h
+  Methane Conversion:  R² = 1.000000, RMSE = 0.0025 %
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="jax-wrapper-for-surrogate-model">
+<h2>JAX Wrapper for Surrogate Model<a class="headerlink" href="#jax-wrapper-for-surrogate-model" title="Permalink to this heading">#</a></h2>
+<p>To use <code class="docutils literal notranslate"><span class="pre">ad=True</span></code> in opyrability’s NLP solver, we wrap the GP in a JAX-compatible function for automatic differentiation.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract GP parameters for JAX</span>
+<span class="n">muX</span><span class="p">,</span> <span class="n">sdX</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scaler_X</span><span class="o">.</span><span class="n">mean_</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">scaler_X</span><span class="o">.</span><span class="n">scale_</span><span class="p">)</span>
+
+<span class="n">alpha_benz</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_benzene</span><span class="o">.</span><span class="n">alpha_</span><span class="p">)</span>
+<span class="n">X_train_benz</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_benzene</span><span class="o">.</span><span class="n">X_train_</span><span class="p">)</span>
+<span class="n">y_mean_benz</span><span class="p">,</span> <span class="n">y_std_benz</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_benzene</span><span class="o">.</span><span class="n">_y_train_mean</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_benzene</span><span class="o">.</span><span class="n">_y_train_std</span><span class="p">)</span>
+<span class="n">const_benz</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_benzene</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">constant_value</span><span class="p">)</span>
+<span class="n">length_scale_benz</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_benzene</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">length_scale</span><span class="p">)</span>
+
+<span class="n">alpha_conv</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_conversion</span><span class="o">.</span><span class="n">alpha_</span><span class="p">)</span>
+<span class="n">X_train_conv</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_conversion</span><span class="o">.</span><span class="n">X_train_</span><span class="p">)</span>
+<span class="n">y_mean_conv</span><span class="p">,</span> <span class="n">y_std_conv</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_conversion</span><span class="o">.</span><span class="n">_y_train_mean</span><span class="p">),</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_conversion</span><span class="o">.</span><span class="n">_y_train_std</span><span class="p">)</span>
+<span class="n">const_conv</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_conversion</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">k1</span><span class="o">.</span><span class="n">constant_value</span><span class="p">)</span>
+<span class="n">length_scale_conv</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gpr_conversion</span><span class="o">.</span><span class="n">kernel_</span><span class="o">.</span><span class="n">k2</span><span class="o">.</span><span class="n">length_scale</span><span class="p">)</span>
+
+<span class="nd">@jit</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">surrogate_jit</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;JIT-compiled JAX surrogate replicating sklearn GP prediction.&quot;&quot;&quot;</span>
+    <span class="n">u_flat</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x_scaled</span> <span class="o">=</span> <span class="p">(</span><span class="n">u_flat</span> <span class="o">-</span> <span class="n">muX</span><span class="p">)</span> <span class="o">/</span> <span class="n">sdX</span>
+
+    <span class="n">diff_benz</span> <span class="o">=</span> <span class="n">X_train_benz</span> <span class="o">-</span> <span class="n">x_scaled</span>
+    <span class="n">k_benz</span> <span class="o">=</span> <span class="n">const_benz</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">diff_benz</span> <span class="o">/</span> <span class="n">length_scale_benz</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">y_benz</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">k_benz</span><span class="p">,</span> <span class="n">alpha_benz</span><span class="p">)</span> <span class="o">*</span> <span class="n">y_std_benz</span> <span class="o">+</span> <span class="n">y_mean_benz</span>
+
+    <span class="n">diff_conv</span> <span class="o">=</span> <span class="n">X_train_conv</span> <span class="o">-</span> <span class="n">x_scaled</span>
+    <span class="n">k_conv</span> <span class="o">=</span> <span class="n">const_conv</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">diff_conv</span> <span class="o">/</span> <span class="n">length_scale_conv</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">y_conv</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">k_conv</span><span class="p">,</span> <span class="n">alpha_conv</span><span class="p">)</span> <span class="o">*</span> <span class="n">y_std_conv</span> <span class="o">+</span> <span class="n">y_mean_conv</span>
+
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y_benz</span><span class="p">,</span> <span class="n">y_conv</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">jax_surrogate</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">surrogate_jit</span><span class="p">(</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="inverse-mapping-comparison">
+<h2>Inverse Mapping Comparison<a class="headerlink" href="#inverse-mapping-comparison" title="Permalink to this heading">#</a></h2>
+<p>We now perform <strong>NLP-based inverse mapping</strong> to find the design region (DIS*) that achieves a desired output specification.</p>
+<p><strong>Desired Output Set (DOS):</strong></p>
+<ul class="simple">
+<li><p>Benzene Production: 20–25 mg/h</p></li>
+<li><p>Methane Conversion: 35–45%</p></li>
+</ul>
+<p><strong>Constraint:</strong> The plug-flow assumption requires a minimum length-to-diameter ratio of 30 to ensure negligible axial dispersion (<span class="math notranslate nohighlight">\(L/D \geq 30\)</span>).</p>
+<p>We compare both the surrogate and first-principles models to quantify accuracy and speedup.</p>
+<p>Let’s import opyrability’s inverse mapping (NLP-based) module:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">nlp_based_approach</span>
+
+<span class="c1"># Define DOS, bounds, and constraints</span>
+<span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span>    <span class="c1"># Benzene [mg/h]</span>
+                        <span class="p">[</span><span class="mi">35</span><span class="p">,</span> <span class="mi">45</span><span class="p">]])</span>   <span class="c1"># Conversion [%]</span>
+<span class="n">DOS_resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">lb</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>    <span class="c1"># Lower bounds for L, D</span>
+<span class="n">ub</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">300</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>     <span class="c1"># Upper bounds for L, D</span>
+<span class="n">u0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>      <span class="c1"># Initial estimate</span>
+
+<span class="c1"># Plug-flow constraint: L/D &gt;= 30</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plug_flow</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">30.0</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">constraint</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ineq&#39;</span><span class="p">,</span> <span class="s1">&#39;fun&#39;</span><span class="p">:</span> <span class="n">plug_flow</span><span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>GP Surrogate Inverse Mapping:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inverse mapping with GP Surrogate</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running inverse mapping with GP Surrogate...&quot;</span><span class="p">)</span>
+<span class="n">start_surrogate</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">fDIS_surr</span><span class="p">,</span> <span class="n">fDOS_surr</span><span class="p">,</span> <span class="n">conv_surr</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span>
+    <span class="n">jax_surrogate</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span>
+    <span class="n">constr</span><span class="o">=</span><span class="n">constraint</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">warmstart</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">time_surrogate</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_surrogate</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed in </span><span class="si">{</span><span class="n">time_surrogate</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running inverse mapping with GP Surrogate...
+ You have selected automatic differentiation as a method for obtaining higher-order data (Jacobians/Hessian),
+ Make sure your process model is JAX-compatible implementation-wise.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0%|          | 0/100 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 100/100 [01:03&lt;00:00,  1.57it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Completed in 64.38 seconds
+</pre></div>
+</div>
+<img alt="../_images/984ce21b2ade7490301a4fb5f492b1a58bdd4b480357b8ef724064fa7815f73d.png" src="../_images/984ce21b2ade7490301a4fb5f492b1a58bdd4b480357b8ef724064fa7815f73d.png" />
+</div>
+</div>
+<p><strong>First-Principles Model Inverse Mapping:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inverse mapping with First-Principles Model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running inverse mapping with First-Principles Model...&quot;</span><span class="p">)</span>
+<span class="n">start_fp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">fDIS_fp</span><span class="p">,</span> <span class="n">fDOS_fp</span><span class="p">,</span> <span class="n">conv_fp</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span>
+    <span class="n">dma_mr_design</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span>
+    <span class="n">constr</span><span class="o">=</span><span class="n">constraint</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">warmstart</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">time_fp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_fp</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed in </span><span class="si">{</span><span class="n">time_fp</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running inverse mapping with First-Principles Model...
+ You have selected automatic differentiation as a method for obtaining higher-order data (Jacobians/Hessian),
+ Make sure your process model is JAX-compatible implementation-wise.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 100/100 [04:11&lt;00:00,  2.51s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Completed in 251.34 seconds
+</pre></div>
+</div>
+<img alt="../_images/60b778089ce5cf4108b22f062a29437b236d13e6979b739f8787f37848b6301b.png" src="../_images/60b778089ce5cf4108b22f062a29437b236d13e6979b739f8787f37848b6301b.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Overlay plot: Visual comparison of DIS* and DOS* from both approaches</span>
+<span class="n">dis_fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">fDIS_fp</span> <span class="k">if</span> <span class="n">u</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">dis_surr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">fDIS_surr</span> <span class="k">if</span> <span class="n">u</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">dos_fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">fDOS_fp</span> <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">dos_surr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">fDOS_surr</span> <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># DIS* overlay</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dis_fp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dis_fp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;First-Principles&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dis_surr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dis_surr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;GP Surrogate&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Tube Length [cm]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Tube Diameter [cm]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Design Space (DIS*) Comparison&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># DOS* overlay</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dos_fp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dos_fp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;First-Principles&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">dos_surr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dos_surr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;GP Surrogate&#39;</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Benzene Production [mg/h]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Methane Conversion [%]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Output Space (DOS*) Comparison&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7fc09522c9bd6c74721a0c4431dbae630337f4efd4ff77ec49df5c1ec81531e3.png" src="../_images/7fc09522c9bd6c74721a0c4431dbae630337f4efd4ff77ec49df5c1ec81531e3.png" />
+</div>
+</div>
+</section>
+<section id="results-comparison">
+<h2>Results Comparison<a class="headerlink" href="#results-comparison" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate mean design values from DIS*</span>
+<span class="n">mean_L_surr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">fDIS_surr</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">mean_D_surr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">fDIS_surr</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">mean_L_fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">fDIS_fp</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">mean_D_fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">fDIS_fp</span> <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INVERSE MAPPING COMPARISON&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mean Design Values:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;Variable&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;First-Principles&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;GP&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;Rel. Error&#39;</span><span class="si">:</span><span class="s2">&gt;12</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">12</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;Tube Length [cm]&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mean_L_fp</span><span class="si">:</span><span class="s2">&gt;18.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mean_L_surr</span><span class="si">:</span><span class="s2">&gt;18.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">mean_L_fp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean_L_surr</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mean_L_fp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">&gt;11.4f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;Tube Diameter [cm]&#39;</span><span class="si">:</span><span class="s2">&lt;20</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mean_D_fp</span><span class="si">:</span><span class="s2">&gt;18.4f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">mean_D_surr</span><span class="si">:</span><span class="s2">&gt;18.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">mean_D_fp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean_D_surr</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">mean_D_fp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">&gt;11.4f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Computational Time:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  First-Principles: </span><span class="si">{</span><span class="n">time_fp</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  GP Surrogate: </span><span class="si">{</span><span class="n">time_surrogate</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Speedup: </span><span class="si">{</span><span class="n">time_fp</span><span class="o">/</span><span class="n">time_surrogate</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">x faster&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+INVERSE MAPPING COMPARISON
+============================================================
+
+Mean Design Values:
+  Variable               First-Principles                 GP   Rel. Error
+  -------------------- ------------------ ------------------ ------------
+  Tube Length [cm]                32.1095            32.1554      0.1430%
+  Tube Diameter [cm]               0.6913             0.6896      0.2415%
+
+Computational Time:
+  First-Principles: 251.34 seconds
+  GP Surrogate: 64.38 seconds
+  Speedup: 3.9x faster
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="operability-index-evaluation">
+<h2>Operability Index Evaluation<a class="headerlink" href="#operability-index-evaluation" title="Permalink to this heading">#</a></h2>
+<p>Finally, we calculate the <strong>Operability Index (OI)</strong> using multimodel representation. This measures what fraction of the DOS is achievable given the AIS constraints.</p>
+<p>Let’s import opyrability’s multimodel approach and OI evaluation modules:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
+
+<span class="c1"># Define AIS for multimodel representation</span>
+<span class="n">AIS_bounds</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">300</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span>
+<span class="n">AIS_resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="c1"># Compute AOS with both models</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Computing AOS with GP surrogate...&quot;</span><span class="p">)</span>
+<span class="n">start_surr_mm</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">AOS_surr</span> <span class="o">=</span> <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">jax_surrogate</span><span class="p">,</span> <span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">)</span>
+<span class="n">time_surr_mm</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_surr_mm</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Completed in </span><span class="si">{</span><span class="n">time_surr_mm</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Computing AOS with first-principles model...&quot;</span><span class="p">)</span>
+<span class="n">start_fp_mm</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">AOS_fp</span> <span class="o">=</span> <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">dma_mr_design</span><span class="p">,</span> <span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">)</span>
+<span class="n">time_fp_mm</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_fp_mm</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Completed in </span><span class="si">{</span><span class="n">time_fp_mm</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computing AOS with GP surrogate...
+</pre></div>
+</div>
+<img alt="../_images/04c37f537feae5b71205e6a08ffcc62d2bab703f3b37a25a2fe7c9ee72b585d5.png" src="../_images/04c37f537feae5b71205e6a08ffcc62d2bab703f3b37a25a2fe7c9ee72b585d5.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Completed in 1.51 seconds
+
+Computing AOS with first-principles model...
+</pre></div>
+</div>
+<img alt="../_images/4c414c6cebb8a55aaf5e0f05d5f4817486569e23f88080388bee450a3d9a590f.png" src="../_images/4c414c6cebb8a55aaf5e0f05d5f4817486569e23f88080388bee450a3d9a590f.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Completed in 4.15 seconds
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>First-Principles Model OI:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OI_fp</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_fp</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/df57231a5b16340bfafc7c3f63255149f9e0772fe623cf62e49f82b591af72e1.png" src="../_images/df57231a5b16340bfafc7c3f63255149f9e0772fe623cf62e49f82b591af72e1.png" />
+</div>
+</div>
+<p><strong>GP Surrogate OI:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OI_surr</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_surr</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d2fece0057897e0cc350e0e51b9238123f370bf5bd031acb749308892eb2b473.png" src="../_images/d2fece0057897e0cc350e0e51b9238123f370bf5bd031acb749308892eb2b473.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># OI Comparison Summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OPERABILITY INDEX COMPARISON&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="s1">&#39;Metric&#39;</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;First-Principles&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;GP Surrogate&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">25</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">18</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">18</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;OI Value&#39;</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">OI_fp</span><span class="si">:</span><span class="s2">&gt;17.2f</span><span class="si">}</span><span class="s2">% </span><span class="si">{</span><span class="n">OI_surr</span><span class="si">:</span><span class="s2">&gt;17.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;Multimodel Time [s]&#39;</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">time_fp_mm</span><span class="si">:</span><span class="s2">&gt;18.2f</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">time_surr_mm</span><span class="si">:</span><span class="s2">&gt;18.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Relative Error in OI: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">OI_fp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">OI_surr</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">OI_fp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Speedup: </span><span class="si">{</span><span class="n">time_fp_mm</span><span class="o">/</span><span class="n">time_surr_mm</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">x faster&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+OPERABILITY INDEX COMPARISON
+============================================================
+
+  Metric                      First-Principles       GP Surrogate
+  ------------------------- ------------------ ------------------
+  OI Value                              23.95%             24.47%
+  Multimodel Time [s]                     4.15               1.51
+
+  Relative Error in OI: 2.15%
+  Speedup: 2.7x faster
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="conclusions">
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this heading">#</a></h2>
+<p>This example demonstrates that validated GP surrogates can reliably replace computationally expensive first-principles models for operability analysis.</p>
+<p><strong>Key Results:</strong></p>
+<ul class="simple">
+<li><p><strong>Surrogate Accuracy:</strong> R² &gt; 0.999 on the holdout test set</p></li>
+<li><p><strong>Inverse Mapping:</strong> &lt;1% relative error compared to first-principles, with ~4x speedup</p></li>
+<li><p><strong>Operability Index:</strong> ~2% relative error compared to ground truth (OI values are also sensitive to the discretization resolution used)</p></li>
+</ul>
+<p><strong>Workflow Summary:</strong></p>
+<ol class="arabic simple">
+<li><p>Generate training data from the rigorous model using Latin Hypercube Sampling</p></li>
+<li><p>Train and validate GP models for each output</p></li>
+<li><p>(Optional) Deploy as a JAX function for automatic differentiation</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">opyrability</span></code> functions with the surrogate</p></li>
+</ol>
+<p>The surrogate training is a one-time cost that enables rapid exploration of different DOS specifications or constraint scenarios.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "CODES-group/opyrability",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "opy-env"
+        },
+        kernelOptions: {
+            name: "opy-env",
+            path: "./examples_gallery"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'opy-env'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-principles-model">First-Principles Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-data-generation">Training Data Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gp-model-training-validation">GP Model Training &amp; Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jax-wrapper-for-surrogate-model">JAX Wrapper for Surrogate Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-mapping-comparison">Inverse Mapping Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results-comparison">Results Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operability-index-evaluation">Operability Index Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

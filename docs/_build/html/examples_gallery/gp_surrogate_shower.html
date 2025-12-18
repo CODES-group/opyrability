@@ -1,0 +1,942 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Surrogate-Based Operability Analysis of a Shower System &#8212; Opyrability&#39;s documentation.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/gp_surrogate_shower';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
+    <script>document.write(`<img src="../_static/opyrability_logo.png" class="logo__image only-dark" alt="Opyrability's documentation. - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Opyrability Documentation  
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../process_model.html">The Process Model (M) - Programming Aspects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_example_gallery.html">Examples Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/gp_surrogate_shower.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/gp_surrogate_shower.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/gp_surrogate_shower.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples_gallery/gp_surrogate_shower.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Surrogate-Based Operability Analysis of a Shower System</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-principles-model">First-Principles Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-data-generation">Training Data Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gp-model-training-validation">GP Model Training &amp; Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-model-function">Surrogate Model Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-mapping-with-gp-surrogate">Inverse Mapping with GP Surrogate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operability-index-evaluation">Operability Index Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="surrogate-based-operability-analysis-of-a-shower-system">
+<h1>Surrogate-Based Operability Analysis of a Shower System<a class="headerlink" href="#surrogate-based-operability-analysis-of-a-shower-system" title="Permalink to this heading">#</a></h1>
+<p>This notebook introduces the use of <strong>surrogate models</strong> for process operability analysis. Surrogates are data-driven approximations of process models that can be used in place of first-principles models. Here, we use <strong>Gaussian Process (GP)</strong> regression to build a surrogate and demonstrate the complete workflow for training, validating, and using it with opyrability’s analysis tools.</p>
+<p>The shower system mixes hot and cold water streams to achieve desired total flow rate and temperature specifications (see the <a class="reference internal" href="operability_index_shower.html"><span class="doc std std-doc">Shower Problem</span></a> example for reference).</p>
+<p><strong>Variables:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input (AIS)</p></th>
+<th class="head"><p>Output (AOS)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cold Water Flow</p></td>
+<td><p>Total Flow</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hot Water Flow</p></td>
+<td><p>Temperature</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="first-principles-model">
+<h2>First-Principles Model<a class="headerlink" href="#first-principles-model" title="Permalink to this heading">#</a></h2>
+<p>The shower model is defined by mass and energy balances:</p>
+<ul class="simple">
+<li><p><strong>Total flow:</strong> <span class="math notranslate nohighlight">\(F_{total} = F_{cold} + F_{hot}\)</span></p></li>
+<li><p><strong>Outlet temperature:</strong> <span class="math notranslate nohighlight">\(T_{out} = \frac{F_{cold} \cdot T_{cold} + F_{hot} \cdot T_{hot}}{F_{total}}\)</span></p></li>
+</ul>
+<p>where <span class="math notranslate nohighlight">\(T_{cold} = 60\)</span> and <span class="math notranslate nohighlight">\(T_{hot} = 120\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">RBF</span><span class="p">,</span> <span class="n">ConstantKernel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Temperature constants</span>
+<span class="n">T_cold</span> <span class="o">=</span> <span class="mi">60</span>   <span class="c1"># Cold water temperature</span>
+<span class="n">T_hot</span> <span class="o">=</span> <span class="mi">120</span>   <span class="c1"># Hot water temperature</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">shower_model</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;First-principles model: maps flow inputs to outputs.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        u: [Cold Water Flow, Hot Water Flow]</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        [Total Flow, Temperature]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">F_cold</span><span class="p">,</span> <span class="n">F_hot</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">F_total</span> <span class="o">=</span> <span class="n">F_cold</span> <span class="o">+</span> <span class="n">F_hot</span>
+    <span class="n">T_out</span> <span class="o">=</span> <span class="p">(</span><span class="n">F_cold</span> <span class="o">*</span> <span class="n">T_cold</span> <span class="o">+</span> <span class="n">F_hot</span> <span class="o">*</span> <span class="n">T_hot</span><span class="p">)</span> <span class="o">/</span> <span class="n">F_total</span> <span class="k">if</span> <span class="n">F_total</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">90</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">F_total</span><span class="p">,</span> <span class="n">T_out</span><span class="p">])</span>
+
+
+<span class="c1"># Verify model works</span>
+<span class="n">test_output</span> <span class="o">=</span> <span class="n">shower_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test point (F_cold=5, F_hot=5):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Total Flow: </span><span class="si">{</span><span class="n">test_output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Temperature: </span><span class="si">{</span><span class="n">test_output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test point (F_cold=5, F_hot=5):
+  Total Flow: 10.00
+  Temperature: 90.00
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="training-data-generation">
+<h2>Training Data Generation<a class="headerlink" href="#training-data-generation" title="Permalink to this heading">#</a></h2>
+<p>We generate training data using <strong>Latin Hypercube Sampling (LHS)</strong>, which provides better coverage of the input space compared to random sampling.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Lower Bound</p></th>
+<th class="head"><p>Upper Bound</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Cold Water Flow</p></td>
+<td><p>1</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hot Water Flow</p></td>
+<td><p>1</p></td>
+<td><p>10</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define AIS bounds and generate LHS samples</span>
+<span class="n">u_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>    <span class="c1"># Lower bounds [F_cold, F_hot]</span>
+<span class="n">u_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>  <span class="c1"># Upper bounds [F_cold, F_hot]</span>
+<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">samples_unit</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="n">X_samples</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">samples_unit</span><span class="p">,</span> <span class="n">u_min</span><span class="p">,</span> <span class="n">u_max</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Generated </span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2"> LHS samples&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Cold Flow range: [</span><span class="si">{</span><span class="n">X_samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">X_samples</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Hot Flow range: [</span><span class="si">{</span><span class="n">X_samples</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">X_samples</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Generated 50 LHS samples
+  Cold Flow range: [1.16, 9.90]
+  Hot Flow range: [1.04, 9.95]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Evaluate first-principles model on all samples</span>
+<span class="n">Y_samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">shower_model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X_samples</span><span class="p">])</span>
+
+<span class="c1"># Train/Test split (40 train, 10 test)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+<span class="n">n_train</span> <span class="o">=</span> <span class="mi">40</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_samples</span><span class="p">[</span><span class="n">indices</span><span class="p">[:</span><span class="n">n_train</span><span class="p">]],</span> <span class="n">X_samples</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">n_train</span><span class="p">:]]</span>
+<span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span> <span class="o">=</span> <span class="n">Y_samples</span><span class="p">[</span><span class="n">indices</span><span class="p">[:</span><span class="n">n_train</span><span class="p">]],</span> <span class="n">Y_samples</span><span class="p">[</span><span class="n">indices</span><span class="p">[</span><span class="n">n_train</span><span class="p">:]]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training set: </span><span class="si">{</span><span class="n">n_train</span><span class="si">}</span><span class="s2"> samples&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test set: </span><span class="si">{</span><span class="n">n_samples</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">n_train</span><span class="si">}</span><span class="s2"> samples&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training set: 40 samples
+Test set: 10 samples
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="gp-model-training-validation">
+<h2>GP Model Training &amp; Validation<a class="headerlink" href="#gp-model-training-validation" title="Permalink to this heading">#</a></h2>
+<p>We train separate GP models for each output using scikit-learn’s <code class="docutils literal notranslate"><span class="pre">GaussianProcessRegressor</span></code>. The inputs are standardized and we use a squared exponential (RBF) kernel.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Standardize inputs</span>
+<span class="n">scaler_X</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Train GP models</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">ConstantKernel</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">RBF</span><span class="p">(</span><span class="n">length_scale</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="n">gpr_flow</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span>
+    <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">gpr_flow</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+
+<span class="n">gpr_temp</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span>
+    <span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">gpr_temp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Validate on test set</span>
+<span class="n">Y_pred_flow</span> <span class="o">=</span> <span class="n">gpr_flow</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+<span class="n">Y_pred_temp</span> <span class="o">=</span> <span class="n">gpr_temp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validation Results (Hold-out Test Set):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Total Flow:   R² = </span><span class="si">{</span><span class="n">r2_score</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">Y_pred_flow</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;RMSE = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span><span class="w"> </span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">Y_pred_flow</span><span class="p">))</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Temperature:  R² = </span><span class="si">{</span><span class="n">r2_score</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">Y_pred_temp</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;RMSE = </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span><span class="w"> </span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">Y_pred_temp</span><span class="p">))</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Validation Results (Hold-out Test Set):
+  Total Flow:   R² = 1.000000, RMSE = 0.000002
+  Temperature:  R² = 0.999992, RMSE = 0.032244
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="surrogate-model-function">
+<h2>Surrogate Model Function<a class="headerlink" href="#surrogate-model-function" title="Permalink to this heading">#</a></h2>
+<p>We create a wrapper function that combines both GP models. This function has the same signature as the original model and can be used directly with opyrability.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">gp_surrogate</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;GP surrogate model for shower system.</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        u: [Cold Water Flow, Hot Water Flow]</span>
+<span class="sd">    </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        [Total Flow, Temperature]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">u_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">atleast_2d</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="n">flow_pred</span> <span class="o">=</span> <span class="n">gpr_flow</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">u_scaled</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">temp_pred</span> <span class="o">=</span> <span class="n">gpr_temp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">u_scaled</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">flow_pred</span><span class="p">,</span> <span class="n">temp_pred</span><span class="p">])</span>
+
+
+<span class="c1"># Quick verification</span>
+<span class="n">test_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">])</span>
+<span class="n">fp_result</span> <span class="o">=</span> <span class="n">shower_model</span><span class="p">(</span><span class="n">test_u</span><span class="p">)</span>
+<span class="n">gp_result</span> <span class="o">=</span> <span class="n">gp_surrogate</span><span class="p">(</span><span class="n">test_u</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Verification at u = [5.0, 5.0]:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  First-Principles: Flow = </span><span class="si">{</span><span class="n">fp_result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Temp = </span><span class="si">{</span><span class="n">fp_result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  GP Surrogate:     Flow = </span><span class="si">{</span><span class="n">gp_result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Temp = </span><span class="si">{</span><span class="n">gp_result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Verification at u = [5.0, 5.0]:
+  First-Principles: Flow = 10.0000, Temp = 90.0000
+  GP Surrogate:     Flow = 10.0000, Temp = 90.0030
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="inverse-mapping-with-gp-surrogate">
+<h2>Inverse Mapping with GP Surrogate<a class="headerlink" href="#inverse-mapping-with-gp-surrogate" title="Permalink to this heading">#</a></h2>
+<p>With the surrogate trained and validated, we can use it for operability analysis. Here we perform <strong>inverse mapping</strong> to find the input region (DIS*) that achieves a desired output specification (DOS).</p>
+<p><strong>Desired Output Set (DOS):</strong></p>
+<ul class="simple">
+<li><p>Total Flow: 2–20</p></li>
+<li><p>Temperature: 70–110</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">nlp_based_approach</span>
+
+<span class="c1"># Define DOS, bounds, and initial estimate</span>
+<span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>     <span class="c1"># Total Flow</span>
+                       <span class="p">[</span><span class="mi">70</span><span class="p">,</span> <span class="mi">110</span><span class="p">]])</span>  <span class="c1"># Temperature</span>
+<span class="n">DOS_resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">u0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>  <span class="c1"># Initial estimate</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Inverse mapping with GP Surrogate</span>
+<span class="n">fDIS_surr</span><span class="p">,</span> <span class="n">fDOS_surr</span><span class="p">,</span> <span class="n">conv_surr</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span>
+    <span class="n">gp_surrogate</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">u_min</span><span class="p">,</span> <span class="n">u_max</span><span class="p">,</span>
+    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;trust-constr&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">warmstart</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 100/100 [00:45&lt;00:00,  2.21it/s]
+</pre></div>
+</div>
+<img alt="../_images/a3c0257f102383ae08e2930cc515d0913ce1b3c579323d063a2b34151bb0db4f.png" src="../_images/a3c0257f102383ae08e2930cc515d0913ce1b3c579323d063a2b34151bb0db4f.png" />
+</div>
+</div>
+</section>
+<section id="operability-index-evaluation">
+<h2>Operability Index Evaluation<a class="headerlink" href="#operability-index-evaluation" title="Permalink to this heading">#</a></h2>
+<p>The <strong>Operability Index (OI)</strong> quantifies what fraction of the DOS is achievable. We compute it using both the surrogate and the first-principles model to verify the surrogate’s accuracy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span>
+
+<span class="c1"># Define AIS for multimodel representation</span>
+<span class="n">AIS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
+<span class="n">AIS_resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="c1"># Compute AOS with GP surrogate</span>
+<span class="n">AOS_surr</span> <span class="o">=</span> <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">gp_surrogate</span><span class="p">,</span> <span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d39471013caa154dfd01291d58591692029cffe9951a3eb75a7c7a82133301dc.png" src="../_images/d39471013caa154dfd01291d58591692029cffe9951a3eb75a7c7a82133301dc.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">OI_surr</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_surr</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/bf8c128c99350ce75de1d2248d6eaf7e4cce84d7617b86fa98bb5a4acaf3f74f.png" src="../_images/bf8c128c99350ce75de1d2248d6eaf7e4cce84d7617b86fa98bb5a4acaf3f74f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare with first-principles model</span>
+<span class="n">AOS_fp</span> <span class="o">=</span> <span class="n">multimodel_rep</span><span class="p">(</span><span class="n">shower_model</span><span class="p">,</span> <span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">AIS_resolution</span><span class="p">)</span>
+<span class="n">OI_fp</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_fp</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/29f84f521bd81620d43190b7b4733361199adbc40f78313daf1bc1344db0e8ea.png" src="../_images/29f84f521bd81620d43190b7b4733361199adbc40f78313daf1bc1344db0e8ea.png" />
+<img alt="../_images/f39033eee6b671741069d40dc3ef49a258380b28a9e80af051c7e870114f9a92.png" src="../_images/f39033eee6b671741069d40dc3ef49a258380b28a9e80af051c7e870114f9a92.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># OI Comparison Summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OPERABILITY INDEX COMPARISON&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  First-Principles OI: </span><span class="si">{</span><span class="n">OI_fp</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  GP Surrogate OI:     </span><span class="si">{</span><span class="n">OI_surr</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Relative Error: </span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">OI_fp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">OI_surr</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">OI_fp</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">100</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>==================================================
+OPERABILITY INDEX COMPARISON
+==================================================
+
+  First-Principles OI: 65.72%
+  GP Surrogate OI:     65.47%
+
+  Relative Error: 0.39%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="conclusions">
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this heading">#</a></h2>
+<p>This example demonstrated the workflow for using GP surrogates with opyrability:</p>
+<ol class="arabic simple">
+<li><p><strong>Generate training data</strong> from the process model using Latin Hypercube Sampling</p></li>
+<li><p><strong>Train GP models</strong> for each output variable</p></li>
+<li><p><strong>Validate</strong> the surrogate on a hold-out test set</p></li>
+<li><p><strong>Create a wrapper function</strong> with the same interface as the original model</p></li>
+<li><p><strong>Use opyrability functions</strong> (inverse mapping, OI evaluation) with the surrogate</p></li>
+</ol>
+<p>The surrogate achieved excellent accuracy (R² &gt; 0.999) and produced OI values nearly identical to the first-principles model.</p>
+<p>For a more advanced example using JAX for automatic differentiation, see the <a class="reference internal" href="gp_surrogate_dma-mr.html"><span class="doc std std-doc">GP Surrogate DMA-MR example</span></a>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "CODES-group/opyrability",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./examples_gallery"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-principles-model">First-Principles Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-data-generation">Training Data Generation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gp-model-training-validation">GP Model Training &amp; Validation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-model-function">Surrogate Model Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-mapping-with-gp-surrogate">Inverse Mapping with GP Surrogate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operability-index-evaluation">Operability Index Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
