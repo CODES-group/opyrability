@@ -166,7 +166,7 @@ def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
         # Reshape (n^k, k) vectors into (list[k*n, k]) multidimensional arrays. 
         # This makes polytopic tracing calculations more "clear". 
         AIS = AIS.reshape((resolution + [AIS.shape[-1]]))
-        AOS = AIS.reshape((resolution + [AOS.shape[-1]]))
+        AOS = AOS.reshape((resolution + [AOS.shape[-1]]))
     
     # Switch in between for simplicial of polyhedra calculations.
     if  polytopic_trace  =='simplices':
