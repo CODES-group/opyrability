@@ -471,6 +471,7 @@ document.write(`
                   
   <section id="surrogate-based-operability-analysis-of-a-membrane-reactor">
 <h1>Surrogate-Based Operability Analysis of a Membrane Reactor<a class="headerlink" href="#surrogate-based-operability-analysis-of-a-membrane-reactor" title="Permalink to this heading">#</a></h1>
+<p>Author: Rafael Heilbuth, Federal University of Uberlândia (PhD Student)</p>
 <p>This notebook demonstrates how surrogate models (here, <strong>Gaussian Process (GP)</strong> regression) can replace computationally expensive first-principles models for process operability analysis.</p>
 <p>Operability calculations require many model evaluations. Particularly <strong>inverse mapping</strong>, which solves numerous optimization problems to find designs achieving a desired output specification. When each model evaluation is computationally expensive, a validated surrogate enables rapid exploration of different DOS specifications or constraint scenarios.</p>
 <p>We use the <strong>Direct Methane Aromatization Membrane Reactor (DMA-MR)</strong> as our case study, inspired by <span id="id1">[<a class="reference internal" href="../bibliography.html#id37" title="Victor Alves, Vitor Gazzaneo, and Fernando V. Lima. A machine learning-based process operability framework using gaussian processes. Computers &amp; Chemical Engineering, 163:107835, 2022. URL: https://www.sciencedirect.com/science/article/pii/S0098135422001557, doi:10.1016/j.compchemeng.2022.107835.">2</a>]</span>.</p>
