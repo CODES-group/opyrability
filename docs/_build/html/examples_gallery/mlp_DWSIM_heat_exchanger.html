@@ -1,0 +1,1711 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Surrogate-Based Operability Analysis of a Heat Exchanger using the DWSIM process simulator and a Multi-Layer Perceptron (MLP) &#8212; Opyrability&#39;s documentation.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/mlp_DWSIM_heat_exchanger';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
+    <script>document.write(`<img src="../_static/opyrability_logo.png" class="logo__image only-dark" alt="Opyrability's documentation. - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Opyrability Documentation  
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../process_model.html">The Process Model (M) - Programming Aspects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_example_gallery.html">Examples Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/mlp_DWSIM_heat_exchanger.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onBinder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/mlp_DWSIM_heat_exchanger.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/mlp_DWSIM_heat_exchanger.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples_gallery/mlp_DWSIM_heat_exchanger.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Surrogate-Based Operability Analysis of a Heat Exchanger using the DWSIM process simulator and a Multi-Layer Perceptron (MLP)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-process-cooler-heat-exchanger">Case Study: Process Cooler (Heat Exchanger)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs-and-outputs">Inputs and Outputs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-variable-definitions">Output Variable Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-surrogate-strategy">Modeling + Surrogate Strategy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dwsim-phenomenological-model-ground-truth">1) DWSIM phenomenological model (ground truth)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlp-surrogate-model-fast-evaluator">2) MLP surrogate model (fast evaluator)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operability-workflow-opyrability">3) Operability workflow (Opyrability)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-step">Next Step</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-dwsim">Connecting to DWSIM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-and-save-snapshot-definitions">Read and Save Snapshot Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phenomenological-model-wrapper-dwsim">Phenomenological Model Wrapper (DWSIM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-sanity-check">Quick Sanity Check</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-ais-and-forward-mapping-with-dwsim">Define AIS and Forward Mapping with DWSIM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-training-data-using-latin-hypercube-sampling-lhs">Generate Training Data Using Latin Hypercube Sampling (LHS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-a-multi-output-mlp-surrogate-model">Train a Multi-Output MLP Surrogate Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-model-wrapper-and-forward-mapping-ais-aos">Surrogate Model Wrapper and Forward Mapping (AIS → AOS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operability-index-oi">Operability Index (OI)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-mapping-dos-dis-via-nonlinear-programming-nlp">Inverse Mapping (DOS → DIS*) via Nonlinear Programming (NLP)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-representative-design-point-from-dis">Compute Representative Design Point from DIS*</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="surrogate-based-operability-analysis-of-a-heat-exchanger-using-the-dwsim-process-simulator-and-a-multi-layer-perceptron-mlp">
+<h1>Surrogate-Based Operability Analysis of a Heat Exchanger using the DWSIM process simulator and a Multi-Layer Perceptron (MLP)<a class="headerlink" href="#surrogate-based-operability-analysis-of-a-heat-exchanger-using-the-dwsim-process-simulator-and-a-multi-layer-perceptron-mlp" title="Permalink to this heading">#</a></h1>
+<p>Author: Nicolas Spogis, Ph.D. (Founder &amp; Lead Engineer — AI4Tech)</p>
+<p>This notebook presents a <strong>realistic industrial workflow</strong> for <strong>operability / flexibility analysis</strong> using <strong>Opyrability</strong>, combining:</p>
+<ul class="simple">
+<li><p>a <strong>first-principles (phenomenological) model</strong> executed in <strong>DWSIM</strong> via automation,</p></li>
+<li><p>a <strong>data-driven surrogate model</strong> (MLP, <em>scikit-learn</em>) trained from simulation data,</p></li>
+<li><p>and the core operability steps: <strong>forward mapping</strong> (AIS → AOS), <strong>Operability Index</strong>, and <strong>inverse mapping</strong> (DOS → DIS*).</p></li>
+</ul>
+<p>The goal is to quantify <strong>what the process can achieve</strong> (outputs) given <strong>what we can vary</strong> (inputs), and to estimate <strong>which input settings</strong> can satisfy <strong>desired operating specifications</strong>.</p>
+<hr class="docutils" />
+<section id="case-study-process-cooler-heat-exchanger">
+<h2>Case Study: Process Cooler (Heat Exchanger)<a class="headerlink" href="#case-study-process-cooler-heat-exchanger" title="Permalink to this heading">#</a></h2>
+<p>We analyze a single <strong>process cooler</strong> where a hot stream is cooled by a cooling-water utility.
+The operational behavior is evaluated in terms of <strong>thermal performance</strong> and <strong>operational feasibility</strong> across a range of disturbances and manipulated actions.</p>
+<p align="center">
+  <img src="data:image/png;base64,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"
+       alt="DWSIM heat exchanger flowsheet"
+       width="650">
+</p>
+<p align="center">
+  <em>
+    Figure 1 – DWSIM flowsheet of the process cooling heat exchanger used as the
+    first-principles (phenomenological) model. The hot stream is cooled by a
+    cooling-water utility, and the resulting outlet temperature and heat duty
+    are used for operability analysis.
+  </em>
+</p>
+<section id="inputs-and-outputs">
+<h3>Inputs and Outputs<a class="headerlink" href="#inputs-and-outputs" title="Permalink to this heading">#</a></h3>
+<p>The performed analysis maps the relationship between the <strong>Available Input Set (AIS)</strong> and the
+<strong>Achievable Output Set (AOS)</strong>, as summarized below.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Set</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Unit</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">T_h_in</span></code></p></td>
+<td><p>AIS</p></td>
+<td><p>Disturbance</p></td>
+<td><p>°C</p></td>
+<td><p>Hot-stream inlet temperature (feed disturbance)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">m_cw</span></code></p></td>
+<td><p>AIS</p></td>
+<td><p>Manipulated</p></td>
+<td><p>m³/h</p></td>
+<td><p>Cooling-water flowrate (control variable)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">T_h_out</span></code></p></td>
+<td><p>AOS</p></td>
+<td><p>Output</p></td>
+<td><p>°C</p></td>
+<td><p>Hot-stream outlet temperature (product / quality specification proxy)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">Q</span></code></p></td>
+<td><p>AOS</p></td>
+<td><p>Output</p></td>
+<td><p>kW</p></td>
+<td><p>Heat duty removed (utility / thermal performance proxy)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<blockquote>
+<div><p><strong>Interpretation</strong></p>
+<ul class="simple">
+<li><p><strong>AIS</strong> defines the “knobs” and disturbances we allow the system to experience (the <em>input envelope</em>).</p></li>
+<li><p><strong>AOS</strong> represents the set of all outputs the system can produce under that AIS (the <em>output envelope</em>).</p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<hr class="docutils" />
+<section id="output-variable-definitions">
+<h2>Output Variable Definitions<a class="headerlink" href="#output-variable-definitions" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">T_h_out</span></code> (Hot outlet temperature) [°C]</strong>
+A direct <strong>specification proxy</strong> for cooling performance. Lower values generally indicate stronger cooling, but feasibility depends on available heat-transfer driving force and <code class="docutils literal notranslate"><span class="pre">m_cw</span></code>.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">Q</span></code> (Heat duty removed) [kW]</strong>
+A <strong>utility/performance proxy</strong> representing how much thermal energy is removed from the hot stream by the exchanger.
+In DWSIM, this is typically read from the heat exchanger results (or equivalent energy balance variables).</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="modeling-surrogate-strategy">
+<h2>Modeling + Surrogate Strategy<a class="headerlink" href="#modeling-surrogate-strategy" title="Permalink to this heading">#</a></h2>
+<section id="dwsim-phenomenological-model-ground-truth">
+<h3>1) DWSIM phenomenological model (ground truth)<a class="headerlink" href="#dwsim-phenomenological-model-ground-truth" title="Permalink to this heading">#</a></h3>
+<p>A DWSIM flowsheet is used as the <strong>reference simulator</strong> to compute <code class="docutils literal notranslate"><span class="pre">T_h_out</span></code> and <code class="docutils literal notranslate"><span class="pre">Q</span></code> for many combinations of <code class="docutils literal notranslate"><span class="pre">T_h_in</span></code> and <code class="docutils literal notranslate"><span class="pre">m_cw</span></code>.
+This generates a dataset covering the AIS domain.</p>
+<p><em>Figure 1: DWSIM flowsheet for the process cooling heat exchanger.</em></p>
+</section>
+<section id="mlp-surrogate-model-fast-evaluator">
+<h3>2) MLP surrogate model (fast evaluator)<a class="headerlink" href="#mlp-surrogate-model-fast-evaluator" title="Permalink to this heading">#</a></h3>
+<p>A <strong>Multilayer Perceptron (MLP)</strong> is trained to learn the mapping:</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{u} = [T_{h,\mathrm{in}},\; m_{cw}]^\top \;\rightarrow\; \mathbf{y} = [T_{h,\mathrm{out}},\; Q]^\top\)</span>.</p>
+<p>Once trained, the surrogate provides <strong>fast evaluations</strong> needed by operability routines (dense grids, inverse mapping, feasibility scans), while preserving the DWSIM behavior within the trained domain.</p>
+</section>
+<section id="operability-workflow-opyrability">
+<h3>3) Operability workflow (Opyrability)<a class="headerlink" href="#operability-workflow-opyrability" title="Permalink to this heading">#</a></h3>
+<p>We then compute:</p>
+<ul class="simple">
+<li><p><strong>Forward mapping (AIS → AOS):</strong> what output region is reachable from the defined input region;</p></li>
+<li><p><strong>Operability Index:</strong> how much of a desired region is achievable (or, conversely, how restrictive the process is);</p></li>
+<li><p><strong>Inverse mapping (DOS → DIS*):</strong> which input region can satisfy a <strong>desired output specification</strong>.</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
+<p>This notebook assumes:</p>
+<ul class="simple">
+<li><p><strong>DWSIM installed</strong> and accessible for automation (Windows/COM scenario is the most common),</p></li>
+<li><p>Python packages (minimum):</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">opyrability</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matplotlib</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pythonnet</span></code> (DWSIM COM automation / .NET bridge)</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="next-step">
+<h2>Next Step<a class="headerlink" href="#next-step" title="Permalink to this heading">#</a></h2>
+<p>Let’s start by importing the necessary libraries:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">qmc</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.neural_network</span><span class="w"> </span><span class="kn">import</span> <span class="n">MLPRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">r2_score</span><span class="p">,</span> <span class="n">mean_squared_error</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">AIS2AOS_map</span><span class="p">,</span> <span class="n">multimodel_rep</span><span class="p">,</span> <span class="n">OI_eval</span><span class="p">,</span> <span class="n">nlp_based_approach</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="connecting-to-dwsim">
+<h2>Connecting to DWSIM<a class="headerlink" href="#connecting-to-dwsim" title="Permalink to this heading">#</a></h2>
+<p>In this step, we load the required <strong>DWSIM libraries</strong> and establish a connection to the
+process simulation environment.</p>
+<p>This connection allows Python to:</p>
+<ul class="simple">
+<li><p>programmatically load and manipulate the flowsheet,</p></li>
+<li><p>modify operating conditions (inputs),</p></li>
+<li><p>execute simulations,</p></li>
+<li><p>and retrieve results for data generation and analysis.</p></li>
+</ul>
+<blockquote>
+<div><p><strong>Important:</strong>
+The DWSIM installation path must be updated to match your local system configuration
+before running this section of the notebook.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set your DWSIM installation path</span>
+<span class="n">DWSIM_PATH</span> <span class="o">=</span> <span class="s2">&quot;C:</span><span class="se">\\</span><span class="s2">Users</span><span class="se">\\</span><span class="s2">[YourUser]</span><span class="se">\\</span><span class="s2">AppData</span><span class="se">\\</span><span class="s2">Local</span><span class="se">\\</span><span class="s2">DWSIM</span><span class="se">\\</span><span class="s2">&quot;</span> <span class="c1"># Update this path</span>
+
+<span class="n">FLOWSHEET_FILE</span> <span class="o">=</span> <span class="s2">&quot;heat_exchanger.dwxmz&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pythoncom</span>
+<span class="n">pythoncom</span><span class="o">.</span><span class="n">CoInitialize</span><span class="p">()</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">clr</span>
+
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\CapeOpen.dll&quot;</span><span class="p">)</span>
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\DWSIM.Automation.dll&quot;</span><span class="p">)</span>
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\DWSIM.Interfaces.dll&quot;</span><span class="p">)</span>
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\DWSIM.GlobalSettings.dll&quot;</span><span class="p">)</span>
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\DWSIM.SharedClasses.dll&quot;</span><span class="p">)</span>
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\DWSIM.Thermodynamics.dll&quot;</span><span class="p">)</span>
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\DWSIM.UnitOperations.dll&quot;</span><span class="p">)</span>
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\DWSIM.Inspector.dll&quot;</span><span class="p">)</span>
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\System.Buffers.dll&quot;</span><span class="p">)</span>
+<span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">)</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\DWSIM.Thermodynamics.ThermoC.dll&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;System.Reflection.RuntimeAssembly object at 0x0000013A86DEBA00&gt;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">DWSIM.Automation</span><span class="w"> </span><span class="kn">import</span> <span class="n">Automation3</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">open_DWSIM</span><span class="p">(</span><span class="n">flowsheet_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">manager</span> <span class="o">=</span> <span class="n">Automation3</span><span class="p">()</span>
+    <span class="n">fs</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">LoadFlowsheet</span><span class="p">(</span><span class="n">flowsheet_file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">manager</span><span class="p">,</span> <span class="n">fs</span>
+
+<span class="n">manager</span><span class="p">,</span> <span class="n">myflowsheet</span> <span class="o">=</span> <span class="n">open_DWSIM</span><span class="p">(</span><span class="n">FLOWSHEET_FILE</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DWSIM flowsheet loaded -&gt; </span><span class="si">{</span><span class="n">FLOWSHEET_FILE</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DWSIM flowsheet loaded -&gt; heat_exchanger.dwxmz
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="read-and-save-snapshot-definitions">
+<h2>Read and Save Snapshot Definitions<a class="headerlink" href="#read-and-save-snapshot-definitions" title="Permalink to this heading">#</a></h2>
+<p>In this section, we load previously saved <strong>snapshot definitions</strong> that describe the
+structure and state of the DWSIM flowsheet.</p>
+<p>These snapshots are used to:</p>
+<ul class="simple">
+<li><p>ensure consistency when reloading the simulation,</p></li>
+<li><p>restore unit operations, streams, and thermodynamic settings,</p></li>
+<li><p>and enable reproducible execution of the process model during automated runs.</p></li>
+</ul>
+<p>The snapshot data is also saved for future reuse, allowing the simulation setup to be
+recovered without manually rebuilding the flowsheet.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">SaveSnapshot</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">,</span> <span class="n">myflowsheet</span><span class="p">):</span>
+    <span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="n">DWSIM_PATH</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">DWSIM.Interfaces.dll&quot;</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">DWSIM.Interfaces.Enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">SnapshotType</span>
+    <span class="n">Type</span> <span class="o">=</span> <span class="n">SnapshotType</span><span class="o">.</span><span class="n">ObjectData</span>
+    <span class="n">snap</span> <span class="o">=</span> <span class="n">myflowsheet</span><span class="o">.</span><span class="n">GetSnapshot</span><span class="p">(</span><span class="n">Type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">snap</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ReadSnapshot</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">,</span> <span class="n">snap</span><span class="p">,</span> <span class="n">myflowsheet</span><span class="p">):</span>
+    <span class="n">clr</span><span class="o">.</span><span class="n">AddReference</span><span class="p">(</span><span class="n">DWSIM_PATH</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\\</span><span class="s2">DWSIM.Interfaces.dll&quot;</span><span class="p">)</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">DWSIM.Interfaces.Enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">SnapshotType</span>
+    <span class="n">Type</span> <span class="o">=</span> <span class="n">SnapshotType</span><span class="o">.</span><span class="n">ObjectData</span>
+    <span class="n">myflowsheet</span><span class="o">.</span><span class="n">RestoreSnapshot</span><span class="p">(</span><span class="n">snap</span><span class="p">,</span> <span class="n">Type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">snap</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Snapshot</span> <span class="o">=</span> <span class="n">SaveSnapshot</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">,</span> <span class="n">myflowsheet</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DWSIM Snapshot saved!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DWSIM Snapshot saved!
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="phenomenological-model-wrapper-dwsim">
+<h2>Phenomenological Model Wrapper (DWSIM)<a class="headerlink" href="#phenomenological-model-wrapper-dwsim" title="Permalink to this heading">#</a></h2>
+<p>In this step, we define a <strong>Python wrapper</strong> around the DWSIM flowsheet, which exposes the
+phenomenological model as a callable function.</p>
+<p>The wrapper function <code class="docutils literal notranslate"><span class="pre">hx_problem(u)</span></code>:</p>
+<ul class="simple">
+<li><p>receives the input vector
+<code class="docutils literal notranslate"><span class="pre">u</span> <span class="pre">=</span> <span class="pre">[T_h_in</span> <span class="pre">(°C),</span> <span class="pre">m_cw</span> <span class="pre">(m³/h)]</span></code>,</p></li>
+<li><p>updates the corresponding variables in the DWSIM model,</p></li>
+<li><p>runs the simulation,</p></li>
+<li><p>and returns the output vector
+<code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">[T_h_out</span> <span class="pre">(°C),</span> <span class="pre">Q</span> <span class="pre">(kW)]</span></code>.</p></li>
+</ul>
+<p>This function provides a clean and consistent interface between the <strong>first-principles
+process model</strong> and the <strong>surrogate modeling / operability analysis</strong> workflows that follow.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">OBJ_HOT_IN_STREAM</span> <span class="o">=</span> <span class="s2">&quot;HOT_IN&quot;</span>
+<span class="n">OBJ_CW_IN_STREAM</span> <span class="o">=</span> <span class="s2">&quot;CW_IN&quot;</span>
+<span class="n">OBJ_HOT_OUT_STREAM</span> <span class="o">=</span> <span class="s2">&quot;HOT_OUT&quot;</span>
+<span class="n">OBJ_DUTY_OBJECT</span> <span class="o">=</span> <span class="s2">&quot;E1&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">hx_problem</span><span class="p">(</span><span class="n">Input_Parameters</span><span class="p">):</span>
+    <span class="k">global</span> <span class="n">manager</span><span class="p">,</span> <span class="n">myflowsheet</span><span class="p">,</span> <span class="n">Snapshot</span><span class="p">,</span> <span class="n">DWSIM_PATH</span>
+
+    <span class="c1">#Read Snapshot</span>
+    <span class="n">ReadSnapshot</span><span class="p">(</span><span class="n">DWSIM_PATH</span><span class="p">,</span> <span class="n">Snapshot</span><span class="p">,</span> <span class="n">myflowsheet</span><span class="p">)</span>
+    <span class="n">Th_in_C</span> <span class="o">=</span> <span class="n">Input_Parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">cw_in_m3h</span> <span class="o">=</span> <span class="n">Input_Parameters</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Set hot inlet temperature (DWSIM uses Kelvin)</span>
+        <span class="n">hot_in</span> <span class="o">=</span> <span class="n">myflowsheet</span><span class="o">.</span><span class="n">GetFlowsheetSimulationObject</span><span class="p">(</span><span class="n">OBJ_HOT_IN_STREAM</span><span class="p">)</span><span class="o">.</span><span class="n">GetAsObject</span><span class="p">()</span>
+        <span class="n">hot_in</span><span class="o">.</span><span class="n">SetTemperature</span><span class="p">(</span><span class="n">Th_in_C</span> <span class="o">+</span> <span class="mf">273.15</span><span class="p">)</span>
+
+        <span class="c1"># Set cooling water flow  (DWSIM uses m3/s)</span>
+        <span class="n">cw_in</span> <span class="o">=</span> <span class="n">myflowsheet</span><span class="o">.</span><span class="n">GetFlowsheetSimulationObject</span><span class="p">(</span><span class="n">OBJ_CW_IN_STREAM</span><span class="p">)</span><span class="o">.</span><span class="n">GetAsObject</span><span class="p">()</span>
+        <span class="n">cw_in</span><span class="o">.</span><span class="n">SetVolumetricFlow</span><span class="p">(</span><span class="n">cw_in_m3h</span><span class="o">/</span><span class="mi">3600</span><span class="p">)</span>
+
+        <span class="c1"># Solve flowsheet</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">CalculateFlowsheet4</span><span class="p">(</span><span class="n">myflowsheet</span><span class="p">)</span>
+
+        <span class="c1"># Spreadsheet recalc</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mySpreadsheet</span> <span class="o">=</span> <span class="n">myflowsheet</span><span class="o">.</span><span class="n">GetSpreadsheetObject</span><span class="p">()</span>
+            <span class="n">mySpreadsheet</span><span class="o">.</span><span class="n">Worksheets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">Recalculate</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="n">errors</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="c1"># Read outputs</span>
+        <span class="n">hot_out</span> <span class="o">=</span> <span class="n">myflowsheet</span><span class="o">.</span><span class="n">GetFlowsheetSimulationObject</span><span class="p">(</span><span class="n">OBJ_HOT_OUT_STREAM</span><span class="p">)</span><span class="o">.</span><span class="n">GetAsObject</span><span class="p">()</span>
+        <span class="n">Th_out_C</span> <span class="o">=</span> <span class="n">hot_out</span><span class="o">.</span><span class="n">GetTemperature</span><span class="p">()</span> <span class="o">-</span> <span class="mf">273.15</span>
+
+        <span class="n">duty_obj</span> <span class="o">=</span> <span class="n">myflowsheet</span><span class="o">.</span><span class="n">GetFlowsheetSimulationObject</span><span class="p">(</span><span class="n">OBJ_DUTY_OBJECT</span><span class="p">)</span><span class="o">.</span><span class="n">GetAsObject</span><span class="p">()</span>
+        <span class="n">Q</span> <span class="o">=</span> <span class="n">duty_obj</span><span class="o">.</span><span class="n">GetEnergyFlow</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">Th_out_C</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="n">Q</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="quick-sanity-check">
+<h3>Quick Sanity Check<a class="headerlink" href="#quick-sanity-check" title="Permalink to this heading">#</a></h3>
+<p>Before proceeding with large-scale data generation and surrogate training,
+we perform a quick sanity check to verify that:</p>
+<ul class="simple">
+<li><p>the DWSIM connection is working correctly,</p></li>
+<li><p>the wrapper function executes without errors,</p></li>
+<li><p>and the returned outputs are physically consistent and within expected ranges.</p></li>
+</ul>
+<p>This step helps catch configuration or modeling issues early,
+preventing unnecessary computational effort in later stages.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">tests</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">80.0</span><span class="p">,</span>  <span class="mf">5.0</span><span class="p">]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">120.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">]),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">120.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">]),</span>
+<span class="p">]</span>
+<span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">tests</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="n">hx_problem</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[80.  5.] -&gt; [ 44.00988 280.80248]
+[80. 25.] -&gt; [ 31.02828 376.02394]
+[120.   5.] -&gt; [ 58.31947 487.67613]
+[120.  25.] -&gt; [ 35.4697  650.48358]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="define-ais-and-forward-mapping-with-dwsim">
+<h2>Define AIS and Forward Mapping with DWSIM<a class="headerlink" href="#define-ais-and-forward-mapping-with-dwsim" title="Permalink to this heading">#</a></h2>
+<p>We now define the <strong>Available Input Set (AIS)</strong> by specifying the admissible ranges for
+<code class="docutils literal notranslate"><span class="pre">T_h_in</span></code> and <code class="docutils literal notranslate"><span class="pre">m_cw</span></code>. Next, we compute the <strong>forward map</strong> (AIS → AOS) by evaluating the
+DWSIM flowsheet across a grid of input combinations.</p>
+<blockquote>
+<div><p><strong>Note (computational cost):</strong>
+Each grid point triggers a full flowsheet solve in DWSIM.
+Keep the grid resolution <strong>small</strong> in this section to ensure reasonable run time.</p>
+</div></blockquote>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Define the Available Input Set (AIS)</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Each row corresponds to one input variable:</span>
+<span class="c1">#   [lower_bound, upper_bound]</span>
+<span class="c1">#</span>
+<span class="c1"># 1) T_h_in : Hot-stream inlet temperature [°C]</span>
+<span class="c1"># 2) m_cw   : Cooling-water flowrate [m³/h]</span>
+<span class="n">AIS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="mf">80.0</span><span class="p">,</span> <span class="mf">120.0</span><span class="p">],</span>   <span class="c1"># T_h_in [°C]</span>
+        <span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">],</span>     <span class="c1"># m_cw [m³/h]</span>
+    <span class="p">],</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+<span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Forward mapping resolution</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Number of grid points per input dimension.</span>
+<span class="c1"># Total number of DWSIM simulations = 10 × 10 = 100</span>
+<span class="n">resolution_fp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Forward mapping: AIS → AOS using the DWSIM model</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="n">AIS_fp</span><span class="p">,</span> <span class="n">AOS_fp</span> <span class="o">=</span> <span class="n">AIS2AOS_map</span><span class="p">(</span>
+    <span class="n">hx_problem</span><span class="p">,</span>      <span class="c1"># phenomenological model wrapper</span>
+    <span class="n">AIS_bounds</span><span class="p">,</span>      <span class="c1"># input domain (AIS)</span>
+    <span class="n">resolution_fp</span><span class="p">,</span>   <span class="c1"># grid resolution</span>
+    <span class="n">plot</span><span class="o">=</span><span class="kc">True</span>        <span class="c1"># plot AOS projection</span>
+<span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Plot formatting</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;DWSIM: AIS → AOS&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;T_h_out [°C]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Q [kW]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a630683cce072395243191373bc11c087c10ab3d006359a174ea8dd14299bc47.png" src="../_images/a630683cce072395243191373bc11c087c10ab3d006359a174ea8dd14299bc47.png" />
+</div>
+</div>
+</section>
+<section id="generate-training-data-using-latin-hypercube-sampling-lhs">
+<h2>Generate Training Data Using Latin Hypercube Sampling (LHS)<a class="headerlink" href="#generate-training-data-using-latin-hypercube-sampling-lhs" title="Permalink to this heading">#</a></h2>
+<p>To efficiently generate training data for the surrogate model, we employ
+<strong>Latin Hypercube Sampling (LHS)</strong> over the defined <strong>AIS domain</strong>.</p>
+<p>LHS provides a space-filling sampling strategy that:</p>
+<ul class="simple">
+<li><p>ensures good coverage of the input space with a limited number of samples,</p></li>
+<li><p>avoids clustering of points typical of purely random sampling,</p></li>
+<li><p>and is well suited for surrogate modeling in nonlinear process systems.</p></li>
+</ul>
+<p>Each sampled point is evaluated using the DWSIM phenomenological model,
+producing input–output pairs that will be used to train the MLP surrogate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">n_samples</span> <span class="o">=</span> <span class="mi">1000</span>  <span class="c1"># increase if your flowsheet is fast</span>
+
+<span class="n">sampler</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_unit</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">qmc</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
+    <span class="n">X_unit</span><span class="p">,</span>
+    <span class="n">l_bounds</span><span class="o">=</span><span class="p">[</span><span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mf">0.9</span><span class="p">],</span>
+    <span class="n">u_bounds</span><span class="o">=</span><span class="p">[</span><span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">1.1</span><span class="p">,</span> <span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">1.1</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+    <span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">hx_problem</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:])):</span>
+        <span class="n">valid</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">25</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2"> evaluated | valid=</span><span class="si">{</span><span class="n">valid</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Elapsed: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">t0</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">Y</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Filtered dataset:&quot;</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25/1000 evaluated | valid=25
+50/1000 evaluated | valid=50
+75/1000 evaluated | valid=75
+100/1000 evaluated | valid=100
+125/1000 evaluated | valid=125
+150/1000 evaluated | valid=150
+175/1000 evaluated | valid=175
+200/1000 evaluated | valid=200
+225/1000 evaluated | valid=225
+250/1000 evaluated | valid=250
+275/1000 evaluated | valid=275
+300/1000 evaluated | valid=300
+325/1000 evaluated | valid=325
+350/1000 evaluated | valid=350
+375/1000 evaluated | valid=375
+400/1000 evaluated | valid=400
+425/1000 evaluated | valid=425
+450/1000 evaluated | valid=450
+475/1000 evaluated | valid=475
+500/1000 evaluated | valid=500
+525/1000 evaluated | valid=525
+550/1000 evaluated | valid=550
+575/1000 evaluated | valid=575
+600/1000 evaluated | valid=600
+625/1000 evaluated | valid=625
+650/1000 evaluated | valid=650
+675/1000 evaluated | valid=675
+700/1000 evaluated | valid=700
+725/1000 evaluated | valid=725
+750/1000 evaluated | valid=750
+775/1000 evaluated | valid=775
+800/1000 evaluated | valid=800
+825/1000 evaluated | valid=825
+850/1000 evaluated | valid=850
+875/1000 evaluated | valid=875
+900/1000 evaluated | valid=900
+925/1000 evaluated | valid=925
+950/1000 evaluated | valid=950
+975/1000 evaluated | valid=975
+1000/1000 evaluated | valid=1000
+Elapsed: 20.8 s
+Filtered dataset: (1000, 2) (1000, 2)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="train-a-multi-output-mlp-surrogate-model">
+<h2>Train a Multi-Output MLP Surrogate Model<a class="headerlink" href="#train-a-multi-output-mlp-surrogate-model" title="Permalink to this heading">#</a></h2>
+<p>In this step, we train a <strong>multi-output Multilayer Perceptron (MLP)</strong> to approximate the
+input–output behavior of the DWSIM phenomenological model.</p>
+<p>Both <strong>inputs and outputs are scaled</strong> prior to training in order to:</p>
+<ul class="simple">
+<li><p>improve numerical conditioning,</p></li>
+<li><p>stabilize gradient-based optimization,</p></li>
+<li><p>and ensure balanced learning across variables with different magnitudes and units.</p></li>
+</ul>
+<p>The trained surrogate provides a fast and smooth approximation of the process behavior,
+making it suitable for forward mapping, inverse mapping, and operability analysis.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train/test split</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_train</span><span class="p">,</span> <span class="n">Y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.20</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># Scaling (important for smooth tanh MLP + inverse optimization stability)</span>
+<span class="n">scalerX</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">scalerY</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+
+<span class="n">Xtr</span> <span class="o">=</span> <span class="n">scalerX</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<span class="n">Ytr</span> <span class="o">=</span> <span class="n">scalerY</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">Y_train</span><span class="p">)</span>
+
+<span class="n">Xte</span> <span class="o">=</span> <span class="n">scalerX</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Robust MLP for inverse operability (smooth + regularized + early stopping)</span>
+<span class="n">mlp</span> <span class="o">=</span> <span class="n">MLPRegressor</span><span class="p">(</span>
+    <span class="n">hidden_layer_sizes</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+    <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;tanh&quot;</span><span class="p">,</span>
+    <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span><span class="p">,</span>
+    <span class="n">alpha</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+    <span class="n">learning_rate_init</span><span class="o">=</span><span class="mf">5e-4</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">8000</span><span class="p">,</span>
+    <span class="n">early_stopping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">validation_fraction</span><span class="o">=</span><span class="mf">0.15</span><span class="p">,</span>
+    <span class="n">n_iter_no_change</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">tol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="n">mlp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">Xtr</span><span class="p">,</span> <span class="n">Ytr</span><span class="p">)</span>
+
+<span class="c1"># Predict (bring back to physical units)</span>
+<span class="n">Y_pred</span> <span class="o">=</span> <span class="n">scalerY</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">mlp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">Xte</span><span class="p">))</span>
+
+<span class="c1"># Metrics</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R2 T_h_out:&quot;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Y_pred</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R2 Q      :&quot;</span><span class="p">,</span> <span class="n">r2_score</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">Y_pred</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE T_h_out:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">Y_pred</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;RMSE Q      :&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mean_squared_error</span><span class="p">(</span><span class="n">Y_test</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">Y_pred</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>R2 T_h_out: 0.9999017187923868
+R2 Q      : 0.9999500770253356
+RMSE T_h_out: 0.062169743745055496
+RMSE Q      : 0.8493156096183071
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="surrogate-model-wrapper-and-forward-mapping-ais-aos">
+<h2>Surrogate Model Wrapper and Forward Mapping (AIS → AOS)<a class="headerlink" href="#surrogate-model-wrapper-and-forward-mapping-ais-aos" title="Permalink to this heading">#</a></h2>
+<p>In this section, we wrap the trained <strong>MLP surrogate model</strong> into a callable function
+that mirrors the interface of the phenomenological DWSIM model.</p>
+<p>This surrogate wrapper:</p>
+<ul class="simple">
+<li><p>receives the same input vector <code class="docutils literal notranslate"><span class="pre">u</span> <span class="pre">=</span> <span class="pre">[T_h_in,</span> <span class="pre">m_cw]</span></code>,</p></li>
+<li><p>applies the appropriate input scaling,</p></li>
+<li><p>evaluates the trained MLP,</p></li>
+<li><p>and returns the predicted outputs in physical units.</p></li>
+</ul>
+<p>Using this wrapper, we compute the <strong>forward map (AIS → AOS)</strong> efficiently,
+allowing dense sampling and visualization of the achievable output space
+without the computational cost of repeatedly solving the DWSIM flowsheet.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">mlp_surrogate</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y_scaled</span> <span class="o">=</span> <span class="n">mlp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">scalerX</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">u</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">scalerY</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_scaled</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">resolution_surr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">AIS_s</span><span class="p">,</span> <span class="n">AOS_s</span> <span class="o">=</span> <span class="n">AIS2AOS_map</span><span class="p">(</span><span class="n">mlp_surrogate</span><span class="p">,</span> <span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">resolution_surr</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;MLP surrogate: AIS → AOS&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;T_h_out [°C]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Q [kW]&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/fea496dcc78080f6b8ec8be1fff317273189cecd22494d0cb8ab11fb467fe7d5.png" src="../_images/fea496dcc78080f6b8ec8be1fff317273189cecd22494d0cb8ab11fb467fe7d5.png" />
+</div>
+</div>
+</section>
+<section id="operability-index-oi">
+<h2>Operability Index (OI)<a class="headerlink" href="#operability-index-oi" title="Permalink to this heading">#</a></h2>
+<p>The <strong>Operability Index (OI)</strong> quantifies how much of a <strong>desired operating region</strong>
+in the output space can be achieved by the process given the defined <strong>AIS</strong>.</p>
+<p>In practical terms, the OI measures:</p>
+<ul class="simple">
+<li><p>the degree of operational flexibility of the system,</p></li>
+<li><p>how restrictive the process is with respect to output specifications,</p></li>
+<li><p>and whether the desired performance targets are realistically attainable.</p></li>
+</ul>
+<p>An OI value close to <strong>1</strong> indicates high operability (most of the desired region is
+reachable), while values close to <strong>0</strong> indicate limited or poor operability.</p>
+<p>In this notebook, the OI is computed using the surrogate-based AOS,
+enabling efficient evaluation of different operating specifications.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Define the Desired Output Set (DOS)</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Each row corresponds to one output variable:</span>
+<span class="c1">#   [lower_bound, upper_bound]</span>
+<span class="c1">#</span>
+<span class="c1"># 1) T_h_out : Desired range for hot-stream outlet temperature [°C]</span>
+<span class="c1">#              Represents the target cooling specification.</span>
+<span class="c1">#</span>
+<span class="c1"># 2) Q       : Desired range for heat duty removed [kW]</span>
+<span class="c1">#              Represents acceptable thermal/utility performance.</span>
+<span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="p">[</span><span class="mf">35.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">],</span>    <span class="c1"># T_h_out [°C]</span>
+        <span class="p">[</span><span class="mf">300.0</span><span class="p">,</span> <span class="mf">500.0</span><span class="p">],</span>  <span class="c1"># Q [kW]</span>
+    <span class="p">],</span>
+    <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span>
+<span class="p">)</span>
+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Define AIS resolution for multimodel representation</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Number of discretization points per AIS dimension.</span>
+<span class="c1"># This grid is used to compute the Achievable Output Set (AOS)</span>
+<span class="c1"># using different process models.</span>
+<span class="n">AIS_resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Multimodel AOS computation — First-principles (DWSIM) model</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Computing AOS using the first-principles (DWSIM) model...&quot;</span><span class="p">)</span>
+<span class="n">start_fp_mm</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">AOS_fp</span> <span class="o">=</span> <span class="n">multimodel_rep</span><span class="p">(</span>
+    <span class="n">hx_problem</span><span class="p">,</span>      <span class="c1"># phenomenological model wrapper</span>
+    <span class="n">AIS_bounds</span><span class="p">,</span>      <span class="c1"># AIS domain</span>
+    <span class="n">AIS_resolution</span>   <span class="c1"># discretization resolution</span>
+<span class="p">)</span>
+
+<span class="n">time_fp_mm</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_fp_mm</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Completed in </span><span class="si">{</span><span class="n">time_fp_mm</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Multimodel AOS computation — Surrogate (MLP) model</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Computing AOS using the MLP surrogate model...&quot;</span><span class="p">)</span>
+<span class="n">start_surr_mm</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="n">AOS_surr</span> <span class="o">=</span> <span class="n">multimodel_rep</span><span class="p">(</span>
+    <span class="n">mlp_surrogate</span><span class="p">,</span>   <span class="c1"># trained surrogate model wrapper</span>
+    <span class="n">AIS_bounds</span><span class="p">,</span>      <span class="c1"># AIS domain</span>
+    <span class="n">AIS_resolution</span>   <span class="c1"># discretization resolution</span>
+<span class="p">)</span>
+
+<span class="n">time_surr_mm</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_surr_mm</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Completed in </span><span class="si">{</span><span class="n">time_surr_mm</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computing AOS using the first-principles (DWSIM) model...
+</pre></div>
+</div>
+<img alt="../_images/13111882baedfe980d5cd9c9d9a456ce4513aa01ba336e93d208142d44e902c1.png" src="../_images/13111882baedfe980d5cd9c9d9a456ce4513aa01ba336e93d208142d44e902c1.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Completed in 2.44 seconds
+
+Computing AOS using the MLP surrogate model...
+</pre></div>
+</div>
+<img alt="../_images/ee42075faab6206ae60ec1a7c1bcdaa1dc1e4293296b34a65c45fe0bde6bbc73.png" src="../_images/ee42075faab6206ae60ec1a7c1bcdaa1dc1e4293296b34a65c45fe0bde6bbc73.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Completed in 0.38 seconds
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>First-Principles Model — Operability Index (OI)</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">OI_fp</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_fp</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3068ee0fe6c72850b9f6c88476b4ea6d6de52e89cc06053dbf8b774ef4581441.png" src="../_images/3068ee0fe6c72850b9f6c88476b4ea6d6de52e89cc06053dbf8b774ef4581441.png" />
+</div>
+</div>
+<p><strong>Operability Index (OI) — Surrogate Model</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">OI_surr</span> <span class="o">=</span> <span class="n">OI_eval</span><span class="p">(</span><span class="n">AOS_surr</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/e4a888440f5528e8d20e258c0c94c18774840a94880914d90c58bd52a59196da.png" src="../_images/e4a888440f5528e8d20e258c0c94c18774840a94880914d90c58bd52a59196da.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Operability Index (OI) comparison summary</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># This section compares:</span>
+<span class="c1">#  - OI computed with the first-principles (DWSIM) model</span>
+<span class="c1">#  - OI computed with the surrogate (MLP / GP) model</span>
+<span class="c1">#  - Computational cost of each approach</span>
+<span class="c1"># ------------------------------------------------------------</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OPERABILITY INDEX COMPARISON&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+
+<span class="c1"># Table header</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  </span><span class="si">{</span><span class="s1">&#39;Metric&#39;</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;First-Principles&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Surrogate Model&#39;</span><span class="si">:</span><span class="s2">&gt;18</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Separator</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">25</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">18</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">18</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Operability Index values</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;OI Value&#39;</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OI_fp</span><span class="si">:</span><span class="s2">&gt;17.2f</span><span class="si">}</span><span class="s2">%&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">OI_surr</span><span class="si">:</span><span class="s2">&gt;17.2f</span><span class="si">}</span><span class="s2">%&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Multimodel computation time</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="s1">&#39;Multimodel Time [s]&#39;</span><span class="si">:</span><span class="s2">&lt;25</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_fp_mm</span><span class="si">:</span><span class="s2">&gt;18.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">time_surr_mm</span><span class="si">:</span><span class="s2">&gt;18.2f</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Accuracy and performance metrics</span>
+<span class="c1"># ------------------------------------------------------------</span>
+
+<span class="c1"># Relative error between OI values</span>
+<span class="n">relative_error_oi</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">OI_fp</span> <span class="o">-</span> <span class="n">OI_surr</span><span class="p">)</span> <span class="o">/</span> <span class="n">OI_fp</span> <span class="o">*</span> <span class="mi">100</span>
+
+<span class="c1"># Speedup factor of surrogate vs first-principles</span>
+<span class="n">speedup</span> <span class="o">=</span> <span class="n">time_fp_mm</span> <span class="o">/</span> <span class="n">time_surr_mm</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Relative Error in OI: </span><span class="si">{</span><span class="n">relative_error_oi</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Speedup: </span><span class="si">{</span><span class="n">speedup</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">× faster&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>============================================================
+OPERABILITY INDEX COMPARISON
+============================================================
+
+  Metric                     First-Principles   Surrogate Model
+  -------------------------------------------------------------
+  OI Value                             85.54%            85.48%
+  Multimodel Time [s]                    2.44              0.38
+
+  Relative Error in OI: 0.07%
+  Speedup: 6.4× faster
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="inverse-mapping-dos-dis-via-nonlinear-programming-nlp">
+<h2>Inverse Mapping (DOS → DIS*) via Nonlinear Programming (NLP)<a class="headerlink" href="#inverse-mapping-dos-dis-via-nonlinear-programming-nlp" title="Permalink to this heading">#</a></h2>
+<p>In this section, we perform the <strong>inverse operability analysis</strong>, where the goal is to
+determine the set of input conditions that can achieve a <strong>Desired Output Set (DOS)</strong>.</p>
+<p>Instead of mapping inputs to outputs, we solve the inverse problem:
+given a target region in the output space, find the corresponding <strong>Desired Input Set</strong>
+that satisfies these specifications.</p>
+<p>This inverse mapping is formulated as a <strong>nonlinear programming (NLP)</strong> problem,
+typically solved using the <strong>surrogate model</strong> to ensure computational efficiency.</p>
+<p>The resulting <strong>DIS*</strong> represents the subset of the AIS that can reliably drive the
+process into the desired operating region.</p>
+<p><strong>First-Principles Model (DWSIM)</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DOS_resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">lb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">ub</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">u0</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">ub</span><span class="p">)</span>
+
+<span class="c1"># Inverse mapping with First-Principles Model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running inverse mapping with First-Principles Model...&quot;</span><span class="p">)</span>
+<span class="n">start_fp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">fDIS_fp</span><span class="p">,</span> <span class="n">fDOS_fp</span><span class="p">,</span> <span class="n">conv_fp</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span>
+    <span class="n">hx_problem</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span>
+    <span class="n">constr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">warmstart</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">time_fp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_fp</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed in </span><span class="si">{</span><span class="n">time_fp</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running inverse mapping with First-Principles Model...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 100/100 [03:13&lt;00:00,  1.94s/it]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Completed in 193.73 seconds
+</pre></div>
+</div>
+<img alt="../_images/839e796de5292e125aeba54e347d393d61b35666d01f2c2e3999d7b26dcb0386.png" src="../_images/839e796de5292e125aeba54e347d393d61b35666d01f2c2e3999d7b26dcb0386.png" />
+</div>
+</div>
+<p><strong>Surrogate Model (MLP)</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DOS_resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+<span class="n">lb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">ub</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">AIS_bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">u0</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">lb</span> <span class="o">+</span> <span class="n">ub</span><span class="p">)</span>
+
+<span class="c1"># Inverse mapping with MLP Surrogate Model</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running inverse mapping with MLP Surrogate Model...&quot;</span><span class="p">)</span>
+<span class="n">start_surr</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">fDIS_surr</span><span class="p">,</span> <span class="n">fDOS_surr</span><span class="p">,</span> <span class="n">conv_fp</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span>
+    <span class="n">mlp_surrogate</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span> <span class="n">DOS_resolution</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span>
+    <span class="n">constr</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ad</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">warmstart</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
+<span class="n">time_surrogate</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_surr</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed in </span><span class="si">{</span><span class="n">time_surrogate</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> seconds&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Running inverse mapping with MLP Surrogate Model...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 100/100 [00:03&lt;00:00, 26.58it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Completed in 3.78 seconds
+</pre></div>
+</div>
+<img alt="../_images/a3211eef918a47d0dc8ac3e80313bebb912c0ec35744b9a64d7fef585a16620a.png" src="../_images/a3211eef918a47d0dc8ac3e80313bebb912c0ec35744b9a64d7fef585a16620a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Overlay plot: Visual comparison of DIS* and DOS*</span>
+<span class="c1"># First-principles (DWSIM) vs Surrogate (MLP)</span>
+<span class="c1"># ------------------------------------------------------------</span>
+
+<span class="c1"># Filter feasible points (remove None entries)</span>
+<span class="n">dis_fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">fDIS_fp</span> <span class="k">if</span> <span class="n">u</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">dis_surr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">u</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">fDIS_surr</span> <span class="k">if</span> <span class="n">u</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+
+<span class="n">dos_fp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">fDOS_fp</span> <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+<span class="n">dos_surr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">fDOS_surr</span> <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">])</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Create side-by-side plots</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># DIS* overlay — Input (design/operating) space</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">dis_fp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dis_fp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;First-Principles (DWSIM)&#39;</span>
+<span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">dis_surr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dis_surr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Surrogate (MLP)&#39;</span>
+<span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Hot Inlet Temperature, $T_{h,in}$ [°C]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Cooling-Water Flowrate, $m_</span><span class="si">{cw}</span><span class="s1">$ [m³/h]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Input Space Comparison (DIS*)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># DOS* overlay — Output (performance/specification) space</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">dos_fp</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dos_fp</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;First-Principles (DWSIM)&#39;</span>
+<span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+    <span class="n">dos_surr</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dos_surr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Surrogate (MLP)&#39;</span>
+<span class="p">)</span>
+
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Hot Outlet Temperature, $T_{h,out}$ [°C]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Heat Duty Removed, $Q$ [kW]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Output Space Comparison (DOS*)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Final layout</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/84541c3f57c9f92cf2e953cf00b1accfcc424a8698d1db67c7cf5a0050cee0b9.png" src="../_images/84541c3f57c9f92cf2e953cf00b1accfcc424a8698d1db67c7cf5a0050cee0b9.png" />
+</div>
+</div>
+</section>
+<section id="compute-representative-design-point-from-dis">
+<h2>Compute Representative Design Point from DIS*<a class="headerlink" href="#compute-representative-design-point-from-dis" title="Permalink to this heading">#</a></h2>
+<p>In this final step, we compute a <strong>representative design/operating point</strong> from the
+feasible <strong>Desired Input Set (DIS*)</strong>.</p>
+<p>The mean values of the DIS* are used as a:</p>
+<ul class="simple">
+<li><p>nominal operating point,</p></li>
+<li><p>reference design condition,</p></li>
+<li><p>or initial guess for further optimization or control studies.</p></li>
+</ul>
+<p>This provides a concise summary of the inverse operability results and a practical
+setpoint that satisfies the desired output specifications.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Mean Design Values from DIS*:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Column widths</span>
+<span class="n">w_var</span> <span class="o">=</span> <span class="mi">38</span>
+<span class="n">w_fp</span>  <span class="o">=</span> <span class="mi">26</span>
+<span class="n">w_su</span>  <span class="o">=</span> <span class="mi">20</span>
+<span class="n">w_er</span>  <span class="o">=</span> <span class="mi">12</span>
+
+<span class="c1"># Header</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Variable&#39;</span><span class="si">:</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">w_var</span><span class="si">}}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;First-Principles (DWSIM)&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">w_fp</span><span class="si">}}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;MLP Surrogate&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">w_su</span><span class="si">}}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Rel. Error&#39;</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">w_er</span><span class="si">}}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Separator</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="n">w_var</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="n">w_fp</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="n">w_su</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="n">w_er</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># Rows</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Hot inlet temperature, T_h,in [°C]&#39;</span><span class="si">:</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">w_var</span><span class="si">}}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mean_Thin_fp</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">w_fp</span><span class="si">}</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mean_Thin_surr</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">w_su</span><span class="si">}</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">mean_Thin_fp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean_Thin_surr</span><span class="p">)</span><span class="o">/</span><span class="n">mean_Thin_fp</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">w_er</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">%&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Cooling-water flowrate, m_cw [m³/h]&#39;</span><span class="si">:</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">w_var</span><span class="si">}}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mean_mcw_fp</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">w_fp</span><span class="si">}</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">mean_mcw_surr</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">w_su</span><span class="si">}</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">abs</span><span class="p">(</span><span class="n">mean_mcw_fp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">mean_mcw_surr</span><span class="p">)</span><span class="o">/</span><span class="n">mean_mcw_fp</span><span class="o">*</span><span class="mi">100</span><span class="si">:</span><span class="s2">&gt;</span><span class="si">{</span><span class="n">w_er</span><span class="o">-</span><span class="mi">1</span><span class="si">}</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">%&quot;</span>
+<span class="p">)</span>
+
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="c1"># Computational performance</span>
+<span class="c1"># ------------------------------------------------------------</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Computational Time:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;First-Principles (DWSIM):&#39;</span><span class="si">:</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">w_var</span><span class="si">}}</span><span class="s2"> </span><span class="si">{</span><span class="n">time_fp</span><span class="si">:</span><span class="s2">&gt;10.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;MLP Surrogate:&#39;</span><span class="si">:</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">w_var</span><span class="si">}}</span><span class="s2"> </span><span class="si">{</span><span class="n">time_surrogate</span><span class="si">:</span><span class="s2">&gt;10.2f</span><span class="si">}</span><span class="s2"> s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Speedup:&#39;</span><span class="si">:</span><span class="s2">&lt;</span><span class="si">{</span><span class="n">w_var</span><span class="si">}}</span><span class="s2"> </span><span class="si">{</span><span class="n">time_fp</span><span class="o">/</span><span class="n">time_surrogate</span><span class="si">:</span><span class="s2">&gt;10.1f</span><span class="si">}</span><span class="s2">× faster&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean Design Values from DIS*:
+
+Variable                                First-Principles (DWSIM)       MLP Surrogate  Rel. Error
+------------------------------------------------------------------------------------------------
+Hot inlet temperature, T_h,in [°C]                       89.6892             89.6894     0.0002%
+Cooling-water flowrate, m_cw [m³/h]                       9.6515              9.6847     0.3441%
+
+Computational Time:
+
+First-Principles (DWSIM):                  193.73 s
+MLP Surrogate:                               3.78 s
+Speedup:                                     51.3× faster
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<p>This case study demonstrates the effectiveness of <strong>surrogate-based operability analysis</strong>
+for realistic process engineering applications. By combining a <strong>first-principles
+phenomenological model</strong> implemented in <strong>DWSIM</strong> with a <strong>data-driven MLP surrogate</strong>,
+it was possible to accurately characterize the operational behavior of a process heat
+exchanger across a wide range of conditions.</p>
+<p>The results show that the surrogate model is able to <strong>reproduce the achievable output
+space and the Operability Index</strong> obtained from the high-fidelity DWSIM model with very
+low error, while providing a <strong>computational speedup of more than one order of magnitude</strong>.
+This performance gain enables dense forward mappings, efficient inverse mappings, and
+rapid feasibility assessments that would otherwise be impractical using only
+first-principles simulations.</p>
+<p>Through the computation of the <strong>Operability Index</strong> and the <strong>inverse mapping
+(DOS → DIS*)</strong>, the analysis provides not only a quantitative measure of process
+flexibility, but also practical insights into which input conditions can reliably satisfy
+desired operating specifications. The resulting DIS* offers actionable guidance for
+design, operation, and decision-making under uncertainty.</p>
+<p>Overall, this example highlights how the integration of <strong>process simulation,
+machine-learning surrogates, and operability analysis tools such as Opyrability</strong> forms a
+powerful framework for modern process engineering, bridging the gap between rigorous
+models and computationally efficient analysis workflows.</p>
+<p><strong>Acknowledgements</strong>
+This notebook reflects practical experience in industrial process simulation, surrogate
+modeling, and operability analysis. The author acknowledges the open-source community
+behind DWSIM, Opyrability, and scikit-learn for enabling reproducible and accessible
+advanced process engineering workflows.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "CODES-group/opyrability",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./examples_gallery"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-process-cooler-heat-exchanger">Case Study: Process Cooler (Heat Exchanger)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs-and-outputs">Inputs and Outputs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output-variable-definitions">Output Variable Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modeling-surrogate-strategy">Modeling + Surrogate Strategy</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dwsim-phenomenological-model-ground-truth">1) DWSIM phenomenological model (ground truth)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mlp-surrogate-model-fast-evaluator">2) MLP surrogate model (fast evaluator)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#operability-workflow-opyrability">3) Operability workflow (Opyrability)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#next-step">Next Step</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-to-dwsim">Connecting to DWSIM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#read-and-save-snapshot-definitions">Read and Save Snapshot Definitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#phenomenological-model-wrapper-dwsim">Phenomenological Model Wrapper (DWSIM)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-sanity-check">Quick Sanity Check</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-ais-and-forward-mapping-with-dwsim">Define AIS and Forward Mapping with DWSIM</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-training-data-using-latin-hypercube-sampling-lhs">Generate Training Data Using Latin Hypercube Sampling (LHS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#train-a-multi-output-mlp-surrogate-model">Train a Multi-Output MLP Surrogate Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#surrogate-model-wrapper-and-forward-mapping-ais-aos">Surrogate Model Wrapper and Forward Mapping (AIS → AOS)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operability-index-oi">Operability Index (OI)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inverse-mapping-dos-dis-via-nonlinear-programming-nlp">Inverse Mapping (DOS → DIS*) via Nonlinear Programming (NLP)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compute-representative-design-point-from-dis">Compute Representative Design Point from DIS*</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusion">Conclusion</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
