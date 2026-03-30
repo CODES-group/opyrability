@@ -4,8 +4,8 @@ import warnings
 import string
 from itertools import permutations as perms
 from typing import Callable, Union
-from tqdm.notebook import tqdm
-
+#from tqdm.notebook import tqdm
+from tqdm.auto import tqdm
 # Linear Algebra
 import numpy as np
 from numpy.linalg import norm
@@ -24,6 +24,9 @@ from polytope.polytope import _get_patch
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
+
+# Pyomo
+import pyomo.environ as pyo
 
 # Setting default plot options
 plt.rcParams['figure.dpi'] = 150
@@ -708,6 +711,7 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
                        plot: bool      = True, 
                        ad: bool        = False,
                        warmstart: bool = True,
+                       print_level: int = 5,
                        labels: str = None) -> Union[np.ndarray, np.ndarray, list]:
     '''
     Inverse mapping for Process Operability calculations. From a Desired Output
@@ -779,6 +783,9 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
         Turn on/off warm-start of NLP. If 'on', the sucessful solution of the
         current iteration is used as an estimate to the next one. Default is
         True.
+    print_level: int
+        Verbosity level to use in IPOPT/IPOPT APPSI. Defaults to 5.
+        Check for IPOPT`s print level usage at: <https://coin-or.github.io/Ipopt/OPTIONS.html#OPT_print_level>
     labels: str, Optional.
         labels for axes. Accepts TeX math input as it uses matplotlib math
         rendering. Should be in order u1,u2,u3, y1, y2, y3, and so on: 
@@ -916,129 +923,180 @@ def nlp_based_approach(model: Callable[..., Union[float, np.ndarray]],
     if ub.size == 0:
         ub = np.inf
 
-    # Inverse-mapping: Run for each DOS grid point
-    for i in tqdm(range(r)):
+    # VERIFY IF THE PASSED MODEL IS A PYOMO CONSTRUCTOR
+    if hasattr(model, 'build_pyomo_constraints') or hasattr(model, 'is_omlt'):
         
-        if constr is None:
+        warnings.warn("Pyomo/OMLT detected. Starting algebraic optimization.",
+                      UserWarning)
+
+        if ad is True:
+            warnings.warn("The 'ad=True' parameter is ignored when a Pyomo/OMLT model is provided,"
+                          "as exact derivatives are calculated natively.",
+                          UserWarning)
+
+        if constr is not None:
+            warnings.warn(
+                "The 'constr' argument is ignored when a Pyomo/OMLT function is provided. "
+                "Define your restrictions directly inside the builder function of the model.",
+                UserWarning
+            )
+
+        # Auxiliary variable for warmstart
+        current_u0 = u0 
+
+        for i in tqdm(range(r)):
+            m = pyo.ConcreteModel()
             
-            if ad is True:
-                if method == 'trust-constr':
-                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
-                                               args=(model, DOSPts[i, :]),
-                                               method=method,
-                                               options={'xtol': 1e-10},
-                                               jac=grad_ad)
-                                                # , hess = hess_ad)
+            def bounds_rule(model, j):
+                return (lb[j], ub[j])
+            
+            def init_rule(model, j):
+                return current_u0[j]
 
-                elif method == 'Nelder-Mead':
-                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
-                                               args=(model, DOSPts[i, :]),
-                                               method=method,
-                                               options={'fatol': 1e-10,
-                                                        'xatol': 1e-10},
-                                               jac=grad_ad)
-                                                # , hess = hess_ad)
+            m.u = pyo.Var(range(len(u0)), bounds=bounds_rule, initialize=init_rule)
+            m.y = pyo.Var(range(dimDOS))
+            
+            # Create model restrictions
+            model(m, m.u, m.y)
+            
+            # Define objective function
+            m.obj = pyo.Objective(expr=sum((m.y[j] - DOSPts[i, j])**2 for j in range(dimDOS)))
+            
+            # Solve with ipopt
+            solver = pyo.SolverFactory('ipopt')
+            # Optional: silence solvers output
+            solver.options['print_level'] = print_level
+            res = solver.solve(m, tee=False)
+            
+            message_list.append(str(res.solver.termination_condition))
 
-                elif method == 'ipopt':
-                    sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
-                                         args=(model, DOSPts[i, :]),
-                                         jac=grad_ad)
-                                         #, hess = hess_ad)
+            # Store results
+            fDIS[i, :] = [pyo.value(m.u[j]) for j in m.u]
+            fDOS[i, :] = [pyo.value(m.y[j]) for j in m.y]
 
-                elif method == 'DE':
-                    sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
-                             maxiter=2000, workers=-1, updating='deferred',
-                             init='sobol', args=(model, DOSPts[i, :]))
-            else:
-                if method == 'trust-constr':
-                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
-                                               args=(model, DOSPts[i, :]),
-                                               method=method,
-                                               options={'xtol': 1e-10})
-
-                elif method == 'Nelder-Mead':
-                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
-                                               args=(model, DOSPts[i, :]),
-                                               method=method,
-                                               options={'fatol': 1e-10,
-                                                        'xatol': 1e-10})
-
-                elif method == 'ipopt':
-                    sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
-                                         args=(model, DOSPts[i, :]))
-
-                elif method == 'DE':
-                    sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
-                             maxiter=2000, workers=-1, updating='deferred',
-                             init='sobol', args=(model, DOSPts[i, :]))
+            # Warmstart
+            if warmstart and (res.solver.termination_condition == pyo.TerminationCondition.optimal):
+                current_u0 = fDIS[i, :]
+            elif warmstart:
+                current_u0 = u0
+        
+    else:
+        # Inverse-mapping: Run for each DOS grid point
+        for i in tqdm(range(r)):
+            
+            if constr is None:
                 
+                if ad is True:
+                    if method == 'trust-constr':
+                        sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                                args=(model, DOSPts[i, :]),
+                                                method=method,
+                                                options={'xtol': 1e-10},
+                                                jac=grad_ad)
+                                                    # , hess = hess_ad)
+
+                    elif method == 'Nelder-Mead':
+                        sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                                args=(model, DOSPts[i, :]),
+                                                method=method,
+                                                options={'fatol': 1e-10,
+                                                            'xatol': 1e-10},
+                                                jac=grad_ad)
+                                                    # , hess = hess_ad)
+
+                    elif method == 'ipopt':
+                        sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
+                                            args=(model, DOSPts[i, :]),
+                                            jac=grad_ad)
+                                            #, hess = hess_ad)
+
+                    elif method == 'DE':
+                        sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
+                                maxiter=2000, workers=-1, updating='deferred',
+                                init='sobol', args=(model, DOSPts[i, :]))
+                else:
+                    if method == 'trust-constr':
+                        sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                                args=(model, DOSPts[i, :]),
+                                                method=method,
+                                                options={'xtol': 1e-10})
+
+                    elif method == 'Nelder-Mead':
+                        sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                                args=(model, DOSPts[i, :]),
+                                                method=method,
+                                                options={'fatol': 1e-10,
+                                                            'xatol': 1e-10})
+
+                    elif method == 'ipopt':
+                        sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
+                                            args=(model, DOSPts[i, :]))
+
+                    elif method == 'DE':
+                        sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
+                                maxiter=2000, workers=-1, updating='deferred',
+                                init='sobol', args=(model, DOSPts[i, :]))
+
+            else:
+                if method == 'ipopt':
+                    if ad==True:
+                        sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
+                                            constraints=(constr),
+                                            jac=grad_ad,
+                                            args=(model, DOSPts[i, :]))
+
+                    else:
+                        sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
+                                            constraints=(constr),
+                                            args=(model, DOSPts[i, :]))
+
+                elif method == 'DE':
+                    sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
+                            maxiter=2000, workers=-1, updating='deferred',
+                            init='sobol', constraints=(constr),
+                            args=(model, DOSPts[i, :]))
+
+                elif method == 'trust-constr':
+                    if ad is True:
+                        con_fun =  constr['fun']
+                        nlc = NonlinearConstraint((con_fun), -np.inf, 0,
+                                                jac= (jacrev(con_fun)),
+                                                hess=(jacrev(jacrev(con_fun))))
+                        sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                                args=(model, DOSPts[i, :]),
+                                                method=method, 
+                                                constraints=(nlc),
+                                                jac=grad_ad)
+                                                # , hess=hess_ad)
+                    else:
+                        sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
+                                                args=(model, DOSPts[i, :]),
+                                                method=method, 
+                                                constraints=(nlc))
 
             
-
-        else:
-            if method == 'ipopt':
-                if ad==True:
-                    sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
-                                         constraints=(constr),
-                                         jac=grad_ad,
-                                         args=(model, DOSPts[i, :]))
-
+            
+            # Append results into fDOS, fDIS and message list for each iteration
+            
+            if warmstart is True:
+                if sol.success is True:
+                    u0 = sol.x
                 else:
-                    sol = minimize_ipopt(p1, x0=u0, bounds=bounds,
-                                         constraints=(constr),
-                                         args=(model, DOSPts[i, :]))
-
-            elif method == 'DE':
-                sol = DE(p1, bounds=bounds, x0=u0, strategy='best1bin',
-                         maxiter=2000, workers=-1, updating='deferred',
-                         init='sobol', constraints=(constr),
-                         args=(model, DOSPts[i, :]))
-
-            elif method == 'trust-constr':
-                if ad is True:
-                    con_fun =  constr['fun']
-                    nlc = NonlinearConstraint((con_fun), -np.inf, 0,
-                                              jac= (jacrev(con_fun)),
-                                              hess=(jacrev(jacrev(con_fun))))
-                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
-                                               args=(model, DOSPts[i, :]),
-                                               method=method,
-                                               constraints=(nlc),
-                                               jac=grad_ad)
-                                               # , hess=hess_ad)
-                else:
-                    # Build NonlinearConstraint in both branches; without AD,
-                    # scipy falls back to finite-difference Jacobians/Hessians.
-                    con_fun = constr['fun']
-                    nlc = NonlinearConstraint((con_fun), -np.inf, 0)
-                    sol = sp.optimize.minimize(p1, x0=u0, bounds=bounds,
-                                               args=(model, DOSPts[i, :]),
-                                               method=method,
-                                               constraints=(nlc))
-
-        
-        
-        # Append results into fDOS, fDIS and message list for each iteration
-        
-        if warmstart is True:
-            if sol.success is True:
-                u0 = sol.x
+                    u0 = u00 # Reboot to first initial estimate
             else:
                 u0 = u00 # Reboot to first initial estimate
-        else:
-            u0 = u00 # Reboot to first initial estimate
+                
             
+            if ad is True:
+                fDOS = fDOS.at[i, :].set(model(sol.x))
+                fDIS = fDIS.at[i, :].set(sol.x)
+
+            elif ad is False:
+                fDOS[i, :] = model(sol.x)
+                fDIS[i, :] = sol.x
+
+            message_list.append(sol.message)
         
-        if ad is True:
-            fDOS = fDOS.at[i, :].set(model(sol.x))
-            fDIS = fDIS.at[i, :].set(sol.x)
-
-        elif ad is False:
-            fDOS[i, :] = model(sol.x)
-            fDIS[i, :] = sol.x
-
-        message_list.append(sol.message)
-    
     
     if fDIS.shape[1] > 3 and fDOS.shape[1] > 3:
         plot = False # Assignment, not comparison: disable plot for high-dimensional cases.
@@ -1358,7 +1416,8 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
                 AIS_bound: np.ndarray,
                 AIS_resolution: np.ndarray, 
                 EDS_bound: np.ndarray = None,
-                EDS_resolution: np.ndarray = None, 
+                EDS_resolution: np.ndarray = None,
+                output_dim: int = None,
                 plot: bool = True)-> Union[np.ndarray,np.ndarray]:
     '''
     Forward mapping for Process Operability calculations (From AIS to AOS). 
@@ -1389,7 +1448,10 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
         is 'None'.
     EDS_resolution : np.ndarray
         Resolution for the Expected Disturbance Set (EDS). This will be used to
-        discretize the EDS.   
+        discretize the EDS.
+    output_dim : int
+        Output dimension for the model. Mandatory for Pyomo/OMLT model usage. Default
+        is 'None'.
     plot: bool
         Turn on/off plot. If dimension is d<=3, plot is available and
         both the Achievable Output Set (AOS) and Available Input
@@ -1401,9 +1463,88 @@ def AIS2AOS_map(model: Callable[...,Union[float,np.ndarray]],
         Discretized Available Input Set (AIS).
     AOS : np.ndarray
         Discretized Available Output Set (AOS).
-        Discretized Available Output Set (AOS).
 
     '''
+
+    # --- PYOMO/OMLT SUPPORT ---
+    if hasattr(model, 'build_pyomo_constraints') or hasattr(model, 'is_omlt'):
+        
+        # Critical validation
+        if output_dim is None:
+            raise ValueError(
+                "For Pyomo/OML models in forward mapping, you SHOULD provide"
+                 " the 'output_dim' argument (number of output variables y)"
+            )
+
+        warnings.warn(
+                    "Pyomo/OMLT detected in Forward Mapping. Creating simulation proxy...",
+                    UserWarning
+            )
+        
+        m_sim = pyo.ConcreteModel()
+        
+        # Define total dimensions
+        total_inputs = AIS_bound.shape[0]
+        if EDS_bound is not None:
+            total_inputs += EDS_bound.shape[0]
+
+        m_sim.u = pyo.Var(range(total_inputs))
+        m_sim.y = pyo.Var(range(output_dim)) 
+        
+        # User builder is employed
+        model(m_sim, m_sim.u, m_sim.y)
+
+        # Create a dummy constant objective for simulations
+        m_sim.dummy_obj = pyo.Objective(expr=0, sense=pyo.minimize)
+        
+        # Solver preparation
+
+        # Try to load fast solver (APPSI)
+        solver_name = 'ipopt' # Fallback
+        try:
+            if pyo.SolverFactory('appsi_ipopt').available():
+                solver_name = 'appsi_ipopt'
+                warnings.warn(
+                    "Using IPOPT APPSI interface for faster simulation.",
+                    UserWarning
+                )
+        except Exception:
+            # Defaults to fallback
+            warnings.warn("Unable to start IPOPT APPSI interface. Defaults to fallback as regular IPOPT interface")
+            pass
+
+        sim_solver = pyo.SolverFactory(solver_name)
+        sim_solver.options['print_level'] = 0 
+        sim_solver.options['sb'] = 'yes'
+
+        if solver_name == 'ipopt':
+            # Performance optimization using warmstart strategy
+            sim_solver.options['mu_strategy'] = 'adaptive'
+            sim_solver.options['warm_start_init_point'] = 'yes'
+        
+        elif solver_name == 'appsi_ipopt':
+            pass
+
+        # Proxy definition
+        def pyomo_simulation_proxy(u_values):
+            for k in range(len(u_values)):
+                m_sim.u[k].fix(u_values[k])
+            
+            res = sim_solver.solve(m_sim, tee=False)
+            
+            # As Pyomo keeps the last values in m.y, the last values will be used
+            #    to calculate new ones if they are not resetted.
+
+            if res.solver.termination_condition != pyo.TerminationCondition.optimal:
+                # If fail, reset for a neutral value (0) 
+                for k in m_sim.y:
+                    m_sim.y[k].set_value(0) 
+                
+                return np.full(output_dim, np.nan)
+
+            return np.array([pyo.value(m_sim.y[k]) for k in m_sim.y])
+            
+        model = pyomo_simulation_proxy
     
     # Indexing
     # Check if both EDS parameters are None using identity checks.
@@ -1980,6 +2121,15 @@ def implicit_map(model:             Callable[...,Union[float,np.ndarray]],
     https://doi.org/10.1002/aic.18119
 
     '''
+
+    # --- PROTECTION AGAINST PYOMO/OMLT IN IMPLICIT MAP ---
+    if hasattr(model, 'build_pyomo_constraints') or hasattr(model, 'is_omlt'):
+        raise NotImplementedError(
+            "Implicit Mapping is not currently supported for Pyomo/OMLT models "
+            "due to dependencies on JAX JIT compilation. "
+            "Please use 'AIS2AOS_map' (Forward) or 'nlp_based_approach' (Inverse)."
+        )
+    # ------------------------------------------------------
     
     # Implicit function theorem and pre-configuration steps.
     if direction == 'forward':

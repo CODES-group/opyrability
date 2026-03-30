@@ -13,6 +13,7 @@ install_requires = \
  'numpy',
  'polytope>=0.2.4,<0.3.0',
  'scipy',
+ 'pyomo',
  'tqdm']
 
 setup_kwargs = {
