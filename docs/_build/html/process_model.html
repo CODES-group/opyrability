@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>The Process Model (M) - Programming Aspects &#8212; Opyrability&#39;s documentation.</title>
   
@@ -17,60 +16,62 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/cmu.css?v=cf4c8d3f" />
   
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'process_model';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Examples Gallery" href="examples_gallery/index_example_gallery.html" />
     <link rel="prev" title="opyrability" href="_autosummary/opyrability.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -86,19 +87,8 @@ const thebe_selector_output = ".output, .cell_output"
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -106,7 +96,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -114,8 +103,8 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -131,7 +120,8 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -161,17 +151,24 @@ const thebe_selector_output = ".output, .cell_output"
     
     
     <img src="_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
-    <script>document.write(`<img src="_static/opyrability_logo.png" class="logo__image only-dark" alt="Opyrability's documentation. - Home"/>`);</script>
+    <img src="_static/opyrability_logo.png" class="logo__image only-dark pst-js-only" alt="Opyrability's documentation. - Home"/>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Opyrability Documentation  
+                    Opyrability Documentation 
                 </a>
             </li>
         </ul>
@@ -196,9 +193,14 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -217,9 +219,9 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -244,14 +246,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/process_model.md" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onBinder"
+   title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="_static/images/logo_binder.svg">
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
   </span>
 <span class="btn__text-container">Binder</span>
 </a>
@@ -262,14 +264,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/process_model.md" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="_static/images/logo_colab.png">
+    <img alt="Colab logo" src="_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -412,7 +414,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -426,27 +428,19 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -469,6 +463,10 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-set-of-algebraic-equations">Process Model Defined as a Set of Algebraic Equations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-set-of-ordinary-differential-ode-equations">Process Model Defined as a Set of Ordinary Differential (ODE) Equations:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-dynamic-model-for-dynamic-operability">Process Model Defined as a Dynamic Model for Dynamic Operability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-a-dynamic-mapping-method">Choosing a dynamic mapping method</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -481,7 +479,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="the-process-model-m-programming-aspects">
-<h1>The Process Model (M) - Programming Aspects<a class="headerlink" href="#the-process-model-m-programming-aspects" title="Permalink to this heading">#</a></h1>
+<h1>The Process Model (M) - Programming Aspects<a class="headerlink" href="#the-process-model-m-programming-aspects" title="Link to this heading">#</a></h1>
 <p>Let’s recapitulate how the process model (M) is mathematically defined:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}M=\left\{\begin{array}{l}
@@ -518,8 +516,8 @@ in order to be opyrability-compatible:</p>
 </div>
 </div>
 <section id="process-model-defined-as-a-set-of-algebraic-equations">
-<h2>Process Model Defined as a Set of Algebraic Equations<a class="headerlink" href="#process-model-defined-as-a-set-of-algebraic-equations" title="Permalink to this heading">#</a></h2>
-<p>This might be the simplest case, one example being the <a class="reference internal" href="examples_gallery/operability_index_shower.html"><span class="doc std std-doc">Shower Problem</span></a><span id="id1">[<a class="reference internal" href="bibliography.html#id34" title="Fernando V. Lima, Zhenya Jia, Marianthi Ierapetritou, and Christos Georgakis. Similarities and differences between the concepts of operability and flexibility: the steady-state case. AIChE Journal, 56(3):702-716, 2010. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.12021, doi:https://doi.org/10.1002/aic.12021.">14</a>, <a class="reference internal" href="bibliography.html#id22" title="David R Vinson and Christos Georgakis. A new measure of process output controllability. Journal of Process Control, 10(2):185 - 194, 2000. URL: http://www.sciencedirect.com/science/article/pii/S0959152499000451, doi:https://doi.org/10.1016/S0959-1524(99)00045-1.">16</a>]</span>. The model equations
+<h2>Process Model Defined as a Set of Algebraic Equations<a class="headerlink" href="#process-model-defined-as-a-set-of-algebraic-equations" title="Link to this heading">#</a></h2>
+<p>This might be the simplest case, one example being the <a class="reference internal" href="examples_gallery/operability_index_shower.html"><span class="std std-doc">Shower Problem</span></a><span id="id1">[<a class="reference internal" href="bibliography.html#id34" title="Fernando V. Lima, Zhenya Jia, Marianthi Ierapetritou, and Christos Georgakis. Similarities and differences between the concepts of operability and flexibility: the steady-state case. AIChE Journal, 56(3):702-716, 2010. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.12021, doi:https://doi.org/10.1002/aic.12021.">18</a>, <a class="reference internal" href="bibliography.html#id22" title="David R Vinson and Christos Georgakis. A new measure of process output controllability. Journal of Process Control, 10(2):185 - 194, 2000. URL: http://www.sciencedirect.com/science/article/pii/S0959152499000451, doi:https://doi.org/10.1016/S0959-1524(99)00045-1.">21</a>]</span>. The model equations
 are explicit and algebraic, being solved directly. The process model Python function
 would be, in this case:</p>
 <div class="cell docutils container">
@@ -539,14 +537,14 @@ would be, in this case:</p>
 </div>
 </section>
 <section id="process-model-defined-as-a-set-of-ordinary-differential-ode-equations">
-<h2>Process Model Defined as a Set of Ordinary Differential (ODE) Equations:<a class="headerlink" href="#process-model-defined-as-a-set-of-ordinary-differential-ode-equations" title="Permalink to this heading">#</a></h2>
+<h2>Process Model Defined as a Set of Ordinary Differential (ODE) Equations:<a class="headerlink" href="#process-model-defined-as-a-set-of-ordinary-differential-ode-equations" title="Link to this heading">#</a></h2>
 <p>A more complex case is when the process model is defined as a system of equations.
 These can be nonlinear, algebraic and/or differential that need to be numerically
 integrated. Irrespective of the increased complexity, as long as you follow the
 syntax that is opyrability-compatible, the process operability calculations performed
 by opyrability will work effortlessly.</p>
 <p>One example is the
-<a class="reference internal" href="examples_gallery/membrane_reactor.html"><span class="doc std std-doc">DMA-MR</span></a> <span id="id2">[<a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">6</a>]</span>
+<a class="reference internal" href="examples_gallery/membrane_reactor.html"><span class="std std-doc">DMA-MR</span></a> <span id="id2">[<a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">7</a>]</span>
 in which the AIS variables are design parameters (tube length and tube diameter)
 and AOS variables correspond to methane conversion and benzene production. Both
 are calculated based on the calculated states of the following ODE system,
@@ -704,6 +702,119 @@ allocating the tube length and tube diameter values, respectively. The return
 is also a two-dimensional array, allocating the benzene production and methane
 conversion. Note that the system is numerically integrated using <code class="docutils literal notranslate"><span class="pre">jax.experimental.ode.odeint</span></code>.</p>
 </section>
+<section id="process-model-defined-as-a-dynamic-model-for-dynamic-operability">
+<h2>Process Model Defined as a Dynamic Model for Dynamic Operability<a class="headerlink" href="#process-model-defined-as-a-dynamic-model-for-dynamic-operability" title="Link to this heading">#</a></h2>
+<p>The two cases above collapse the process model to a <em>steady-state</em> map: even when
+the model contains differential equations, they are integrated internally and only
+the final outputs <code class="docutils literal notranslate"><span class="pre">y</span></code> are returned. For <strong>dynamic operability analysis</strong>
+<span id="id3">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>, <a class="reference internal" href="bibliography.html#id46" title="San Dinh and Fernando V. Lima. Linear dynamic operability analysis with state-space projection for the online construction of achievable output funnels. Computers and Chemical Engineering, 205:109428, 2026. URL: https://doi.org/10.1016/j.compchemeng.2025.109428, doi:10.1016/j.compchemeng.2025.109428.">11</a>]</span>, the time evolution of the process matters, and the model
+must instead describe how the state advances over one sampling period. In the
+mathematical definition of <span class="math notranslate nohighlight">\(M\)</span> at the top of this page, this corresponds to keeping
+the state equation <span class="math notranslate nohighlight">\(\dot{x}_s=f\left(x_s, u, d\right)\)</span> alive instead of setting
+<span class="math notranslate nohighlight">\(\dot{x}_s = 0\)</span>. After time discretization, the model becomes a <em>step model</em>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{array}{l}
+x(k+1)=f_d\left(x(k), u(k), d(k)\right) \\
+y(k)=g\left(x(k), u(k), d(k)\right)
+\end{array}\end{split}\]</div>
+<p>The opyrability-compatible syntax for a step model is a Python function that takes
+the current state and the inputs held over one sampling period, and returns the
+state at the next sampling instant together with the outputs:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>    <span class="k">def</span><span class="w"> </span><span class="nf">step_model</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1"># x is the current state vector.</span>
+        <span class="c1"># u is a vector with the AIS variables,</span>
+        <span class="c1"># held constant over one sampling period.</span>
+        <span class="c1"># d is an optional vector with the EDS variables.</span>
+
+        <span class="n">x_next</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>   <span class="c1"># state at the next sampling instant</span>
+        <span class="n">y</span>      <span class="o">=</span> <span class="n">g</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>   <span class="c1"># outputs (AOS variables)</span>
+
+        <span class="k">return</span> <span class="n">x_next</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The state <code class="docutils literal notranslate"><span class="pre">x</span></code> can be anything from a couple of variables to the full spatial
+profile of a discretized PDE model with hundreds of states: the high-level
+function <code class="docutils literal notranslate"><span class="pre">dynamic_operability</span></code> automatically selects a propagation method that
+is suitable for the state dimension (state-space projection for low-dimensional
+states, n-step simulation otherwise).</p>
+<p>For <strong>linear time-invariant (LTI) systems</strong>, the step model does not need to be
+written at all. The model can be given directly as a dictionary of discrete-time
+state-space matrices, which activates an exact and fast funnel construction based
+on Minkowski sums and affine transformations <span id="id4">[<a class="reference internal" href="bibliography.html#id46" title="San Dinh and Fernando V. Lima. Linear dynamic operability analysis with state-space projection for the online construction of achievable output funnels. Computers and Chemical Engineering, 205:109428, 2026. URL: https://doi.org/10.1016/j.compchemeng.2025.109428, doi:10.1016/j.compchemeng.2025.109428.">11</a>]</span>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># x(k+1) = A x(k) + B u(k) (+ B_d d(k))</span>
+<span class="c1"># y(k)   = C x(k)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="n">A</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="n">B</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="n">C</span><span class="p">}</span>   <span class="c1"># optionally also &#39;B_d&#39;: B_d</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">dynamic_operability</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">AIS_bounds</span><span class="p">,</span> <span class="n">DOS</span><span class="o">=</span><span class="n">DOS_bounds</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Identified models are usually expressed in deviation variables around the
+nominal operating point. Supplying the nominal values in the model dictionary
+(<code class="docutils literal notranslate"><span class="pre">'u_ref'</span></code>, <code class="docutils literal notranslate"><span class="pre">'y_ref'</span></code>, and optionally <code class="docutils literal notranslate"><span class="pre">'d_ref'</span></code>) lets the AIS, DOS, and EDS
+bounds be given directly in absolute engineering units: deviations are formed
+internally and the nominal output values are added back to the results.</p>
+<p>Both model forms are consumed by the same two high-level functions:
+<code class="docutils literal notranslate"><span class="pre">dynamic_operability</span></code>, which maps the dynamic achievable output funnel and
+evaluates the dynamic Operability Index (dOI) in a single call, and
+<code class="docutils literal notranslate"><span class="pre">dynamic_operability_scenarios</span></code>, which intersects funnels across disturbance
+scenarios to quantify the outputs achievable regardless of the disturbance
+realization. The
+<a class="reference internal" href="examples_gallery/dynamic_dma_mr.html"><span class="std std-doc">dynamic DMA-MR</span></a> example illustrates the
+nonlinear step-model case with a 160-state reactor model, and the
+<a class="reference internal" href="examples_gallery/dynamic_hyper.html"><span class="std std-doc">HYPER</span></a> example illustrates the LTI
+matrices case with funnels constructed in about a second over a 20-step horizon.</p>
+<section id="choosing-a-dynamic-mapping-method">
+<h3>Choosing a dynamic mapping method<a class="headerlink" href="#choosing-a-dynamic-mapping-method" title="Link to this heading">#</a></h3>
+<p>The three mapping methods are not competitors but a workflow: screen with the
+linear method, refine with the nonlinear projection on a reduced model when
+gain nonlinearity matters, and verify against the rigorous model with the
+n-step method. The
+<a class="reference internal" href="examples_gallery/dynamic_methods_comparison.html"><span class="std std-doc">methods comparison</span></a>
+example demonstrates all three on the same problem. As a selection guide:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>The question being asked</p></th>
+<th class="head"><p>Method</p></th>
+<th class="head"><p>Model it runs on</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Is the control structure and input authority adequate? What prediction horizon does the controller need?</p></td>
+<td><p>Linear projection</p></td>
+<td><p>Identified LTI (<code class="docutils literal notranslate"><span class="pre">identify_lti_step_tests</span></code> builds one from step tests)</p></td>
+</tr>
+<tr class="row-odd"><td><p>What can be guaranteed under Gaussian disturbances, online?</p></td>
+<td><p>Linear projection + <code class="docutils literal notranslate"><span class="pre">update_dynamic_funnel</span></code> + <code class="docutils literal notranslate"><span class="pre">gaussian_robust_funnel</span></code></p></td>
+<td><p>Identified LTI</p></td>
+</tr>
+<tr class="row-even"><td><p>Does gain nonlinearity over a wide AIS change the verdict?</p></td>
+<td><p>Nonlinear projection (<code class="docutils literal notranslate"><span class="pre">method='projection'</span></code>)</p></td>
+<td><p>Reduced nonlinear model (a few states)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Is this design dynamically operable according to the rigorous model?</p></td>
+<td><p>n-step simulation (<code class="docutils literal notranslate"><span class="pre">method='nstep'</span></code>)</p></td>
+<td><p>Full first-principles model (any state dimension)</p></td>
+</tr>
+<tr class="row-even"><td><p>How much accuracy does a reduced model lose?</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">plot_funnel_comparison</span></code></p></td>
+<td><p>All of the above</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>All methods share the same assumptions: inputs held constant between sampling
+instants (zero-order hold) at a fixed time step, a stable process (so the
+funnel converges to a time-invariant set), and full state knowledge (no state
+estimator). The results are controller-independent by construction: they
+quantify what the process can do, not what a particular controller will do.</p>
+</section>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -761,17 +872,23 @@ conversion. Note that the system is numerically integrated using <code class="do
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-set-of-algebraic-equations">Process Model Defined as a Set of Algebraic Equations</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-set-of-ordinary-differential-ode-equations">Process Model Defined as a Set of Ordinary Differential (ODE) Equations:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-model-defined-as-a-dynamic-model-for-dynamic-operability">Process Model Defined as a Dynamic Model for Dynamic Operability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#choosing-a-dynamic-mapping-method">Choosing a dynamic mapping method</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
@@ -786,7 +903,7 @@ conversion. Note that the system is numerically integrated using <code class="do
   <div class="footer-item">
     
 <p class="component-author">
-By Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+By Victor Alves - Carnegie Mellon University.
 </p>
 
   </div>
@@ -796,7 +913,7 @@ By Victor Alves et al., Control, Optimization and Design for Energy and Sustaina
 
   <p class="copyright">
     
-      © Copyright 2022-2025.
+      © Copyright 2022-2026.
       <br/>
     
   </p>
@@ -820,8 +937,8 @@ By Victor Alves et al., Control, Optimization and Design for Energy and Sustaina
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

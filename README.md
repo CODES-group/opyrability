@@ -5,7 +5,7 @@
 
 Welcome to opyrability, a Python-based package for performing [Process Operability](https://www.sciencedirect.com/science/article/pii/S1474667017338028) analysis.
 
-opyrability is developed by the [Control, Optimization and Design for Energy and Sustainability (CODES) Group](https://fernandolima.faculty.wvu.edu/) at West Virginia University.
+opyrability is developed and maintained by [Victor Alves](https://victor-alves.com) at Carnegie Mellon University. Its development began in the [Control, Optimization and Design for Energy and Sustainability (CODES) Group](https://fernandolima.faculty.wvu.edu/) at West Virginia University by Victor Alves and San Dinh.
 
 ![](/docs/opyrability_overview.png)
 
@@ -47,28 +47,16 @@ A paper describing opyrability's main functionalities is available in the Journa
 
 ## Installation
 
-The Anaconda distribution is needed to have some of opyrability's dependencies.
-
-### From PyPI/conda (Windows, Linux and macOS):
-
-The following commands will install opyrability and all dependencies on any OS (Windows, Linux and macOS):
+### From PyPI (Windows, Linux and macOS):
 
 ```console
 pip install opyrability
 ```
 
-Then install [Cyipopt](https://github.com/mechmotum/cyipopt) from **conda**:
+This installs all required dependencies, including the default Pounce solver. The optional IPOPT backend (`method='ipopt'`) needs cyipopt, which is easiest to install from conda:
 
 ```console
 conda install -c conda-forge cyipopt
-```
-
-### From conda (Linux and macOS only):
-
-The single command below will install opyrability and all requirements/dependencies on Linux/macOS  operating systems automatically:
-
-```console
-conda install -c codes-group -c conda-forge opyrability
 ```
 
 

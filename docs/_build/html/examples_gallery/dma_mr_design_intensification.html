@@ -1,0 +1,992 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Modular Designs, Same Performance: Operability-Based Intensification of a Membrane Reactor (P1, P2, P3 and the Multilayer MILP) &#8212; Opyrability&#39;s documentation.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmu.css?v=cf4c8d3f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="application/vnd.jupyter.widget-state+json">{"state": {"00af84ab2f43437895d5d4ff0a60d7c5": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "085064a582584bd1a18a375d84f1ff41": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "13fff0a0a8c743488b597f5ad4897ef7": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "174247017a6b4ec8a797e41632a0040a": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "23f25e5b83b44aeabf5557353baccda2": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HBoxModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_d575dab204de443b8ef395645a828ff1", "IPY_MODEL_d40dc20abad64f09b9685571bd5679b5", "IPY_MODEL_ee4e30a33389423391222077bc34e610"], "layout": "IPY_MODEL_d3dcaf08810c4dca9d6d6a2c6f8c3cde", "tabbable": null, "tooltip": null}}, "2ab0c43dd8ba448dbe6c8921ca324a98": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "394500b2ef8342ad8e808e36046d78ba": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "469781113fab4afe8021874630892b3d": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "5531ed62f0ba44a3849a1fd109e2e46c": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "5cb1d6db882946b681b668f875f2f45f": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "6492f621bd434a58a564b9f0c793b280": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "6820596308b64c05b3c69e4743dd21e5": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HBoxModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_c3de33738e6c4ef29cf92fd583b6608f", "IPY_MODEL_e8aca1f88ba848c1ac74961155da2ec7", "IPY_MODEL_dab0c2e16d4d4296849ab54dade974f9"], "layout": "IPY_MODEL_394500b2ef8342ad8e808e36046d78ba", "tabbable": null, "tooltip": null}}, "6db95868335446deac202b6c904ef480": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "7c0cd8e16d4a43f086a247be9967956d": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "ProgressStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "a3c2e71f6dbd4a00885d00349d8ed962": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "aad28943d6a24e4e82e8a20a00a07cca": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "b4150eac7c73447ea2bdae907fcfcccc": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "FloatProgressModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_5cb1d6db882946b681b668f875f2f45f", "max": 25, "min": 0, "orientation": "horizontal", "style": "IPY_MODEL_e17d8cf6af254bdfb545bda977fc08be", "tabbable": null, "tooltip": null, "value": 25}}, "c3de33738e6c4ef29cf92fd583b6608f": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_d64f3fcd7a6e48b78b93c10d9a6f4d79", "placeholder": "\u200b", "style": "IPY_MODEL_a3c2e71f6dbd4a00885d00349d8ed962", "tabbable": null, "tooltip": null, "value": "100%"}}, "cf7d889f012c42528ab61bbb80beeee1": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_2ab0c43dd8ba448dbe6c8921ca324a98", "placeholder": "\u200b", "style": "IPY_MODEL_eda128a32391455a8db8466e33ecd87f", "tabbable": null, "tooltip": null, "value": "100%"}}, "d3dcaf08810c4dca9d6d6a2c6f8c3cde": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "d40dc20abad64f09b9685571bd5679b5": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "FloatProgressModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_ecb37b365e7b4ec793f579a596becf75", "max": 25, "min": 0, "orientation": "horizontal", "style": "IPY_MODEL_d5d9e5bb9419415688a5cc31b51cb53f", "tabbable": null, "tooltip": null, "value": 25}}, "d575dab204de443b8ef395645a828ff1": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_aad28943d6a24e4e82e8a20a00a07cca", "placeholder": "\u200b", "style": "IPY_MODEL_174247017a6b4ec8a797e41632a0040a", "tabbable": null, "tooltip": null, "value": "100%"}}, "d5d9e5bb9419415688a5cc31b51cb53f": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "ProgressStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "d64f3fcd7a6e48b78b93c10d9a6f4d79": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "dab0c2e16d4d4296849ab54dade974f9": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_13fff0a0a8c743488b597f5ad4897ef7", "placeholder": "\u200b", "style": "IPY_MODEL_469781113fab4afe8021874630892b3d", "tabbable": null, "tooltip": null, "value": "\u200725/25\u2007[00:09&lt;00:00,\u2007\u20072.91it/s]"}}, "e17d8cf6af254bdfb545bda977fc08be": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "ProgressStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "ProgressStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "bar_color": null, "description_width": ""}}, "e24de8a3d75249f3b5af43ada41199e5": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "e8aca1f88ba848c1ac74961155da2ec7": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "FloatProgressModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "FloatProgressModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "ProgressView", "bar_style": "success", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_00af84ab2f43437895d5d4ff0a60d7c5", "max": 25, "min": 0, "orientation": "horizontal", "style": "IPY_MODEL_7c0cd8e16d4a43f086a247be9967956d", "tabbable": null, "tooltip": null, "value": 25}}, "ecb37b365e7b4ec793f579a596becf75": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {"_model_module": "@jupyter-widgets/base", "_model_module_version": "2.0.0", "_model_name": "LayoutModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "LayoutView", "align_content": null, "align_items": null, "align_self": null, "border_bottom": null, "border_left": null, "border_right": null, "border_top": null, "bottom": null, "display": null, "flex": null, "flex_flow": null, "grid_area": null, "grid_auto_columns": null, "grid_auto_flow": null, "grid_auto_rows": null, "grid_column": null, "grid_gap": null, "grid_row": null, "grid_template_areas": null, "grid_template_columns": null, "grid_template_rows": null, "height": null, "justify_content": null, "justify_items": null, "left": null, "margin": null, "max_height": null, "max_width": null, "min_height": null, "min_width": null, "object_fit": null, "object_position": null, "order": null, "overflow": null, "padding": null, "right": null, "top": null, "visibility": null, "width": null}}, "eda128a32391455a8db8466e33ecd87f": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLStyleModel", "_view_count": null, "_view_module": "@jupyter-widgets/base", "_view_module_version": "2.0.0", "_view_name": "StyleView", "background": null, "description_width": "", "font_size": null, "text_color": null}}, "ee3bf44b4f434424bb66283ea7370fe3": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_e24de8a3d75249f3b5af43ada41199e5", "placeholder": "\u200b", "style": "IPY_MODEL_6492f621bd434a58a564b9f0c793b280", "tabbable": null, "tooltip": null, "value": "\u200725/25\u2007[02:06&lt;00:00,\u2007\u20072.41s/it]"}}, "ee4e30a33389423391222077bc34e610": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HTMLModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HTMLView", "description": "", "description_allow_html": false, "layout": "IPY_MODEL_085064a582584bd1a18a375d84f1ff41", "placeholder": "\u200b", "style": "IPY_MODEL_5531ed62f0ba44a3849a1fd109e2e46c", "tabbable": null, "tooltip": null, "value": "\u200725/25\u2007[02:16&lt;00:00,\u2007\u20072.78s/it]"}}, "ff69d6af070644a5906ba793b02c3a47": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "HBoxModel", "state": {"_dom_classes": [], "_model_module": "@jupyter-widgets/controls", "_model_module_version": "2.0.0", "_model_name": "HBoxModel", "_view_count": null, "_view_module": "@jupyter-widgets/controls", "_view_module_version": "2.0.0", "_view_name": "HBoxView", "box_style": "", "children": ["IPY_MODEL_cf7d889f012c42528ab61bbb80beeee1", "IPY_MODEL_b4150eac7c73447ea2bdae907fcfcccc", "IPY_MODEL_ee3bf44b4f434424bb66283ea7370fe3"], "layout": "IPY_MODEL_6db95868335446deac202b6c904ef480", "tabbable": null, "tooltip": null}}}, "version_major": 2, "version_minor": 0}</script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script crossorigin="anonymous" data-jupyter-widgets-cdn="https://cdn.jsdelivr.net/npm/" src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@1.0.6/dist/embed-amd.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/dma_mr_design_intensification';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
+    <img src="../_static/opyrability_logo.png" class="logo__image only-dark pst-js-only" alt="Opyrability's documentation. - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Opyrability Documentation 
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../process_model.html">The Process Model (M) - Programming Aspects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_example_gallery.html">Examples Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/dma_mr_design_intensification.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/dma_mr_design_intensification.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/dma_mr_design_intensification.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples_gallery/dma_mr_design_intensification.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modular Designs, Same Performance: Operability-Based Intensification of a Membrane Reactor (P1, P2, P3 and the Multilayer MILP)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-p1-inverse-mapping-for-the-feasible-design-region">Problem P1: inverse mapping for the feasible design region</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-p2-process-intensification-over-the-feasible-designs">Problem P2: process intensification over the feasible designs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-p3-the-bilevel-operability-framework">Problem P3: the bilevel operability framework</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multilayer-milp-optimal-modular-design-in-seconds">The multilayer MILP: optimal modular design in seconds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-the-approaches">Comparing the approaches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="modular-designs-same-performance-operability-based-intensification-of-a-membrane-reactor-p1-p2-p3-and-the-multilayer-milp">
+<h1>Modular Designs, Same Performance: Operability-Based Intensification of a Membrane Reactor (P1, P2, P3 and the Multilayer MILP)<a class="headerlink" href="#modular-designs-same-performance-operability-based-intensification-of-a-membrane-reactor-p1-p2-p3-and-the-multilayer-milp" title="Link to this heading">#</a></h1>
+<p>Author: Victor Alves  - Carnegie Mellon University</p>
+<p>This case study consists of a membrane reactor for direct methane aromatization (DMA-MR) that allows hydrogen and benzene production from natural gas. Beyond asking which designs are feasible, process intensification asks for the <strong>smallest</strong> (or cheapest) design that still delivers a desired level of performance. This tutorial walks through the complete family of operability-based design optimization problems on the DMA-MR:</p>
+<ul class="simple">
+<li><p><strong>P1</strong>, the classic inverse mapping <span id="id1">[<a class="reference internal" href="../bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">6</a>, <a class="reference internal" href="../bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">7</a>]</span>: from a Desired Output Set (DOS), compute the feasible desired input set (DIS*) and its outputs (DOS*) by minimizing the relative error to each DOS point;</p></li>
+<li><p><strong>P2</strong>, process intensification <span id="id2">[<a class="reference internal" href="../bibliography.html#id47" title="Juan C. Carrasco. Operability-Based Design of Energy Systems: Application to Natural Gas Utilization Processes. PhD dissertation, West Virginia University, 2017. Graduate Theses, Dissertations, and Problem Reports.">4</a>, <a class="reference internal" href="../bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">7</a>]</span>: among the DIS* designs that satisfy a desired level of performance, select the one minimizing an intensification target <span class="math notranslate nohighlight">\(\Omega = \min \mathrm{PI}_{\mathrm{target}}\)</span> (reactor volume, membrane area);</p></li>
+<li><p><strong>P3</strong>, the bilevel operability framework <span id="id3">[<a class="reference internal" href="../bibliography.html#id47" title="Juan C. Carrasco. Operability-Based Design of Energy Systems: Application to Natural Gas Utilization Processes. PhD dissertation, West Virginia University, 2017. Graduate Theses, Dissertations, and Problem Reports.">4</a>, <a class="reference internal" href="../bibliography.html#id25" title="Juan C. Carrasco and Fernando V. Lima. Bilevel and parallel programing-based operability approaches for process intensification and modularity. AIChE Journal, 64(8):3042-3054, 2018. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.16113, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.16113, doi:https://doi.org/10.1002/aic.16113.">8</a>]</span>: the nested program whose inner level is P1 and whose outer level minimizes the PI target, solved through its validated sequential equivalence;</p></li>
+<li><p>the <strong>multilayer MILP</strong> of Gazzaneo and Lima <span id="id4">[<a class="reference internal" href="../bibliography.html#id33" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">13</a>, <a class="reference internal" href="../bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">15</a>]</span>: a mixed-integer linear program (MILP) over the multimodel polytope representation that finds the optimal modular design in seconds, iteratively refining the design space.</p></li>
+</ul>
+<p>In this case study, some of opyrability’s features are highlighted, such as:</p>
+<ul class="simple">
+<li><p>Inverse mapping with the problem switch <code class="docutils literal notranslate"><span class="pre">problem='P1'</span> <span class="pre">|</span> <span class="pre">'P2'</span> <span class="pre">|</span> <span class="pre">'P3'</span></code> and a user-defined <code class="docutils literal notranslate"><span class="pre">PI_target</span></code></p></li>
+<li><p>P2 as a postprocessing step on the P1 feasible region (rank the returned DIS*/DOS* by any intensification metric)</p></li>
+<li><p>The MILP-based iterative design algorithm <code class="docutils literal notranslate"><span class="pre">milp_based_approach</span></code> (solved with the HiGHS solver bundled in scipy)</p></li>
+<li><p>Automatic differentiation (JAX) for exact gradients in the inverse mapping</p></li>
+</ul>
+<p>The schematic below <span id="id5">[<a class="reference internal" href="../bibliography.html#id38" title="Victor Alves, John R. Kitchin, and Fernando V. Lima. An inverse mapping approach for process systems engineering using automatic differentiation and the implicit function theorem. AIChE Journal, 69(9):e18119, 2023. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.18119, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.18119, doi:https://doi.org/10.1002/aic.18119.">3</a>]</span> depicts the membrane reactor in a nutshell:</p>
+<p><img alt="" src="../_images/dma-schematic.png" /></p>
+<p>The two design variables are the reactor length <span class="math notranslate nohighlight">\(u_1 = L\)</span> [cm] and the tube diameter <span class="math notranslate nohighlight">\(u_2 = d_t\)</span> [cm]; the outputs are the benzene production rate <span class="math notranslate nohighlight">\(y_1\)</span> [mg/h] and the methane conversion <span class="math notranslate nohighlight">\(y_2\)</span> [%]. For details on the first-principles model equations, see the <a class="reference internal" href="membrane_reactor.html"><span class="std std-doc">Membrane Reactor example</span></a> in this gallery. The model is defined in full in the next cell so this notebook is self-contained (it is the same <code class="docutils literal notranslate"><span class="pre">dma_mr_design</span></code> that ships in opyrability’s test suite).</p>
+<p><strong>Variables:</strong></p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Input (AIS/DIS)</p></th>
+<th class="head"><p>Output (AOS/DOS)</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Reactor length <span class="math notranslate nohighlight">\(L\)</span> [cm]</p></td>
+<td><p>Benzene production [mg/h]</p></td>
+</tr>
+<tr class="row-odd"><td><p>Tube diameter <span class="math notranslate nohighlight">\(d_t\)</span> [cm]</p></td>
+<td><p>Methane conversion [%]</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In this case study, P1 will be solved over a DOS grid to obtain the DIS*/DOS* sets. Then, P2 will solve P1 internally and select the intensified design minimizing the reactor volume for a desired level of performance (benzene production of at least <span class="math notranslate nohighlight">\(20\)</span> [mg/h]); because P2 returns the feasible region, a second metric (membrane area) is obtained by ranking that same region, with no extra solve. P3 will solve the same task as a single bilevel call, and finally the multilayer MILP will find the optimal modular design from scratch in fractions of a second. The plug-flow design constraint <span class="math notranslate nohighlight">\(L/d_t \geq 30\)</span> <span id="id6">[<a class="reference internal" href="../bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">7</a>]</span> is enforced throughout.</p>
+<p>Let’s start by importing the packages and defining the DMA-MR design model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">pi</span> <span class="k">as</span> <span class="n">pi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax.experimental.ode</span><span class="w"> </span><span class="kn">import</span> <span class="n">odeint</span>
+
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+<span class="c1"># DMA-MR design model (self-contained copy of opyrability&#39;s test model</span>
+<span class="c1"># tests/dma_mr.py). u = [L, dt] -&gt; y = [benzene mg/h, CH4 conversion %].</span>
+<span class="c1"># --------------------------------------------------------------------------- #</span>
+
+<span class="c1"># Kinetic and general parameters.</span>
+<span class="n">R</span> <span class="o">=</span> <span class="mf">8.314e6</span>                 <span class="c1"># [Pa.cm3/(K.mol)]</span>
+<span class="n">k1</span> <span class="o">=</span> <span class="mf">0.04</span>                   <span class="c1"># [s-1]</span>
+<span class="n">k1_Inv</span> <span class="o">=</span> <span class="mf">6.40e6</span>             <span class="c1"># [cm3/s-mol]</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="mf">4.20</span>                   <span class="c1"># [s-1]</span>
+<span class="n">k2_Inv</span> <span class="o">=</span> <span class="mf">56.38</span>              <span class="c1"># [cm3/s-mol]</span>
+
+<span class="n">MM_B</span> <span class="o">=</span> <span class="mf">78.00</span>                <span class="c1"># Benzene molecular weight [g/mol]</span>
+
+<span class="c1"># Fixed reactor values.</span>
+<span class="n">T</span> <span class="o">=</span> <span class="mf">1173.15</span>                 <span class="c1"># Temperature [K] = 900 C (isothermal)</span>
+<span class="n">Q</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="mf">0.01e-4</span>          <span class="c1"># [mol/(h.cm2.atm^0.25)]</span>
+<span class="n">selec</span> <span class="o">=</span> <span class="mi">1500</span>                <span class="c1"># Membrane selectivity</span>
+
+<span class="c1"># Tube side.</span>
+<span class="n">Pt</span> <span class="o">=</span> <span class="mf">101325.0</span>               <span class="c1"># Pressure [Pa] (1 atm)</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">15</span><span class="p">)</span>        <span class="c1"># Volumetric flowrate [cm3/h]</span>
+<span class="n">Ft0</span> <span class="o">=</span> <span class="n">Pt</span> <span class="o">*</span> <span class="n">v0</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>     <span class="c1"># Initial molar flowrate [mol/h] - pure CH4</span>
+
+<span class="c1"># Shell side.</span>
+<span class="n">Ps</span> <span class="o">=</span> <span class="mf">101325.0</span>               <span class="c1"># Pressure [Pa] (1 atm)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="mi">3</span>                      <span class="c1"># Diameter [cm]</span>
+<span class="n">v_He</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>       <span class="c1"># Sweep gas volumetric flowrate [cm3/h]</span>
+<span class="n">F_He</span> <span class="o">=</span> <span class="n">Ps</span> <span class="o">*</span> <span class="n">v_He</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>  <span class="c1"># Sweep gas molar flowrate [mol/h]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dma_mr_jax</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spatial molar balances (8 species: 4 tube + 4 shell), JAX-compatible.&quot;&quot;&quot;</span>
+    <span class="n">At</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">dt</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># Cross-sectional area [cm2].</span>
+
+    <span class="c1"># Avoid negative flows in the first integration steps (the ^0.25 terms</span>
+    <span class="c1"># would otherwise produce complex numbers).</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">F</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="n">F</span><span class="p">)</span>
+
+    <span class="c1"># Total flowrate in tube and shell.</span>
+    <span class="n">Ft</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">Fs</span> <span class="o">=</span> <span class="n">F</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">F_He</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">v0</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft</span> <span class="o">/</span> <span class="n">Ft0</span><span class="p">)</span>
+
+    <span class="c1"># Concentrations [mol/cm3] and partial pressures (tube and shell).</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="n">F</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="n">v</span>
+    <span class="n">P0t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P1t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P2t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P3t</span> <span class="o">=</span> <span class="p">(</span><span class="n">Pt</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">/</span> <span class="n">Ft</span><span class="p">)</span>
+    <span class="n">P0s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    <span class="n">P1s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    <span class="n">P2s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+    <span class="n">P3s</span> <span class="o">=</span> <span class="p">(</span><span class="n">Ps</span> <span class="o">/</span> <span class="mi">101325</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="o">/</span> <span class="n">Fs</span><span class="p">)</span>
+
+    <span class="c1"># Reaction rates (guarded against near-zero concentrations).</span>
+    <span class="n">r0</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k1</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k1_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span>
+                                  <span class="p">(</span><span class="n">k1</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)))</span>
+    <span class="n">r0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r0</span><span class="p">)</span>
+    <span class="n">r1</span> <span class="o">=</span> <span class="mi">3600</span> <span class="o">*</span> <span class="n">k2</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">((</span><span class="n">k2_Inv</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span>
+                                  <span class="p">(</span><span class="n">k2</span> <span class="o">*</span> <span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">**</span> <span class="mi">3</span><span class="p">)))</span>
+    <span class="n">r1</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1e-9</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">r1</span><span class="p">)</span>
+
+    <span class="c1"># Molar-balance adjustment with experimental data.</span>
+    <span class="n">eff</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">vb</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">Cat</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">vb</span><span class="p">)</span> <span class="o">*</span> <span class="n">eff</span>
+
+    <span class="c1"># Molar balances dF/dz - tube (0 to 3) and shell (4 to 7).</span>
+    <span class="n">dF0</span> <span class="o">=</span> <span class="o">-</span><span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P0t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P0s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF1</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P1t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P1s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF2</span> <span class="o">=</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r0</span> <span class="o">*</span> <span class="n">At</span> <span class="o">+</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P2t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P2s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF3</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">Cat</span> <span class="o">*</span> <span class="n">r1</span> <span class="o">*</span> <span class="n">At</span> <span class="o">-</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P3t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P3s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF4</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P0t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P0s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF5</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P1t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P1s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF6</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P2t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P2s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">dF7</span> <span class="o">=</span> <span class="p">(</span><span class="n">Q</span> <span class="o">/</span> <span class="n">selec</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">P3t</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">P3s</span> <span class="o">**</span> <span class="mf">0.25</span><span class="p">))</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">dt</span>
+
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dF0</span><span class="p">,</span> <span class="n">dF1</span><span class="p">,</span> <span class="n">dF2</span><span class="p">,</span> <span class="n">dF3</span><span class="p">,</span> <span class="n">dF4</span><span class="p">,</span> <span class="n">dF5</span><span class="p">,</span> <span class="n">dF6</span><span class="p">,</span> <span class="n">dF7</span><span class="p">])</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">dma_mr_design</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DMA-MR design model: integrate the molar balances along the reactor.&quot;&quot;&quot;</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>                    <span class="c1"># Tube length [cm].</span>
+    <span class="n">dt</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>                   <span class="c1"># Tube diameter [cm].</span>
+
+    <span class="c1"># Initial conditions: pure CH4 fed to the tube, empty shell.</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">Ft0</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">7</span><span class="p">)))</span>
+    <span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span> <span class="o">=</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="mf">1e-10</span>
+
+    <span class="c1"># Integrate the molar balances along the reactor (JAX Dormand-Prince).</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="mi">2000</span><span class="p">)</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="n">odeint</span><span class="p">(</span><span class="n">dma_mr_jax</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="n">atol</span><span class="p">)</span>
+
+    <span class="n">F_C6H6</span> <span class="o">=</span> <span class="p">(</span><span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span> <span class="o">*</span> <span class="n">MM_B</span>                  <span class="c1"># Benzene [mg/h].</span>
+    <span class="n">X_CH4</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="p">(</span><span class="n">Ft0</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">F</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span> <span class="o">/</span> <span class="n">Ft0</span>    <span class="c1"># CH4 conversion [%].</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">F_C6H6</span><span class="p">,</span> <span class="n">X_CH4</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="problem-p1-inverse-mapping-for-the-feasible-design-region">
+<h2>Problem P1: inverse mapping for the feasible design region<a class="headerlink" href="#problem-p1-inverse-mapping-for-the-feasible-design-region" title="Link to this heading">#</a></h2>
+<p>Defining the DOS (benzene production between <span class="math notranslate nohighlight">\(15\)</span> and <span class="math notranslate nohighlight">\(25\)</span> [mg/h], methane conversion between <span class="math notranslate nohighlight">\(35\)</span> and <span class="math notranslate nohighlight">\(45\)</span> [%]), the input bounds, and the plug-flow constraint. The inverse mapping is solved with Ipopt and JAX automatic differentiation.</p>
+<p>Importing opyrability’s inverse mapping (NLP-based) module:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">nlp_based_approach</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">],</span>
+                       <span class="p">[</span><span class="mf">35.0</span><span class="p">,</span> <span class="mf">45.0</span><span class="p">]])</span>
+<span class="n">DOS_resolution</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+
+<span class="n">u0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>     <span class="c1"># Initial estimate [L, dt]</span>
+<span class="n">lb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>     <span class="c1"># Lower bounds [cm]</span>
+<span class="n">ub</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>    <span class="c1"># Upper bounds [cm]</span>
+
+<span class="c1"># Plug-flow design constraint: L / dt &gt;= 30  -&gt;  L - 30 dt &gt;= 0</span>
+<span class="n">plug_flow</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;ineq&#39;</span><span class="p">,</span> <span class="s1">&#39;fun&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">30.0</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]}</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">fDIS</span><span class="p">,</span> <span class="n">fDOS</span><span class="p">,</span> <span class="n">messages</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span><span class="n">dma_mr_design</span><span class="p">,</span>
+                                          <span class="n">DOS_bounds</span><span class="p">,</span>
+                                          <span class="n">DOS_resolution</span><span class="p">,</span>
+                                          <span class="n">u0</span><span class="p">,</span> 
+                                          <span class="n">lb</span><span class="p">,</span> 
+                                          <span class="n">ub</span><span class="p">,</span>
+                                          <span class="n">constr</span><span class="o">=</span><span class="n">plug_flow</span><span class="p">,</span>
+                                          <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span>
+                                          <span class="n">ad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">warmstart</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                          <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;$L$ [cm]&#39;</span><span class="p">,</span> <span class="s1">&#39;$d_t$ [cm]&#39;</span><span class="p">,</span>
+                                                  <span class="s1">&#39;Benzene [mg/h]&#39;</span><span class="p">,</span>
+                                                  <span class="s1">&#39;Conversion [%]&#39;</span><span class="p">])</span>
+<span class="n">t_p1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;P1 inverse mapping: </span><span class="si">{</span><span class="n">t_p1</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> s for </span><span class="si">{</span><span class="n">fDIS</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1"> DOS points&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> You have selected automatic differentiation as a method for obtaining higher-order data (Jacobians/Hessian),
+ Make sure your process model is JAX-compatible implementation-wise.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c4cdf64f75ef42efb9e9ea7c7cb64187", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+P1 inverse mapping: 89 s for 25 DOS points
+</pre></div>
+</div>
+<img alt="../_images/6c1f125096726f8bfca6dba8d57db3a796d9a4b81574f5422c61e71d949d5862.png" src="../_images/6c1f125096726f8bfca6dba8d57db3a796d9a4b81574f5422c61e71d949d5862.png" />
+</div>
+</div>
+</section>
+<section id="problem-p2-process-intensification-over-the-feasible-designs">
+<h2>Problem P2: process intensification over the feasible designs<a class="headerlink" href="#problem-p2-process-intensification-over-the-feasible-designs" title="Link to this heading">#</a></h2>
+<p>As an example, the level of operability level of performance is set as a benzene production rate of at least <span class="math notranslate nohighlight">\(20\)</span> [mg/h]<span id="id7">[<a class="reference internal" href="../bibliography.html#id47" title="Juan C. Carrasco. Operability-Based Design of Energy Systems: Application to Natural Gas Utilization Processes. PhD dissertation, West Virginia University, 2017. Graduate Theses, Dissertations, and Problem Reports.">4</a>]</span>. The intensification target is the reactor volume, <span class="math notranslate nohighlight">\(\Omega_1 = \frac{\pi}{4} d_t^2 L\)</span>. <code class="docutils literal notranslate"><span class="pre">problem='P2'</span></code> solves the inner P1 over the DOS grid and then selects, among the feasible designs that meet the level of performance, the one with the smallest volume. P2 also returns the feasible region (<code class="docutils literal notranslate"><span class="pre">fDIS</span></code>, <code class="docutils literal notranslate"><span class="pre">fDOS</span></code>); since the selection is pure postprocessing, a different intensification target (for example, the membrane area <span class="math notranslate nohighlight">\(\Omega_2 = \pi d_t L\)</span>) is obtained by ranking that same region directly, without re-solving P1:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">reactor_volume</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>   <span class="c1"># [cm3]</span>
+<span class="n">membrane_area</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>              <span class="c1"># [cm2]</span>
+
+<span class="n">PI_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">],</span>
+                      <span class="p">[</span><span class="mf">35.0</span><span class="p">,</span> <span class="mf">45.0</span><span class="p">]])</span>   <span class="c1"># Level of performance: benzene &gt;= 20</span>
+
+<span class="c1"># P2 solves P1 internally, then selects the minimum-volume feasible design.</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">fDIS_p2</span><span class="p">,</span> <span class="n">fDOS_p2</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">report_volume</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span><span class="n">dma_mr_design</span><span class="p">,</span> 
+                                                        <span class="n">DOS_bounds</span><span class="p">,</span> 
+                                                        <span class="n">DOS_resolution</span><span class="p">,</span> 
+                                                        <span class="n">u0</span><span class="p">,</span> 
+                                                        <span class="n">lb</span><span class="p">,</span> 
+                                                        <span class="n">ub</span><span class="p">,</span>
+                                                        <span class="n">constr</span><span class="o">=</span><span class="n">plug_flow</span><span class="p">,</span> 
+                                                        <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span> 
+                                                        <span class="n">ad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
+                                                        <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                        <span class="n">problem</span><span class="o">=</span><span class="s1">&#39;P2&#39;</span><span class="p">,</span> 
+                                                        <span class="n">PI_target</span><span class="o">=</span><span class="n">reactor_volume</span><span class="p">,</span> 
+                                                        <span class="n">PI_bounds</span><span class="o">=</span><span class="n">PI_bounds</span><span class="p">,</span>
+                                                        <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;$L$ [cm]&#39;</span><span class="p">,</span> 
+                                                                <span class="s1">&#39;$d_t$ [cm]&#39;</span><span class="p">,</span> 
+                                                                <span class="s1">&#39;Benzene [mg/h]&#39;</span><span class="p">,</span> 
+                                                                <span class="s1">&#39;Conversion [%]&#39;</span><span class="p">])</span>
+<span class="n">t_p2</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="c1"># P2 is postprocessing on its returned feasible region, so a second metric</span>
+<span class="c1"># (membrane area) is obtained by ranking the SAME (fDIS_p2, fDOS_p2), no</span>
+<span class="c1"># extra P1 solve required.</span>
+<span class="n">inside</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">((</span><span class="n">fDOS_p2</span> <span class="o">&gt;=</span> <span class="n">PI_bounds</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">fDOS_p2</span> <span class="o">&lt;=</span> <span class="n">PI_bounds</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]),</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dis_perf</span> <span class="o">=</span> <span class="n">fDIS_p2</span><span class="p">[</span><span class="n">inside</span><span class="p">]</span>
+<span class="n">area_vals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">membrane_area</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">dis_perf</span><span class="p">])</span>
+<span class="n">u_area</span> <span class="o">=</span> <span class="n">dis_perf</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">area_vals</span><span class="p">))]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P2 (volume): L = </span><span class="si">{</span><span class="n">report_volume</span><span class="p">[</span><span class="s1">&#39;u_PI&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;dt = </span><span class="si">{</span><span class="n">report_volume</span><span class="p">[</span><span class="s1">&#39;u_PI&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;V = </span><span class="si">{</span><span class="n">report_volume</span><span class="p">[</span><span class="s1">&#39;PI_value&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm3  (</span><span class="si">{</span><span class="n">t_p2</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> s)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P2 (area):   L = </span><span class="si">{</span><span class="n">u_area</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm, dt = </span><span class="si">{</span><span class="n">u_area</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;A = </span><span class="si">{</span><span class="n">membrane_area</span><span class="p">(</span><span class="n">u_area</span><span class="p">)</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm2  (ranked from the same region)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> You have selected automatic differentiation as a method for obtaining higher-order data (Jacobians/Hessian),
+ Make sure your process model is JAX-compatible implementation-wise.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "856584d2d5524a1b9003ad716296d540", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P2 (volume): L = 22.05 cm, dt = 0.50 cm, V = 4.33 cm3  (87 s)
+P2 (area):   L = 17.76 cm, dt = 0.59 cm, A = 33.02 cm2  (ranked from the same region)
+</pre></div>
+</div>
+<img alt="../_images/6c1f125096726f8bfca6dba8d57db3a796d9a4b81574f5422c61e71d949d5862.png" src="../_images/6c1f125096726f8bfca6dba8d57db3a796d9a4b81574f5422c61e71d949d5862.png" />
+<img alt="../_images/09400e360dc69efcd7bfb8e8c3685c0974bfb6eab42ce5bfda85855e1c830923.png" src="../_images/09400e360dc69efcd7bfb8e8c3685c0974bfb6eab42ce5bfda85855e1c830923.png" />
+</div>
+</div>
+<p>The hollow red circles in the plot are the <span class="math notranslate nohighlight">\(DIS_{PI}\)</span>/<span class="math notranslate nohighlight">\(DOS_{PI}\)</span> level-of-performance subsets and the star is the intensified design, mirroring Fig. 5.2 of <span id="id8">[<a class="reference internal" href="../bibliography.html#id47" title="Juan C. Carrasco. Operability-Based Design of Energy Systems: Application to Natural Gas Utilization Processes. PhD dissertation, West Virginia University, 2017. Graduate Theses, Dissertations, and Problem Reports.">4</a>]</span>. The selected design delivers the same performance class with a fraction of the footprint of the larger feasible designs, the central finding of the original study (about <span class="math notranslate nohighlight">\(77\%\)</span> volume and <span class="math notranslate nohighlight">\(80\%\)</span> membrane area reduction against the base case <span id="id9">[<a class="reference internal" href="../bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">7</a>]</span>).</p>
+</section>
+<section id="problem-p3-the-bilevel-operability-framework">
+<h2>Problem P3: the bilevel operability framework<a class="headerlink" href="#problem-p3-the-bilevel-operability-framework" title="Link to this heading">#</a></h2>
+<p>P3 nests P1 (inner level) inside the PI minimization (outer level):</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\Psi = \min_{u \in \mathbb{U}}[\mathrm{PI}_{\mathrm{target}}] \quad \\
+\text{s.t.} \quad u_k^* \in \underset{u_k^* \in \mathbb{U}_k,\; y_k \in DOS}{\mathrm{argmin}} \left\{\sum_{j=1}^n \left(\frac{y_{j,k} - y_{j,k}^*}{y_{j,k}}\right)^2\right\}, \\ 
+\quad c_1(u_k^*) \leq 0\end{split}\]</div>
+<p>It is solved through its validated sequential equivalence: the outcome is the same as solving P1 and P2 in series over the full DOS grid<span id="id10">[<a class="reference internal" href="../bibliography.html#id47" title="Juan C. Carrasco. Operability-Based Design of Energy Systems: Application to Natural Gas Utilization Processes. PhD dissertation, West Virginia University, 2017. Graduate Theses, Dissertations, and Problem Reports.">4</a>]</span>. A single call solves the inner inverse mapping and the outer selection:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">report_p3</span> <span class="o">=</span> <span class="n">nlp_based_approach</span><span class="p">(</span><span class="n">dma_mr_design</span><span class="p">,</span> <span class="n">DOS_bounds</span><span class="p">,</span>
+                                        <span class="n">DOS_resolution</span><span class="p">,</span> <span class="n">u0</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span>
+                                        <span class="n">constr</span><span class="o">=</span><span class="n">plug_flow</span><span class="p">,</span>
+                                        <span class="n">method</span><span class="o">=</span><span class="s1">&#39;ipopt&#39;</span><span class="p">,</span>
+                                        <span class="n">ad</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                        <span class="n">problem</span><span class="o">=</span><span class="s1">&#39;P3&#39;</span><span class="p">,</span>
+                                        <span class="n">PI_target</span><span class="o">=</span><span class="n">reactor_volume</span><span class="p">,</span>
+                                        <span class="n">PI_bounds</span><span class="o">=</span><span class="n">PI_bounds</span><span class="p">)</span>
+<span class="n">t_p3</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P3 (bilevel): L = </span><span class="si">{</span><span class="n">report_p3</span><span class="p">[</span><span class="s1">&#39;u_PI&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;dt = </span><span class="si">{</span><span class="n">report_p3</span><span class="p">[</span><span class="s1">&#39;u_PI&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;V = </span><span class="si">{</span><span class="n">report_p3</span><span class="p">[</span><span class="s1">&#39;PI_value&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm3  (</span><span class="si">{</span><span class="n">t_p3</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> s)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Same design as sequential P1 + P2: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">report_p3</span><span class="p">[</span><span class="s1">&#39;u_PI&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">report_volume</span><span class="p">[</span><span class="s1">&#39;u_PI&#39;</span><span class="p">],</span><span class="w"> </span><span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> You have selected automatic differentiation as a method for obtaining higher-order data (Jacobians/Hessian),
+ Make sure your process model is JAX-compatible implementation-wise.
+</pre></div>
+</div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "bc5840cfafb04a1eae9d0c0344d74cc9", "version_major": 2, "version_minor": 0}</script><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>P3 (bilevel): L = 22.05 cm, dt = 0.50 cm, V = 4.33 cm3  (86 s)
+Same design as sequential P1 + P2: True
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-multilayer-milp-optimal-modular-design-in-seconds">
+<h2>The multilayer MILP: optimal modular design in seconds<a class="headerlink" href="#the-multilayer-milp-optimal-modular-design-in-seconds" title="Link to this heading">#</a></h2>
+<p>The multilayer operability framework of Gazzaneo and Lima <span id="id11">[<a class="reference internal" href="../bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">15</a>]</span> replaces the nonlinear inverse mapping with a mixed-integer linear program (MILP) over the multimodel polytope representation: the model is simulated on a coarse grid, the input-output data are triangulated into paired polytopes, the MILP’s integer part picks the single polytope that can reach the desired outputs, and its continuous part locates the best design point inside that polytope; the input region is then zoomed in around that point and the whole step repeats on a finer grid, sharpening the design at each pass <span id="id12">[<a class="reference internal" href="../bibliography.html#id33" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">13</a>]</span>. The MILP is solved with the HiGHS solver bundled inside scipy, so no additional installation is needed (these are already opyrability dependencies).</p>
+<p>Importing opyrability’s MILP-based design module:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">milp_based_approach</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plug-flow constraint in linear form: L - 30 dt &gt;= 0  -&gt;  -L + 30 dt &lt;= 0</span>
+<span class="n">A_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">]])</span>
+<span class="n">b_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+
+<span class="n">MILP_AIS_Bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">100.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]])</span>
+<span class="n">MILP_DOS_Bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">35.0</span><span class="p">,</span> <span class="mf">45.0</span><span class="p">]])</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">u_milp</span><span class="p">,</span> <span class="n">y_milp</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">phi_true</span><span class="p">,</span> <span class="n">history</span> <span class="o">=</span> <span class="n">milp_based_approach</span><span class="p">(</span><span class="n">dma_mr_design</span><span class="p">,</span>
+                                                             <span class="n">AIS_bound</span><span class="o">=</span><span class="n">MILP_AIS_Bounds</span><span class="p">,</span>
+                                                             <span class="n">PI_target</span><span class="o">=</span><span class="n">reactor_volume</span><span class="p">,</span>
+                                                             <span class="n">DOS_bounds</span><span class="o">=</span><span class="n">MILP_DOS_Bounds</span><span class="p">,</span>
+                                                             <span class="n">AIS_resolution</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                                             <span class="n">input_constr</span><span class="o">=</span><span class="p">(</span><span class="n">A_u</span><span class="p">,</span> <span class="n">b_u</span><span class="p">),</span>
+                                                             <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;$L$ [cm]&#39;</span><span class="p">,</span> 
+                                                                     <span class="s1">&#39;$d_t$ [cm]&#39;</span><span class="p">,</span> 
+                                                                     <span class="s1">&#39;Benzene [mg/h]&#39;</span><span class="p">,</span> 
+                                                                     <span class="s1">&#39;Conversion [%]&#39;</span><span class="p">])</span>
+<span class="n">t_milp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+<span class="c1"># milp_based_approach returns two volumes: the approximate one the MILP</span>
+<span class="c1"># actually minimizes (built from the volume values at the polytope</span>
+<span class="c1"># corners) and the true volume of the chosen design. They get closer as</span>
+<span class="c1"># the polytopes shrink, and match here.</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;MILP design: L = </span><span class="si">{</span><span class="n">u_milp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm, dt = </span><span class="si">{</span><span class="n">u_milp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">t_milp</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> s, </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">history</span><span class="p">)</span><span class="si">}</span><span class="s2"> iterations)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  approximate volume = </span><span class="si">{</span><span class="n">phi</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm3, true volume = </span><span class="si">{</span><span class="n">phi_true</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> cm3&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;phi per iteration:&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="s1">&#39;phi&#39;</span><span class="p">],</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">history</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MILP design: L = 21.69 cm, dt = 0.50 cm (0.6 s, 5 iterations)
+  approximate volume = 4.26 cm3, true volume = 4.26 cm3
+phi per iteration: [5.42, 4.28, 4.26, 4.26, 4.26]
+</pre></div>
+</div>
+<img alt="../_images/c7846406ccb93864253c63bc4fdaaa41efda5750af889c79517b9b5d7008178c.png" src="../_images/c7846406ccb93864253c63bc4fdaaa41efda5750af889c79517b9b5d7008178c.png" />
+</div>
+</div>
+<p>The iteration plot shows the winning polytope shrinking around the optimal design as the bounds are refined, and the objective decreases monotonically until the relative improvement falls below the tolerance, reproducing the behavior reported in <span id="id13">[<a class="reference internal" href="../bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">15</a>]</span> (where the 2x2 DMA-MR design converged in 5 iterations and a few seconds of CPU time).</p>
+</section>
+<section id="comparing-the-approaches">
+<h2>Comparing the approaches<a class="headerlink" href="#comparing-the-approaches" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s1">&#39;P2 (intensification)&#39;</span><span class="p">,</span> <span class="n">report_volume</span><span class="p">[</span><span class="s1">&#39;u_PI&#39;</span><span class="p">],</span>
+     <span class="n">report_volume</span><span class="p">[</span><span class="s1">&#39;PI_value&#39;</span><span class="p">],</span> <span class="n">t_p2</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;P3 (bilevel, single call)&#39;</span><span class="p">,</span> <span class="n">report_p3</span><span class="p">[</span><span class="s1">&#39;u_PI&#39;</span><span class="p">],</span>
+     <span class="n">report_p3</span><span class="p">[</span><span class="s1">&#39;PI_value&#39;</span><span class="p">],</span> <span class="n">t_p3</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Multilayer MILP&#39;</span><span class="p">,</span> <span class="n">u_milp</span><span class="p">,</span> <span class="n">phi_true</span><span class="p">,</span> <span class="n">t_milp</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Approach&#39;</span><span class="si">:</span><span class="s2">&lt;30</span><span class="si">}{</span><span class="s1">&#39;L [cm]&#39;</span><span class="si">:</span><span class="s2">&gt;8</span><span class="si">}{</span><span class="s1">&#39;dt [cm]&#39;</span><span class="si">:</span><span class="s2">&gt;9</span><span class="si">}</span><span class="s2">&quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Volume [cm3]&#39;</span><span class="si">:</span><span class="s2">&gt;14</span><span class="si">}{</span><span class="s1">&#39;Time [s]&#39;</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="s2">&lt;30</span><span class="si">}{</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;8.2f</span><span class="si">}{</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">&gt;9.2f</span><span class="si">}{</span><span class="n">v</span><span class="si">:</span><span class="s2">&gt;14.2f</span><span class="si">}{</span><span class="n">t</span><span class="si">:</span><span class="s2">&gt;10.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Approach                        L [cm]  dt [cm]  Volume [cm3]  Time [s]
+P2 (intensification)             22.05     0.50          4.33      86.6
+P3 (bilevel, single call)        22.05     0.50          4.33      86.1
+Multilayer MILP                  21.69     0.50          4.26       0.6
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="conclusions">
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h2>
+<p><strong>Key Results:</strong></p>
+<ul class="simple">
+<li><p>P1 computed the feasible design region (DIS*/DOS*) of the DMA-MR for the desired production targets, with the plug-flow constraint enforced through the NLP.</p></li>
+<li><p>P2 solved P1 internally and selected the minimum-volume design meeting the benzene level of performance; the minimum-area design was then obtained by ranking the same returned feasible region, since the selection is pure postprocessing.</p></li>
+<li><p>P3 reproduced the same intensified design through the bilevel formulation, validating the sequential equivalence of <span id="id14">[<a class="reference internal" href="../bibliography.html#id47" title="Juan C. Carrasco. Operability-Based Design of Energy Systems: Application to Natural Gas Utilization Processes. PhD dissertation, West Virginia University, 2017. Graduate Theses, Dissertations, and Problem Reports.">4</a>]</span> on this problem.</p></li>
+<li><p>The multilayer MILP found an optimal modular design from scratch in about a second, two orders of magnitude faster than the NLP path, by exploiting the multimodel linearization <span id="id15">[<a class="reference internal" href="../bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">15</a>]</span>.</p></li>
+</ul>
+<p><strong>Workflow Summary:</strong></p>
+<ol class="arabic simple">
+<li><p>Solve P1 (<code class="docutils literal notranslate"><span class="pre">nlp_based_approach</span></code>) over the DOS grid for the feasible design region.</p></li>
+<li><p>Solve P2 (<code class="docutils literal notranslate"><span class="pre">problem='P2'</span></code> with <code class="docutils literal notranslate"><span class="pre">PI_target</span></code> and <code class="docutils literal notranslate"><span class="pre">PI_bounds</span></code>) to intensify; rank its returned region by any other metric for free.</p></li>
+<li><p>Or solve P3 (<code class="docutils literal notranslate"><span class="pre">problem='P3'</span></code>) for the bilevel program in a single call.</p></li>
+<li><p>Or run <code class="docutils literal notranslate"><span class="pre">milp_based_approach</span></code> for the MILP-based optimal modular design when speed matters.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "CODES-group/opyrability",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./examples_gallery"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-p1-inverse-mapping-for-the-feasible-design-region">Problem P1: inverse mapping for the feasible design region</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-p2-process-intensification-over-the-feasible-designs">Problem P2: process intensification over the feasible designs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#problem-p3-the-bilevel-operability-framework">Problem P3: the bilevel operability framework</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-multilayer-milp-optimal-modular-design-in-seconds">The multilayer MILP: optimal modular design in seconds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-the-approaches">Comparing the approaches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Victor Alves - Carnegie Mellon University.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -16,7 +16,10 @@ operability analysis:
 Algorithms have been developed in the literature to address these challenges.
 For quantification of the operability sets and thus, the OI itself, the multimodel approach
 has been developed. For inverse mapping, the nonlinear programming-based (NLP-based) and the implicit mapping approaches have been successfully employed to evaluate the inverse map
-of a given process model. This section will go briefly over these methods but the
+of a given process model. Beyond finding *feasible* designs, the NLP-based approach also
+searches for the *best* one through process intensification (the problems P1, P2 and P3), and
+the multimodel representation supports a mixed-integer linear programming (MILP) framework that
+finds optimal modular designs quickly. This section will go briefly over these methods but the
 reader is encouraged to go over the :ref:`bibliography` for a more thorough explanation of them.
 
 
@@ -73,7 +76,8 @@ coordinate points in the output space (AOS/DOS) and that an objective function o
 error minimization nature (e.g., Euclidean distance) is posed 
 between the feasible operation and desired operation (DOS). The solution to the
 nonlinear programming problem at each discretized point is the DIS that attains the operation
-of the DOS. Mathematically, this can be posed as the following NLP optimization problem:
+of the DOS. Mathematically, this base problem, referred to as **P1**, can be posed as the
+following NLP optimization problem:
 
 .. math::
    \begin{gathered}
@@ -112,5 +116,221 @@ Since a successful solution of an NLP is always feasible, the DOS and DIS that a
 the error minimization between feasible and desired operation are named slightly differently as
 the Feasible Desired Output Set (DOS*) and Feasible Desired Input Set (DIS*).
 
-Lastly, the NLP-based approach can be extended to encompass the search for intensified
-and/or modular designs, as proposed in the literature :cite:`carrasco2017`.
+P1, as posed above, asks only for *feasibility*: the design that comes closest to each
+desired operating point. Process operability often asks a sharper question, though: among
+all the feasible designs, which one is the *best*? Here "best" means smallest, cheapest or
+most compact, quantified by a process intensification metric :math:`\mathrm{PI}` that the
+user supplies (for instance the reactor volume or the membrane area). Two further problems,
+P2 and P3, answer this question :cite:`carrasco2017`.
+
+Process Intensification (P2)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+P2 builds directly on the result of P1. First, P1 is solved over the DOS grid to obtain the
+feasible region (DIS*/DOS*). Among those feasible designs, only the ones that meet a required
+*level of performance* are kept (for example, a benzene production of at least 20 mg/h); call
+this subset :math:`DIS_{\mathrm{PI}}`. The intensified design is then simply the member of that
+subset that minimizes the intensification metric:
+
+.. math::
+   \begin{gathered}
+   \Omega = \min_{u^*} \; \mathrm{PI}(u^*) \\
+   \text{s.t.: } u^* \in DIS_{\mathrm{PI}}, \quad y^* \in DOS_{\mathrm{PI}}
+   \end{gathered}
+
+Because P2 is a selection step applied *after* P1, the same feasible region can be ranked by
+any number of metrics (volume, area, cost) at almost no extra cost: P1 is solved once, and the
+ranking in P2 is repeated cheaply for each metric of interest.
+
+Bilevel Formulation (P3)
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+P3 states the same goal as a single, self-contained optimization problem instead of a two-step
+procedure. It is a *bilevel* program, that is, an optimization problem nested inside another one:
+an outer level chooses the design that minimizes the intensification metric, while an inner level
+guarantees that this design is itself a valid inverse-mapping (P1) solution:
+
+.. math::
+   \begin{gathered}
+   \Psi = \min_{u \in \mathbb{U}} \; \mathrm{PI}(u) \\
+   \text{s.t.: } u_k^* \in \underset{u_k^* \in \mathbb{U}_k,\; y_k \in DOS}{\arg\min} \;
+   \sum_{j=1}^n \left( \frac{y_{j, k}-y_{j, k}^*}{y_{j, k}} \right)^2 \\
+   \mathbf{c}_1\left(u_k^*\right) \leq 0
+   \end{gathered}
+
+The inner :math:`\arg\min` is exactly P1, and the outer objective is the intensification metric
+of P2. Carrasco and Lima showed that solving this bilevel program yields the same design as
+solving P1 and P2 in sequence :cite:`carrasco2017`, so in practice P3 is solved through that
+equivalence: run the inner P1 over the grid, then minimize the metric over the feasible region.
+P2 and P3 therefore reach the same intensified design; the difference is one of framing, P2 as a
+postprocessing step on a previously computed region and P3 as a single optimization statement.
+
+Implicit Mapping
+----------------
+
+The NLP-based approach calls the process model many times inside an optimizer, once for every
+point of interest. When the model is written as a set of equations, a faster route is possible.
+Any process model can be cast implicitly as :math:`F(u, y) = 0`, a system of equations that the
+inputs :math:`u` and outputs :math:`y` must satisfy together. Implicit mapping :cite:`alves22`
+follows the solution of this system directly, instead of re-optimizing at every point.
+
+The key idea is the implicit function theorem: if a point :math:`(u, y)` satisfies
+:math:`F(u, y) = 0`, then the derivatives of :math:`F` tell us how :math:`y` must change when
+:math:`u` changes in order to stay on the solution. These derivatives are obtained exactly and
+cheaply with automatic differentiation. For a forward map the sensitivity is
+
+.. math::
+   \frac{dy}{du} = -\left( \frac{\partial F}{\partial y} \right)^{-1} \frac{\partial F}{\partial u}
+
+and for the inverse map the roles of :math:`u` and :math:`y` are simply swapped. Starting from one
+known point on :math:`F = 0`, the mapping is then traced out as a path. A *predictor* step advances
+along the direction given by the expression above (a numerical integration, for example explicit
+Euler or Runge-Kutta), and a *corrector* step then solves :math:`F = 0` at the new point to pull
+the path back onto the solution whenever the residual :math:`\lVert F \rVert` grows beyond a
+tolerance. Sweeping this predictor-corrector march over the output space produces the inverse map
+(the DIS), and sweeping it over the input space produces the forward map (the AOS).
+
+The main features of implicit mapping are
+
+#. **Speed on equation-oriented models,** since tracing a single path of derivatives avoids solving
+   a separate optimization problem at every point. The original study reports substantial
+   reductions in computation time and complexity against the NLP-based approach on a CSTR and a
+   membrane reactor :cite:`alves22`.
+
+#. **Exact derivatives,** supplied by automatic differentiation rather than finite differences,
+   which keeps the traced path accurate.
+
+#. **Forward or inverse in one framework,** since changing the direction of the map only swaps the
+   roles of the inputs and outputs in the implicit function theorem.
+
+MILP-Based Multilayer Framework
+--------------------------------
+
+The methods above solve one nonlinear program for every point of interest. The multilayer
+operability framework of Gazzaneo and Lima :cite:`gazzaneo18,gazzaneo19` takes a different route:
+it reuses the paired polytopes of the multimodel approach (described above) so that the design
+search becomes a single mixed-integer linear program (MILP) instead of many nonlinear ones.
+Because every piece of the problem is linear, the design is found in a fraction of the time, the
+trade-off being that the nonlinear map is approximated by its polytopes.
+
+The idea works in layers. The achievable region is first represented by the paired polytopes of
+the multimodel approach. Each polytope covers a small patch of the input space and maps to a small
+patch of the output space, and inside a polytope every point can be written as a weighted average
+of its corners (the weights are non-negative and sum to one). The MILP then makes two decisions
+at once:
+
+#. **Which polytope?** A set of yes/no (binary) variables selects exactly one polytope, namely the
+   one that both reaches the desired outputs and contains the best design.
+#. **Where inside it?** A set of continuous weights pins down the exact design point as a weighted
+   average of that polytope's corners.
+
+The objective is the same intensification metric :math:`\mathrm{PI}` used in P2 and P3, but
+evaluated through the corner weights so that it stays linear. For one layer, the design problem
+reads:
+
+.. math::
+   \begin{gathered}
+   \min_{w,\, b} \; \sum_{k} \sum_{i} w_{i, k}\, \mathrm{PI}\left(v_{i, k}\right) \\
+   \text{s.t.: } \sum_{i} w_{i, k}=b_k \;\; \forall k, \qquad \sum_{k} b_k=1 \\
+   \text{(weighted output point)} \in DOS \\
+   w_{i, k} \geq 0, \qquad b_k \in\{0,1\}
+   \end{gathered}
+
+where :math:`v_{i, k}` are the corners of polytope :math:`k`, :math:`w_{i, k}` their weights, and
+:math:`b_k` the binary variable that switches polytope :math:`k` on or off. The linking constraint
+:math:`\sum_i w_{i, k}=b_k` forces the weights to live in the single selected polytope.
+
+A single coarse grid would give only a rough design, so the framework refines itself: once the best
+polytope is found, the input region is shrunk around it, the polytopes are rebuilt on the smaller
+region, and the MILP is solved again. Repeating this zoom a handful of times drives the design to
+its optimal value, much as successively finer rulers locate a point more precisely.
+
+The main features of the MILP-based framework are
+
+#. **Speed,** since replacing many nonlinear programs by one linear program per layer finds optimal
+   modular designs in seconds.
+
+#. **Optimality across the whole region,** since the binary choice compares all candidate polytopes
+   at once, rather than searching locally from an initial guess as the NLP does.
+
+#. **Reuse of the multimodel representation,** since the same paired polytopes used to quantify the
+   operability sets and the OI are what the MILP optimizes over, tying the two halves of an
+   operability study together.
+
+Dynamic Operability
+-------------------
+
+The algorithms above answer a steady-state question: can the desired outputs be
+reached at steady state by some choice of inputs? Dynamic operability asks the
+sharper, time-dependent question: starting from a given initial state, can the
+manipulated inputs drive the outputs into the desired region within a finite
+number of time steps, and regardless of the disturbances :cite:`dinh23`? Where
+steady-state operability assesses the feasibility of a *design*, dynamic
+operability gauges the effectiveness of a *control structure* during operation;
+because it depends only on the input ranges and the model, it is an inherent
+property of the process and does not depend on a particular control law
+:cite:`dinh23`.
+
+The process is described by a discrete-time state-space model, obtained by
+applying a zero-order hold to the continuous dynamics and discretizing time as
+:math:`t = \Delta t\, k` :cite:`dinh23`:
+
+.. math::
+   x_{k+1} = f(x_k, u_k, d_k), \qquad y_k = h(x_k, u_k, d_k)
+
+where :math:`x_k` is the state, :math:`u_k` the manipulated inputs (drawn from
+the AIS), :math:`d_k` the disturbances (drawn from the EDS), and :math:`y_k` the
+outputs. Unlike the steady-state case, the design variables are fixed once the
+unit is built, so only the operational inputs are manipulated over time
+:cite:`dinh23`.
+
+Achievable Output Funnel
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The central object is the dynamic Achievable Output Set at step :math:`k`,
+:math:`AOS^k(x_0)`: the set of outputs reachable from the initial state
+:math:`x_0` within :math:`k` steps using input sequences that stay inside the
+AIS at every step :cite:`dinh23`. For a fixed disturbance sequence :math:`d`,
+
+.. math::
+   AOS^k(x_0, d) = \left\{ y_k \;\middle|\; \exists\, \{u_\tau\}_{\tau=0}^{k-1}
+   \in AIS,\; y_k = \tilde{\mathcal{M}}(x_0, \{u_\tau\}_{\tau=0}^{k-1}, d) \right\}
+
+in which :math:`\tilde{\mathcal{M}}` is the dynamic input-output mapping, written
+with a tilde to distinguish it from the steady-state map :math:`\mathcal{M}`.
+Stacking these snapshots along the time axis, one slice per step, traces the
+characteristic operability *funnel*: it starts as the single point
+:math:`y(x_0)` at :math:`k = 0` and widens as the inputs move the process over
+time. When the disturbances are uncertain, the disturbance-robust funnel is the
+intersection of the reachable sets over the Expected Disturbance Set, so that a
+point is retained only if it is reachable regardless of which disturbance
+realization occurs :cite:`dinh23`:
+
+.. math::
+   AOS^k(x_0) = \bigcap_{d \in EDS} AOS^k(x_0, d)
+
+opyrability builds the funnel either exactly, by propagating the state-space
+polytope through the model with affine transforms and Minkowski sums when the
+system is linear :cite:`dinh26`, or approximately, by simulating input sequences
+forward and taking the convex hull of the reachable outputs at each step for a
+general nonlinear model with many states :cite:`dinh23`.
+
+Dynamic Operability Index (dOI)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Just as the steady-state OI measures the overlap between the AOS and the DOS,
+the dynamic Operability Index applies that same measure to each slice of the
+funnel, producing a value at every time step :cite:`dinh23`:
+
+.. math::
+   dOI(k) = \frac{\mu\left(AOS^k(x_0) \cap DOS\right)}{\mu(DOS)} \times 100\%
+
+where :math:`\mu` is the hypervolume (Lebesgue measure) introduced for the
+steady-state OI. The dOI is zero at the initial instant, when the funnel is a
+single point of no measure, and grows as the funnel expands into the DOS. A
+design is dynamically operable when, beyond some finite step :math:`\bar{k}`,
+the funnel overlaps the DOS (:math:`dOI(k) > 0` for all :math:`k \geq \bar{k}`),
+and the step at which this first happens quantifies how quickly the desired
+operation becomes reachable :cite:`dinh23`. In opyrability, the funnel, the dOI
+time series, and the dOI-colored funnel plot are produced in a single call to
+``dynamic_operability``.

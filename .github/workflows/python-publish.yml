@@ -21,15 +21,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
-    - name: Install dependencies
+    - name: Install build tooling
       run: |
         python -m pip install --upgrade pip
-        pip install build
+        pip install build poetry
+    - name: Set the version from the release tag
+      # Single source of truth: the published version comes from the GitHub
+      # release tag (e.g. tag v2.0.0rc1 -> 2.0.0rc1). pyproject.toml only
+      # carries a placeholder version.
+      run: poetry version "${GITHUB_REF_NAME#v}"
     - name: Build package
       run: python -m build
     - name: Publish package

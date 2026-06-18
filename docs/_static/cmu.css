@@ -1,0 +1,45 @@
+/* ------------------------------------------------------------------ *
+ * Carnegie Mellon color scheme for the opyrability documentation.
+ *
+ * The site uses the Sphinx Book Theme (built on pydata-sphinx-theme),
+ * which is themed through CSS custom properties. We override the link,
+ * hover, primary and accent colors with Carnegie Red and keep body text
+ * black (light) / near-white (dark) as the theme already provides.
+ *
+ *   Carnegie Red : #C41230  (CMU primary brand color)
+ *   darker red   : #8A0C22  (hover in light mode)
+ *   light red    : #FF6B81  (links on the dark background, for contrast)
+ * ------------------------------------------------------------------ */
+
+:root,
+html[data-theme="light"] {
+  --pst-color-primary:       #C41230;
+  --pst-color-primary-bg:    #f7d6dc;
+  --pst-color-secondary:     #C41230;
+  --pst-color-accent:        #C41230;
+  --pst-color-link:          #C41230;
+  --pst-color-link-hover:    #8A0C22;
+  --pst-color-inline-code:   #9c1228;
+}
+
+html[data-theme="dark"] {
+  /* Lighter red so links stay legible on the dark background. */
+  --pst-color-primary:       #FF6B81;
+  --pst-color-primary-bg:    #3a1117;
+  --pst-color-secondary:     #FF6B81;
+  --pst-color-accent:        #FF6B81;
+  --pst-color-link:          #FF6B81;
+  --pst-color-link-hover:    #FF9AA8;
+  --pst-color-inline-code:   #ff8a99;
+}
+
+/* Direct fallbacks in case a theme version does not pick up every
+ * variable above for anchors. */
+a,
+a:visited {
+  color: var(--pst-color-link);
+}
+
+a:hover {
+  color: var(--pst-color-link-hover);
+}

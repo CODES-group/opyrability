@@ -6,13 +6,18 @@ on:
   pull_request:
     branches: [main]
 
+# Least privilege: running tests and uploading coverage needs no write access
+# to the repository via GITHUB_TOKEN.
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.11", "3.12", "3.13", "3.14"]
 
     defaults:
       run:
@@ -34,6 +39,9 @@ jobs:
           conda install -y numpy scipy matplotlib tqdm ipywidgets polytope cvxopt cyipopt jax
           pip install pytest pytest-cov
           pip install --no-deps -e .
+          # pounce-solver (the default solver) is pip-only and is imported at
+          # import time; pyomo + pyomo-pounce enable the equation-oriented tests.
+          pip install pounce-solver pyomo pyomo-pounce
 
       - name: Run tests with coverage
         run: |

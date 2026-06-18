@@ -1,6 +1,11 @@
 .DS_Store
 .claude/
-.references/
+.refs/
+.pytest_cache/
+__pycache__/
+thumbs/
+thumbs/
+CLAUDE.md
 *.pyc
 .ipynb_checkpoints/
 .pytest_cache/

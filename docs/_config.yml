@@ -2,9 +2,9 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 title: Opyrability's documentation.
-author: Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.  
-logo: opyrability_logo.png
-copyright: "2022-2025"  # Copyright year to be placed in the footer
+author: Victor Alves - Carnegie Mellon University.
+copyright: "2022-2026"  # Copyright year to be placed in the footer
+logo: opyrability_logo.png  # Top-left logo, relative to the docs/ book root
 
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
@@ -21,6 +21,17 @@ execute:
     - 'gp_surrogate_dma-mr.ipynb'
     - 'gp_surrogate_shower.ipynb'
     - 'mlp_DWSIM_heat_exchanger.ipynb'
+    # Notebooks below ship with their outputs already executed; skip
+    # re-running them on every build.
+    - 'dma_mr_design_intensification.ipynb'
+    - 'dynamic_dma_mr.ipynb'
+    - 'dynamic_hyper.ipynb'
+    - 'dynamic_methods_comparison.ipynb'
+    - 'dynamic_pyomo_collocation.ipynb'
+    - 'dynamic_gp_narx.ipynb'
+    - 'pounce_inverse_mapping.ipynb'
+    - 'pyomo_models_mapping.ipynb'
+    - 'rank_designs.ipynb'
   timeout: -1
 
 
@@ -58,6 +69,14 @@ sphinx:
 
   config:
     autosummary_generate: True
+    # Carnegie Mellon color scheme (Carnegie Red links/accents, light and
+    # dark). The file lives in docs/_static and is copied into the build.
+    html_css_files:
+    - cmu.css
+    # require.js enables interactive plotly figures (pan/rotate/zoom)
+    # in the compiled HTML pages.
+    html_js_files:
+    - https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js
 
 launch_buttons:
   binderhub_url: "https://mybinder.org"  # The URL for your BinderHub (e.g., https://mybinder.org)

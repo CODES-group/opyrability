@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Surrogate-Based Operability Analysis of a Heat Exchanger using the DWSIM process simulator and a Multi-Layer Perceptron (MLP) &#8212; Opyrability&#39;s documentation.</title>
   
@@ -17,58 +16,60 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmu.css?v=cf4c8d3f" />
   
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/mlp_DWSIM_heat_exchanger';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -84,19 +85,8 @@ const thebe_selector_output = ".output, .cell_output"
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -104,7 +94,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -112,8 +101,8 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -131,7 +120,8 @@ const thebe_selector_output = ".output, .cell_output"
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -161,17 +151,24 @@ const thebe_selector_output = ".output, .cell_output"
     
     
     <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
-    <script>document.write(`<img src="../_static/opyrability_logo.png" class="logo__image only-dark" alt="Opyrability's documentation. - Home"/>`);</script>
+    <img src="../_static/opyrability_logo.png" class="logo__image only-dark pst-js-only" alt="Opyrability's documentation. - Home"/>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    Opyrability Documentation  
+                    Opyrability Documentation 
                 </a>
             </li>
         </ul>
@@ -196,9 +193,14 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -217,9 +219,9 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -244,14 +246,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/mlp_DWSIM_heat_exchanger.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onBinder"
+   title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_binder.svg">
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
   </span>
 <span class="btn__text-container">Binder</span>
 </a>
@@ -262,14 +264,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/mlp_DWSIM_heat_exchanger.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -395,7 +397,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -409,27 +411,19 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -489,7 +483,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="surrogate-based-operability-analysis-of-a-heat-exchanger-using-the-dwsim-process-simulator-and-a-multi-layer-perceptron-mlp">
-<h1>Surrogate-Based Operability Analysis of a Heat Exchanger using the DWSIM process simulator and a Multi-Layer Perceptron (MLP)<a class="headerlink" href="#surrogate-based-operability-analysis-of-a-heat-exchanger-using-the-dwsim-process-simulator-and-a-multi-layer-perceptron-mlp" title="Permalink to this heading">#</a></h1>
+<h1>Surrogate-Based Operability Analysis of a Heat Exchanger using the DWSIM process simulator and a Multi-Layer Perceptron (MLP)<a class="headerlink" href="#surrogate-based-operability-analysis-of-a-heat-exchanger-using-the-dwsim-process-simulator-and-a-multi-layer-perceptron-mlp" title="Link to this heading">#</a></h1>
 <p>Author: Nicolas Spogis, Ph.D. (Founder &amp; Lead Engineer — AI4Tech)</p>
 <p>This notebook presents a <strong>realistic industrial workflow</strong> for <strong>operability / flexibility analysis</strong> using <strong>Opyrability</strong>, combining:</p>
 <ul class="simple">
@@ -500,7 +494,7 @@ document.write(`
 <p>The goal is to quantify <strong>what the process can achieve</strong> (outputs) given <strong>what we can vary</strong> (inputs), and to estimate <strong>which input settings</strong> can satisfy <strong>desired operating specifications</strong>.</p>
 <hr class="docutils" />
 <section id="case-study-process-cooler-heat-exchanger">
-<h2>Case Study: Process Cooler (Heat Exchanger)<a class="headerlink" href="#case-study-process-cooler-heat-exchanger" title="Permalink to this heading">#</a></h2>
+<h2>Case Study: Process Cooler (Heat Exchanger)<a class="headerlink" href="#case-study-process-cooler-heat-exchanger" title="Link to this heading">#</a></h2>
 <p>We analyze a single <strong>process cooler</strong> where a hot stream is cooled by a cooling-water utility.
 The operational behavior is evaluated in terms of <strong>thermal performance</strong> and <strong>operational feasibility</strong> across a range of disturbances and manipulated actions.</p>
 <p align="center">
@@ -517,7 +511,7 @@ The operational behavior is evaluated in terms of <strong>thermal performance</s
   </em>
 </p>
 <section id="inputs-and-outputs">
-<h3>Inputs and Outputs<a class="headerlink" href="#inputs-and-outputs" title="Permalink to this heading">#</a></h3>
+<h3>Inputs and Outputs<a class="headerlink" href="#inputs-and-outputs" title="Link to this heading">#</a></h3>
 <p>The performed analysis maps the relationship between the <strong>Available Input Set (AIS)</strong> and the
 <strong>Achievable Output Set (AOS)</strong>, as summarized below.</p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -568,7 +562,7 @@ The operational behavior is evaluated in terms of <strong>thermal performance</s
 </section>
 <hr class="docutils" />
 <section id="output-variable-definitions">
-<h2>Output Variable Definitions<a class="headerlink" href="#output-variable-definitions" title="Permalink to this heading">#</a></h2>
+<h2>Output Variable Definitions<a class="headerlink" href="#output-variable-definitions" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">T_h_out</span></code> (Hot outlet temperature) [°C]</strong>
 A direct <strong>specification proxy</strong> for cooling performance. Lower values generally indicate stronger cooling, but feasibility depends on available heat-transfer driving force and <code class="docutils literal notranslate"><span class="pre">m_cw</span></code>.</p></li>
@@ -579,21 +573,21 @@ In DWSIM, this is typically read from the heat exchanger results (or equivalent 
 </section>
 <hr class="docutils" />
 <section id="modeling-surrogate-strategy">
-<h2>Modeling + Surrogate Strategy<a class="headerlink" href="#modeling-surrogate-strategy" title="Permalink to this heading">#</a></h2>
+<h2>Modeling + Surrogate Strategy<a class="headerlink" href="#modeling-surrogate-strategy" title="Link to this heading">#</a></h2>
 <section id="dwsim-phenomenological-model-ground-truth">
-<h3>1) DWSIM phenomenological model (ground truth)<a class="headerlink" href="#dwsim-phenomenological-model-ground-truth" title="Permalink to this heading">#</a></h3>
+<h3>1) DWSIM phenomenological model (ground truth)<a class="headerlink" href="#dwsim-phenomenological-model-ground-truth" title="Link to this heading">#</a></h3>
 <p>A DWSIM flowsheet is used as the <strong>reference simulator</strong> to compute <code class="docutils literal notranslate"><span class="pre">T_h_out</span></code> and <code class="docutils literal notranslate"><span class="pre">Q</span></code> for many combinations of <code class="docutils literal notranslate"><span class="pre">T_h_in</span></code> and <code class="docutils literal notranslate"><span class="pre">m_cw</span></code>.
 This generates a dataset covering the AIS domain.</p>
 <p><em>Figure 1: DWSIM flowsheet for the process cooling heat exchanger.</em></p>
 </section>
 <section id="mlp-surrogate-model-fast-evaluator">
-<h3>2) MLP surrogate model (fast evaluator)<a class="headerlink" href="#mlp-surrogate-model-fast-evaluator" title="Permalink to this heading">#</a></h3>
+<h3>2) MLP surrogate model (fast evaluator)<a class="headerlink" href="#mlp-surrogate-model-fast-evaluator" title="Link to this heading">#</a></h3>
 <p>A <strong>Multilayer Perceptron (MLP)</strong> is trained to learn the mapping:</p>
 <p><span class="math notranslate nohighlight">\(\mathbf{u} = [T_{h,\mathrm{in}},\; m_{cw}]^\top \;\rightarrow\; \mathbf{y} = [T_{h,\mathrm{out}},\; Q]^\top\)</span>.</p>
 <p>Once trained, the surrogate provides <strong>fast evaluations</strong> needed by operability routines (dense grids, inverse mapping, feasibility scans), while preserving the DWSIM behavior within the trained domain.</p>
 </section>
 <section id="operability-workflow-opyrability">
-<h3>3) Operability workflow (Opyrability)<a class="headerlink" href="#operability-workflow-opyrability" title="Permalink to this heading">#</a></h3>
+<h3>3) Operability workflow (Opyrability)<a class="headerlink" href="#operability-workflow-opyrability" title="Link to this heading">#</a></h3>
 <p>We then compute:</p>
 <ul class="simple">
 <li><p><strong>Forward mapping (AIS → AOS):</strong> what output region is reachable from the defined input region;</p></li>
@@ -604,7 +598,7 @@ This generates a dataset covering the AIS domain.</p>
 </section>
 <hr class="docutils" />
 <section id="requirements">
-<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">#</a></h2>
 <p>This notebook assumes:</p>
 <ul class="simple">
 <li><p><strong>DWSIM installed</strong> and accessible for automation (Windows/COM scenario is the most common),</p></li>
@@ -621,7 +615,7 @@ This generates a dataset covering the AIS domain.</p>
 </section>
 <hr class="docutils" />
 <section id="next-step">
-<h2>Next Step<a class="headerlink" href="#next-step" title="Permalink to this heading">#</a></h2>
+<h2>Next Step<a class="headerlink" href="#next-step" title="Link to this heading">#</a></h2>
 <p>Let’s start by importing the necessary libraries:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -646,7 +640,7 @@ This generates a dataset covering the AIS domain.</p>
 </div>
 </section>
 <section id="connecting-to-dwsim">
-<h2>Connecting to DWSIM<a class="headerlink" href="#connecting-to-dwsim" title="Permalink to this heading">#</a></h2>
+<h2>Connecting to DWSIM<a class="headerlink" href="#connecting-to-dwsim" title="Link to this heading">#</a></h2>
 <p>In this step, we load the required <strong>DWSIM libraries</strong> and establish a connection to the
 process simulation environment.</p>
 <p>This connection allows Python to:</p>
@@ -719,7 +713,7 @@ before running this section of the notebook.</p>
 </div>
 </section>
 <section id="read-and-save-snapshot-definitions">
-<h2>Read and Save Snapshot Definitions<a class="headerlink" href="#read-and-save-snapshot-definitions" title="Permalink to this heading">#</a></h2>
+<h2>Read and Save Snapshot Definitions<a class="headerlink" href="#read-and-save-snapshot-definitions" title="Link to this heading">#</a></h2>
 <p>In this section, we load previously saved <strong>snapshot definitions</strong> that describe the
 structure and state of the DWSIM flowsheet.</p>
 <p>These snapshots are used to:</p>
@@ -764,7 +758,7 @@ recovered without manually rebuilding the flowsheet.</p>
 </div>
 </section>
 <section id="phenomenological-model-wrapper-dwsim">
-<h2>Phenomenological Model Wrapper (DWSIM)<a class="headerlink" href="#phenomenological-model-wrapper-dwsim" title="Permalink to this heading">#</a></h2>
+<h2>Phenomenological Model Wrapper (DWSIM)<a class="headerlink" href="#phenomenological-model-wrapper-dwsim" title="Link to this heading">#</a></h2>
 <p>In this step, we define a <strong>Python wrapper</strong> around the DWSIM flowsheet, which exposes the
 phenomenological model as a callable function.</p>
 <p>The wrapper function <code class="docutils literal notranslate"><span class="pre">hx_problem(u)</span></code>:</p>
@@ -836,7 +830,7 @@ process model</strong> and the <strong>surrogate modeling / operability analysis
 </div>
 </div>
 <section id="quick-sanity-check">
-<h3>Quick Sanity Check<a class="headerlink" href="#quick-sanity-check" title="Permalink to this heading">#</a></h3>
+<h3>Quick Sanity Check<a class="headerlink" href="#quick-sanity-check" title="Link to this heading">#</a></h3>
 <p>Before proceeding with large-scale data generation and surrogate training,
 we perform a quick sanity check to verify that:</p>
 <ul class="simple">
@@ -871,7 +865,7 @@ preventing unnecessary computational effort in later stages.</p>
 </section>
 </section>
 <section id="define-ais-and-forward-mapping-with-dwsim">
-<h2>Define AIS and Forward Mapping with DWSIM<a class="headerlink" href="#define-ais-and-forward-mapping-with-dwsim" title="Permalink to this heading">#</a></h2>
+<h2>Define AIS and Forward Mapping with DWSIM<a class="headerlink" href="#define-ais-and-forward-mapping-with-dwsim" title="Link to this heading">#</a></h2>
 <p>We now define the <strong>Available Input Set (AIS)</strong> by specifying the admissible ranges for
 <code class="docutils literal notranslate"><span class="pre">T_h_in</span></code> and <code class="docutils literal notranslate"><span class="pre">m_cw</span></code>. Next, we compute the <strong>forward map</strong> (AIS → AOS) by evaluating the
 DWSIM flowsheet across a grid of input combinations.</p>
@@ -932,7 +926,7 @@ Keep the grid resolution <strong>small</strong> in this section to ensure reason
 </div>
 </section>
 <section id="generate-training-data-using-latin-hypercube-sampling-lhs">
-<h2>Generate Training Data Using Latin Hypercube Sampling (LHS)<a class="headerlink" href="#generate-training-data-using-latin-hypercube-sampling-lhs" title="Permalink to this heading">#</a></h2>
+<h2>Generate Training Data Using Latin Hypercube Sampling (LHS)<a class="headerlink" href="#generate-training-data-using-latin-hypercube-sampling-lhs" title="Link to this heading">#</a></h2>
 <p>To efficiently generate training data for the surrogate model, we employ
 <strong>Latin Hypercube Sampling (LHS)</strong> over the defined <strong>AIS domain</strong>.</p>
 <p>LHS provides a space-filling sampling strategy that:</p>
@@ -1025,7 +1019,7 @@ Filtered dataset: (1000, 2) (1000, 2)
 </div>
 </section>
 <section id="train-a-multi-output-mlp-surrogate-model">
-<h2>Train a Multi-Output MLP Surrogate Model<a class="headerlink" href="#train-a-multi-output-mlp-surrogate-model" title="Permalink to this heading">#</a></h2>
+<h2>Train a Multi-Output MLP Surrogate Model<a class="headerlink" href="#train-a-multi-output-mlp-surrogate-model" title="Link to this heading">#</a></h2>
 <p>In this step, we train a <strong>multi-output Multilayer Perceptron (MLP)</strong> to approximate the
 input–output behavior of the DWSIM phenomenological model.</p>
 <p>Both <strong>inputs and outputs are scaled</strong> prior to training in order to:</p>
@@ -1092,7 +1086,7 @@ RMSE Q      : 0.8493156096183071
 </div>
 </section>
 <section id="surrogate-model-wrapper-and-forward-mapping-ais-aos">
-<h2>Surrogate Model Wrapper and Forward Mapping (AIS → AOS)<a class="headerlink" href="#surrogate-model-wrapper-and-forward-mapping-ais-aos" title="Permalink to this heading">#</a></h2>
+<h2>Surrogate Model Wrapper and Forward Mapping (AIS → AOS)<a class="headerlink" href="#surrogate-model-wrapper-and-forward-mapping-ais-aos" title="Link to this heading">#</a></h2>
 <p>In this section, we wrap the trained <strong>MLP surrogate model</strong> into a callable function
 that mirrors the interface of the phenomenological DWSIM model.</p>
 <p>This surrogate wrapper:</p>
@@ -1129,7 +1123,7 @@ without the computational cost of repeatedly solving the DWSIM flowsheet.</p>
 </div>
 </section>
 <section id="operability-index-oi">
-<h2>Operability Index (OI)<a class="headerlink" href="#operability-index-oi" title="Permalink to this heading">#</a></h2>
+<h2>Operability Index (OI)<a class="headerlink" href="#operability-index-oi" title="Link to this heading">#</a></h2>
 <p>The <strong>Operability Index (OI)</strong> quantifies how much of a <strong>desired operating region</strong>
 in the output space can be achieved by the process given the defined <strong>AIS</strong>.</p>
 <p>In practical terms, the OI measures:</p>
@@ -1323,7 +1317,7 @@ OPERABILITY INDEX COMPARISON
 </div>
 </section>
 <section id="inverse-mapping-dos-dis-via-nonlinear-programming-nlp">
-<h2>Inverse Mapping (DOS → DIS*) via Nonlinear Programming (NLP)<a class="headerlink" href="#inverse-mapping-dos-dis-via-nonlinear-programming-nlp" title="Permalink to this heading">#</a></h2>
+<h2>Inverse Mapping (DOS → DIS*) via Nonlinear Programming (NLP)<a class="headerlink" href="#inverse-mapping-dos-dis-via-nonlinear-programming-nlp" title="Link to this heading">#</a></h2>
 <p>In this section, we perform the <strong>inverse operability analysis</strong>, where the goal is to
 determine the set of input conditions that can achieve a <strong>Desired Output Set (DOS)</strong>.</p>
 <p>Instead of mapping inputs to outputs, we solve the inverse problem:
@@ -1470,7 +1464,7 @@ process into the desired operating region.</p>
 </div>
 </section>
 <section id="compute-representative-design-point-from-dis">
-<h2>Compute Representative Design Point from DIS*<a class="headerlink" href="#compute-representative-design-point-from-dis" title="Permalink to this heading">#</a></h2>
+<h2>Compute Representative Design Point from DIS*<a class="headerlink" href="#compute-representative-design-point-from-dis" title="Link to this heading">#</a></h2>
 <p>In this final step, we compute a <strong>representative design/operating point</strong> from the
 feasible <strong>Desired Input Set (DIS*)</strong>.</p>
 <p>The mean values of the DIS* are used as a:</p>
@@ -1552,7 +1546,7 @@ Speedup:                                     51.3× faster
 </div>
 </section>
 <section id="conclusion">
-<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this heading">#</a></h2>
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Link to this heading">#</a></h2>
 <p>This case study demonstrates the effectiveness of <strong>surrogate-based operability analysis</strong>
 for realistic process engineering applications. By combining a <strong>first-principles
 phenomenological model</strong> implemented in <strong>DWSIM</strong> with a <strong>data-driven MLP surrogate</strong>,
@@ -1618,14 +1612,16 @@ advanced process engineering workflows.</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#case-study-process-cooler-heat-exchanger">Case Study: Process Cooler (Heat Exchanger)</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs-and-outputs">Inputs and Outputs</a></li>
@@ -1668,7 +1664,7 @@ advanced process engineering workflows.</p>
   <div class="footer-item">
     
 <p class="component-author">
-By Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+By Victor Alves - Carnegie Mellon University.
 </p>
 
   </div>
@@ -1678,7 +1674,7 @@ By Victor Alves et al., Control, Optimization and Design for Energy and Sustaina
 
   <p class="copyright">
     
-      © Copyright 2022-2025.
+      © Copyright 2022-2026.
       <br/>
     
   </p>
@@ -1702,8 +1698,8 @@ By Victor Alves et al., Control, Optimization and Design for Energy and Sustaina
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

@@ -1,12 +1,13 @@
 [build-system]
-requires = ["setuptools>=61.2.0", "poetry-core", "wheel", "setuptools_scm[toml]>=7.1.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.setuptools_scm]
 
 [tool.poetry]
 name = "opyrability"
-version = "1.4.9"
+# Placeholder only. The published version is set from the GitHub release tag
+# by the PyPI workflow (`poetry version "$GITHUB_REF_NAME"`); see
+# .github/workflows/python-publish.yml. Do not bump this by hand.
+version = "0.0.0"
 description = "Process operability analysis in Python"
 authors = ["Victor Alves"]
 license = "MIT License"
@@ -18,9 +19,10 @@ classifiers = [
     'Operating System :: Microsoft :: Windows',
     'Operating System :: Unix',
     'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.9',
-    'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
     'Topic :: Scientific/Engineering',
     'Topic :: Software Development :: Libraries :: Python Modules',
 ]
@@ -29,7 +31,7 @@ packages = [{ include = "opyrability.py", from = "src" },
 exclude = ["*.tests", "*.tests.*", "tests.*", "tests", "*.obsolete", "*.obsolete.*", "obsolete.*", "obsolete", "*.Experimental", "*.Experimental.*", "Experimental.*", "Experimental", "*.docs", "*.docs.*", "docs.*", "docs"]
 
 [tool.poetry.dependencies]
-python = "^3.9.0"
+python = ">=3.11"
 numpy = ">=1.24.1"
 scipy = ">=1.10.0"
 tqdm = ">=4.64.1"
@@ -37,6 +39,24 @@ matplotlib = ">=3.6.2"
 polytope = ">=0.2.4"
 jax = {extras = ["cpu"], version = ">=0.4.13"}
 cvxopt = ">=1.2.7"
+pounce-solver = ">=0.5.0"
+cyipopt = {version = ">=1.7.0", optional = true}
+pyomo-pounce = {version = ">=0.5.0", optional = true}
+pyomo = {version = ">=6.6", optional = true}
+plotly = {version = ">=5.0", optional = true}
+
+[tool.poetry.extras]
+# Pounce (a pure-Rust port of Ipopt with the bundled FERAL linear solver)
+# is the default NLP solver and a core dependency. The
+# extras below are optional add-ons: 'ipopt' brings the cyipopt IPOPT
+# backend (compiled binaries, usually installed via conda); 'pyomo' brings
+# equation-oriented Pyomo/OMLT model support with the Pounce Pyomo plugin;
+# 'plotly' brings interactive 3D operability funnels (engine='plotly').
+# 'solvers' bundles all optional backends.
+ipopt = ["cyipopt"]
+pyomo = ["pyomo", "pyomo-pounce"]
+plotly = ["plotly"]
+solvers = ["cyipopt", "pyomo", "pyomo-pounce"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

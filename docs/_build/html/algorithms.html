@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="./" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Process Operability Algorithms &#8212; Opyrability&#39;s documentation.</title>
   
@@ -17,60 +16,62 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="_static/cmu.css?v=cf4c8d3f" />
   
-  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/clipboard.min.js"></script>
-    <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script src="_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'algorithms';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API Documentation" href="api.html" />
     <link rel="prev" title="Process Operability Overview" href="operability_overview.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -86,19 +87,8 @@ const thebe_selector_output = ".output, .cell_output"
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -106,7 +96,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -114,8 +103,8 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -131,7 +120,8 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -161,17 +151,24 @@ const thebe_selector_output = ".output, .cell_output"
     
     
     <img src="_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
-    <script>document.write(`<img src="_static/opyrability_logo.png" class="logo__image only-dark" alt="Opyrability's documentation. - Home"/>`);</script>
+    <img src="_static/opyrability_logo.png" class="logo__image only-dark pst-js-only" alt="Opyrability's documentation. - Home"/>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="intro.html">
-                    Opyrability Documentation  
+                    Opyrability Documentation 
                 </a>
             </li>
         </ul>
@@ -196,9 +193,14 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -217,9 +219,9 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -328,7 +330,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -342,27 +344,19 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -384,7 +378,18 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multimodel-approach">Multimodel Approach</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-programming-based-nlp-based-approach">Nonlinear Programming-Based (NLP-based) Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-programming-based-nlp-based-approach">Nonlinear Programming-Based (NLP-based) Approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#process-intensification-p2">Process Intensification (P2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bilevel-formulation-p3">Bilevel Formulation (P3)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-mapping">Implicit Mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#milp-based-multilayer-framework">MILP-Based Multilayer Framework</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-operability">Dynamic Operability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#achievable-output-funnel">Achievable Output Funnel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-operability-index-doi">Dynamic Operability Index (dOI)</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -397,7 +402,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="process-operability-algorithms">
-<h1>Process Operability Algorithms<a class="headerlink" href="#process-operability-algorithms" title="Permalink to this heading">#</a></h1>
+<h1>Process Operability Algorithms<a class="headerlink" href="#process-operability-algorithms" title="Link to this heading">#</a></h1>
 <p>There are two main operations that may be needed to perform an
 operability analysis:</p>
 <ol class="arabic simple">
@@ -413,11 +418,14 @@ equations as vector-valued functions, this may be a non-trivial task.</p></li>
 <p>Algorithms have been developed in the literature to address these challenges.
 For quantification of the operability sets and thus, the OI itself, the multimodel approach
 has been developed. For inverse mapping, the nonlinear programming-based (NLP-based) and the implicit mapping approaches have been successfully employed to evaluate the inverse map
-of a given process model. This section will go briefly over these methods but the
+of a given process model. Beyond finding <em>feasible</em> designs, the NLP-based approach also
+searches for the <em>best</em> one through process intensification (the problems P1, P2 and P3), and
+the multimodel representation supports a mixed-integer linear programming (MILP) framework that
+finds optimal modular designs quickly. This section will go briefly over these methods but the
 reader is encouraged to go over the <a class="reference internal" href="bibliography.html#bibliography"><span class="std std-ref">Bibliography</span></a> for a more thorough explanation of them.</p>
 <section id="multimodel-approach">
-<h2>Multimodel Approach<a class="headerlink" href="#multimodel-approach" title="Permalink to this heading">#</a></h2>
-<p>The multimodel approach <span id="id1">[<a class="reference internal" href="bibliography.html#id33" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">9</a>, <a class="reference internal" href="bibliography.html#id5" title="Vitor Gazzaneo, Juan C. Carrasco, David R. Vinson, and Fernando V. Lima. Process operability algorithms: past, present, and future developments. Industrial &amp; Engineering Chemistry Research, 59(6):2457-2470, 2020. URL: https://doi.org/10.1021/acs.iecr.9b05181, arXiv:https://doi.org/10.1021/acs.iecr.9b05181, doi:10.1021/acs.iecr.9b05181.">10</a>, <a class="reference internal" href="bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">11</a>]</span> employs
+<h2>Multimodel Approach<a class="headerlink" href="#multimodel-approach" title="Link to this heading">#</a></h2>
+<p>The multimodel approach <span id="id1">[<a class="reference internal" href="bibliography.html#id33" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">13</a>, <a class="reference internal" href="bibliography.html#id5" title="Vitor Gazzaneo, Juan C. Carrasco, David R. Vinson, and Fernando V. Lima. Process operability algorithms: past, present, and future developments. Industrial &amp; Engineering Chemistry Research, 59(6):2457-2470, 2020. URL: https://doi.org/10.1021/acs.iecr.9b05181, arXiv:https://doi.org/10.1021/acs.iecr.9b05181, doi:10.1021/acs.iecr.9b05181.">14</a>, <a class="reference internal" href="bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">15</a>]</span> employs
 the paradigm of a series of polytopes being able
 to represent any nonlinear space. This approach
 simplifies the calculation of operability sets since polytopes are by definition convex and can be described by their half-space representation (<span class="math notranslate nohighlight">\(\mathcal{H}-rep\)</span>) or vertex representation (<span class="math notranslate nohighlight">\(\mathcal{V}-rep\)</span>), as a system of linear
@@ -427,10 +435,10 @@ inequality constraints.</p>
 in the input space, and their respective coordinate in the output space is obtained
 through the process model <span class="math notranslate nohighlight">\(M\)</span>. Paired polytopes (color coded) can be “drawn” to represent
 the AOS accordingly:</p>
-<figure class="align-center" id="id4">
+<figure class="align-center" id="id18">
 <img alt="_images/multimodel_01.gif" src="_images/multimodel_01.gif" />
 <figcaption>
-<p><span class="caption-number">Fig. 12 </span><span class="caption-text">AIS-AOS representation using paired polytopes.</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 12 </span><span class="caption-text">AIS-AOS representation using paired polytopes.</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>In the animation above, <span class="math notranslate nohighlight">\(P_1^u\)</span> is paired with <span class="math notranslate nohighlight">\(P_1^y\)</span> and so on, in
@@ -439,10 +447,10 @@ the general form <span class="math notranslate nohighlight">\(P_k = \{P_k^u,P_k^
 polytopes can be depicted in the animation below, in which one can see that the
 polytopes approximate the overall non-convex AOS region with relative accuracy,
 as well as the DOS and DIS:</p>
-<figure class="align-center" id="id5">
+<figure class="align-center" id="id19">
 <img alt="_images/multimodel_02.gif" src="_images/multimodel_02.gif" />
 <figcaption>
-<p><span class="caption-number">Fig. 13 </span><span class="caption-text">AIS-AOS polytopic approximation</span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 13 </span><span class="caption-text">AIS-AOS polytopic approximation</span><a class="headerlink" href="#id19" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Due to its intrinsic roots in computational geometry and linear programming,
@@ -455,15 +463,16 @@ competing design and control structures.</p></li>
 </ol>
 </section>
 <section id="nonlinear-programming-based-nlp-based-approach">
-<h2>Nonlinear Programming-Based (NLP-based) Approach<a class="headerlink" href="#nonlinear-programming-based-nlp-based-approach" title="Permalink to this heading">#</a></h2>
-<p>The NLP-based approach <span id="id2">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">5</a>, <a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">6</a>]</span> converts the inverse mapping
+<h2>Nonlinear Programming-Based (NLP-based) Approach<a class="headerlink" href="#nonlinear-programming-based-nlp-based-approach" title="Link to this heading">#</a></h2>
+<p>The NLP-based approach <span id="id2">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">6</a>, <a class="reference internal" href="bibliography.html#id6" title="Juan C. Carrasco and Fernando V. Lima. Novel operability-based approach for process design and intensification: application to a membrane reactor for direct methane aromatization. AIChE Journal, 63(3):975-983, 2017. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.15439, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.15439, doi:https://doi.org/10.1002/aic.15439.">7</a>]</span> converts the inverse mapping
 task into a nonlinear programming formulation.
 The premise of this algorithm is that the DOS can be discretized into a series of
 coordinate points in the output space (AOS/DOS) and that an objective function of
 error minimization nature (e.g., Euclidean distance) is posed
 between the feasible operation and desired operation (DOS). The solution to the
 nonlinear programming problem at each discretized point is the DIS that attains the operation
-of the DOS. Mathematically, this can be posed as the following NLP optimization problem:</p>
+of the DOS. Mathematically, this base problem, referred to as <strong>P1</strong>, can be posed as the
+following NLP optimization problem:</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{gathered}
 \emptyset_{\mathrm{k}}=\min _{\mathrm{u}_k^*} \sum_{j=1}^n\left(\left(\mathrm{y}_{j, k}-\mathrm{y}_{j, k}^*\right) / \mathrm{y}_{j, k}\right)^2 \\
@@ -479,10 +488,10 @@ needed; these can be a result of product specifications, equipment limitations a
 point. Then, for each point, a corresponding feasible DIS solution is obtained.
 Due to the nature of the objective function (error/distance minimization), the DOS
 points will be shifted as close as possible to enable feasible operation represented by DOS* and DIS*:</p>
-<figure class="align-center" id="id6">
+<figure class="align-center" id="id20">
 <img alt="_images/nlp_01.gif" src="_images/nlp_01.gif" />
 <figcaption>
-<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Inverse mapping using NLP-based approach</span><a class="headerlink" href="#id6" title="Permalink to this image">#</a></p>
+<p><span class="caption-number">Fig. 14 </span><span class="caption-text">Inverse mapping using NLP-based approach</span><a class="headerlink" href="#id20" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The main features of the NLP-based approach are</p>
@@ -494,8 +503,193 @@ points will be shifted as close as possible to enable feasible operation represe
 <p>Since a successful solution of an NLP is always feasible, the DOS and DIS that achieve
 the error minimization between feasible and desired operation are named slightly differently as
 the Feasible Desired Output Set (DOS*) and Feasible Desired Input Set (DIS*).</p>
-<p>Lastly, the NLP-based approach can be extended to encompass the search for intensified
-and/or modular designs, as proposed in the literature <span id="id3">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">5</a>]</span>.</p>
+<p>P1, as posed above, asks only for <em>feasibility</em>: the design that comes closest to each
+desired operating point. Process operability often asks a sharper question, though: among
+all the feasible designs, which one is the <em>best</em>? Here “best” means smallest, cheapest or
+most compact, quantified by a process intensification metric <span class="math notranslate nohighlight">\(\mathrm{PI}\)</span> that the
+user supplies (for instance the reactor volume or the membrane area). Two further problems,
+P2 and P3, answer this question <span id="id3">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">6</a>]</span>.</p>
+<section id="process-intensification-p2">
+<h3>Process Intensification (P2)<a class="headerlink" href="#process-intensification-p2" title="Link to this heading">#</a></h3>
+<p>P2 builds directly on the result of P1. First, P1 is solved over the DOS grid to obtain the
+feasible region (DIS*/DOS*). Among those feasible designs, only the ones that meet a required
+<em>level of performance</em> are kept (for example, a benzene production of at least 20 mg/h); call
+this subset <span class="math notranslate nohighlight">\(DIS_{\mathrm{PI}}\)</span>. The intensified design is then simply the member of that
+subset that minimizes the intensification metric:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gathered}
+\Omega = \min_{u^*} \; \mathrm{PI}(u^*) \\
+\text{s.t.: } u^* \in DIS_{\mathrm{PI}}, \quad y^* \in DOS_{\mathrm{PI}}
+\end{gathered}\end{split}\]</div>
+<p>Because P2 is a selection step applied <em>after</em> P1, the same feasible region can be ranked by
+any number of metrics (volume, area, cost) at almost no extra cost: P1 is solved once, and the
+ranking in P2 is repeated cheaply for each metric of interest.</p>
+</section>
+<section id="bilevel-formulation-p3">
+<h3>Bilevel Formulation (P3)<a class="headerlink" href="#bilevel-formulation-p3" title="Link to this heading">#</a></h3>
+<p>P3 states the same goal as a single, self-contained optimization problem instead of a two-step
+procedure. It is a <em>bilevel</em> program, that is, an optimization problem nested inside another one:
+an outer level chooses the design that minimizes the intensification metric, while an inner level
+guarantees that this design is itself a valid inverse-mapping (P1) solution:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gathered}
+\Psi = \min_{u \in \mathbb{U}} \; \mathrm{PI}(u) \\
+\text{s.t.: } u_k^* \in \underset{u_k^* \in \mathbb{U}_k,\; y_k \in DOS}{\arg\min} \;
+\sum_{j=1}^n \left( \frac{y_{j, k}-y_{j, k}^*}{y_{j, k}} \right)^2 \\
+\mathbf{c}_1\left(u_k^*\right) \leq 0
+\end{gathered}\end{split}\]</div>
+<p>The inner <span class="math notranslate nohighlight">\(\arg\min\)</span> is exactly P1, and the outer objective is the intensification metric
+of P2. Carrasco and Lima showed that solving this bilevel program yields the same design as
+solving P1 and P2 in sequence <span id="id4">[<a class="reference internal" href="bibliography.html#id9" title="Juan C. Carrasco and Fernando V. Lima. An optimization-based operability framework for process design and intensification of modular natural gas utilization systems. Computers &amp; Chemical Engineering, 105:246 - 258, 2017. URL: http://www.sciencedirect.com/science/article/pii/S009813541630415X, doi:https://doi.org/10.1016/j.compchemeng.2016.12.010.">6</a>]</span>, so in practice P3 is solved through that
+equivalence: run the inner P1 over the grid, then minimize the metric over the feasible region.
+P2 and P3 therefore reach the same intensified design; the difference is one of framing, P2 as a
+postprocessing step on a previously computed region and P3 as a single optimization statement.</p>
+</section>
+</section>
+<section id="implicit-mapping">
+<h2>Implicit Mapping<a class="headerlink" href="#implicit-mapping" title="Link to this heading">#</a></h2>
+<p>The NLP-based approach calls the process model many times inside an optimizer, once for every
+point of interest. When the model is written as a set of equations, a faster route is possible.
+Any process model can be cast implicitly as <span class="math notranslate nohighlight">\(F(u, y) = 0\)</span>, a system of equations that the
+inputs <span class="math notranslate nohighlight">\(u\)</span> and outputs <span class="math notranslate nohighlight">\(y\)</span> must satisfy together. Implicit mapping <span id="id5">[<a class="reference internal" href="bibliography.html#id38" title="Victor Alves, John R. Kitchin, and Fernando V. Lima. An inverse mapping approach for process systems engineering using automatic differentiation and the implicit function theorem. AIChE Journal, 69(9):e18119, 2023. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.18119, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.18119, doi:https://doi.org/10.1002/aic.18119.">3</a>]</span>
+follows the solution of this system directly, instead of re-optimizing at every point.</p>
+<p>The key idea is the implicit function theorem: if a point <span class="math notranslate nohighlight">\((u, y)\)</span> satisfies
+<span class="math notranslate nohighlight">\(F(u, y) = 0\)</span>, then the derivatives of <span class="math notranslate nohighlight">\(F\)</span> tell us how <span class="math notranslate nohighlight">\(y\)</span> must change when
+<span class="math notranslate nohighlight">\(u\)</span> changes in order to stay on the solution. These derivatives are obtained exactly and
+cheaply with automatic differentiation. For a forward map the sensitivity is</p>
+<div class="math notranslate nohighlight">
+\[\frac{dy}{du} = -\left( \frac{\partial F}{\partial y} \right)^{-1} \frac{\partial F}{\partial u}\]</div>
+<p>and for the inverse map the roles of <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(y\)</span> are simply swapped. Starting from one
+known point on <span class="math notranslate nohighlight">\(F = 0\)</span>, the mapping is then traced out as a path. A <em>predictor</em> step advances
+along the direction given by the expression above (a numerical integration, for example explicit
+Euler or Runge-Kutta), and a <em>corrector</em> step then solves <span class="math notranslate nohighlight">\(F = 0\)</span> at the new point to pull
+the path back onto the solution whenever the residual <span class="math notranslate nohighlight">\(\lVert F \rVert\)</span> grows beyond a
+tolerance. Sweeping this predictor-corrector march over the output space produces the inverse map
+(the DIS), and sweeping it over the input space produces the forward map (the AOS).</p>
+<p>The main features of implicit mapping are</p>
+<ol class="arabic simple">
+<li><p><strong>Speed on equation-oriented models,</strong> since tracing a single path of derivatives avoids solving
+a separate optimization problem at every point. The original study reports substantial
+reductions in computation time and complexity against the NLP-based approach on a CSTR and a
+membrane reactor <span id="id6">[<a class="reference internal" href="bibliography.html#id38" title="Victor Alves, John R. Kitchin, and Fernando V. Lima. An inverse mapping approach for process systems engineering using automatic differentiation and the implicit function theorem. AIChE Journal, 69(9):e18119, 2023. URL: https://aiche.onlinelibrary.wiley.com/doi/abs/10.1002/aic.18119, arXiv:https://aiche.onlinelibrary.wiley.com/doi/pdf/10.1002/aic.18119, doi:https://doi.org/10.1002/aic.18119.">3</a>]</span>.</p></li>
+<li><p><strong>Exact derivatives,</strong> supplied by automatic differentiation rather than finite differences,
+which keeps the traced path accurate.</p></li>
+<li><p><strong>Forward or inverse in one framework,</strong> since changing the direction of the map only swaps the
+roles of the inputs and outputs in the implicit function theorem.</p></li>
+</ol>
+</section>
+<section id="milp-based-multilayer-framework">
+<h2>MILP-Based Multilayer Framework<a class="headerlink" href="#milp-based-multilayer-framework" title="Link to this heading">#</a></h2>
+<p>The methods above solve one nonlinear program for every point of interest. The multilayer
+operability framework of Gazzaneo and Lima <span id="id7">[<a class="reference internal" href="bibliography.html#id33" title="Vitor Gazzaneo, Juan C. Carrasco, and Fernando V. Lima. An MILP-based operability approach for process intensification and design of modular energy systems. In Mario R. Eden, Marianthi G. Ierapetritou, and Gavin P. Towler, editors, 13th International Symposium on Process Systems Engineering (PSE 2018), volume 44 of Computer Aided Chemical Engineering, pages 2371-2376. Elsevier, 2018. URL: https://www.sciencedirect.com/science/article/pii/B9780444642417503906, doi:https://doi.org/10.1016/B978-0-444-64241-7.50390-6.">13</a>, <a class="reference internal" href="bibliography.html#id7" title="Vitor Gazzaneo and Fernando V. Lima. Multilayer operability framework for process design, intensification, and modularization of nonlinear energy systems. Industrial &amp; Engineering Chemistry Research, 58(15):6069-6079, 2019. URL: https://doi.org/10.1021/acs.iecr.8b05482, arXiv:https://doi.org/10.1021/acs.iecr.8b05482, doi:10.1021/acs.iecr.8b05482.">15</a>]</span> takes a different route:
+it reuses the paired polytopes of the multimodel approach (described above) so that the design
+search becomes a single mixed-integer linear program (MILP) instead of many nonlinear ones.
+Because every piece of the problem is linear, the design is found in a fraction of the time, the
+trade-off being that the nonlinear map is approximated by its polytopes.</p>
+<p>The idea works in layers. The achievable region is first represented by the paired polytopes of
+the multimodel approach. Each polytope covers a small patch of the input space and maps to a small
+patch of the output space, and inside a polytope every point can be written as a weighted average
+of its corners (the weights are non-negative and sum to one). The MILP then makes two decisions
+at once:</p>
+<ol class="arabic simple">
+<li><p><strong>Which polytope?</strong> A set of yes/no (binary) variables selects exactly one polytope, namely the
+one that both reaches the desired outputs and contains the best design.</p></li>
+<li><p><strong>Where inside it?</strong> A set of continuous weights pins down the exact design point as a weighted
+average of that polytope’s corners.</p></li>
+</ol>
+<p>The objective is the same intensification metric <span class="math notranslate nohighlight">\(\mathrm{PI}\)</span> used in P2 and P3, but
+evaluated through the corner weights so that it stays linear. For one layer, the design problem
+reads:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{gathered}
+\min_{w,\, b} \; \sum_{k} \sum_{i} w_{i, k}\, \mathrm{PI}\left(v_{i, k}\right) \\
+\text{s.t.: } \sum_{i} w_{i, k}=b_k \;\; \forall k, \qquad \sum_{k} b_k=1 \\
+\text{(weighted output point)} \in DOS \\
+w_{i, k} \geq 0, \qquad b_k \in\{0,1\}
+\end{gathered}\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(v_{i, k}\)</span> are the corners of polytope <span class="math notranslate nohighlight">\(k\)</span>, <span class="math notranslate nohighlight">\(w_{i, k}\)</span> their weights, and
+<span class="math notranslate nohighlight">\(b_k\)</span> the binary variable that switches polytope <span class="math notranslate nohighlight">\(k\)</span> on or off. The linking constraint
+<span class="math notranslate nohighlight">\(\sum_i w_{i, k}=b_k\)</span> forces the weights to live in the single selected polytope.</p>
+<p>A single coarse grid would give only a rough design, so the framework refines itself: once the best
+polytope is found, the input region is shrunk around it, the polytopes are rebuilt on the smaller
+region, and the MILP is solved again. Repeating this zoom a handful of times drives the design to
+its optimal value, much as successively finer rulers locate a point more precisely.</p>
+<p>The main features of the MILP-based framework are</p>
+<ol class="arabic simple">
+<li><p><strong>Speed,</strong> since replacing many nonlinear programs by one linear program per layer finds optimal
+modular designs in seconds.</p></li>
+<li><p><strong>Optimality across the whole region,</strong> since the binary choice compares all candidate polytopes
+at once, rather than searching locally from an initial guess as the NLP does.</p></li>
+<li><p><strong>Reuse of the multimodel representation,</strong> since the same paired polytopes used to quantify the
+operability sets and the OI are what the MILP optimizes over, tying the two halves of an
+operability study together.</p></li>
+</ol>
+</section>
+<section id="dynamic-operability">
+<h2>Dynamic Operability<a class="headerlink" href="#dynamic-operability" title="Link to this heading">#</a></h2>
+<p>The algorithms above answer a steady-state question: can the desired outputs be
+reached at steady state by some choice of inputs? Dynamic operability asks the
+sharper, time-dependent question: starting from a given initial state, can the
+manipulated inputs drive the outputs into the desired region within a finite
+number of time steps, and regardless of the disturbances <span id="id8">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>? Where
+steady-state operability assesses the feasibility of a <em>design</em>, dynamic
+operability gauges the effectiveness of a <em>control structure</em> during operation;
+because it depends only on the input ranges and the model, it is an inherent
+property of the process and does not depend on a particular control law
+<span id="id9">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>.</p>
+<p>The process is described by a discrete-time state-space model, obtained by
+applying a zero-order hold to the continuous dynamics and discretizing time as
+<span class="math notranslate nohighlight">\(t = \Delta t\, k\)</span> <span id="id10">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>:</p>
+<div class="math notranslate nohighlight">
+\[x_{k+1} = f(x_k, u_k, d_k), \qquad y_k = h(x_k, u_k, d_k)\]</div>
+<p>where <span class="math notranslate nohighlight">\(x_k\)</span> is the state, <span class="math notranslate nohighlight">\(u_k\)</span> the manipulated inputs (drawn from
+the AIS), <span class="math notranslate nohighlight">\(d_k\)</span> the disturbances (drawn from the EDS), and <span class="math notranslate nohighlight">\(y_k\)</span> the
+outputs. Unlike the steady-state case, the design variables are fixed once the
+unit is built, so only the operational inputs are manipulated over time
+<span id="id11">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>.</p>
+<section id="achievable-output-funnel">
+<h3>Achievable Output Funnel<a class="headerlink" href="#achievable-output-funnel" title="Link to this heading">#</a></h3>
+<p>The central object is the dynamic Achievable Output Set at step <span class="math notranslate nohighlight">\(k\)</span>,
+<span class="math notranslate nohighlight">\(AOS^k(x_0)\)</span>: the set of outputs reachable from the initial state
+<span class="math notranslate nohighlight">\(x_0\)</span> within <span class="math notranslate nohighlight">\(k\)</span> steps using input sequences that stay inside the
+AIS at every step <span id="id12">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>. For a fixed disturbance sequence <span class="math notranslate nohighlight">\(d\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[AOS^k(x_0, d) = \left\{ y_k \;\middle|\; \exists\, \{u_\tau\}_{\tau=0}^{k-1}
+\in AIS,\; y_k = \tilde{\mathcal{M}}(x_0, \{u_\tau\}_{\tau=0}^{k-1}, d) \right\}\]</div>
+<p>in which <span class="math notranslate nohighlight">\(\tilde{\mathcal{M}}\)</span> is the dynamic input-output mapping, written
+with a tilde to distinguish it from the steady-state map <span class="math notranslate nohighlight">\(\mathcal{M}\)</span>.
+Stacking these snapshots along the time axis, one slice per step, traces the
+characteristic operability <em>funnel</em>: it starts as the single point
+<span class="math notranslate nohighlight">\(y(x_0)\)</span> at <span class="math notranslate nohighlight">\(k = 0\)</span> and widens as the inputs move the process over
+time. When the disturbances are uncertain, the disturbance-robust funnel is the
+intersection of the reachable sets over the Expected Disturbance Set, so that a
+point is retained only if it is reachable regardless of which disturbance
+realization occurs <span id="id13">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>:</p>
+<div class="math notranslate nohighlight">
+\[AOS^k(x_0) = \bigcap_{d \in EDS} AOS^k(x_0, d)\]</div>
+<p>opyrability builds the funnel either exactly, by propagating the state-space
+polytope through the model with affine transforms and Minkowski sums when the
+system is linear <span id="id14">[<a class="reference internal" href="bibliography.html#id46" title="San Dinh and Fernando V. Lima. Linear dynamic operability analysis with state-space projection for the online construction of achievable output funnels. Computers and Chemical Engineering, 205:109428, 2026. URL: https://doi.org/10.1016/j.compchemeng.2025.109428, doi:10.1016/j.compchemeng.2025.109428.">11</a>]</span>, or approximately, by simulating input sequences
+forward and taking the convex hull of the reachable outputs at each step for a
+general nonlinear model with many states <span id="id15">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>.</p>
+</section>
+<section id="dynamic-operability-index-doi">
+<h3>Dynamic Operability Index (dOI)<a class="headerlink" href="#dynamic-operability-index-doi" title="Link to this heading">#</a></h3>
+<p>Just as the steady-state OI measures the overlap between the AOS and the DOS,
+the dynamic Operability Index applies that same measure to each slice of the
+funnel, producing a value at every time step <span id="id16">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>:</p>
+<div class="math notranslate nohighlight">
+\[dOI(k) = \frac{\mu\left(AOS^k(x_0) \cap DOS\right)}{\mu(DOS)} \times 100\%\]</div>
+<p>where <span class="math notranslate nohighlight">\(\mu\)</span> is the hypervolume (Lebesgue measure) introduced for the
+steady-state OI. The dOI is zero at the initial instant, when the funnel is a
+single point of no measure, and grows as the funnel expands into the DOS. A
+design is dynamically operable when, beyond some finite step <span class="math notranslate nohighlight">\(\bar{k}\)</span>,
+the funnel overlaps the DOS (<span class="math notranslate nohighlight">\(dOI(k) &gt; 0\)</span> for all <span class="math notranslate nohighlight">\(k \geq \bar{k}\)</span>),
+and the step at which this first happens quantifies how quickly the desired
+operation becomes reachable <span id="id17">[<a class="reference internal" href="bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>. In opyrability, the funnel, the dOI
+time series, and the dOI-colored funnel plot are produced in a single call to
+<code class="docutils literal notranslate"><span class="pre">dynamic_operability</span></code>.</p>
+</section>
 </section>
 </section>
 
@@ -554,17 +748,30 @@ and/or modular designs, as proposed in the literature <span id="id3">[<a class="
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multimodel-approach">Multimodel Approach</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-programming-based-nlp-based-approach">Nonlinear Programming-Based (NLP-based) Approach</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nonlinear-programming-based-nlp-based-approach">Nonlinear Programming-Based (NLP-based) Approach</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#process-intensification-p2">Process Intensification (P2)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bilevel-formulation-p3">Bilevel Formulation (P3)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implicit-mapping">Implicit Mapping</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#milp-based-multilayer-framework">MILP-Based Multilayer Framework</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-operability">Dynamic Operability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#achievable-output-funnel">Achievable Output Funnel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dynamic-operability-index-doi">Dynamic Operability Index (dOI)</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
@@ -579,7 +786,7 @@ and/or modular designs, as proposed in the literature <span id="id3">[<a class="
   <div class="footer-item">
     
 <p class="component-author">
-By Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+By Victor Alves - Carnegie Mellon University.
 </p>
 
   </div>
@@ -589,7 +796,7 @@ By Victor Alves et al., Control, Optimization and Design for Energy and Sustaina
 
   <p class="copyright">
     
-      © Copyright 2022-2025.
+      © Copyright 2022-2026.
       <br/>
     
   </p>
@@ -613,8 +820,8 @@ By Victor Alves et al., Control, Optimization and Design for Energy and Sustaina
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>

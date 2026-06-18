@@ -1,3 +1,15 @@
 jupyter-book
 matplotlib
 numpy
+plotly
+pyomo
+pounce-solver>=0.5.0
+pyomo-pounce>=0.5.0
+# scikit-learn trains the Gaussian-process surrogate in the GP-NARX dynamic
+# operability tutorial.
+scikit-learn
+# Optional IPOPT backend, needed only so the tutorials can compare the
+# 'ipopt' and 'pounce' solvers when the docs are built. cvxopt (used by
+# polytope) and the other core dependencies come transitively with the
+# opyrability package install; glpk is not required.
+cyipopt>=1.7.0

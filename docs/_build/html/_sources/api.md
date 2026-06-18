@@ -30,7 +30,6 @@ Obtaining the Achievable Output Set (AOS) for the shower problem.
 
 Importing opyrability and Numpy:
 ```{code-cell}
-    :tags: ["remove-output"]
     from opyrability import AIS2AOS_map
     import numpy as np
 ```
@@ -145,10 +144,74 @@ NLP and using finite differences:
 ```
 
 
+### MILP-Based (multilayer operability framework)
+
+```{eval-rst}
+.. autofunction:: opyrability.milp_based_approach
+```
+
+###### Example
+
+Optimal modular design of the shower problem, minimizing the total water
+usage subject to a desired output region and the linear input constraint
+$u_1 \leq u_2$:
+
+```{code-cell} ipython3
+import numpy as np
+from opyrability import milp_based_approach
+
+# shower_problem is defined in the forward-mapping example above.
+u_opt, y_opt, phi, phi_true, history = milp_based_approach(
+    shower_problem,
+    AIS_bound=np.array([[0.1, 10.0], [0.1, 10.0]]),
+    PI_target=lambda u: u[0] + u[1],
+    DOS_bounds=np.array([[6.0, 9.0], [85.0, 95.0]]),
+    AIS_resolution=5,
+    input_constr=(np.array([[1.0, -1.0]]), np.array([0.0])))
+```
+
 ## Implicit mapping
 
 ```{eval-rst}
 .. autofunction:: opyrability.implicit_map
+```
+
+###### Example
+
+Trace the forward map (AIS to AOS) and the inverse map (DOS to DIS) of a model
+written implicitly as $F(u, y) = 0$, here a simple linear example $y = A u$:
+
+```{code-cell}
+    import numpy as np
+    import jax.numpy as jnp
+    from opyrability import implicit_map
+
+    A = np.array([[2.0, 1.0], [1.0, 3.0]])
+
+    def F(u, y):                        # F(u, y) = 0  <=>  y = A u
+        return jnp.array([y[0] - (A[0, 0] * u[0] + A[0, 1] * u[1]),
+                          y[1] - (A[1, 0] * u[0] + A[1, 1] * u[1])])
+
+    # Forward: map the Available Input Set to the Achievable Output Set.
+    AIS_imp = np.array([[0.0, 1.0], [0.0, 1.0]])
+    fwd_in, fwd_out, _, _ = implicit_map(F,
+                                         image_init=A @ AIS_imp[:, 0],
+                                         domain_bound=AIS_imp,
+                                         domain_resolution=[5, 5],
+                                         direction='forward')
+
+    # Inverse: map a Desired Output Set back to the Desired Input Set.
+    DOS_imp = np.array([[0.0, 2.0], [0.0, 2.0]])
+    inv_in, inv_out, _, _ = implicit_map(F,
+                                         image_init=np.linalg.solve(A, DOS_imp[:, 0]),
+                                         domain_bound=DOS_imp,
+                                         domain_resolution=[5, 5],
+                                         direction='inverse')
+```
+
+```{code-cell}
+    print('forward AOS grid:', np.asarray(fwd_out).shape)
+    print('inverse DIS grid:', np.asarray(inv_out).shape)
 ```
 
 ## Multimodel representation
@@ -260,6 +323,332 @@ Evaluating the OI and seeing the intersection between the operability sets:
 ```{code-cell} 
     OI = OI_eval(AOS_region, DOS_bounds)
 ```
+
+### Ranking designs by the OI
+
+`rank_designs` scores several process models by their Operability Index against
+a shared DOS and returns them ranked from most to least operable, from either
+the output perspective ($\mu(AOS \cap DOS)/\mu(DOS)$) or the input perspective,
+which inverse-maps the DOS to the feasible desired input set DIS\*
+($\mu(DIS^* \cap AIS)/\mu(AIS)$).
+
+```{eval-rst}
+.. autofunction:: opyrability.rank_designs
+```
+
+###### Example
+
+Ranking two design envelopes of the shower problem by their output-space OI,
+reusing ``shower_problem`` and ``DOS_bounds`` defined above:
+```{code-cell}
+    from opyrability import rank_designs
+
+    ranking = rank_designs(
+        {'Wide valves': shower_problem, 'Narrow valves': shower_problem},
+        AIS_bound={'Wide valves': np.array([[1, 10], [1, 10]]),
+                   'Narrow valves': np.array([[3, 8], [3, 8]])},
+        DOS_bound=DOS_bounds,
+        resolution=[10, 10],
+        perspective='outputs',
+        plot=True)
+```
+
+## Dynamic operability
+
+Dynamic operability extends the steady-state sets to systems that evolve in
+time {cite}`dinh23, dinh26`. Starting from an initial state, it builds the
+*achievable-output funnel* over a horizon of $k$ time steps and evaluates the
+Dynamic Operability Index (dOI) against the Desired Output Set (DOS) at each
+step.
+
+The recommended high-level entry point is `dynamic_operability`, which
+auto-selects the propagation method (linear state-space projection for matrix
+models, nonlinear projection for low-dimensional states, or n-step simulation
+otherwise), evaluates the dOI, and plots the dOI-colored funnel in a single
+call.
+
+```{eval-rst}
+.. autofunction:: opyrability.dynamic_operability
+```
+
+###### Example
+
+A stable two-state linear time-invariant system, supplied as a matrices dict
+$\{A, B, C\}$ (so the linear state-space projection is selected
+automatically): build the funnel over four steps and evaluate the dOI against
+a desired output set.
+
+```{code-cell}
+    import numpy as np
+    from opyrability import dynamic_operability
+
+    # Linear time-invariant model: x(k+1) = A x + B u, y = C x.
+    model = {'A': 0.9 * np.eye(2), 'B': np.eye(2), 'C': np.eye(2)}
+
+    AIS = np.array([[-1.0, 1.0], [-1.0, 1.0]])   # Achievable Input Set.
+    DOS = np.array([[-2.0, 2.0], [-2.0, 2.0]])   # Desired Output Set.
+
+    result = dynamic_operability(model, x0=np.zeros(2), AIS_bound=AIS,
+                                 DOS=DOS, k_max=4)
+
+    print('method   :', result['method'])
+    print('dOI/step :', np.round(result['dOI'], 3))
+```
+
+### Low-level mapping
+
+The two low-level mappers are called internally by `dynamic_operability` but are
+also exposed directly: `dynamic_operability_mapping` propagates the state-space
+polytope (and uses the exact linear fast path when `A`, `B`, `C` are given), and
+`dynamic_operability_nstep` builds the funnel in output space by simulation for
+high-dimensional states. The examples below reuse the `AIS` and `DOS` defined in
+the `dynamic_operability` example above.
+
+```{eval-rst}
+.. autofunction:: opyrability.dynamic_operability_mapping
+```
+
+###### Example
+Build the funnel directly from the LTI matrices:
+```{code-cell}
+    from opyrability import dynamic_operability_mapping
+
+    A = 0.9 * np.eye(2)
+    mapping = dynamic_operability_mapping(x0=np.zeros(2),
+                                          AIS_bound=AIS,
+                                          AIS_resolution=3,
+                                          k_max=4,
+                                          A=A, B=np.eye(2), C=np.eye(2),
+                                          plot=False)
+    print('funnel slices:', len(mapping['AOS_regions']))
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.dynamic_operability_nstep
+```
+
+###### Example
+Output-space funnel by simulation, for an arbitrary step model `step(x, u)`:
+```{code-cell}
+    from opyrability import dynamic_operability_nstep
+
+    def integrator_step(x, u):
+        x_next = np.asarray(x, float) + 0.1 * np.asarray(u, float)
+        return x_next, x_next
+
+    ns = dynamic_operability_nstep(integrator_step,
+                                   np.zeros(2),
+                                   AIS,
+                                   k_max=4,
+                                   AIS_resolution=3,
+                                   plot=False)
+    print('n-step slices:', len(ns['AOS_regions']))
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.dynamic_operability_scenarios
+```
+
+###### Example
+Funnels across two disturbance scenarios and their robust intersection:
+```{code-cell}
+    from opyrability import dynamic_operability_scenarios
+
+    def make_step(d):
+        def step(x, u):
+            x_next = 0.9 * np.asarray(x, float) + np.asarray(u, float) + d
+            return x_next, x_next
+        return step
+
+    def make_x0(d):
+        return np.zeros(2)
+
+    scenarios = dynamic_operability_scenarios(make_step,
+                                              make_x0,
+                                              AIS,
+                                              scenarios={'low': -0.1,
+                                                         'high': 0.1},
+                                              DOS=DOS,
+                                              k_max=4,
+                                              method='nstep',
+                                              plot=False)
+```
+
+### Index evaluation, plotting and Monte Carlo
+
+```{eval-rst}
+.. autofunction:: opyrability.dOI_eval
+```
+
+###### Example
+Score the funnel against the DOS at each time step:
+```{code-cell}
+    from opyrability import dOI_eval
+
+    dOI = dOI_eval(mapping, DOS, plot=False)
+    print('dOI per step:', np.round(dOI, 2))
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.plot_dynamic_funnel
+```
+
+###### Example
+Stack the output-space slices into the dOI-colored funnel:
+```{code-cell}
+    from opyrability import plot_dynamic_funnel
+
+    fig, ax = plot_dynamic_funnel(mapping, DOS=DOS, dOI=dOI)
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.plot_state_funnel
+```
+
+###### Example
+The same funnel viewed in state space:
+```{code-cell}
+    from opyrability import plot_state_funnel
+
+    fig, ax = plot_state_funnel(mapping)
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.plot_funnel_comparison
+```
+
+###### Example
+Overlay the funnels of two initial states:
+```{code-cell}
+    from opyrability import plot_funnel_comparison
+
+    mapping_shifted = dynamic_operability_mapping(x0=np.array([0.3, -0.3]),
+                                                  AIS_bound=AIS,
+                                                  AIS_resolution=3,
+                                                  k_max=4,
+                                                  A=A, B=np.eye(2), C=np.eye(2),
+                                                  plot=False)
+    fig, ax = plot_funnel_comparison({'x0 = 0': mapping,
+                                      'x0 shifted': mapping_shifted})
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.simulate_mc_trajectories
+```
+
+###### Example
+Sample Monte Carlo input-sequence trajectories through the funnel:
+```{code-cell}
+    from opyrability import simulate_mc_trajectories
+
+    mc = simulate_mc_trajectories(mapping, n_trajectories=20, seed=0)
+    print('trajectories shape:', mc.shape)
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.update_dynamic_funnel
+```
+
+###### Example
+Re-center a linear funnel on a new initial state by a hyperplane shift, with no
+re-simulation:
+```{code-cell}
+    from opyrability import update_dynamic_funnel
+
+    updated = update_dynamic_funnel(mapping,
+                                    x0_new=np.array([0.2, -0.2]),
+                                    DOS=DOS)
+    print('updated dOI:', np.round(updated['dOI'], 2))
+```
+
+### Gaussian-robust funnels and LTI utilities
+
+```{eval-rst}
+.. autofunction:: opyrability.propagate_output_covariance
+```
+
+###### Example
+Propagate a Gaussian disturbance covariance to the output at each step:
+```{code-cell}
+    from opyrability import propagate_output_covariance
+
+    Sigma_y = propagate_output_covariance(A,
+                                          0.1 * np.eye(2),
+                                          np.eye(2),
+                                          np.eye(2),
+                                          k_max=4)
+    print('Sigma_y[0]:\n', np.round(Sigma_y[0], 3))
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.gaussian_robust_funnel
+```
+
+###### Example
+Shrink each funnel slice so it stays achievable under the Gaussian uncertainty:
+```{code-cell}
+    from opyrability import gaussian_robust_funnel
+
+    robust = gaussian_robust_funnel(mapping,
+                                    Sigma_y,
+                                    confidence=0.95,
+                                    DOS=DOS)
+    print('robust volumes:', np.round(robust['volumes'], 3))
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.identify_lti_step_tests
+```
+
+###### Example
+Identify an LTI model from step tests on a nonlinear step model:
+```{code-cell}
+    from opyrability import identify_lti_step_tests
+
+    def step_model(x, u):
+        x_next = 0.8 * np.asarray(x, float) + 0.5 * np.asarray(u, float)
+        return x_next, x_next
+
+    ident = identify_lti_step_tests(step_model,
+                                    np.zeros(2),
+                                    np.zeros(2),
+                                    du=1.0,
+                                    n_steps=30)
+    dc_gain = (ident['C']
+               @ np.linalg.inv(np.eye(ident['A'].shape[0]) - ident['A'])
+               @ ident['B'])
+    print('identified DC gain:\n', np.round(dc_gain, 2))
+```
+
+```{eval-rst}
+.. autofunction:: opyrability.make_pyomo_step_model
+```
+
+###### Example
+Wrap a Pyomo model builder into a step callable for the dynamic mapping
+(illustrative; requires a Pyomo-compatible IPOPT solver):
+```python
+import pyomo.environ as pyo
+from opyrability import make_pyomo_step_model
+
+def build_step():
+    m = pyo.ConcreteModel()
+    m.si = pyo.RangeSet(0, 1)
+    m.ui = pyo.RangeSet(0, 1)
+    m.x_current = pyo.Param(m.si, initialize=0.0, mutable=True)
+    m.u = pyo.Var(m.ui, initialize=0.0)
+    m.x_next = pyo.Var(m.si, initialize=0.0)
+
+    @m.Constraint(m.si)
+    def dynamics(m, i):
+        return m.x_next[i] == 0.5 * m.x_current[i] + m.u[i]
+    m.obj = pyo.Objective(expr=0)
+    return m
+
+step = make_pyomo_step_model(build_step, n_x=2, n_u=2)
+x_next, y = step([2.0, 4.0], [1.0, 1.0])   # -> [2.0, 3.0]
+```
+
 ## Utilities
 
 ```{eval-rst}
@@ -286,6 +675,7 @@ Visualizing this grid:
 
     DOS_points = DOS_points.reshape(-1, 2)
 
+    plt.figure()
     plt.scatter(DOS_points[:, 0], DOS_points[:, 1])
 ```
 

@@ -1,0 +1,1033 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dynamic Operability Analysis: Pyomo + Orthogonal Collocation &#8212; Opyrability&#39;s documentation.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmu.css?v=cf4c8d3f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/dynamic_pyomo_collocation';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
+    <img src="../_static/opyrability_logo.png" class="logo__image only-dark pst-js-only" alt="Opyrability's documentation. - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Opyrability Documentation 
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../process_model.html">The Process Model (M) - Programming Aspects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_example_gallery.html">Examples Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/dynamic_pyomo_collocation.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/dynamic_pyomo_collocation.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/dynamic_pyomo_collocation.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples_gallery/dynamic_pyomo_collocation.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dynamic Operability Analysis: Pyomo + Orthogonal Collocation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-pyomo-dae-model-builder">Step 1: Pyomo DAE model builder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-wrap-the-builder-with-make-pyomo-step-model">Step 2: Wrap the builder with <code class="docutils literal notranslate"><span class="pre">make_pyomo_step_model</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-outputs-and-operability-sets">Step 3: Outputs and operability sets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-run-the-dynamic-operability-analysis">Step 4: Run the dynamic operability analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-dynamic-operability-funnel">Step 5: Dynamic operability funnel</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-validate-collocation-against-scipy-integration">Step 6: Validate collocation against scipy integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="dynamic-operability-analysis-pyomo-orthogonal-collocation">
+<h1>Dynamic Operability Analysis: Pyomo + Orthogonal Collocation<a class="headerlink" href="#dynamic-operability-analysis-pyomo-orthogonal-collocation" title="Link to this heading">#</a></h1>
+<p>This example runs a dynamic operability analysis with a <strong>Pyomo DAE model</strong> discretized by <strong>orthogonal collocation on finite elements</strong> as the step model. <code class="docutils literal notranslate"><span class="pre">make_pyomo_step_model</span></code> turns a Pyomo model builder into a step callable for <code class="docutils literal notranslate"><span class="pre">dynamic_operability</span></code>.</p>
+<p>The system is a nonisothermal CSTR with a first-order irreversible reaction <span class="math notranslate nohighlight">\(A \to B\)</span>, with states <span class="math notranslate nohighlight">\(x_1\)</span> (dimensionless concentration) and <span class="math notranslate nohighlight">\(x_2\)</span> (dimensionless temperature) and inputs <span class="math notranslate nohighlight">\(u_1\)</span> (feed concentration) and <span class="math notranslate nohighlight">\(u_2\)</span> (coolant temperature):</p>
+<div class="math notranslate nohighlight">
+\[\frac{dx_1}{dt} = \frac{1}{\theta}(u_1 - x_1) - Da \cdot x_1 \cdot \exp\!\left(\frac{x_2}{1 + x_2/\gamma}\right)\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{dx_2}{dt} = \frac{1}{\theta}(-x_2) + B \cdot Da \cdot x_1 \cdot \exp\!\left(\frac{x_2}{1 + x_2/\gamma}\right) - \beta(x_2 - u_2)\]</div>
+<p>Parameters: <span class="math notranslate nohighlight">\(Da = 0.072\)</span> (Damkohler number), <span class="math notranslate nohighlight">\(\gamma = 20\)</span> (activation energy), <span class="math notranslate nohighlight">\(B = 8\)</span> (heat of reaction), <span class="math notranslate nohighlight">\(\beta = 0.3\)</span> (heat transfer), <span class="math notranslate nohighlight">\(\theta = 20\)</span> (residence time).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.environ</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pyo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyomo.dae</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dae</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">dynamic_operability_mapping</span><span class="p">,</span>
+    <span class="n">dOI_eval</span><span class="p">,</span>
+    <span class="n">plot_dynamic_funnel</span><span class="p">,</span>
+    <span class="n">simulate_mc_trajectories</span><span class="p">,</span>
+    <span class="n">make_pyomo_step_model</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="step-1-pyomo-dae-model-builder">
+<h2>Step 1: Pyomo DAE model builder<a class="headerlink" href="#step-1-pyomo-dae-model-builder" title="Link to this heading">#</a></h2>
+<p>A function builds a Pyomo <code class="docutils literal notranslate"><span class="pre">ConcreteModel</span></code> for one CSTR time step, discretizing the ODEs over <span class="math notranslate nohighlight">\([0, \Delta t]\)</span> by orthogonal collocation. It exposes <code class="docutils literal notranslate"><span class="pre">m.x_current</span></code> (current state, a <code class="docutils literal notranslate"><span class="pre">Param</span></code>), <code class="docutils literal notranslate"><span class="pre">m.u</span></code> (inputs), <code class="docutils literal notranslate"><span class="pre">m.x_next</span></code> (next state, a <code class="docutils literal notranslate"><span class="pre">Var</span></code>), and the constraints linking them through the DAE.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CSTR parameters</span>
+<span class="n">Da</span> <span class="o">=</span> <span class="mf">0.072</span>     <span class="c1"># Damkohler number</span>
+<span class="n">gamma</span> <span class="o">=</span> <span class="mf">20.0</span>   <span class="c1"># Activation energy parameter</span>
+<span class="n">B_rxn</span> <span class="o">=</span> <span class="mf">8.0</span>    <span class="c1"># Dimensionless heat of reaction</span>
+<span class="n">beta</span> <span class="o">=</span> <span class="mf">0.3</span>     <span class="c1"># Heat transfer coefficient</span>
+<span class="n">theta</span> <span class="o">=</span> <span class="mf">20.0</span>   <span class="c1"># Residence time</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.5</span>       <span class="c1"># Time step size (small for fine resolution in the early transient)</span>
+
+<span class="n">n_x</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># States: concentration, temperature</span>
+<span class="n">n_u</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Inputs: feed concentration, coolant temperature</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">build_cstr_step</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build a Pyomo model for one CSTR time step, discretized by collocation.</span>
+
+<span class="sd">    The two CSTR ODEs are integrated over a single step ``[0, dt]`` using</span>
+<span class="sd">    orthogonal collocation on finite elements (3 elements, 3 Lagrange-Radau</span>
+<span class="sd">    points). The model exposes ``x_current`` (current state, set before each</span>
+<span class="sd">    solve), ``u`` (inputs), and ``x_next`` (state at the end of the step),</span>
+<span class="sd">    linked by the discretized dynamics.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pyomo.environ.ConcreteModel</span>
+<span class="sd">        The single-step CSTR model, ready to solve once ``x_current`` and</span>
+<span class="sd">        ``u`` are fixed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">ConcreteModel</span><span class="p">()</span>
+
+    <span class="c1"># Time domain for a single step [0, dt]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">dae</span><span class="o">.</span><span class="n">ContinuousSet</span><span class="p">(</span><span class="n">bounds</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dt</span><span class="p">))</span>
+
+    <span class="c1"># Index sets</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">state_idx</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_x</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">input_idx</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">RangeSet</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_u</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># Current state (parameters, set before each solve)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x_current</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Param</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">state_idx</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mutable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Inputs (fixed before each solve)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">u</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">input_idx</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="c1"># State profiles over [0, dt]</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x1</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>  <span class="c1"># concentration</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x2</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>  <span class="c1"># temperature</span>
+
+    <span class="c1"># Derivatives</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">dx1dt</span> <span class="o">=</span> <span class="n">dae</span><span class="o">.</span><span class="n">DerivativeVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x1</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">dx2dt</span> <span class="o">=</span> <span class="n">dae</span><span class="o">.</span><span class="n">DerivativeVar</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">,</span> <span class="n">wrt</span><span class="o">=</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+
+    <span class="c1"># ODEs</span>
+    <span class="nd">@m</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ode_x1</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Da</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">/</span> <span class="n">gamma</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dx1dt</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="o">-</span> <span class="n">r</span>
+
+    <span class="nd">@m</span><span class="o">.</span><span class="n">Constraint</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">t</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ode_x2</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Constraint</span><span class="o">.</span><span class="n">Skip</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Da</span> <span class="o">*</span> <span class="n">m</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">*</span> <span class="n">pyo</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">/</span> <span class="n">gamma</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">dx2dt</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">t</span><span class="p">])</span> <span class="o">+</span> <span class="n">B_rxn</span> <span class="o">*</span> <span class="n">r</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">-</span> <span class="n">m</span><span class="o">.</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># Initial conditions (linked to x_current parameters)</span>
+    <span class="nd">@m</span><span class="o">.</span><span class="n">Constraint</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ic_x1</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x_current</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="nd">@m</span><span class="o">.</span><span class="n">Constraint</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ic_x2</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x_current</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Apply collocation discretization: 3 finite elements, 3 collocation points</span>
+    <span class="n">discretizer</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">TransformationFactory</span><span class="p">(</span><span class="s1">&#39;dae.collocation&#39;</span><span class="p">)</span>
+    <span class="n">discretizer</span><span class="o">.</span><span class="n">apply_to</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nfe</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ncp</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">scheme</span><span class="o">=</span><span class="s1">&#39;LAGRANGE-RADAU&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Next state = final value of state profiles</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">x_next</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Var</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">state_idx</span><span class="p">,</span> <span class="n">initialize</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="nd">@m</span><span class="o">.</span><span class="n">Constraint</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">link_x_next_0</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">x_next</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x1</span><span class="p">[</span><span class="n">dt</span><span class="p">]</span>
+
+    <span class="nd">@m</span><span class="o">.</span><span class="n">Constraint</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">link_x_next_1</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">m</span><span class="o">.</span><span class="n">x_next</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">m</span><span class="o">.</span><span class="n">x2</span><span class="p">[</span><span class="n">dt</span><span class="p">]</span>
+
+    <span class="c1"># Dummy objective (feasibility problem)</span>
+    <span class="n">m</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">pyo</span><span class="o">.</span><span class="n">Objective</span><span class="p">(</span><span class="n">expr</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">m</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;CSTR Pyomo model builder defined.&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;States: x1 (concentration), x2 (temperature)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Inputs: u1 (feed conc.), u2 (coolant temp.)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time step dt = </span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CSTR Pyomo model builder defined.
+States: x1 (concentration), x2 (temperature)
+Inputs: u1 (feed conc.), u2 (coolant temp.)
+Time step dt = 0.5
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-2-wrap-the-builder-with-make-pyomo-step-model">
+<h2>Step 2: Wrap the builder with <code class="docutils literal notranslate"><span class="pre">make_pyomo_step_model</span></code><a class="headerlink" href="#step-2-wrap-the-builder-with-make-pyomo-step-model" title="Link to this heading">#</a></h2>
+<p>The wrapper builds the model, sets <code class="docutils literal notranslate"><span class="pre">x_current</span></code> and <code class="docutils literal notranslate"><span class="pre">u</span></code>, solves with IPOPT, and returns <code class="docutils literal notranslate"><span class="pre">x_next</span></code>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">step_model</span> <span class="o">=</span> <span class="n">make_pyomo_step_model</span><span class="p">(</span><span class="n">build_cstr_step</span><span class="p">,</span>
+                                   <span class="n">n_x</span><span class="o">=</span><span class="n">n_x</span><span class="p">,</span>
+                                   <span class="n">n_u</span><span class="o">=</span><span class="n">n_u</span><span class="p">)</span>
+
+<span class="c1"># Test the step model with a single step. make_pyomo_step_model returns</span>
+<span class="c1"># a (x_next, y) tuple; the output y defaults to the identity (y = x_next).</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>    <span class="c1"># initial: feed conc=1, temp=0</span>
+<span class="n">u_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>    <span class="c1"># nominal inputs</span>
+<span class="n">x_next_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">step_model</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">u_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Test step: x0 = </span><span class="si">{</span><span class="n">x_test</span><span class="si">}</span><span class="s2"> -&gt; x1 = </span><span class="si">{</span><span class="n">x_next_test</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Test step: x0 = [1. 0.] -&gt; x1 = [0.95949 0.30199]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-3-outputs-and-operability-sets">
+<h2>Step 3: Outputs and operability sets<a class="headerlink" href="#step-3-outputs-and-operability-sets" title="Link to this heading">#</a></h2>
+<p>The outputs are the states themselves (<span class="math notranslate nohighlight">\(y = x\)</span>). We set the AIS (feed concentration <span class="math notranslate nohighlight">\(u_1 \in [0.8, 1.2]\)</span>, coolant temperature <span class="math notranslate nohighlight">\(u_2 \in [-0.5, 0.5]\)</span>), the DOS (concentration <span class="math notranslate nohighlight">\(y_1 \in [0.1, 0.5]\)</span>, temperature <span class="math notranslate nohighlight">\(y_2 \in [-0.2, 2.0]\)</span>), and the initial state <span class="math notranslate nohighlight">\(x_0 = (1.0, 0.0)\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initial state (fresh feed, ambient temperature)</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+
+<span class="c1"># Available Input Set bounds</span>
+<span class="n">AIS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>    <span class="c1"># u1: feed concentration</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>   <span class="c1"># u2: coolant temperature</span>
+<span class="p">])</span>
+
+<span class="c1"># Desired Output Set bounds (covers the steady-state AOS range)</span>
+<span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+    <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>    <span class="c1"># y1: concentration</span>
+    <span class="p">[</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>   <span class="c1"># y2: temperature</span>
+<span class="p">])</span>
+
+<span class="c1"># With dt=0.5, k_max=48 covers 24 time units total.</span>
+<span class="c1"># This gives fine resolution in the early transient (many polytopes</span>
+<span class="c1"># between k=0 and k=10, i.e. t=0 to t=5).</span>
+<span class="n">k_max</span> <span class="o">=</span> <span class="mi">48</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Initial state: x0 = </span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;AIS bounds: </span><span class="si">{</span><span class="n">AIS_bounds</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DOS bounds: </span><span class="si">{</span><span class="n">DOS_bounds</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max time steps: </span><span class="si">{</span><span class="n">k_max</span><span class="si">}</span><span class="s2"> (total time = </span><span class="si">{</span><span class="n">k_max</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">dt</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Initial state: x0 = [1. 0.]
+AIS bounds: [[0.8, 1.2], [-0.5, 0.5]]
+DOS bounds: [[0.1, 0.5], [-0.2, 2.0]]
+Max time steps: 48 (total time = 24.0)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-4-run-the-dynamic-operability-analysis">
+<h2>Step 4: Run the dynamic operability analysis<a class="headerlink" href="#step-4-run-the-dynamic-operability-analysis" title="Link to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">dynamic_operability_mapping</span></code> propagates the achievable output set forward by nonlinear state-space projection (vertex enumeration plus convex hull), and <code class="docutils literal notranslate"><span class="pre">dOI_eval</span></code> scores it against the DOS at each step. We use a scipy step model equivalent to the Pyomo collocation model (validated in Step 6), because running many time steps with Pyomo/IPOPT would be slow, as each vertex needs an NLP solve.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cstr_rhs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Right-hand side of the CSTR ODEs, dx/dt = f(x, u).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : float</span>
+<span class="sd">        Time (unused; the dynamics are autonomous).</span>
+<span class="sd">    x : array-like, shape (2,)</span>
+<span class="sd">        State ``[concentration, temperature]``.</span>
+<span class="sd">    u : array-like, shape (2,)</span>
+<span class="sd">        Inputs ``[feed concentration, coolant temperature]``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of float</span>
+<span class="sd">        The derivative ``[dx1/dt, dx2/dt]``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">Da</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">/</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="n">dx1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">-</span> <span class="n">r</span>
+    <span class="n">dx2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="n">x2</span><span class="p">)</span> <span class="o">+</span> <span class="n">B_rxn</span> <span class="o">*</span> <span class="n">r</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">dx1</span><span class="p">,</span> <span class="n">dx2</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">step_model_scipy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Advance the CSTR by one step ``dt`` with a direct scipy integration.</span>
+
+<span class="sd">    This is the scipy equivalent of the Pyomo collocation step model, used for</span>
+<span class="sd">    speed in the mapping; Step 6 checks that the two agree.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array-like, shape (2,)</span>
+<span class="sd">        Current state.</span>
+<span class="sd">    u : array-like, shape (2,)</span>
+<span class="sd">        Inputs held constant over the step.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x_next : numpy.ndarray, shape (2,)</span>
+<span class="sd">        State at the end of the step.</span>
+<span class="sd">    y : numpy.ndarray, shape (2,)</span>
+<span class="sd">        Output, here the identity ``y = x_next``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">cstr_rhs</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">dt</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">u</span><span class="p">,),</span>
+                    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;RK45&#39;</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+    <span class="n">x_next</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">x_next</span><span class="p">,</span> <span class="n">x_next</span>
+
+<span class="c1"># Mapping stage: propagate the AOS forward through the CSTR dynamics.</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">dynamic_operability_mapping</span><span class="p">(</span><span class="n">step_model_scipy</span><span class="p">,</span>
+                                      <span class="n">x0</span><span class="p">,</span>
+                                      <span class="n">AIS_bounds</span><span class="p">,</span>
+                                      <span class="mi">3</span><span class="p">,</span>
+                                      <span class="n">k_max</span><span class="p">,</span>
+                                      <span class="n">convergence_tol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+                                      <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                      <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Concentration $x_1$&#39;</span><span class="p">,</span> <span class="s1">&#39;Temperature $x_2$&#39;</span><span class="p">])</span>
+
+<span class="c1"># Evaluation stage: dOI at each k.</span>
+<span class="n">dOI</span> <span class="o">=</span> <span class="n">dOI_eval</span><span class="p">(</span><span class="n">results</span><span class="p">,</span>
+               <span class="n">DOS_bounds</span><span class="p">,</span>
+               <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+No intersection found between AS and DS. OI = 0.
+</pre></div>
+</div>
+<img alt="../_images/c6514ef3616b0fdcc95140b8969d08facf6a3152fbbc72e682ad72a7be22baeb.png" src="../_images/c6514ef3616b0fdcc95140b8969d08facf6a3152fbbc72e682ad72a7be22baeb.png" />
+<img alt="../_images/bc2200c8880aef0543b3f7005538f5c8a811219ebae1ba1e1b21cc13d58dfee9.png" src="../_images/bc2200c8880aef0543b3f7005538f5c8a811219ebae1ba1e1b21cc13d58dfee9.png" />
+<img alt="../_images/14e6ec2d7d7c8995a79990f150870b45b09c1a7328a86e355d9cc97d62a11b7f.png" src="../_images/14e6ec2d7d7c8995a79990f150870b45b09c1a7328a86e355d9cc97d62a11b7f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Converged at step k = </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;k_converged&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final AOS volume = </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;volumes&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final dOI = </span><span class="si">{</span><span class="n">dOI</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">dOI trajectory:&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dOI</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  k=</span><span class="si">{</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: dOI = </span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Converged at step k = None
+Final AOS volume = 0.3888
+Final dOI = 42.44%
+
+dOI trajectory:
+  k=1: dOI = 0.00%
+  k=2: dOI = 0.00%
+  k=3: dOI = 0.00%
+  k=4: dOI = 0.00%
+  k=5: dOI = 0.00%
+  k=6: dOI = 0.00%
+  k=7: dOI = 0.00%
+  k=8: dOI = 0.00%
+  k=9: dOI = 0.00%
+  k=10: dOI = 0.00%
+  k=11: dOI = 0.00%
+  k=12: dOI = 0.00%
+  k=13: dOI = 0.00%
+  k=14: dOI = 0.00%
+  k=15: dOI = 0.00%
+  k=16: dOI = 0.32%
+  k=17: dOI = 1.51%
+  k=18: dOI = 3.10%
+  k=19: dOI = 4.93%
+  k=20: dOI = 6.81%
+  k=21: dOI = 8.68%
+  k=22: dOI = 10.53%
+  k=23: dOI = 12.28%
+  k=24: dOI = 13.92%
+  k=25: dOI = 15.44%
+  k=26: dOI = 16.78%
+  k=27: dOI = 17.90%
+  k=28: dOI = 18.99%
+  k=29: dOI = 20.09%
+  k=30: dOI = 21.20%
+  k=31: dOI = 22.32%
+  k=32: dOI = 23.46%
+  k=33: dOI = 24.62%
+  k=34: dOI = 25.80%
+  k=35: dOI = 27.00%
+  k=36: dOI = 28.20%
+  k=37: dOI = 29.42%
+  k=38: dOI = 30.63%
+  k=39: dOI = 31.85%
+  k=40: dOI = 33.07%
+  k=41: dOI = 34.30%
+  k=42: dOI = 35.53%
+  k=43: dOI = 36.76%
+  k=44: dOI = 37.97%
+  k=45: dOI = 39.16%
+  k=46: dOI = 40.32%
+  k=47: dOI = 41.45%
+  k=48: dOI = 42.44%
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="step-5-dynamic-operability-funnel">
+<h2>Step 5: Dynamic operability funnel<a class="headerlink" href="#step-5-dynamic-operability-funnel" title="Link to this heading">#</a></h2>
+<p>Stacking the achievable output sets along the time axis gives the funnel, overlaid here with Monte Carlo trajectories from random input sequences.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Monte Carlo trajectories (step model is read from the results dict).</span>
+<span class="n">mc_trajs</span> <span class="o">=</span> <span class="n">simulate_mc_trajectories</span><span class="p">(</span><span class="n">results</span><span class="p">,</span>
+                                    <span class="n">n_trajectories</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                    <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plot_dynamic_funnel</span><span class="p">(</span><span class="n">results</span><span class="p">,</span>
+                             <span class="n">DOS</span><span class="o">=</span><span class="n">DOS_bounds</span><span class="p">,</span>
+                             <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Concentration x&lt;sub&gt;1&lt;/sub&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;Temperature x&lt;sub&gt;2&lt;/sub&gt;&#39;</span><span class="p">],</span>
+                             <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                             <span class="n">view_elev</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+                             <span class="n">view_azim</span><span class="o">=-</span><span class="mi">55</span><span class="p">,</span>
+                             <span class="n">mc_trajectories</span><span class="o">=</span><span class="n">mc_trajs</span><span class="p">,</span>
+                             <span class="n">mc_color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span>
+                             <span class="n">mc_alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                             <span class="n">mc_linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                             <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;plotly&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+</div>
+</div>
+</section>
+<section id="step-6-validate-collocation-against-scipy-integration">
+<h2>Step 6: Validate collocation against scipy integration<a class="headerlink" href="#step-6-validate-collocation-against-scipy-integration" title="Link to this heading">#</a></h2>
+<p>Comparing the Pyomo collocation step against a direct scipy ODE integration checks that the collocation discretization is accurate.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compare Pyomo collocation step vs scipy RK45 step for several input combinations.</span>
+<span class="c1"># Both step callables return (x_next, y) tuples; we unpack the state component here.</span>
+<span class="n">test_inputs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span>
+    <span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">]),</span>
+    <span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span>
+    <span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span>
+<span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;x0&#39;</span><span class="si">:</span><span class="s2">&gt;20s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="s1">&#39;u&#39;</span><span class="si">:</span><span class="s2">&gt;20s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="s1">&#39;Pyomo x_next&#39;</span><span class="si">:</span><span class="s2">&gt;25s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="s1">&#39;Scipy x_next&#39;</span><span class="si">:</span><span class="s2">&gt;25s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="s1">&#39;Max error&#39;</span><span class="si">:</span><span class="s2">&gt;10s</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">110</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">x_t</span><span class="p">,</span> <span class="n">u_t</span> <span class="ow">in</span> <span class="n">test_inputs</span><span class="p">:</span>
+    <span class="n">x_pyomo</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">step_model</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_t</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">u_t</span><span class="p">))</span>
+    <span class="n">x_scipy</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">step_model_scipy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_t</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">u_t</span><span class="p">))</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x_pyomo</span> <span class="o">-</span> <span class="n">x_scipy</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">x_t</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;20s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">u_t</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;20s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">x_pyomo</span><span class="p">,</span><span class="w"> </span><span class="n">precision</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;25s</span><span class="si">}</span><span class="s2">  &quot;</span>
+          <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">array2string</span><span class="p">(</span><span class="n">x_scipy</span><span class="p">,</span><span class="w"> </span><span class="n">precision</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span><span class="si">:</span><span class="s2">&gt;25s</span><span class="si">}</span><span class="s2">  </span><span class="si">{</span><span class="n">err</span><span class="si">:</span><span class="s2">&gt;10.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                  x0                     u               Pyomo x_next               Scipy x_next   Max error
+--------------------------------------------------------------------------------------------------------------
+          [1.0, 0.0]            [1.0, 0.0]        [0.959491 0.301993]        [0.959491 0.301993]    3.10e-10
+          [1.0, 0.0]           [0.8, -0.5]        [0.95624  0.220313]        [0.95624  0.220313]    1.12e-10
+          [1.0, 0.0]            [1.2, 0.5]        [0.962647 0.384403]        [0.962647 0.384403]    6.75e-10
+          [0.9, 1.0]            [1.0, 0.0]        [0.800767 1.59911 ]        [0.800767 1.59911 ]    1.86e-08
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">#</a></h2>
+<p>This example:</p>
+<ol class="arabic simple">
+<li><p>built a <strong>Pyomo DAE model</strong> with orthogonal collocation for a nonisothermal CSTR;</p></li>
+<li><p>wrapped it with <strong><code class="docutils literal notranslate"><span class="pre">make_pyomo_step_model</span></code></strong> into a step callable;</p></li>
+<li><p>ran <strong><code class="docutils literal notranslate"><span class="pre">dynamic_operability_mapping</span></code></strong> and <strong><code class="docutils literal notranslate"><span class="pre">dOI_eval</span></code></strong> on the resulting step model;</p></li>
+<li><p>visualized the evolving AOS, the dOI trajectory, and the 3D funnel;</p></li>
+<li><p>validated the collocation step against direct ODE integration.</p></li>
+</ol>
+<p><code class="docutils literal notranslate"><span class="pre">make_pyomo_step_model</span></code> lets any Pyomo optimization model serve as the step model for dynamic operability, bringing Pyomo’s DAE and collocation tools into the framework.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "CODES-group/opyrability",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./examples_gallery"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-pyomo-dae-model-builder">Step 1: Pyomo DAE model builder</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-2-wrap-the-builder-with-make-pyomo-step-model">Step 2: Wrap the builder with <code class="docutils literal notranslate"><span class="pre">make_pyomo_step_model</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-3-outputs-and-operability-sets">Step 3: Outputs and operability sets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-4-run-the-dynamic-operability-analysis">Step 4: Run the dynamic operability analysis</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-5-dynamic-operability-funnel">Step 5: Dynamic operability funnel</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#step-6-validate-collocation-against-scipy-integration">Step 6: Validate collocation against scipy integration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Victor Alves - Carnegie Mellon University.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

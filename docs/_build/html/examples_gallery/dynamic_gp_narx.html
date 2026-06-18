@@ -1,0 +1,859 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Dynamic Operability of a CSTR Under Model Uncertainty (GP-NARX Surrogate) &#8212; Opyrability&#39;s documentation.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmu.css?v=cf4c8d3f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/dynamic_gp_narx';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
+    <img src="../_static/opyrability_logo.png" class="logo__image only-dark pst-js-only" alt="Opyrability's documentation. - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Opyrability Documentation 
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../process_model.html">The Process Model (M) - Programming Aspects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_example_gallery.html">Examples Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/dynamic_gp_narx.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/dynamic_gp_narx.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/dynamic_gp_narx.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples_gallery/dynamic_gp_narx.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Dynamic Operability of a CSTR Under Model Uncertainty (GP-NARX Surrogate)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cstr">The CSTR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gp-narx-surrogate">The GP-NARX surrogate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-the-funnel-under-uncertainty">Mapping the funnel under uncertainty</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="dynamic-operability-of-a-cstr-under-model-uncertainty-gp-narx-surrogate">
+<h1>Dynamic Operability of a CSTR Under Model Uncertainty (GP-NARX Surrogate)<a class="headerlink" href="#dynamic-operability-of-a-cstr-under-model-uncertainty-gp-narx-surrogate" title="Link to this heading">#</a></h1>
+<p>Author: Victor Alves - Carnegie Mellon University</p>
+<p>When the process model is learned from data instead of derived from first principles, the dynamic operability funnel inherits the model’s uncertainty. This case study trains a <strong>Gaussian process (GP)</strong> surrogate on input-output data from a CSTR and propagates the surrogate’s predictive uncertainty through the dynamic operability analysis.</p>
+<p>A GP returns, at every query point, a mean prediction and a standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span> that grows where training data is sparse <span id="id1">[<a class="reference internal" href="../bibliography.html#id31" title="Carl Edward Rasmussen and Christopher K. I. Williams. Gaussian processes for machine learning. MIT Press, 2008.">19</a>]</span>; using such a surrogate inside an operability analysis follows the Gaussian-process operability framework of <span id="id2">[<a class="reference internal" href="../bibliography.html#id37" title="Victor Alves, Vitor Gazzaneo, and Fernando V. Lima. A machine learning-based process operability framework using gaussian processes. Computers &amp; Chemical Engineering, 163:107835, 2022. URL: https://www.sciencedirect.com/science/article/abs/pii/S0098135422001739, doi:10.1016/j.compchemeng.2022.107835.">2</a>]</span>. The surrogate here is a <strong>GP-NARX</strong> model: it predicts the next state from the current state and input, <span class="math notranslate nohighlight">\(x_{k+1} = \mu_{GP}(x_k, u_k) \pm \sigma_{GP}(x_k, u_k)\)</span>, which is exactly the step model the dynamic operability framework needs <span id="id3">[<a class="reference internal" href="../bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>. Mapping the funnel three times, once at the mean and once at each of the <span class="math notranslate nohighlight">\(\pm 3\sigma\)</span> bounds, turns the surrogate’s uncertainty into a <strong>band of achievable output funnels</strong>: the reactor’s reachable region is no longer a single funnel but a range consistent with what the data support.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="kn">import</span> <span class="n">solve_ivp</span>
+
+<span class="c1"># Plotly renderer that stays interactive in the compiled</span>
+<span class="c1"># documentation website (loads plotly.js via require.js).</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pio</span>
+<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s1">&#39;notebook_connected&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="the-cstr">
+<h2>The CSTR<a class="headerlink" href="#the-cstr" title="Link to this heading">#</a></h2>
+<p>The data-generating plant is the nonisothermal CSTR with a first-order irreversible reaction <span class="math notranslate nohighlight">\(A \to B\)</span>, the same reactor used in the <a class="reference internal" href="dynamic_pyomo_collocation.html"><span class="std std-doc">collocation tutorial</span></a>. Its states are the dimensionless concentration <span class="math notranslate nohighlight">\(x_1\)</span> and temperature <span class="math notranslate nohighlight">\(x_2\)</span>, and its inputs are the feed concentration <span class="math notranslate nohighlight">\(u_1\)</span> and coolant temperature <span class="math notranslate nohighlight">\(u_2\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[\frac{dx_1}{dt} = \frac{1}{\theta}(u_1 - x_1) - Da\, x_1 \exp\!\left(\frac{x_2}{1 + x_2/\gamma}\right)\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{dx_2}{dt} = -\frac{x_2}{\theta} + B\, Da\, x_1 \exp\!\left(\frac{x_2}{1 + x_2/\gamma}\right) - \beta(x_2 - u_2)\]</div>
+<p>with <span class="math notranslate nohighlight">\(Da = 0.072\)</span>, <span class="math notranslate nohighlight">\(\gamma = 20\)</span>, <span class="math notranslate nohighlight">\(B = 8\)</span>, <span class="math notranslate nohighlight">\(\beta = 0.3\)</span>, and <span class="math notranslate nohighlight">\(\theta = 20\)</span>. The outputs are the two states. Here this model stands in for an experiment or a high-fidelity simulator: it is sampled to produce training data, and the GP surrogate learned from that data is what the operability analysis actually uses.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CSTR parameters</span>
+<span class="n">Da</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">B_rxn</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="mf">0.072</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">20.0</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1.0</span>  <span class="c1"># step length [dimensionless time]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cstr_rhs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Right-hand side of the nonisothermal CSTR, dx/dt = f(x, u).</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    t : float</span>
+<span class="sd">        Time (unused; the dynamics are autonomous).</span>
+<span class="sd">    x : array-like, shape (2,)</span>
+<span class="sd">        State ``[concentration, temperature]``.</span>
+<span class="sd">    u : array-like, shape (2,)</span>
+<span class="sd">        Inputs ``[feed concentration, coolant temperature]``.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list of float</span>
+<span class="sd">        The derivative ``[dx1/dt, dx2/dt]``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="n">Da</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x2</span> <span class="o">/</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">x2</span> <span class="o">/</span> <span class="n">gamma</span><span class="p">))</span>
+    <span class="n">dx1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">theta</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">-</span> <span class="n">rate</span>
+    <span class="n">dx2</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">x2</span> <span class="o">/</span> <span class="n">theta</span><span class="p">)</span> <span class="o">+</span> <span class="n">B_rxn</span> <span class="o">*</span> <span class="n">rate</span> <span class="o">-</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">dx1</span><span class="p">,</span> <span class="n">dx2</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">cstr_step</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Advance the true CSTR by one step of length ``dt`` with scipy integration.</span>
+
+<span class="sd">    This is the data-generating plant: it is sampled to train the GP surrogate.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array-like, shape (2,)</span>
+<span class="sd">        Current state.</span>
+<span class="sd">    u : array-like, shape (2,)</span>
+<span class="sd">        Inputs held constant over the step.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x_next : numpy.ndarray, shape (2,)</span>
+<span class="sd">        State at the end of the step.</span>
+<span class="sd">    y : numpy.ndarray, shape (2,)</span>
+<span class="sd">        Output, here the identity ``y = x_next``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">cstr_rhs</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">dt</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),</span>
+                    <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">),),</span>
+                    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;RK45&#39;</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">)</span>
+    <span class="n">x_next</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">x_next</span><span class="p">,</span> <span class="n">x_next</span>
+
+
+<span class="c1"># Relax the reactor to its steady state at the nominal inputs; the funnel is</span>
+<span class="c1"># mapped outward from this operating point.</span>
+<span class="n">u_nom</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">cstr_rhs</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2000.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+               <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">u_nom</span><span class="p">,),</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;LSODA&#39;</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">AIS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">],</span>     <span class="c1"># u1: feed concentration</span>
+                       <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>   <span class="c1"># u2: coolant temperature</span>
+<span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">],</span>     <span class="c1"># y1: concentration</span>
+                       <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">]])</span>    <span class="c1"># y2: temperature</span>
+<span class="n">k_max</span> <span class="o">=</span> <span class="mi">12</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Nominal steady state: x1 = </span><span class="si">{</span><span class="n">x0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">, x2 = </span><span class="si">{</span><span class="n">x0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nominal steady state: x1 = 0.230, x2 = 0.880
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-gp-narx-surrogate">
+<h2>The GP-NARX surrogate<a class="headerlink" href="#the-gp-narx-surrogate" title="Link to this heading">#</a></h2>
+<p>We sample states and inputs across the operating region, advance the true CSTR one step, and add a little measurement noise to mimic real measurements. One GP is trained per output to predict the next state from the current state and input (a first-order nonlinear autoregressive model with exogenous input, GP-NARX). Each GP returns a posterior mean and a standard deviation <span class="math notranslate nohighlight">\(\sigma\)</span>; <span class="math notranslate nohighlight">\(\sigma\)</span> is small where data is dense and grows where it is sparse, which is how the surrogate reports its own uncertainty.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianProcessRegressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.gaussian_process.kernels</span><span class="w"> </span><span class="kn">import</span> <span class="n">RBF</span><span class="p">,</span> <span class="n">WhiteKernel</span><span class="p">,</span> <span class="n">ConstantKernel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">StandardScaler</span>
+
+<span class="c1"># Sample (state, input) points over the operating region and record the true</span>
+<span class="c1"># next state, with a small amount of measurement noise.</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">n_train</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.10</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.40</span><span class="p">,</span> <span class="mf">2.10</span><span class="p">],</span> <span class="p">(</span><span class="n">n_train</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">U_train</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">AIS_bounds</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AIS_bounds</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">(</span><span class="n">n_train</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">X_next</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cstr_step</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">U_train</span><span class="p">[</span><span class="n">i</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+                   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_train</span><span class="p">)])</span>
+<span class="n">X_next</span> <span class="o">+=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">2e-3</span><span class="p">,</span> <span class="n">X_next</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">X_train</span><span class="p">,</span> <span class="n">U_train</span><span class="p">])</span>
+
+<span class="c1"># Standardize the four features so the GP length scales are well conditioned.</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+<span class="n">features_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+<span class="c1"># One GP per output: an automatic-relevance-determination squared-exponential</span>
+<span class="c1"># kernel plus a white-noise term for the measurement noise.</span>
+<span class="n">gp_models</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">kernel</span> <span class="o">=</span> <span class="p">(</span><span class="n">ConstantKernel</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span> <span class="o">*</span> <span class="n">RBF</span><span class="p">(</span><span class="n">length_scale</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+              <span class="o">+</span> <span class="n">WhiteKernel</span><span class="p">(</span><span class="n">noise_level</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">noise_level_bounds</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-6</span><span class="p">,</span> <span class="mf">1e1</span><span class="p">)))</span>
+    <span class="n">gp</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span>
+                                  <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                  <span class="n">normalize_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                  <span class="n">random_state</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">gp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">features_scaled</span><span class="p">,</span> <span class="n">X_next</span><span class="p">[:,</span> <span class="n">d</span><span class="p">])</span>
+    <span class="n">gp_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gp</span><span class="p">)</span>
+    <span class="n">rmse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">gp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">features_scaled</span><span class="p">)</span> <span class="o">-</span> <span class="n">X_next</span><span class="p">[:,</span> <span class="n">d</span><span class="p">])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;GP for x</span><span class="si">{</span><span class="n">d</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s1">: training RMSE = </span><span class="si">{</span><span class="n">rmse</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">gp_step_model</span><span class="p">(</span><span class="n">gp_models</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="n">n_sigma</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build a step model from the GP posterior, offset by ``n_sigma`` standard</span>
+<span class="sd">    deviations.</span>
+
+<span class="sd">    With ``n_sigma = 0`` the step model follows the GP posterior mean; positive</span>
+<span class="sd">    and negative values shift each predicted next state by that many GP standard</span>
+<span class="sd">    deviations, giving the optimistic and pessimistic bounds that bracket the</span>
+<span class="sd">    funnel.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    gp_models : list of GaussianProcessRegressor</span>
+<span class="sd">        One fitted GP per output, each predicting the next state from the</span>
+<span class="sd">        scaled (state, input) features.</span>
+<span class="sd">    scaler : sklearn.preprocessing.StandardScaler</span>
+<span class="sd">        The fitted scaler applied to the (state, input) features before</span>
+<span class="sd">        prediction.</span>
+<span class="sd">    n_sigma : float</span>
+<span class="sd">        Number of posterior standard deviations to offset the prediction by.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Callable</span>
+<span class="sd">        A step model ``step(x, u) -&gt; (x_next, y)`` with ``y = x_next``,</span>
+<span class="sd">        matching the contract expected by ``dynamic_operability``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+        <span class="n">feat</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+                                           <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u</span><span class="p">)])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">x_next</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">gp_models</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">gp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">gp_models</span><span class="p">):</span>
+            <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">feat</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">x_next</span><span class="p">[</span><span class="n">d</span><span class="p">]</span> <span class="o">=</span> <span class="n">mu</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">n_sigma</span> <span class="o">*</span> <span class="n">sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">x_next</span><span class="p">,</span> <span class="n">x_next</span>
+    <span class="k">return</span> <span class="n">step</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GP for x1: training RMSE = 0.0016
+GP for x2: training RMSE = 0.0012
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="mapping-the-funnel-under-uncertainty">
+<h2>Mapping the funnel under uncertainty<a class="headerlink" href="#mapping-the-funnel-under-uncertainty" title="Link to this heading">#</a></h2>
+<p>Mapping the funnel with the GP mean gives the nominal achievable output set; mapping it with the <span class="math notranslate nohighlight">\(+3\sigma\)</span> and <span class="math notranslate nohighlight">\(-3\sigma\)</span> step models gives the optimistic and pessimistic bounds the data still support. Overlaid, the three funnels form a band, and the wider the band, the more the limited data leave the reactor’s reachable region uncertain. The state is low-dimensional, so <code class="docutils literal notranslate"><span class="pre">dynamic_operability</span></code> maps each funnel by nonlinear state-space projection <span id="id4">[<a class="reference internal" href="../bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span>.</p>
+<p>Importing opyrability’s dynamic operability and funnel comparison functions:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">dynamic_operability</span><span class="p">,</span> <span class="n">plot_funnel_comparison</span>
+
+<span class="c1"># Map the funnel at the GP mean and at the +/-3 sigma bounds.</span>
+<span class="n">funnels</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">n_sigma</span> <span class="ow">in</span> <span class="p">[(</span><span class="s1">&#39;GP mean&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s1">&#39;GP +3 sigma&#39;</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s1">&#39;GP -3 sigma&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0</span><span class="p">)]:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">gp_step_model</span><span class="p">(</span><span class="n">gp_models</span><span class="p">,</span> <span class="n">scaler</span><span class="p">,</span> <span class="n">n_sigma</span><span class="p">)</span>
+    <span class="n">funnels</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">dynamic_operability</span><span class="p">(</span><span class="n">model</span><span class="p">,</span>
+                                         <span class="n">x0</span><span class="p">,</span>
+                                         <span class="n">AIS_bounds</span><span class="p">,</span>
+                                         <span class="n">DOS</span><span class="o">=</span><span class="n">DOS_bounds</span><span class="p">,</span>
+                                         <span class="n">k_max</span><span class="o">=</span><span class="n">k_max</span><span class="p">,</span>
+                                         <span class="n">method</span><span class="o">=</span><span class="s1">&#39;projection&#39;</span><span class="p">,</span>
+                                         <span class="n">AIS_resolution</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                         <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="n">doi</span> <span class="o">=</span> <span class="p">{</span><span class="n">label</span><span class="p">:</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;dOI&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">label</span><span class="p">,</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">funnels</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final dOI: mean = </span><span class="si">{</span><span class="n">doi</span><span class="p">[</span><span class="s1">&#39;GP mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> %, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;+3 sigma = </span><span class="si">{</span><span class="n">doi</span><span class="p">[</span><span class="s1">&#39;GP +3 sigma&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> %, &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;-3 sigma = </span><span class="si">{</span><span class="n">doi</span><span class="p">[</span><span class="s1">&#39;GP -3 sigma&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> %&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Uncertainty band width: &quot;</span>
+      <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">doi</span><span class="p">[</span><span class="s1">&#39;GP +3 sigma&#39;</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">doi</span><span class="p">[</span><span class="s1">&#39;GP -3 sigma&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> percentage points&quot;</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plot_funnel_comparison</span><span class="p">(</span><span class="n">funnels</span><span class="p">,</span>
+                                <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Concentration x&lt;sub&gt;1&lt;/sub&gt;&#39;</span><span class="p">,</span>
+                                        <span class="s1">&#39;Temperature x&lt;sub&gt;2&lt;/sub&gt;&#39;</span><span class="p">],</span>
+                                <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="s1">&#39;firebrick&#39;</span><span class="p">,</span> <span class="s1">&#39;royalblue&#39;</span><span class="p">],</span>
+                                <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
+                                <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;plotly&#39;</span><span class="p">,</span>
+                                <span class="n">title</span><span class="o">=</span><span class="s1">&#39;CSTR achievable output funnel under &#39;</span>
+                                      <span class="s1">&#39;GP uncertainty (mean and ±3σ)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Final dOI: mean = 45.3 %, +3 sigma = 51.7 %, -3 sigma = 38.5 %
+Uncertainty band width: 13.2 percentage points
+</pre></div>
+</div>
+<div class="output text_html">        <script>
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        </script>
+        <script type="module">import "https://cdn.plot.ly/plotly-3.6.0.min"</script>
+        </div><div class="output text_html"><div style="height:650px; width:850px;">            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.6.0.min.js" integrity="sha256-QaOVwtVY0T02VaHrr6pnoHLCwayMJp4O5n4YyaE3rJk=" crossorigin="anonymous"></script>                <div id="8612ef82-6deb-4920-b189-5bbe64106e27" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("8612ef82-6deb-4920-b189-5bbe64106e27")) {                    Plotly.newPlot(                        "8612ef82-6deb-4920-b189-5bbe64106e27",                        [{"hoverinfo":"name","line":{"color":"black","width":3},"mode":"lines","name":"GP mean","x":[0.2259599419738199,0.22596000111510553,0.2335144368816453,0.24105957301342673,0.24106112658769388,0.23827912496492415,0.23550114239734132,0.22041458315930665,0.22041307467823948,0.2259599419738199,null,0.2140256403988421,0.2266518387918825,0.23422656478242324,0.24179182798499554,0.24766739252735287,0.2535087464821432,0.2535099236758,0.25068019345820575,0.24785067845883854,0.24121051177474254,0.234159151059313,0.2191596587095487,0.20853884221991614,0.20853781851942357,0.21127547213496006,0.2140256403988421,null,0.2140259649763457,0.2304207110077739,0.2379665393974234,0.24550202000354898,0.25157349317331984,0.2576215052510683,0.26209048808426316,0.26650411886627884,0.26650498443242016,0.26357461981559116,0.2606404264073227,0.2540980099699188,0.24711999083592812,0.23752706101021787,0.22741029166630136,0.2199122378445391,0.21240812568660467,0.20242082983631912,0.19596678897399564,0.1959662020704656,0.1985953972168719,0.20124102583229855,0.2140259649763457,null,0.2014339244946769,0.2179751100682108,0.23602639700830672,0.24351437642478022,0.2509906927155421,0.2571665103047235,0.26332798437087407,0.2681204289091743,0.2728771772274887,0.2761823608926326,0.2794137315716856,0.27941434176060637,0.27635061380498843,0.27327903270648346,0.2667089040090681,0.25967733047598957,0.2501187796256337,0.24000043559598885,0.22863971646901818,0.21687361520842324,0.20933740702608264,0.20179769185234217,0.19233537219282268,0.1868462733829575,0.18390274206538607,0.1839025138685839,0.18637633920533558,0.18887036382356323,0.2014339244946769,null,0.18990891751281053,0.20614901629292962,0.22424750207066507,0.24263301218809022,0.2500476672783371,0.25744910970868295,0.2636709160756929,0.2698856261263091,0.27488727499924454,0.27986995484453947,0.28358691655303536,0.28725529976634046,0.2896016633721089,0.29185824144423606,0.2918586430914826,0.2886431065101936,0.28541583127016046,0.2787251710967764,0.2715466123027816,0.26185740833088267,0.2515733779112546,0.2400773101177061,0.22814675838508935,0.2163269150639165,0.20433793837538314,0.19674151406632118,0.18914463045494195,0.18005892986425778,0.17535401955163188,0.17345879856348256,0.17319167745748182,0.17549043248970253,0.17781269496384872,0.18990891751281053,null,0.18008196157207185,0.19574279985857185,0.21346049406662496,0.23176890100603212,0.2496833017414886,0.257017849889398,0.2643375322594437,0.27057050738133,0.27680191992972997,0.2819369509884916,0.28706653597524523,0.291071702872601,0.29504999757602846,0.2978634279847271,0.30061454356492434,0.30216883010929785,0.3036204237221246,0.30024436754480344,0.2968528953700089,0.28997183251918485,0.28257676369068024,0.2726312707153975,0.26205683086905207,0.2502530424418287,0.2379928253919643,0.22586981639104037,0.21357003035694228,0.20250109611682457,0.19150517865131558,0.18384032605540787,0.17617814517402333,0.1673020295189877,0.1631415941170905,0.16204859941201766,0.16273031288037376,0.16491561956259168,0.16712770246884517,0.1685742221071711,0.18008196157207185,null,0.17222162311015823,0.18717477454081358,0.2042576351185245,0.2221191964331367,0.2398348198078127,0.2568119485336784,0.26406506196483526,0.27130163846163713,0.2775261689623016,0.283753230449883,0.28897348168622655,0.294198890497285,0.29840687678133604,0.3026057788638227,0.30576264587795937,0.30888143140403906,0.31093015685178305,0.3129027659977849,0.3137977324772992,0.31458003463729456,0.3110412289977346,0.3074835771292047,0.3003588170813432,0.2926951695371123,0.2823960229948876,0.2714357923131959,0.2591926942886674,0.2464764639720723,0.2339008436643395,0.22115591147319094,0.20969207515864752,0.19831700255719814,0.18891099033729988,0.1797519559106536,0.17202060402238406,0.16429480059631058,0.15546853139475791,0.15159351857261139,0.15101310613941654,0.15312756942068512,0.15527237983621567,0.15646286405579257,0.15869925581919636,0.16987590904694586,0.17222162311015823,null,0.17778531007682097,0.1805538803960377,0.1968940677988376,0.2141002016313298,0.2313179476098476,0.24799110248988965,0.26378534435348705,0.27095900934363326,0.2781145028645521,0.284320241806933,0.2905314407986296,0.29580687157537083,0.3010956021063534,0.3054491637091331,0.30980779783621076,0.31321890617013537,0.31661221918832044,0.3190381738035412,0.3214125889234449,0.3228058985284159,0.3241102707507353,0.3244509534244838,0.32467272308524436,0.32097323743738665,0.31725174409811036,0.3098425129707104,0.30187142582186877,0.29114235512860515,0.27972331867162203,0.26693985177415835,0.2536722231389639,0.24053287732712542,0.22724259852377576,0.215280958837042,0.20344432111429886,0.1936478226825234,0.18412886350238014,0.176894255685902,0.16998669871203897,0.16219610888295505,0.15441346412458073,0.14550719404489446,0.14168094814628204,0.14132581720710002,0.14326145259126608,0.14523043837883823,0.14682937100650217,0.1578440519153733,0.16024315659188673,0.16323540192375455,0.17778531007682097,null,0.16626554325591295,0.16926444639405835,0.17256130648812162,0.1884700953309799,0.19137172210627074,0.2078435450135842,0.22440500120930018,0.2405450995687996,0.25595344671912296,0.2704592818553536,0.277557404105521,0.28463579068570133,0.29081779393113527,0.2970072635618573,0.30231906269144737,0.30765029971787405,0.3121111267339917,0.3165880750765189,0.32019058065541917,0.32379172680144147,0.32650629794179065,0.3291904994937065,0.33097578943527295,0.33269516442909847,0.3335184676178271,0.3342419759953111,0.33411229226031125,0.3338614130471542,0.33000622683178626,0.3261261530408966,0.3184017171230998,0.31009485688810645,0.2988763271189968,0.2869432754820421,0.2735420756176806,0.25965248215246717,0.24586879596945121,0.23196263187563532,0.2194337362942844,0.20708025621937085,0.19684695501223143,0.1869423547081819,0.17939471557913694,0.17220799455849514,0.1672551757532657,0.16262797744282909,0.154787183593106,0.1469561446844378,0.13788266719598108,0.13392264919807828,0.13354890204880485,0.1353162644127393,0.1371193958788374,0.13885511534966632,0.14921397744034787,0.15193394934308455,0.16626554325591295,null,0.15890910552676382,0.16216607148094744,0.17782868528086468,0.18105807775208094,0.2004218747958225,0.20327946055406876,0.21913540064954762,0.23463140361168927,0.24948815534218347,0.26355161692306484,0.27674925561356706,0.2837767661590021,0.2907830669035801,0.2969394127685183,0.303104509895586,0.30844058099731614,0.31380062208305226,0.3183425079933789,0.3229089987794302,0.3266584445395604,0.33041955339496804,0.33335724340591044,0.3362820802097015,0.33837466429630164,0.3404218851259341,0.3416351013911991,0.34276839737356773,0.3430892668997595,0.34330227677168035,0.33933566706107315,0.3353411877958159,0.33477106000473034,0.3340853943520412,0.3260236196955455,0.31736157149558897,0.3056083518731677,0.29312113399577755,0.27904445214775697,0.2644829683920633,0.24999909587608152,0.2354315349741832,0.2222942154783611,0.20939434070854895,0.19870448465561863,0.18840737409034214,0.1805515929723273,0.17310689393691783,0.16795075296791223,0.1631482100120137,0.15532977121478472,0.1475209569122899,0.14458675563594336,0.13264686775919393,0.1284388479128858,0.12787184820006342,0.12949504284229008,0.1311557817776806,0.13281200502748852,0.1425451081229372,0.1453475441102331,0.15890910552676382,null,0.15342713594240798,0.15673818378073992,0.1716232116298615,0.17506197383093045,0.1908334790111456,0.19406308373241654,0.21268169973450063,0.2153924064484644,0.23022212806582318,0.2444575443909267,0.25796722318058446,0.27069047100804583,0.2826098609559253,0.28957215590172886,0.29651186757272985,0.302642246703542,0.30878210434583675,0.31413427297207297,0.319513665744809,0.3241179260209205,0.328753189567148,0.3326173215601928,0.3365032439384319,0.3396154436545754,0.34272887666589924,0.34506305549430993,0.34736928300862024,0.3488941073672813,0.3503575672849157,0.3510514332853313,0.3516529084177419,0.35152675630126307,0.3512881387997277,0.3471646286071247,0.3430107465457197,0.3347577587455439,0.32588325154146935,0.32482572602534066,0.3236679907246089,0.3113479864817694,0.2982800310488387,0.2834876341113283,0.2682224804374257,0.2530037621268679,0.2377507227618316,0.22398742274934721,0.21053394329730366,0.19939105147454017,0.18871376819092078,0.18057280449019497,0.17290140860344444,0.16758247585483874,0.16265533223679665,0.15485299828063914,0.1470604075600161,0.14402504907583893,0.1321555709586716,0.13075457652736897,0.1250595977239114,0.12420041789796633,0.12571020321896131,0.1272586919000036,0.12869034380153485,0.13788767001034885,0.14058933129187007,0.15342713594240798,null,0.14977685230670507,0.15298769634205003,0.1671489036130184,0.1706249500516159,0.1856567257564511,0.18905430429273548,0.2041926662471374,0.20728437999353572,0.22466068043663007,0.22717153723582817,0.2407862494615122,0.2537064175846071,0.26588845026635843,0.27732303389950363,0.2843384770568546,0.29133258298263287,0.30180211991180184,0.3079070300160113,0.3140217201692629,0.31938407420916043,0.3247758935316352,0.32942846754844507,0.3341167572007663,0.3380712247763611,0.342055201226998,0.3453049986858255,0.34856708638766676,0.35109187876906545,0.35360292089064116,0.3553754318148539,0.35710272239189966,0.35809934523921705,0.35901892916017686,0.3592357990927724,0.3593503849786807,0.3551171410188726,0.350850977522175,0.35028936831582286,0.3496180674193847,0.34096123166053277,0.33166968274545905,0.318961204994206,0.30547600781963385,0.3039943568613117,0.30244032866692666,0.2869087045056514,0.2709249696744853,0.2549559872306529,0.23901238064416047,0.2246256841530175,0.21063033535660125,0.1990570426857057,0.1880283898046054,0.17964093621672786,0.171785183091131,0.16635298804089288,0.1586068687340448,0.15086957816759292,0.14578056894072547,0.1427022735845202,0.13093781805742488,0.12950706894217984,0.12398425181158916,0.12363835778079565,0.12226051553834383,0.12368892497749778,0.12515666278920204,0.12628928404998024,0.1350682858812085,0.1375505607162248,0.14977685230670507,null],"y":[0.7309773636984879,0.7309755912386404,0.7372251599639358,0.7434806385892778,0.743482762089232,0.8877174400702215,1.031311742797877,1.0204468399648856,1.020444387576267,0.7309773636984879,null,0.8455429763209419,0.596566234375867,0.6014921241869374,0.6064274950904025,0.619043025874974,0.6317641604317685,0.6317675402582806,0.775555301884649,0.9186597870625328,1.0487890185244326,1.1808768798609717,1.1674037386684466,1.1363330035252062,1.1363286790248817,0.9912269065824981,0.8455429763209419,null,0.6843320402856852,0.48163120586871,0.48535700909311696,0.4890953617419461,0.4997307949131836,0.5104439287126484,0.5266262305514884,0.543011107015554,0.5430151536593426,0.6867741585272574,0.8297607120944827,0.9591515549844309,1.090220633669583,1.2059290259957254,1.3242167493700778,1.3163129819190547,1.3084000798326751,1.2717146387220193,1.2264076368292829,1.2264020996611238,1.0811034013010756,0.9353058554301157,0.6843320402856852,null,0.7488629290049575,0.5457644869559575,0.3867086775470828,0.3894070973281333,0.39212061047121805,0.40107034446218903,0.4100807227048493,0.42410812577633306,0.4382932058138139,0.4562146986078439,0.47440214226674327,0.4744064690290778,0.6183854473156318,0.7614814223500175,0.890959632515276,1.0218804375514885,1.1373717280857951,1.2552153929839716,1.3546488233548848,1.4556669110932,1.4467724659843362,1.4378655142942889,1.3955890228696792,1.3434784130443191,1.2905933475973268,1.2905872838114705,1.1455070167412815,1.0000580584912981,0.7488629290049575,null,0.791256540536996,0.5892546531879704,0.4315069630319366,0.3102352313813931,0.31208886233086586,0.3139596423881076,0.32151742391110993,0.3291246994574918,0.34133853584471185,0.3536816497680406,0.36957313963137006,0.3856864022177571,0.40416908436930543,0.4229429330796569,0.42294729128415764,0.5672782551147242,0.7106083902095889,0.8406739838239343,0.9720053235131828,1.088179363876607,1.20650711273818,1.3067372495568177,1.4084845363812162,1.4888323619688324,1.5688260466969004,1.5591520493636088,1.5494626602363661,1.5020922509009471,1.4435284567814373,1.384559374834003,1.3304815745110963,1.1858983523022777,1.0411096150571852,0.791256540536996,null,0.8139644625255963,0.6142807241670392,0.4587071544455045,0.3398341063331203,0.2498784834241733,0.2510581556783381,0.2522566034437108,0.2586932314043209,0.26517128184169536,0.275896682101875,0.2867318340620052,0.30090066569493423,0.3152627741248111,0.33200886252679296,0.34901632086448986,0.36730513679522137,0.38588149946998895,0.5306231836647343,0.6742456383027566,0.8051948217188407,0.9372873009664042,1.0547048179014942,1.174136577162696,1.275880808989672,1.3790307625297147,1.4612090160445108,1.543068074121503,1.6016822135198778,1.6579549881178002,1.647722436068912,1.6374722358398124,1.5859522787202929,1.521924863534114,1.457682225392783,1.3994788730477503,1.2550356360412152,1.1104564611340575,1.0614350481433594,0.8139644625255963,null,0.8205920687521988,0.6239316562626076,0.4711486018616349,0.354919626570497,0.26780743159778697,0.20318540375795235,0.20384098526402683,0.20451660293109875,0.21006878024814402,0.21565602023201125,0.22518766309247362,0.2348143803696745,0.2475622735971168,0.26048305039488495,0.27572403662502865,0.2912071980687072,0.308136564607562,0.3253417941091836,0.3429543026476427,0.3608206153199469,0.5059906266531644,0.6499252346754092,0.7819338431641292,0.9150075124986836,1.0340155058395943,1.1549588052898732,1.2586702018420215,1.3636898550560739,1.448063251434902,1.5320284715275192,1.5930347575230188,1.65171071102743,1.6874787166585277,1.7196758108813963,1.7090905607562723,1.6984861144633212,1.6440467693493201,1.575998825093456,1.5077574596052614,1.3631992427853135,1.21849226054709,1.1585268448489718,1.1074365895828222,0.860768492336165,0.8205920687521988,null,0.6529968072445109,0.6218684918261015,0.4721035349168895,0.3586057565456272,0.2741036720217386,0.2123002396392878,0.16786595575288898,0.1681241805970337,0.16840339680267924,0.17327074960263789,0.17816790889086753,0.18676164120410077,0.19543873782522148,0.20704583579349167,0.21880989882154045,0.23279524447402855,0.24700831476909935,0.26271862054137063,0.27870121541656934,0.29536276901842673,0.3122919472389164,0.32892029849351756,0.3457500433234062,0.4913464127928201,0.6355943926030743,0.768770503752678,0.902967726192506,1.0237856742601281,1.1465118482762378,1.2524702993506525,1.3596694314642288,1.4464477055324085,1.5326819228869415,1.5960131419428827,1.656855103846547,1.6948279296865891,1.7291473860499984,1.7434894058582362,1.7541287203737497,1.7433617935220984,1.7325748200596993,1.6764864890737599,1.6059886617416557,1.5351796905921473,1.3914338916098088,1.2476950422990392,1.1854793679122901,0.9384705558326041,0.8886876529875893,0.8479825568698328,0.6529968072445109,null,0.7052615916124874,0.6664861826275472,0.6358128569730142,0.4882746189654682,0.46494583906856346,0.3540406773165673,0.2718756011126705,0.21234315385118063,0.17041762128012938,0.14189824724411393,0.14186392268836,0.14185129293723997,0.14619830053283422,0.15057069223774233,0.15844156586300562,0.1663862053851053,0.17709973647880073,0.18795725241283168,0.20093157069395895,0.21412162720677008,0.22879785069859304,0.24374299009531142,0.25950355764339084,0.2755471115832099,0.2916323309838962,0.30795747647733984,0.32340451372907475,0.33898792965737545,0.48500233081402777,0.6295587673503047,0.7639736126170107,0.8993921311427566,1.0221657622675666,1.146862358796213,1.2552415119280291,1.3648232279828973,1.4541033351696753,1.542685180210027,1.608218073034199,1.6710118812757393,1.7107108762198882,1.74651441002326,1.7622406189672148,1.7741327062619763,1.7710053701010344,1.764906974981401,1.7540861723532106,1.7432450727589224,1.6865945327827534,1.615032663314261,1.5429317582356261,1.4000116574876509,1.2572622644864586,1.1938046353090654,0.9501649411094243,0.8994171663592485,0.7052615916124874,null,0.7058134447790577,0.6668881460958345,0.5212864001243258,0.49214586936220306,0.36122278383313267,0.34415369111110294,0.26397619200787636,0.20623955327242194,0.16610228390002102,0.13963632368581225,0.12355029472141388,0.12330885229064803,0.12308960263638402,0.12704982107156815,0.13103170066696235,0.13835651012581862,0.14574717627100853,0.1557771444842968,0.16594040965282975,0.17812656569978103,0.1905182876308653,0.20435936987979808,0.21846553801056223,0.23344339446123785,0.24871523415069208,0.26422631127233276,0.2800123767641335,0.295303588585328,0.3107909714563085,0.45691534875373985,0.6015188273232508,0.6159357576444651,0.6304159017659721,0.7661206531648186,0.9028326602572068,1.0276646859352174,1.1544677455524672,1.265377391734559,1.3774755622162589,1.4692802188856524,1.560221765879854,1.6277757280173941,1.6922842592576837,1.7332428084970162,1.7699731262169491,1.7863172903748032,1.7985955813483132,1.7958282900461846,1.7900027016961757,1.7790669903978047,1.7681103399086169,1.7531196000617422,1.6798137643169675,1.6082150248251224,1.5357691969971619,1.3935598021990274,1.2516758847183656,1.1877188613010738,0.9474684365405623,0.8962933037285589,0.7058134447790577,null,0.6965617716503147,0.657646255003324,0.5153176857699275,0.48647220227156573,0.380371310059203,0.3589736568652617,0.26504487921370523,0.2528488181947828,0.19647176806021505,0.1575636252954129,0.13236426052462757,0.11782382990260487,0.11136459709121427,0.11098496647623546,0.11062786022260385,0.11430878533167266,0.11800826364100603,0.1249303147662153,0.1319117502265521,0.14143194472018994,0.15107671635429964,0.16266766945749334,0.17445571388971493,0.1876517935576847,0.20110909786915476,0.2154539841397809,0.23010022409614894,0.24509234327430107,0.2603863652227507,0.27542355587359024,0.2907103769406141,0.30504606395465617,0.3195214434492448,0.4660974268922553,0.6110380744769444,0.7474193681845573,0.8847808194171061,0.8984512825977976,0.9120873308800295,1.0390530605939992,1.1680647649678848,1.281574408935307,1.3962766824713395,1.490580263582158,1.5838448964024954,1.6531945529312733,1.719149671239797,1.760887390918676,1.7980096071731297,1.8142645065406842,1.8261769197236712,1.8229111293718492,1.8164731322563177,1.8054196784205492,1.7943446118603763,1.7789183903475527,1.7041972179832914,1.683648323760246,1.5912139784754182,1.5190274849930185,1.3773581136579387,1.2361473440563877,1.172148636140604,0.9348506712685036,0.8835545638233675,0.6965617716503147,null,0.6814047807695478,0.6425030211143918,0.5030773891310674,0.4744325407805614,0.3708976094206504,0.34999917598158314,0.2744441853356152,0.25905539859329885,0.19346973046875116,0.1850174468709147,0.14689671875921873,0.12239941533759402,0.10862512741151775,0.1032088216639977,0.10275108648744502,0.10231609528917884,0.10322515526373643,0.10671285791309026,0.11021655375837458,0.11685103537837094,0.12353968038973884,0.13269152529111095,0.1419609719010153,0.1531182509199025,0.16446581756577805,0.17718597682676762,0.19016402238965968,0.20402952147247788,0.21820152541825077,0.23277571562260047,0.24767218977444205,0.2624543543406752,0.27752893221204733,0.29191291519228413,0.30650549355076584,0.4532188699646802,0.5982312462858834,0.6117721344701289,0.6253883910849942,0.7632744502106165,0.9021801160342254,1.0305832378166568,1.1610501371824127,1.1738980946953703,1.1865820440867745,1.3027316134098958,1.4200909131281996,1.5168336184246265,1.61234770007266,1.6832346406990066,1.750340288914135,1.792361239193391,1.8293452179234009,1.8448340871473683,1.8556947704710147,1.851173634022456,1.8399676224408426,1.8287390998311257,1.8210194772745445,1.8044002489139643,1.727571003403034,1.7062323440295972,1.6120862043634014,1.590749028044192,1.4975826609229972,1.35628186408244,1.2155439082610053,1.1517499729015923,0.9167670812493751,0.8654756794886733,0.6814047807695478,null],"z":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,null,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,null,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,null,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,null,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,null,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,null,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,null,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,null,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,null,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,null,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,null,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,null],"type":"scatter3d"},{"hoverinfo":"name","line":{"color":"firebrick","width":3},"mode":"lines","name":"GP +3 sigma","x":[0.2324840334417,0.23984526965797354,0.24772374489720864,0.24772529552798916,0.24186597915064567,0.22691621725203642,0.22691470546003853,0.22947368702172313,0.2324840334417,null,0.23182521969753328,0.2383916955944225,0.24560342799996251,0.2534160412220761,0.2591077877699673,0.2651516830812719,0.2651528527851632,0.2590322994856102,0.24464866646285022,0.22995047514706202,0.21943774317307463,0.21943672641502723,0.22208783562760764,0.22520042746918473,0.23182521969753328,null,0.22193420182093485,0.2288336643296677,0.23778581256970016,0.24643958283242276,0.2534756621261618,0.2612105298166151,0.2669593335437153,0.2731496417751945,0.27743296701956066,0.2819282616726841,0.28192911130427756,0.2754690436252905,0.26061529582068077,0.2397371121337792,0.2251557625724499,0.21548683484088352,0.2092736014096097,0.20927304482900877,0.2118902894567141,0.21499994627160202,0.22193420182093485,null,0.21745915727414178,0.22675402697697614,0.2357914409941658,0.25563531456094923,0.26249939355792085,0.2701630142922289,0.27590862818849404,0.2821941982171736,0.2866941343776843,0.2914968391908711,0.2945912597359248,0.2977764435586399,0.2977770233475155,0.29091976030523653,0.27541516998109233,0.25353413919322354,0.22891996570429807,0.21433019486777502,0.20541438142856364,0.20044747477126512,0.19796983932234785,0.19796967027674983,0.2004583290859545,0.20348305655087012,0.21047547705106254,0.21745915727414178,null,0.20577339359250518,0.21510184553485337,0.22420742631928925,0.23460020296040546,0.24466814733254538,0.26531984344458504,0.2720295736264459,0.27963379649913117,0.28535202181405134,0.29170873143798015,0.2963432466614007,0.30137573683129926,0.3048014926075423,0.30840533289465594,0.3104832084975897,0.31254719485372606,0.3052532804614245,0.2889488451169853,0.2658182300810462,0.23969258403998306,0.21442391757340842,0.19972405517816386,0.19141035559775918,0.18753511731941433,0.18641576413776964,0.18683715570712092,0.18913971548942077,0.1920278404100353,0.19889173782901481,0.20577339359250518,null,0.20406096911920896,0.21300954444060863,0.2233815316038679,0.23345832521258494,0.25451265519942856,0.2750672469524825,0.2816433932248276,0.28919739996867205,0.294882943560212,0.30129915499791726,0.3060222592369346,0.31123605223113254,0.3148979372980762,0.31882604545283844,0.3213088621052023,0.3238564875612584,0.325050147361383,0.3261397404919511,0.31838906164874253,0.30116653931237297,0.2765902052845291,0.24867435105437996,0.22171452352826904,0.19860644299539335,0.18373293291395248,0.1758207656264808,0.17278192702179673,0.17276910010389177,0.17489484834500996,0.17776707879252368,0.17929558992106903,0.18164281847704694,0.18825315937425266,0.19491580892933646,0.20406096911920896,null,0.19443218740442403,0.20309106043296732,0.21323623940658903,0.2231047267670204,0.23369624226169158,0.2440023380188608,0.2647034962581639,0.2846040463912433,0.2910646483062767,0.29857230624504916,0.3042264490970836,0.3106934070793099,0.3154792232528609,0.3208415179739117,0.32467710622984297,0.32886254089265476,0.33164917662276017,0.3345779671604981,0.3362142490948415,0.33781277266971593,0.33822646640832577,0.3384605667923673,0.33025406730526075,0.3120233575294514,0.28584948383149145,0.2559401216747896,0.22705103368068258,0.2024776376974905,0.18361440727380401,0.16854895551164095,0.16081936667179625,0.1582914633533203,0.15903120945035523,0.16083472482251943,0.1635132135676606,0.16600528295211234,0.1725813526743087,0.17930178379825967,0.1822716805088248,0.18560804125853733,0.19443218740442403,null,0.1874506337390966,0.191154147544563,0.1949379295059802,0.20473181766398513,0.2142718440089901,0.22460662136852824,0.23465700743656875,0.25504739627235257,0.27484644591300866,0.2937498956645638,0.30010823257930047,0.3075689123124722,0.31319323152437606,0.3197010608506405,0.3245325511314926,0.3300176800838539,0.3339842705811003,0.3383770097088829,0.3413939524376307,0.344624363787155,0.3466020996296779,0.34860500546961365,0.3494679554866465,0.35020155989908086,0.34992293185543616,0.3494039722470414,0.34076400867732026,0.321458671845613,0.2935724182523075,0.2615334389179002,0.2305728558104186,0.20442011507486288,0.1846002047523343,0.17105722628358838,0.15582122094914383,0.14808688436634757,0.14572495074145567,0.14721431465073825,0.1482951866041743,0.15076247510517854,0.15381674746991594,0.15991602148463088,0.1662791782992879,0.1700293006903933,0.1787885585587642,0.1874506337390966,null,0.17586412582940278,0.1801870043422258,0.18987115382867042,0.19935783253119682,0.20336178778834121,0.20725957749641621,0.21723775348320726,0.22693872964242773,0.23696461294034837,0.24674861271659393,0.2660972675683789,0.2846927663392702,0.3023786641040771,0.3086435998772524,0.316054310093779,0.32164849675766866,0.3281854010572843,0.3330488635327577,0.33863424257714875,0.34269951870906334,0.3472599176936249,0.35045176739224715,0.3539207837121093,0.35615996242324266,0.35847994081358214,0.359695004362615,0.36082576393649457,0.36097567218040905,0.36091662925101825,0.3518726136273959,0.350985451261573,0.3498183759505231,0.3293952219601089,0.29970902583685793,0.2654623345301115,0.23238046976217192,0.20463593044467832,0.18390427252555258,0.1700016403088957,0.15479530146194506,0.14636727919022913,0.1385040179743503,0.13603062081814848,0.13723228835681675,0.13832825014761477,0.14060556855967266,0.1463106586702262,0.14939183276619755,0.1553250937173908,0.1594786297218433,0.16766642622065053,0.17586412582940278,null,0.16654973587465652,0.17116490877741677,0.1802582757675955,0.18924495061143415,0.1937387767049832,0.20357983583839498,0.21317683006991833,0.21720039895379395,0.22100113862129778,0.23067454503563598,0.24009673330136685,0.25881125537590377,0.27685058163268167,0.2940802239290259,0.3103956157922501,0.3165730419403188,0.3239304588762499,0.3294920188607399,0.3360449285621208,0.3409279047810797,0.346591958532124,0.35072949534785575,0.355424569189828,0.35874691591380425,0.36240387808018115,0.3648398753168811,0.3674042803432413,0.3688882476636432,0.3703242852720535,0.37081174718291526,0.3711143218212075,0.36168510566294987,0.3611733324455777,0.3603930000182638,0.3390947686112086,0.33757094039262386,0.335744848885565,0.30419852819031507,0.26771122285524873,0.23254236459721891,0.20329696388214957,0.18178821176034346,0.16768943872821845,0.15248847878690283,0.1441620858044382,0.1364903839165953,0.13212138410137392,0.12938603240331895,0.13039268094208875,0.13125303329301843,0.13338359082556978,0.13855454348272928,0.14156889731337235,0.14709411363329142,0.15482943166229818,0.15888491460114418,0.16654973587465652,null,0.15986823451480006,0.16849641779323885,0.17298269271266917,0.18141706445720432,0.18612628441294216,0.19540334939164686,0.20450412044978275,0.20890826640942065,0.21841555091626885,0.22767645452941765,0.2315486621896866,0.23513172330532203,0.24423082853109457,0.25313644218193804,0.270511737006865,0.28712309218802645,0.3028954184509443,0.3091569749936231,0.3165735147570135,0.33112168991189417,0.3366465269275002,0.34320228803897085,0.34809256284028756,0.353813857082357,0.3580011753295536,0.36280147341374436,0.36621754648479277,0.3700210342880825,0.3725998115702769,0.37534898792102267,0.3770303626342397,0.3786913510461872,0.37943176577745336,0.38000088336916,0.37979249486599165,0.37931024535342395,0.369519464399861,0.34727052004064135,0.3460204641644492,0.3444552606611776,0.3113520381059463,0.3093125269770097,0.26827141473642085,0.23111771725491506,0.20055669816974214,0.17849704641148217,0.1644168641661367,0.14919953109754464,0.1411587149064166,0.1336539090570136,0.1295907811073285,0.12543081236743475,0.12632386899144374,0.12684146497009577,0.12887150390479257,0.1336455071056277,0.1363940485360214,0.1415891834140521,0.14872681319857362,0.1526906137975717,0.15986823451480006,null,0.15564075768812952,0.16369481865782642,0.1680944317667393,0.1760379731454062,0.18487988929297866,0.18945320014828967,0.1980218662272587,0.2115661039684126,0.22034745721334628,0.2245053224164682,0.23340180810426872,0.24208559941177588,0.24571726957739526,0.24902692876396842,0.25743205974636574,0.265712471704892,0.2816588407377548,0.29679522918331114,0.3031254995270612,0.31059774159097564,0.32458586216713,0.33015507328922006,0.33672652757913246,0.3495980927069387,0.3544833109632753,0.3602407258148347,0.3644576446340786,0.3693349693826755,0.372813934638776,0.3767278425861509,0.3794038325958483,0.3822888091965436,0.38410532236605915,0.38592329642459056,0.3868394198576057,0.38758756634133595,0.38759242374460723,0.3873114606651225,0.3772174637584381,0.37636581110651324,0.3751761017742259,0.3515265046442987,0.31676610191451054,0.314849314341986,0.3126122802569012,0.2718471481742171,0.2696180880007423,0.22819520176378574,0.19657650547486105,0.17426838721915358,0.16046158578905073,0.15231011682538767,0.14521048197529715,0.13763615867531367,0.1302753054145481,0.12664772025322688,0.12422917674749051,0.12295910773227373,0.12379388058700075,0.12459593953201337,0.1265636743498384,0.13348033550770466,0.13843569786505502,0.1451309176727889,0.14884748470546702,0.15564075768812952,null],"y":[0.740327896095516,0.7465228721406066,0.7540571550283125,0.7540592444536793,1.0384005909481633,1.028448804341418,1.0284463266248967,0.8834104290804278,0.740327896095516,null,0.7427778866631992,0.6204234080209589,0.6250165524924629,0.6310910740891006,0.6434506713132906,0.6575940318857675,0.6575973766665762,0.943283985872496,1.2036556226618988,1.1910858959417048,1.1605388230651086,1.1605344055841524,1.0141080082282545,0.8693829016283838,0.7427778866631992,null,0.8507309949528782,0.7259195523787204,0.621933209762231,0.5218573756130108,0.524973869449583,0.5297470745016407,0.5398465553578352,0.5518296577613429,0.5677642246005106,0.5857509764962299,0.5857550252878352,0.8735167516486454,1.1358480831576356,1.3711329346702752,1.3561239512211911,1.3195045513522838,1.2735307819698323,1.2735250151146265,1.1259567417938838,0.980114811340574,0.8507309949528782,null,0.8122399970271102,0.7061997371560077,0.6045149811956954,0.4434797245748428,0.44536931103196065,0.44911947555148996,0.4573113563739128,0.4675565742915641,0.48107181891178485,0.4967264431588621,0.514543610572237,0.5345341026586465,0.5345384874032157,0.8245523346722347,1.0901484113460989,1.3289640802587732,1.5345709677103347,1.5172948008134872,1.4740961135456274,1.4201365818136962,1.3648311693278528,1.3648247005931242,1.2165174526205915,1.070096067705975,0.9386742238009389,0.8122399970271102,null,0.8781261565479012,0.7707456372112111,0.6682245503075996,0.5855696578256044,0.5059501168066909,0.3830714125888066,0.384053446704818,0.3870999213290258,0.39381772061925924,0.4028103630986163,0.4143673930591053,0.4282408270036686,0.4437718862233364,0.46157075833452377,0.48010452212631005,0.5008174734724331,0.7927572726426406,1.0623137235850408,1.3062681046375486,1.516953849978201,1.6852047002879669,1.6657954588399095,1.6159537201405048,1.5538531201668493,1.4909227200402726,1.432788628506877,1.2842918472730334,1.1378124799032634,1.0052748947742862,0.8781261565479012,null,0.8157114853319694,0.7131394989271368,0.6301566608837916,0.5506446705372428,0.428415677304282,0.33825515340392553,0.3386548476580098,0.3412711635981417,0.34696780289289886,0.3551730468989702,0.36528561216916644,0.37795358091179077,0.39168468893014463,0.40787395502319845,0.42440979664013323,0.4432325762533721,0.46162675365572237,0.48210572254195694,0.775418630337027,1.0491608043788316,1.2992290585931061,1.5165136639182004,1.6903640890650327,1.8123815939172916,1.791119314887922,1.7351415939147257,1.665695369147606,1.5959827590092694,1.4461125035101257,1.2984983779512964,1.2369273117817103,1.1832800137942359,1.0506306520152475,0.9236003687783627,0.8157114853319694,null,0.8425837360037239,0.7406323415603472,0.6578282177817938,0.5789114449859502,0.5173719303807479,0.4578405678348957,0.36929720877703737,0.3068203612099082,0.3069022039044307,0.30926754832870285,0.3143439171717485,0.3221178087862635,0.3312770896433801,0.3432482991726248,0.35570244498494186,0.3708709411236315,0.38587733667223056,0.40337870205153553,0.4201502430506352,0.4391367312154859,0.45674552883833164,0.4762685320749178,0.7705076279025135,1.0484156917863068,1.3051122578282555,1.5299674906082728,1.7102995369437197,1.8363825947252643,1.9066310974779148,1.884032722702367,1.823331581860474,1.7480207529717953,1.6731070633734462,1.5239926698005195,1.3773965885434982,1.3115739899896541,1.1762181412283554,1.0469880617012781,0.9943379245582413,0.9501369294891956,0.8425837360037239,null,0.828751823221265,0.7871027583666091,0.7531152199822905,0.6709904818082264,0.5930384823878919,0.532095328141988,0.47349942774277026,0.3866852384843856,0.32599538301657816,0.2867639430112816,0.2866991391098861,0.28891217534398517,0.2936652856840133,0.3012267960279553,0.3098400556880696,0.32148501056088397,0.333142293855754,0.347792484373794,0.3617674636628425,0.37851304573216116,0.3940944818110741,0.4121195226193429,0.42853217660544696,0.4470122478113237,0.4633470021293734,0.48136562621572654,0.7763630184160747,1.0584437379380471,1.3220308911353043,1.5549843193943564,1.7422669569498244,1.8721200812795746,1.942803800989186,1.9642349772872532,1.9410654628984887,1.8778319563540933,1.7985164938298723,1.6486895745036267,1.5714554287023044,1.426279321119816,1.3580206740655094,1.2242176842875168,1.0964470753842697,1.041707233369383,0.9320539307570836,0.828751823221265,null,0.8553821448909322,0.8132701407573465,0.730278555395465,0.6522194095664756,0.620831369306626,0.5958713141895251,0.5357050681103597,0.47814644113206417,0.4349725753985085,0.3929932164621346,0.3339445463478149,0.2961718062726695,0.2762567800864859,0.27613899953982735,0.2782561663743437,0.2828696621646911,0.2903361989879707,0.2986949808723427,0.31023878721475806,0.3214864776326196,0.3359789556805899,0.3493708476185683,0.3658362559128399,0.380684354814444,0.3982730758470083,0.4138772758965851,0.4317981282929724,0.4473846970589739,0.4648276440317296,0.7587112584912186,0.7743694824310481,0.7914880952818187,1.0779179130975896,1.34864673032361,1.589946184581046,1.784219799529668,1.9172130519238042,1.9868013409903658,2.004943857604089,1.9814121826453128,1.9657327135342115,1.9020405413069974,1.8209202548300518,1.671179379941845,1.5915170171118058,1.4474621549489988,1.313840150261822,1.2460205711485968,1.120542095906546,1.0649910067656938,0.956969803244925,0.8553821448909322,null,0.8624196868474292,0.8205054365831904,0.7390613732309209,0.6627831681218712,0.6319747664011924,0.5719521511263028,0.5151926885304573,0.4923403967460258,0.4746800652947951,0.4321721884284315,0.39108021783992664,0.3333654287474621,0.29675526377325445,0.27774019490735236,0.273624793350717,0.2735031254599922,0.27556465278598363,0.2801374951840423,0.28757370510527,0.29585671780198863,0.30742170229046817,0.3185337701644819,0.33308968103741643,0.3462554082639284,0.3627818648612715,0.3773036745027354,0.3948952887735051,0.4100989592207229,0.4279369085216709,0.4431153447391243,0.46041531173846906,0.7533237615075351,0.7687819516535463,0.7859324730441395,1.0739527656682362,1.089172461035275,1.1055848093830927,1.383820886718327,1.6336414359817575,1.834598533130949,1.9696604146217878,2.0364876077168046,2.0494606441274694,2.0255774552398917,2.0046964434432804,1.939662510476351,1.902619539735301,1.8217029163479843,1.672128488875527,1.5914179173832472,1.448182536823471,1.3161865975004554,1.2471352031216154,1.1237425199124564,1.0158568249081368,0.9617015651558414,0.8624196868474292,null,0.855023543920472,0.7738892965931209,0.7333385581825641,0.6590926577677118,0.6290301903540222,0.5702969804550099,0.5151329862324934,0.4934169069069225,0.45159366569634335,0.41171081177499813,0.3956224639985268,0.38365207716376626,0.35496917349181784,0.32697697726257846,0.29113732407443704,0.2726537819321143,0.2688120617645946,0.26866113121000645,0.27074015984973143,0.2792931932060181,0.28387665436434106,0.2913249826147148,0.2996291882530303,0.31128321047109464,0.3224281713442392,0.33717103076672794,0.3503622308794291,0.3671630949814857,0.38168057398480537,0.39959263824891533,0.4147574791589967,0.43291091083176536,0.44803812603131565,0.4656193929798491,0.4799831992582216,0.49620848499237097,0.7910716592137034,1.0810528168104017,1.096749237200366,1.113933248660513,1.3965292153786626,1.4110326910668385,1.6849043419299292,1.8920332864352134,2.027684750076337,2.089955608581694,2.0961421133804405,2.071962223115037,2.0443318877291032,1.978010170105445,1.9355922805610537,1.8075966903115308,1.658460946220697,1.57817982056061,1.4357415640249822,1.3049783388068463,1.235298157070849,1.1135264424063183,1.0071451948147325,0.952275840776985,0.855023543920472,null,0.839799707156652,0.7597325296771639,0.7187588574052169,0.6461784908167312,0.5879476656339303,0.5587987409097643,0.5052124975584231,0.4435401359593726,0.4048953451178541,0.3901703305717674,0.36229929548975076,0.3355137562782907,0.3247200725503832,0.3171572674279117,0.29928662756871904,0.28175619904939153,0.26342258290792014,0.25947377125257215,0.259274221469885,0.2613431759891135,0.2695547781747906,0.2740960178906356,0.2814998207561202,0.3001886053531354,0.3085644112801623,0.3203505241769635,0.33162089489643687,0.3466204292426659,0.359992944424218,0.3771912189596179,0.39193115733125344,0.41036699654036807,0.42577765024076186,0.44453767120522164,0.4599284342057389,0.47814573027751633,0.49280174246584507,0.5096540465505992,0.8048430680786248,0.8191695041552949,0.8351488198313806,1.1319869979782649,1.4193844043588149,1.4351631936595703,1.4521023296082127,1.7166306842065646,1.7293408507811443,1.9549954530725273,2.089512603971651,2.145495161589474,2.143547944793257,2.1305447667244493,2.119161969287335,2.0836621402903415,2.016161800633292,1.9673234566934732,1.8836580796802354,1.8333257314456248,1.683539982666277,1.5572627850529623,1.4156432368969938,1.216543630834642,1.0961279595386297,0.9908946585389995,0.9354832445259845,0.839799707156652,null],"z":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,null,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,null,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,null,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,null,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,null,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,null,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,null,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,null,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,null,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,null,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,null,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,null],"type":"scatter3d"},{"hoverinfo":"name","line":{"color":"royalblue","width":3},"mode":"lines","name":"GP -3 sigma","x":[0.21943596878851107,0.23439540112964483,0.2343969576473986,0.23198403138113366,0.22913636785260186,0.22913630564403697,0.22179495575858107,0.21391294906657687,0.21391144389644043,0.21943596878851107,null,0.20283459927968456,0.21490849983111462,0.23012130168435826,0.24183200956569226,0.24183319624167657,0.23946689311508534,0.2366283956631449,0.23048560751976158,0.22361064966731198,0.21623139748610104,0.20836236893572457,0.2031843413787458,0.1976053064678086,0.1976042738203947,0.20283459927968456,null,0.18728510159615708,0.19908232652834082,0.21432956860302127,0.2296651675117379,0.24195709154135986,0.2509679758218311,0.25096886121328954,0.24860895690661836,0.2457068323006871,0.23994913867373416,0.2334334999971237,0.22450120093488007,0.21481980742004816,0.2073958530922559,0.1995018221669215,0.19452146308988874,0.1891770688966703,0.18243637219972123,0.18243575240130352,0.18728510159615708,null,0.1848963766795621,0.1997866141542438,0.21619682927932818,0.23154336495753697,0.2441716254942801,0.2539827569116231,0.26079539843719973,0.2607960429885091,0.2584228984167286,0.25542029789046694,0.2499034114082573,0.24356818225519544,0.2351210016962353,0.22589535276008205,0.2152882277420237,0.2041369466261478,0.19666792015980744,0.18872036899522163,0.18389617806290837,0.17871685416398658,0.17266232651039343,0.1692165436436905,0.17364720965491032,0.1848963766795621,null,0.1729224850009293,0.18715206908364598,0.2031276872260646,0.21950267249819203,0.23476426241024273,0.2475434896408083,0.25785088657293426,0.26560529962483614,0.27066014906480174,0.2706606043302377,0.2682656627436405,0.26514977440547466,0.2597886008009612,0.2535183796793511,0.24534409188960649,0.2363506097210751,0.2261518122193462,0.21536221499043615,0.20424716616709981,0.1929160866134769,0.18540666202501105,0.17738796008153157,0.167573677123208,0.16201865396663148,0.15931716354361986,0.15834931690903845,0.16235763277150017,0.1729224850009293,null,0.163352809895592,0.17677877570731512,0.19204077928250432,0.2079372351612358,0.22356132096949294,0.23866580327536754,0.25145842159727705,0.2620379885873257,0.2704090700161591,0.2764908885477633,0.28016111371903574,0.2801614223698294,0.277741877813825,0.2745147000894655,0.2692563027551838,0.2629794653717015,0.2549410915128887,0.24602005334907207,0.23600146971870242,0.22536746055816545,0.21447747175893597,0.20331227460841886,0.19275292931620427,0.18230936660542824,0.17476600916390816,0.16666920152847015,0.15691251772161463,0.15164131787548407,0.1494477037726859,0.14915177794970913,0.1534995429186166,0.163352809895592,null,0.156098795714948,0.16870424160579128,0.18313357662627244,0.19831107064589865,0.21344193763057762,0.2279092529232311,0.24281281052995174,0.2555230602924201,0.26621287050050796,0.27495870100892317,0.2817447165598121,0.28648441498597715,0.28907577189926503,0.289075968253232,0.2866320622983516,0.2833034267767691,0.27811215684839774,0.271785026591022,0.263790332798206,0.2548315803649862,0.2448354438425719,0.23419609208509046,0.22333298608180777,0.2121827169637746,0.20163802193215472,0.19116024002968382,0.1819658573990973,0.1731294600265613,0.16555784060138193,0.1573854137801482,0.1475746943369782,0.14238096752455706,0.14044448885733501,0.14057732185235058,0.1440475205128393,0.14518949987251187,0.156098795714948,null,0.14685422649559868,0.14872744803015095,0.1627510690269468,0.17634904587954603,0.19071540334201897,0.20515075487221385,0.21912759738957382,0.23224451398965393,0.24692912338391318,0.25949721799070086,0.27018425087806613,0.2791279111645165,0.2863710113268957,0.2918740495779203,0.29554500066592687,0.2973015145524229,0.2948350556109566,0.2914178253732555,0.2862701003232501,0.27986712515253465,0.27185042945990423,0.26277857355203543,0.2526931526002771,0.24192941291794468,0.2309477192773189,0.2196840713419182,0.20900894403597287,0.19840791173160352,0.1890618740188908,0.18005384113069967,0.17269259773953563,0.16580914430711866,0.15821334536011208,0.1499752578429443,0.14003094253287476,0.13474881849282033,0.13284469262618764,0.13316599230360518,0.13631596850263783,0.13779797981266098,0.14685422649559868,null,0.14022394241841965,0.14237512996887736,0.15410131093256732,0.15629880664234455,0.17146727718564492,0.18503790062370767,0.1987076056753987,0.2120265876907987,0.22466574968166209,0.23638221838434226,0.2508485875231438,0.2632440885178181,0.2738540376458574,0.2828687673735323,0.2903831671656128,0.29640559928080235,0.3008753678609915,0.30369779033784644,0.30481031908464656,0.30232373998319684,0.2988309541546457,0.29371233761048127,0.2872200517552973,0.2791367444251309,0.2699014127397253,0.25964459187333405,0.2486703312421114,0.23746251424997825,0.22598472593522353,0.21506797460030827,0.20426146831637407,0.19467335745328085,0.18545660518312237,0.1778551744286556,0.17074128911200556,0.1653496661886375,0.16045155828748794,0.15283472647702054,0.1445457036136477,0.1344247063727349,0.12894305468750333,0.1269007154214657,0.12720469978526283,0.13004303046697338,0.1316546245430253,0.14022394241841965,null,0.1349972227056154,0.1372445824247921,0.14843885268739304,0.1508677149703731,0.1635917911908687,0.16588027818464118,0.18104263361490192,0.19397034302980373,0.20657900871100823,0.21860453692892604,0.22986294693386594,0.2402190883825605,0.25447923441187453,0.26669345449619325,0.2771832169073966,0.28618151875319586,0.29382970719756474,0.30018160199661115,0.30521522573858284,0.30885325834368926,0.31100175188195256,0.31161827312442647,0.30911406119129725,0.30555754566989046,0.30045960914743763,0.2938725467064695,0.2856958136846036,0.27626543720686286,0.26578091368828827,0.25453594100632004,0.2430206457337802,0.23125272240622982,0.22000960096831715,0.20892975520071827,0.19902894005680113,0.1895648436765048,0.1816791068259599,0.17433575359569353,0.16868559722100263,0.16355773643551846,0.15595980863758876,0.147701287825001,0.1441096197514183,0.14096708115599435,0.13065982283954822,0.12492284084237738,0.12263518258266078,0.12277172875001892,0.12533288747246316,0.12689699286105371,0.1349972227056154,null,0.1311997902181855,0.13339062599154802,0.14407512353943924,0.14658007973376325,0.158786551147756,0.16126844083791858,0.17401057704883569,0.17624937684282074,0.19070307639065062,0.20262972488139544,0.21400398131215642,0.2246961810707915,0.23461950987618746,0.24370630500680215,0.25777790035777554,0.2698160129461792,0.2801664898509738,0.28909320756952495,0.29677628884566015,0.303312240075774,0.30871944063630974,0.31295114339242175,0.315918089049961,0.3175300047941845,0.31776450921065946,0.31524492065361265,0.3116348105737211,0.30655259901191617,0.29987048151379275,0.29158641224704135,0.2819435910470474,0.271198352846757,0.2596435264691526,0.24776475312944435,0.23565222631862065,0.22401716869946922,0.2126113015506494,0.20234350776889912,0.1925986044823313,0.18439474523748817,0.17681744896308643,0.17089978021311317,0.1655678855745309,0.15798707521393296,0.14974901934872736,0.14592051591300612,0.14257729279920972,0.13243595010564138,0.13027815398362605,0.1284921941888305,0.12249076214907818,0.11991002101603462,0.1197898894279433,0.12212585269962183,0.1235153689930257,0.1311997902181855,null,0.1287346714560503,0.1307598194410337,0.14099291913535725,0.14344290860154296,0.15515650100716763,0.15770021925182595,0.16996086684925024,0.17236013091435493,0.18451738833120543,0.18661988762091672,0.19995300125627305,0.21070714057940776,0.22080793084176392,0.23021379607723766,0.23889719620841815,0.24682994660086785,0.2607326698058237,0.27260727364571985,0.2828154197427979,0.2916412861395028,0.29929339407620587,0.3059051489003225,0.3115352196784539,0.31617294914254196,0.31975211597436104,0.32217548843833455,0.3233586616879281,0.32329884694710276,0.32076580478558486,0.31711053875640244,0.3120409981070238,0.30526683355922796,0.29686984921208287,0.2870076884324629,0.275986383931133,0.26409947305001036,0.25182571104573165,0.23933296624713438,0.2272614688413106,0.2154915699434264,0.20481452214921866,0.194762500230836,0.18621547591335863,0.17839901901252497,0.17220855298376211,0.16669100918164234,0.1591253656902193,0.150899913799488,0.14684945311911082,0.14334500635789857,0.13334348326777015,0.1309908388302525,0.1290447315015473,0.12327587006789043,0.12217378907845261,0.11849051829130791,0.11807908742988704,0.12024952439183256,0.12139151145197632,0.1287346714560503,null],"y":[0.7216232863817649,0.7329041221502431,0.7329062797247847,0.8796201697471783,1.0242210418611182,1.0242228946475909,1.0189724679693637,1.0124448755883533,1.0124424485276373,0.7216232863817649,null,0.8219929817219641,0.5729501565384217,0.5817166047405145,0.6058240648586667,0.6058274722460054,0.7511833600204718,0.8943111169848084,1.0262970792380255,1.1582667849302635,1.151765941744013,1.1440154590508071,1.1290767327290578,1.112429452979386,1.1124252193430402,0.8219929817219641,null,0.8917974327261714,0.6438203872848697,0.442362386117514,0.4489807934848579,0.469134998775893,0.5002234975757032,0.5002275283307454,0.6448394747681909,0.7868860583804996,0.9165885877979258,1.04579293240276,1.162139723406376,1.278422965482286,1.270834148902653,1.2620614418689853,1.2445787607017904,1.2254538801599153,1.180699512255462,1.1806941851863064,0.8917974327261714,null,0.6882280456312816,0.4893391514034852,0.33220004922301793,0.3369390663018415,0.35370843349295383,0.3803684625929642,0.4146304837761251,0.4146347384419923,0.5589587943075145,0.7002338406226473,0.8290165512983534,0.9565815055479243,1.070955112123982,1.1849647968241672,1.283579545005237,1.380550652763725,1.3721210793176124,1.3626062853540502,1.3428161349403844,1.3214659144857357,1.27104419331975,1.2201361534811812,0.9333236004855772,0.6882280456312816,null,0.709568377424919,0.5146284217232286,0.36103061264016223,0.2415880946907532,0.24448656650209155,0.2582521354554792,0.281016975539915,0.3110362029398216,0.34617495030441464,0.346179196166946,0.49068835116529175,0.6315061593803242,0.7602300924259165,0.8869866313302416,1.0008540106951107,1.1136698890330845,1.2116413470809038,1.3079940560685994,1.3864050385053803,1.461096742673204,1.4521111490691438,1.4421235627334943,1.3973717322300476,1.342084263098598,1.2864203449667013,1.2355379306916032,0.9507954309271167,0.709568377424919,null,0.7125530335074872,0.5221369387570723,0.37276126596048675,0.257217473050813,0.16814999021696364,0.1691063046042245,0.18002730885770424,0.19926168799192856,0.2253899064625381,0.2568754128099233,0.2916350215071488,0.29163913871914127,0.43682648042765626,0.577543065883687,0.7068195536360389,0.8333777700653399,0.9477081613195272,1.0601873090587859,1.15861844740735,1.2549669957056504,1.334495373503975,1.4104668303750114,1.4670369399271384,1.518301216169453,1.5090059177934516,1.4987457262395107,1.451508204830473,1.3925830388092073,1.3331180129071099,1.279134784743578,0.9498006171713215,0.7125530335074872,null,0.7025174098270084,0.5164059545327719,0.37131948877834364,0.25972316121515937,0.1745449027632704,0.10896379822577607,0.10797168365622745,0.11611077160095995,0.1320160796782638,0.15450718836136224,0.18241692925696829,0.21429885141086902,0.24806690012729227,0.24807083691363863,0.39432033717924575,0.5352921919550315,0.6656215864137253,0.7924567749043959,0.9079148266723899,1.0207081220788223,1.1203778903007477,1.217274428770174,1.298480878290431,1.3758047963081883,1.4349595333642242,1.4888803649708597,1.523777562324091,1.5527999220784179,1.5433698516388292,1.5329691468151225,1.4843017367413314,1.4230961957449866,1.3610343566648833,1.3047816838236397,1.0218710871471197,0.9749188908156166,0.7025174098270084,null,0.7520679696199598,0.7145611625202201,0.502031711994537,0.36073305433616315,0.25278001671841543,0.17104539991681117,0.10914177412481268,0.06117584640879467,0.05842907698442479,0.06393416412533642,0.07664002937542196,0.09564636509269403,0.1200528771253497,0.14882265227517696,0.18052922720784628,0.21306188073754093,0.3605797116912625,0.5021097646776526,0.6338548091416595,0.761343331629818,0.8784231994193672,0.9920252203115654,1.0934919467531043,1.191399161517808,1.2747122123259051,1.3535373294190243,1.4153324368310998,1.4715392466296686,1.5097458564919835,1.5419548008070736,1.5574089424656545,1.567443659404367,1.557989553152874,1.5475375076268496,1.498281663132236,1.4359740409089983,1.372493009745771,1.3148567334100951,1.032795333482613,0.9849214681392231,0.7520679696199598,null,0.7524920032698529,0.7148988724120611,0.5342385389885828,0.5055039020544974,0.3447471808715756,0.2397983114217102,0.16095950706478285,0.10193828303018149,0.05730692956762262,0.02234151805777851,0.018137732154090536,0.02131084497535296,0.031018433222285036,0.04665243076195791,0.06759969869717025,0.09312025425308246,0.12223085791188049,0.15348368801032586,0.18472870842862732,0.33357300843918924,0.4758829844968121,0.6092429691399285,0.7376670872516236,0.8566944782227093,0.97147461622913,1.0751589510373818,1.174451503311626,1.2602010311030252,1.3407002570309055,1.4052068683256855,1.4634908800311686,1.5046805359780433,1.5394264916279699,1.558128613852033,1.5711215714842999,1.5709707751676503,1.5665375280524734,1.557128719513173,1.5466944419415976,1.4974612258592377,1.4349131499780217,1.3709217290544506,1.3126590414498445,1.0313029405411978,0.9829847349980965,0.7524920032698529,null,0.7442604786969191,0.7067282963078771,0.5286864000712458,0.5002940035479718,0.36432397779055886,0.34283276020745657,0.22373385308721927,0.14710240365265415,0.09026303551878856,0.047963859351873805,0.015920678407387423,-0.0094877925124488,-0.014857089009346347,-0.013643920587188108,-0.00660028914352262,0.005853505484572641,0.023390244852191988,0.0455710135657858,0.07173897516370048,0.10091602359259044,0.13160855054248866,0.16162364559089148,0.3117613592709204,0.454989881581999,0.5900355696448888,0.7195866451721193,0.8407167629772748,0.9569333270131128,1.0631063237586804,1.1640721073587947,1.252523165968334,1.3348649353481215,1.4021552854747188,1.4624094988301557,1.50636159040914,1.5431843414238586,1.5645744693845614,1.579763395113051,1.582256001796126,1.5801083374746594,1.5705989437419703,1.5600729967126195,1.5490794288609218,1.5352084528344845,1.4864171946866933,1.4241959429144193,1.360270879562647,1.3018750896044802,1.0210974670539565,0.9726609328404451,0.7442604786969191,null,0.7307031858160602,0.6932550989560693,0.5174024814199346,0.48928169264295607,0.35560200814368725,0.3346517692383155,0.23437795307517906,0.21859289303991403,0.1317621461561398,0.07641080431402814,0.035669308725798876,0.005456775353651633,-0.017451809435405252,-0.03581773667835564,-0.04211085896624689,-0.04250768710653818,-0.03773293463403338,-0.028133406208102008,-0.013856758738416408,0.004946664079126251,0.027938943244543157,0.054496287195315185,0.0836146458844308,0.11374005166018641,0.14263634371720868,0.29398734557042694,0.4382020089557812,0.5749250635386666,0.7057138588038412,0.8289756211164021,0.9467887154672503,1.0555654051270782,1.1584044639010775,1.2497245475352494,1.3340510026945938,1.4041994426905906,1.4663764072736734,1.5129365657808516,1.5515151013539161,1.575178104637716,1.591976649637212,1.5964571201782098,1.595851036188757,1.58623795334557,1.5756074030105642,1.5664228628440462,1.5540337560819213,1.5044783876101797,1.4877373070580486,1.4694505548939671,1.4079094376452468,1.3443795545814046,1.2860937140671507,1.0058038667815774,0.9573827327572173,0.7307031858160602,null,0.7147787904863895,0.6773241030863152,0.5031576743639666,0.4751562896259267,0.3432773082661525,0.3226723731171088,0.22420952250593537,0.20903777151049646,0.1362753644711401,0.1248344593749925,0.06213666113811911,0.022286349042314975,-0.006879454031332059,-0.028388681463106753,-0.04464885697539145,-0.057801347618590806,-0.06482977937061413,-0.06654417193281967,-0.0636657646041543,-0.05652920774557034,-0.045216251021034534,-0.029698108903415035,-0.010015389420491995,0.013547410336269466,0.040366679562828786,0.06939206389971925,0.09900023189137863,0.12691253793426388,0.27937663647418215,0.42459069170187036,0.5629394455506028,0.6950113584758677,0.820358779946326,0.9398465572838699,1.0512246594407963,1.1560539464147008,1.2502930418206215,1.3367026762629186,1.4097426219996636,1.4738219852149854,1.522884823591897,1.562995934091215,1.5886160523978083,1.606583056620292,1.612546015624519,1.6128816581683831,1.6031671191948678,1.5924273960857624,1.5844137949536978,1.5728699071472652,1.522537425954083,1.5067994840740202,1.4892874442071888,1.4268137571053532,1.408392188358344,1.3264676363811738,1.2683984240549968,0.988532719404342,0.940122266578965,0.7147787904863895,null],"z":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,null,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,null,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,null,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,null,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,null,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,null,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,null,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,null,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,8.0,null,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,9.0,null,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,10.0,null,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,11.0,null],"type":"scatter3d"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"scene":{"camera":{"eye":{"x":0.9396926207859086,"y":-1.6275953626987474,"z":0.6840402866513374}},"xaxis":{"title":{"text":"Concentration x\u003csub\u003e1\u003c\u002fsub\u003e"}},"yaxis":{"title":{"text":"Temperature x\u003csub\u003e2\u003c\u002fsub\u003e"}},"zaxis":{"title":{"text":"Time step k"}},"aspectmode":"cube"},"margin":{"l":0,"r":0,"t":40,"b":0},"legend":{"x":0.01,"y":0.99},"width":850,"height":650,"title":{"text":"CSTR achievable output funnel under GP uncertainty (mean and ±3σ)"}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('8612ef82-6deb-4920-b189-5bbe64106e27');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div></div></div>
+</div>
+</section>
+<section id="conclusions">
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h2>
+<p><strong>Key Results:</strong></p>
+<ul class="simple">
+<li><p>A GP-NARX surrogate trained on 50 noisy samples reproduces the CSTR’s one-step dynamics to within a small training RMSE, and its posterior standard deviation provides a built-in uncertainty estimate.</p></li>
+<li><p>Mapping the dynamic funnel at the GP mean and at the <span class="math notranslate nohighlight">\(\pm 3\sigma\)</span> bounds turns that uncertainty into a band of achievable output funnels: the final dOI spans roughly <span class="math notranslate nohighlight">\(39\%\)</span> to <span class="math notranslate nohighlight">\(52\%\)</span> of the DOS, an uncertainty of about <span class="math notranslate nohighlight">\(13\)</span> percentage points attributable to the limited training data.</p></li>
+<li><p>Because the surrogate respects the step-model contract, the same <code class="docutils literal notranslate"><span class="pre">dynamic_operability</span></code> call used for first-principles models applies unchanged to a data-driven one.</p></li>
+</ul>
+<p><strong>Workflow Summary:</strong></p>
+<ol class="arabic simple">
+<li><p>Sample the plant and train one GP per output (GP-NARX).</p></li>
+<li><p>Build the mean and <span class="math notranslate nohighlight">\(\pm 3\sigma\)</span> step models from the GP posterior.</p></li>
+<li><p>Map the funnel for each with <code class="docutils literal notranslate"><span class="pre">dynamic_operability</span></code> and overlay them with <code class="docutils literal notranslate"><span class="pre">plot_funnel_comparison</span></code>.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "CODES-group/opyrability",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./examples_gallery"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-cstr">The CSTR</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gp-narx-surrogate">The GP-NARX surrogate</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-the-funnel-under-uncertainty">Mapping the funnel under uncertainty</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Victor Alves - Carnegie Mellon University.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

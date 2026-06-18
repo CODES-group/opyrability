@@ -1,0 +1,998 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Comparing Dynamic Operability Mapping Methods for a Membrane Reactor &#8212; Opyrability&#39;s documentation.</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmu.css?v=cf4c8d3f" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/dynamic_methods_comparison';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
+    <img src="../_static/opyrability_logo.png" class="logo__image only-dark pst-js-only" alt="Opyrability's documentation. - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Opyrability Documentation 
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="../operability_overview.html">Process Operability Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Process Operability Algorithms</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../_autosummary/opyrability.html">opyrability</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../process_model.html">The Process Model (M) - Programming Aspects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index_example_gallery.html">Examples Gallery</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bibliography.html">Bibliography</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/dynamic_methods_comparison.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/dynamic_methods_comparison.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Colab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="initThebeSBT()"
+  class="btn btn-sm btn-launch-thebe dropdown-item"
+  title="Launch Thebe"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-play"></i>
+  </span>
+<span class="btn__text-container">Live Code</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/CODES-group/opyrability/issues/new?title=Issue%20on%20page%20%2Fexamples_gallery/dynamic_methods_comparison.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/examples_gallery/dynamic_methods_comparison.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Comparing Dynamic Operability Mapping Methods for a Membrane Reactor</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-the-reference-funnel-with-the-n-step-method-full-model">Mapping the reference funnel with the n-step method (full model)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#identifying-a-linear-model-from-step-tests">Identifying a linear model from step tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-low-order-nonlinear-surrogate-for-the-nonlinear-projection">Building a low-order nonlinear surrogate for the nonlinear projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-the-three-funnels">Comparing the three funnels</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="comparing-dynamic-operability-mapping-methods-for-a-membrane-reactor">
+<h1>Comparing Dynamic Operability Mapping Methods for a Membrane Reactor<a class="headerlink" href="#comparing-dynamic-operability-mapping-methods-for-a-membrane-reactor" title="Link to this heading">#</a></h1>
+<p>Author: Victor Alves - Carnegie Mellon University</p>
+<p>opyrability can map the dynamic achievable output funnel three ways, each trading model fidelity against computational cost:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Model it needs</p></th>
+<th class="head"><p>State dimension</p></th>
+<th class="head"><p>Cost</p></th>
+<th class="head"><p>Exact?</p></th>
+<th class="head"><p>State funnel?</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Linear state-space projection <span id="id1">[<a class="reference internal" href="../bibliography.html#id46" title="San Dinh and Fernando V. Lima. Linear dynamic operability analysis with state-space projection for the online construction of achievable output funnels. Computers and Chemical Engineering, 205:109428, 2026. URL: https://doi.org/10.1016/j.compchemeng.2025.109428, doi:10.1016/j.compchemeng.2025.109428.">11</a>]</span></p></td>
+<td><p>LTI matrices <span class="math notranslate nohighlight">\(\{A, B, C\}\)</span></p></td>
+<td><p>Low (matrices given)</p></td>
+<td><p>Seconds</p></td>
+<td><p>Exact for the LTI model</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>Nonlinear state-space projection</p></td>
+<td><p>Step model <span class="math notranslate nohighlight">\(f(x,u)\)</span></p></td>
+<td><p>Low (<span class="math notranslate nohighlight">\(\lesssim 8\)</span> states)</p></td>
+<td><p>Seconds</p></td>
+<td><p>Convex-hull approximation</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>n-step simulation <span id="id2">[<a class="reference internal" href="../bibliography.html#id45" title="San Dinh and Fernando V. Lima. Dynamic Operability Analysis for Process Design and Control of Modular Natural Gas Utilization Systems. Ind. Eng. Chem. Res., 62:2052–2066, 2023. URL: https://doi.org/10.1021/acs.iecr.2c03543, doi:10.1021/acs.iecr.2c03543.">10</a>]</span></p></td>
+<td><p>Step model <span class="math notranslate nohighlight">\(f(x,u)\)</span></p></td>
+<td><p><strong>Any</strong></p></td>
+<td><p>Minutes</p></td>
+<td><p>Boundary-tracking approximation</p></td>
+<td><p>No</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A first-principles model like the DMA-MR carries 160 states, far too many for the projection methods, which propagate state-space polytopes. The practical route is to apply the projection methods to <strong>reduced models derived from the rigorous one</strong>, which is what this tutorial demonstrates on the co-current DMA-MR:</p>
+<ul class="simple">
+<li><p>the <strong>n-step method on the full 160-state model</strong> gives the reference funnel;</p></li>
+<li><p>a <strong>linear model identified from step tests</strong> feeds the fast linear projection, exactly as the HYPER model of <span id="id3">[<a class="reference internal" href="../bibliography.html#id46" title="San Dinh and Fernando V. Lima. Linear dynamic operability analysis with state-space projection for the online construction of achievable output funnels. Computers and Chemical Engineering, 205:109428, 2026. URL: https://doi.org/10.1016/j.compchemeng.2025.109428, doi:10.1016/j.compchemeng.2025.109428.">11</a>]</span> was identified from its physical facility;</p></li>
+<li><p>a <strong>low-order nonlinear surrogate</strong> (nonlinear steady-state gains with identified first-order dynamics) feeds the nonlinear projection.</p></li>
+</ul>
+<p>The three funnels are overlaid in one interactive plot, and the dOI of each method is compared against the reference.</p>
+<p>The process is the co-current DMA-MR from the <a class="reference internal" href="dynamic_dma_mr.html"><span class="std std-doc">dynamic operability tutorial</span></a>: manipulated inputs are the tube and shell flowrates (<span class="math notranslate nohighlight">\(\pm 200\)</span> dm³/h around the nominal point), outputs are the benzene and hydrogen mole fractions, and the methane feed is held at its nominal value of <span class="math notranslate nohighlight">\(94.2\%\)</span>. The same AIS, DOS, initial steady state, and 8 minute horizon are used for all three methods, so any difference between the funnels comes from the method and its model, not from the problem setup.</p>
+<p>Let’s start by importing the packages and the DMA-MR dynamic model:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span><span class="o">,</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Reuse the co-current DMA-MR dynamic model that ships with opyrability&#39;s</span>
+<span class="c1"># test suite (the same model written out in full in the dynamic operability</span>
+<span class="c1"># tutorial), instead of repeating its ~200 lines here.</span>
+<span class="n">_tests_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;tests&#39;</span><span class="p">))</span>
+<span class="k">if</span> <span class="n">_tests_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">_tests_dir</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">dma_mr</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">dma_mr_cocurrent_x0</span><span class="p">,</span>
+                    <span class="n">dma_mr_cocurrent_step</span><span class="p">,</span>
+                    <span class="n">dma_mr_cocurrent_outputs</span><span class="p">)</span>
+
+<span class="c1"># Plotly renderer that stays interactive in the compiled</span>
+<span class="c1"># documentation website (loads plotly.js via require.js).</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">plotly.io</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pio</span>
+<span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span> <span class="o">=</span> <span class="s1">&#39;notebook_connected&#39;</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.dpi&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">150</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Then, defining the operating point and the operability sets shared by all three methods:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Qt_nom</span><span class="p">,</span> <span class="n">Qs_nom</span><span class="p">,</span> <span class="n">d_nom</span> <span class="o">=</span> <span class="mf">800.0</span><span class="p">,</span> <span class="mf">1200.0</span><span class="p">,</span> <span class="mf">94.2</span>
+<span class="n">u_ref</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">Qt_nom</span><span class="p">,</span> <span class="n">Qs_nom</span><span class="p">])</span>
+
+<span class="c1"># Initial condition: the steady state at the nominal point (full model)</span>
+<span class="n">x0_full</span> <span class="o">=</span> <span class="n">dma_mr_cocurrent_x0</span><span class="p">([</span><span class="n">Qt_nom</span><span class="p">,</span> <span class="n">Qs_nom</span><span class="p">],</span> <span class="n">d</span><span class="o">=</span><span class="n">d_nom</span><span class="p">)</span>
+<span class="n">y_ref</span> <span class="o">=</span> <span class="n">dma_mr_cocurrent_outputs</span><span class="p">(</span><span class="n">x0_full</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Nominal steady state: benzene = </span><span class="si">{</span><span class="n">y_ref</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> %, H2 = </span><span class="si">{</span><span class="n">y_ref</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> %&#39;</span><span class="p">)</span>
+
+<span class="n">AIS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">Qt_nom</span> <span class="o">-</span> <span class="mi">200</span><span class="p">,</span> <span class="n">Qt_nom</span> <span class="o">+</span> <span class="mi">200</span><span class="p">],</span>
+                       <span class="p">[</span><span class="n">Qs_nom</span> <span class="o">-</span> <span class="mi">200</span><span class="p">,</span> <span class="n">Qs_nom</span> <span class="o">+</span> <span class="mi">200</span><span class="p">]])</span>
+<span class="n">DOS_bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">5.0</span><span class="p">,</span>  <span class="mf">9.0</span><span class="p">],</span>
+                       <span class="p">[</span><span class="mf">19.0</span><span class="p">,</span> <span class="mf">24.0</span><span class="p">]])</span>
+<span class="n">k_max</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="n">output_labels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Benzene mole fraction [%]&#39;</span><span class="p">,</span> <span class="s1">&#39;H2 mole fraction [%]&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nominal steady state: benzene = 6.61 %, H2 = 21.96 %
+</pre></div>
+</div>
+</div>
+</div>
+<section id="mapping-the-reference-funnel-with-the-n-step-method-full-model">
+<h2>Mapping the reference funnel with the n-step method (full model)<a class="headerlink" href="#mapping-the-reference-funnel-with-the-n-step-method-full-model" title="Link to this heading">#</a></h2>
+<p>The n-step simulation method works directly on the rigorous 160-state model: it propagates exact state vectors through the transient simulator and takes convex hulls only in the output space. It is the most faithful of the three (its only approximation is the boundary tracking of the reachable set) and serves as the reference here. The initial output slice is omitted (<code class="docutils literal notranslate"><span class="pre">y0=None</span></code>) so that all three methods produce funnels indexed identically at <span class="math notranslate nohighlight">\(k = 1, \dots, 8\)</span>.</p>
+<p>Importing opyrability’s dynamic operability module:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">dynamic_operability</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">full_model_step</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">dma_mr_cocurrent_step</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d_nom</span><span class="p">)</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">res_nstep</span> <span class="o">=</span> <span class="n">dynamic_operability</span><span class="p">(</span><span class="n">full_model_step</span><span class="p">,</span>
+                                <span class="n">x0_full</span><span class="p">,</span>
+                                <span class="n">AIS_bounds</span><span class="p">,</span>
+                                <span class="n">DOS</span><span class="o">=</span><span class="n">DOS_bounds</span><span class="p">,</span>
+                                <span class="n">k_max</span><span class="o">=</span><span class="n">k_max</span><span class="p">,</span>
+                                <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nstep&#39;</span><span class="p">,</span>
+                                <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">t_nstep</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;n-step (full model): </span><span class="si">{</span><span class="n">t_nstep</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> s&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;dOI: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">res_nstep</span><span class="p">[</span><span class="s2">&quot;dOI&quot;</span><span class="p">],</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>n-step (full model): 40.7 s
+dOI: [ 0.5  1.   2.2  4.3  7.7 11.4 14.2 17.7]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="identifying-a-linear-model-from-step-tests">
+<h2>Identifying a linear model from step tests<a class="headerlink" href="#identifying-a-linear-model-from-step-tests" title="Link to this heading">#</a></h2>
+<p>The linear projection method needs LTI matrices, which a 160-state nonlinear reactor does not directly provide. The standard route is system identification: step each input on the rigorous simulator, record the output responses, and fit a first-order transfer function per channel. Each fitted entry contributes one state, giving a 4-state model exactly like the identified HYPER model of <span id="id4">[<a class="reference internal" href="../bibliography.html#id46" title="San Dinh and Fernando V. Lima. Linear dynamic operability analysis with state-space projection for the online construction of achievable output funnels. Computers and Chemical Engineering, 205:109428, 2026. URL: https://doi.org/10.1016/j.compchemeng.2025.109428, doi:10.1016/j.compchemeng.2025.109428.">11</a>]</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step tests: +200 dm3/h on each input, 25 minutes</span>
+<span class="n">n_test</span> <span class="o">=</span> <span class="mi">25</span>
+<span class="n">responses</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">du</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">200.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">])]):</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">x0_full</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_test</span><span class="p">):</span>
+        <span class="n">M</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">dma_mr_cocurrent_step</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">u_ref</span> <span class="o">+</span> <span class="n">du</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d_nom</span><span class="p">)</span>
+        <span class="n">ys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">y_ref</span><span class="p">)</span>
+    <span class="n">responses</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+
+<span class="c1"># First-order fit per channel: y(t) = K (1 - exp(-t / tau))</span>
+<span class="n">t_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_test</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">K_fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">tau_fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">yk</span> <span class="o">=</span> <span class="n">responses</span><span class="p">[</span><span class="n">j</span><span class="p">][:,</span> <span class="n">i</span><span class="p">]</span>
+        <span class="n">K</span> <span class="o">=</span> <span class="n">yk</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">taus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">K</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t_grid</span> <span class="o">/</span> <span class="n">t_c</span><span class="p">))</span> <span class="o">-</span> <span class="n">yk</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+                  <span class="k">for</span> <span class="n">t_c</span> <span class="ow">in</span> <span class="n">taus</span><span class="p">]</span>
+        <span class="n">tau_fit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">taus</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">errors</span><span class="p">))]</span>
+        <span class="n">K_fit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">K</span> <span class="o">/</span> <span class="mf">200.0</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;y</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">/u</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s1">: K = </span><span class="si">{</span><span class="n">K_fit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s1">+.5f</span><span class="si">}</span><span class="s1">, &#39;</span>
+              <span class="sa">f</span><span class="s1">&#39;tau = </span><span class="si">{</span><span class="n">tau_fit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> min&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Identification time: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> s&#39;</span><span class="p">)</span>
+
+<span class="c1"># 4-state realization, one state per channel, zero-order hold at 1 min</span>
+<span class="n">A4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">tau_fit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">B4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">C4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">s</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+        <span class="n">B4</span><span class="p">[</span><span class="n">s</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">tau_fit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">])</span>
+        <span class="n">C4</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">K_fit</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">res_linear</span> <span class="o">=</span> <span class="n">dynamic_operability</span><span class="p">({</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="n">A4</span><span class="p">,</span>
+                                  <span class="s1">&#39;B&#39;</span><span class="p">:</span> <span class="n">B4</span><span class="p">,</span>
+                                  <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="n">C4</span><span class="p">,</span>
+                                  <span class="s1">&#39;u_ref&#39;</span><span class="p">:</span> <span class="n">u_ref</span><span class="p">,</span>
+                                  <span class="s1">&#39;y_ref&#39;</span><span class="p">:</span> <span class="n">y_ref</span><span class="p">},</span>
+                                 <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span>
+                                 <span class="n">AIS_bounds</span><span class="p">,</span>
+                                 <span class="n">DOS</span><span class="o">=</span><span class="n">DOS_bounds</span><span class="p">,</span>
+                                 <span class="n">k_max</span><span class="o">=</span><span class="n">k_max</span><span class="p">,</span>
+                                 <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">t_linear</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Linear projection: </span><span class="si">{</span><span class="n">t_linear</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> s&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;dOI: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">res_linear</span><span class="p">[</span><span class="s2">&quot;dOI&quot;</span><span class="p">],</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>y1/u1: K = -0.00366, tau = 5.3 min
+y2/u1: K = +0.00190, tau = 3.7 min
+y1/u2: K = +0.00379, tau = 5.7 min
+y2/u2: K = -0.00314, tau = 1.9 min
+Identification time: 1.2 s
+
+Linear projection: 0.4 s
+dOI: [ 1.7  5.1  8.8 12.3 15.3 17.9 20.  21.8]
+</pre></div>
+</div>
+</div>
+</div>
+<p>The reactor responses are not truly first-order (material transport along the reactor gives S-shaped responses), so these fits are approximate, which the comparison below will reveal.</p>
+</section>
+<section id="building-a-low-order-nonlinear-surrogate-for-the-nonlinear-projection">
+<h2>Building a low-order nonlinear surrogate for the nonlinear projection<a class="headerlink" href="#building-a-low-order-nonlinear-surrogate-for-the-nonlinear-projection" title="Link to this heading">#</a></h2>
+<p>The nonlinear projection propagates state polytopes through any step model, but still needs a low-dimensional state. A practical reduced model takes the two outputs as states and combines the reactor’s <strong>nonlinear steady-state gain map</strong> (a quadratic fit of the full-model steady states over the AIS) with the <strong>identified first-order dynamics</strong>. Unlike the LTI model, it keeps the reactor’s gain nonlinearity:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Steady-state map over a 4x4 grid of the AIS (full-model solves)</span>
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">grid</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">AIS_bounds</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">AIS_bounds</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">U_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">grid</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">Y_ss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dma_mr_cocurrent_outputs</span><span class="p">(</span><span class="n">dma_mr_cocurrent_x0</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="n">d_nom</span><span class="p">))</span>
+                 <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">U_grid</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Steady-state grid (16 solves): </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> s&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">features</span><span class="p">(</span><span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Quadratic feature vector for the steady-state gain map.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    u : array-like, shape (2,)</span>
+<span class="sd">        Inputs [tube flowrate, shell flowrate] [dm^3/h].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray, shape (6,)</span>
+<span class="sd">        The features [1, a, b, a^2, b^2, a*b], where a and b are the input</span>
+<span class="sd">        deviations from the nominal point (u - u_nom) scaled by 200 dm^3/h.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">Qt_nom</span><span class="p">)</span> <span class="o">/</span> <span class="mf">200.0</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">Qs_nom</span><span class="p">)</span> <span class="o">/</span> <span class="mf">200.0</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">*</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">])</span>
+
+
+<span class="n">F_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">features</span><span class="p">(</span><span class="n">u</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">U_grid</span><span class="p">])</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">F_mat</span><span class="p">,</span> <span class="n">Y_ss</span><span class="p">,</span> <span class="n">rcond</span><span class="o">=</span><span class="kc">None</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Quadratic gain map, max abs fit error:&#39;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">F_mat</span> <span class="o">@</span> <span class="n">coef</span> <span class="o">-</span> <span class="n">Y_ss</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="mi">3</span><span class="p">),</span> <span class="s1">&#39;%&#39;</span><span class="p">)</span>
+
+<span class="c1"># First-order dynamics per output, from the identified time constants</span>
+<span class="n">tau_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">tau_fit</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="n">tau_fit</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">mean</span><span class="p">()])</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">/</span> <span class="n">tau_out</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">surrogate_step</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Step model of the low-order nonlinear surrogate.</span>
+
+<span class="sd">    Combines the quadratic steady-state gain map with the identified</span>
+<span class="sd">    first-order dynamics, taking the two outputs themselves as states.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : array-like, shape (2,)</span>
+<span class="sd">        State [benzene mole %, H2 mole %] (the outputs used as states).</span>
+<span class="sd">    u : array-like, shape (2,)</span>
+<span class="sd">        Inputs [tube flowrate, shell flowrate] [dm^3/h].</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    x_next : numpy.ndarray, shape (2,)</span>
+<span class="sd">        The advanced state.</span>
+<span class="sd">    y : numpy.ndarray, shape (2,)</span>
+<span class="sd">        Output, here the identity y = x_next.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="n">features</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">))</span> <span class="o">@</span> <span class="n">coef</span>
+    <span class="n">x_next</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">x_next</span><span class="p">,</span> <span class="n">x_next</span>
+
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">res_nonlinear</span> <span class="o">=</span> <span class="n">dynamic_operability</span><span class="p">(</span><span class="n">surrogate_step</span><span class="p">,</span>
+                                    <span class="n">y_ref</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                                    <span class="n">AIS_bounds</span><span class="p">,</span>
+                                    <span class="n">DOS</span><span class="o">=</span><span class="n">DOS_bounds</span><span class="p">,</span>
+                                    <span class="n">k_max</span><span class="o">=</span><span class="n">k_max</span><span class="p">,</span>
+                                    <span class="n">AIS_resolution</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                                    <span class="n">method</span><span class="o">=</span><span class="s1">&#39;projection&#39;</span><span class="p">,</span>
+                                    <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">t_nonlinear</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Nonlinear projection (surrogate): </span><span class="si">{</span><span class="n">t_nonlinear</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> s&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;dOI: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">res_nonlinear</span><span class="p">[</span><span class="s2">&quot;dOI&quot;</span><span class="p">],</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Steady-state grid (16 solves): 17.6 s
+Quadratic gain map, max abs fit error: [0.064 0.021] %
+
+Nonlinear projection (surrogate): 0.5 s
+dOI: [0.3 1.  1.9 3.1 4.3 5.5 6.7 7.7]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="comparing-the-three-funnels">
+<h2>Comparing the three funnels<a class="headerlink" href="#comparing-the-three-funnels" title="Link to this heading">#</a></h2>
+<p>Importing opyrability’s funnel comparison module:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">opyrability</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_funnel_comparison</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>The three funnels are overlaid as outlines in a single interactive plot (drag to rotate, scroll to zoom):</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">comparison</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;n-step, full model (reference)&#39;</span><span class="p">:</span> <span class="n">res_nstep</span><span class="p">,</span>
+    <span class="s1">&#39;Linear projection, identified LTI&#39;</span><span class="p">:</span> <span class="n">res_linear</span><span class="p">,</span>
+    <span class="s1">&#39;Nonlinear projection, surrogate&#39;</span><span class="p">:</span> <span class="n">res_nonlinear</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">fig_cmp</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">plot_funnel_comparison</span><span class="p">(</span>
+    <span class="n">comparison</span><span class="p">,</span>
+    <span class="n">labels</span><span class="o">=</span><span class="n">output_labels</span><span class="p">,</span>
+    <span class="n">orientation</span><span class="o">=</span><span class="s1">&#39;vertical&#39;</span><span class="p">,</span>
+    <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;plotly&#39;</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s1">&#39;DMA-MR achievable output funnels: three mapping methods&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">        <script>
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        </script>
+        <script type="module">import "https://cdn.plot.ly/plotly-3.6.0.min"</script>
+        </div><div class="output text_html"><div style="height:650px; width:850px;">            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script>if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script>window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.6.0.min.js" integrity="sha256-QaOVwtVY0T02VaHrr6pnoHLCwayMJp4O5n4YyaE3rJk=" crossorigin="anonymous"></script>                <div id="6cfb2190-01c8-4fc6-86bf-a646f5f63a16" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script>                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("6cfb2190-01c8-4fc6-86bf-a646f5f63a16")) {                    Plotly.newPlot(                        "6cfb2190-01c8-4fc6-86bf-a646f5f63a16",                        [{"hoverinfo":"name","line":{"color":[0.12156862745098039,0.4666666666666667,0.7058823529411765],"width":3},"mode":"lines","name":"n-step, full model (reference)","x":[6.522797740921046,6.511389448010065,6.666102648306497,6.647156188376147,6.606073609044555,6.535947531713714,6.522797740921046,null,6.45577523549753,6.489944960649375,6.528505319742257,6.712885658186384,6.721426893195534,6.701842238053962,6.583123264166221,6.502131130004081,6.482420118753435,6.46822621448175,6.45577523549753,null,6.369950800807467,6.386144150154824,6.408291965020948,6.44134274950415,6.479016411839327,6.526045447673709,6.577444052752806,6.653198726005842,6.843191159974368,6.827177043241574,6.732464478609531,6.611662324742005,6.423247046196584,6.391078733437764,6.37923198911112,6.369950800807467,null,6.150587979323897,6.438678868914977,6.484686646230735,6.535277462533537,6.5962656984712975,6.660740656244765,6.912555848797565,6.9833096093385,6.969664737336206,6.857053776522065,6.583831009902942,6.393733303725414,6.138391853256392,6.150587979323897,null,6.50556730657597,6.565725357475417,6.629542560630655,6.705512941496451,6.783697138787063,6.94999942693095,7.24611799713157,7.242798768836313,7.037326711279786,6.9155979996129835,6.727194441258755,6.050687448999963,5.796091761369124,5.832918885309769,6.50556730657597,null,6.615231988263274,6.690610289450053,6.7683257439860585,6.859772836438155,6.951728817267058,7.2943029310087875,7.591315731493441,7.589126300805877,7.4869935019931475,6.598269575109081,6.33877070932595,5.705017278009986,5.52985804680454,5.527656443014344,5.720305136124408,6.615231988263274,null,5.461514616213104,5.66924880443581,6.774814179271254,6.866013900412942,6.957787055511356,7.063806793891691,7.168237405514554,7.579603965898992,7.686621722025084,7.680332899675105,7.66550170919133,7.535969125871098,7.338771182843635,6.123693622683738,5.8668110172693275,5.475349858139312,5.391138284620693,5.343844043390594,5.338112621233758,5.334727794826286,5.461514616213104,null,5.245694745178939,5.281753614959389,5.321894362455677,5.464563000906919,5.689171558150758,6.988888487800147,7.095138869850077,7.199795816318373,7.316737888267495,7.429843411525982,7.752402114734884,8.162783646029062,8.17165578816498,7.5124764606365515,7.207606965048308,6.992929073283528,6.719347686207381,5.714057752209181,5.538723608676319,5.369219761511829,5.3395853588623,5.309955460223282,5.261221688289557,5.258832414503828,5.251343152012085,5.245694745178939,null],"y":[21.866585256662052,21.474981736349683,21.635702784909988,22.327393722667455,22.286678816556897,22.205900091944294,21.866585256662052,null,21.485121473332715,21.453570423222057,21.419255168337582,21.57190508667226,21.628910477642894,22.293928163895988,22.418672303125824,22.28755158083312,22.246127890204377,21.890291761802654,21.485121473332715,null,21.639103469969914,21.569573636137648,21.485166223312582,21.45488081385637,21.421362937106394,21.385285029817943,21.349607870304805,21.378600704564313,21.52812447382886,22.19101122647741,22.307043908869378,22.436054729731474,22.540335590664334,22.391171038984112,22.041409804355393,21.639103469969914,null,21.76011410193761,21.41697060563597,21.381119209116882,21.345624485709404,21.306482216592457,21.268400637563932,21.39374022230056,21.529235351575274,22.175406275597226,22.2996078663386,22.47084616021813,22.575810792407683,22.69078064490918,21.76011410193761,null,21.335225145815752,21.296204156910594,21.258225351936577,21.217743432443047,21.178850157076578,21.18485295679792,21.31340854272196,21.951232426917805,22.214343317931736,22.344882672017658,22.44835789127486,22.73154086382692,22.819306935308152,21.87129267192035,21.335225145815752,null,21.242449793718144,21.201987971167952,21.16311706166606,21.122941594782606,21.084775876129815,21.166345801379308,21.326021982735647,21.933398016298742,22.054854720341375,22.532822988443773,22.647752125319506,22.848163355613416,22.896872554207327,21.946796610356234,21.819312429030433,21.242449793718144,null,21.875730884028243,21.73327328121187,21.143222556638634,21.10297220055905,21.064750436552647,21.02667207056119,20.99086325302853,21.093817355311952,21.315062605213846,21.930663351650526,22.03443381752224,22.16797759044709,22.272740579588316,22.721257457096073,22.809021678271428,22.91063506564812,22.930473925374056,22.804906812221894,22.41793494574019,21.984014347010103,21.875730884028243,null,21.970539291221986,21.936928399596372,21.900281259859124,21.772893930917743,21.621516565270344,21.04261901072614,21.004385798810052,20.968453408024732,20.93420662473744,20.902287646952953,20.913963856274737,21.050293806523253,21.634987053461554,22.13812315606363,22.331385344639674,22.440940060197356,22.55748354874401,22.848582887295485,22.897202349438373,22.935211123773225,22.941347868563415,22.902148579986942,22.821986194306508,22.80319898093748,22.410752349379752,21.970539291221986,null],"z":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,null,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,null,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,null,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,null,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,null,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,null,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,null,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,null],"type":"scatter3d"},{"hoverinfo":"name","line":{"color":[1.0,0.4980392156862745,0.054901960784313725],"width":3},"mode":"lines","name":"Linear projection, identified LTI","x":[6.359160298084433,6.853759172391785,6.853759172391785,6.359160298084433,6.359160298084433,6.359160298084433,null,6.152974817904085,6.152974817904085,7.059944652572132,7.059944652572132,6.152974817904085,6.152974817904085,null,5.981061638494148,7.23185783198207,7.23185783198207,5.981061638494148,5.981061638494148,null,5.837718668996894,6.602734961025452,7.375200801479323,7.375200801479323,5.837718668996894,5.837718668996894,null,5.718193393833808,7.49472607664241,7.49472607664241,5.718193393833808,5.718193393833808,null,5.618524592349457,7.59439487812676,7.59439487812676,5.618524592349457,5.618524592349457,null,5.5354104657686305,7.677509004707587,7.677509004707587,7.677509004707587,5.5354104657686305,5.5354104657686305,null,5.466098761680734,6.609992769974669,7.746820708795483,7.746820708795484,5.466098761680734,5.466098761680734,null],"y":[21.616916926269795,21.616916926269795,22.306220689376275,22.306220689376275,22.126301713145992,21.616916926269795,null,21.713976811333964,21.396768666634067,21.396768666634067,22.526368949012003,22.526368949012003,21.713976811333964,null,21.25426674887584,21.25426674887584,22.66887086677023,22.66887086677023,21.25426674887584,null,21.16068861675815,21.16068861675815,21.16068861675815,22.76244899888792,22.76244899888792,21.16068861675815,null,21.098300430000528,21.098300430000528,22.824837185645542,22.824837185645542,21.098300430000528,null,21.056058574843124,21.056058574843124,22.867079040802945,22.867079040802945,21.056058574843124,null,21.02701631705463,21.02701631705463,21.67198236076601,22.89612129859144,22.89612129859144,21.02701631705463,null,21.006753381009442,21.006753381009442,21.006753381009442,22.916384234636627,22.916384234636627,21.006753381009442,null],"z":[0.0,0.0,0.0,0.0,0.0,0.0,null,1.0,1.0,1.0,1.0,1.0,1.0,null,2.0,2.0,2.0,2.0,2.0,null,3.0,3.0,3.0,3.0,3.0,3.0,null,4.0,4.0,4.0,4.0,4.0,null,5.0,5.0,5.0,5.0,5.0,null,6.0,6.0,6.0,6.0,6.0,6.0,null,7.0,7.0,7.0,7.0,7.0,7.0,null],"type":"scatter3d"},{"hoverinfo":"name","line":{"color":[0.17254901960784313,0.6274509803921569,0.17254901960784313],"width":3},"mode":"lines","name":"Nonlinear projection, surrogate","x":[6.574664920127439,6.9977203685934946,6.997722036528137,6.997722036528137,6.645494600798401,6.400948188607881,6.400946520673238,6.400946520673238,6.442347283695469,6.485100604611912,6.529206483422569,6.574664920127439,null,6.5102390665962115,6.548149917297361,6.971205365763417,7.3240197849927995,7.324021175995786,7.324021175995786,6.971793740266049,6.72724732807553,6.433501156919403,6.229557440547316,6.229556049544328,6.229556049544328,6.270956812566559,6.313710133483003,6.35781601229366,6.40327444899853,6.437801332446797,6.473456204979357,6.5102390665962115,null,6.434010157659991,6.463745156206599,6.494420860788588,6.526037271405956,6.949092719872012,7.301907139101395,7.596142835314523,7.596143995365558,7.596143995365558,7.243916559635821,6.999370147445301,6.705623976289174,6.501680259917086,6.256705552338963,6.086623157446764,6.086621997395729,6.086621997395729,6.128022760417959,6.170776081334402,6.21488196014506,6.260340396849929,6.294867280298196,6.330522152830757,6.367305014447612,6.405215865148762,6.434010157659991,null,6.375218532158239,6.406834942775607,6.430848441777465,6.4556464588720255,6.48122899405929,6.507596047339256,6.930651495805311,7.283465915034695,7.577701611247822,7.82308456672657,7.823085534171225,7.823085534171225,7.470858098441488,7.226311686250969,6.932565515094842,6.728621798722754,6.48364709114463,6.31356469625243,6.1092637955231055,5.967420636210035,5.967419668765379,5.967419668765379,6.008820431787609,6.051573752704053,6.09567963151471,6.14113806821958,6.175664951667847,6.211319824200407,6.248102685817262,6.2860135365184115,6.3148078290296406,6.34454282757625,6.375218532158239,null,6.331437595045677,6.356235612140238,6.381818147327502,6.408185200607468,6.428211674051376,6.448892409947772,6.4702274082966555,6.492216669098028,6.915272117564083,7.268086536793466,7.5623222330065945,7.807705188485342,8.012346554622884,8.012347361440112,8.012347361440112,7.660119925710375,7.415573513519856,7.121827342363728,6.917883625991641,6.672908918413517,6.502826523521318,6.298525622791993,6.15668246347892,5.986302188505012,5.868009628850819,5.868008822033591,5.868008822033591,5.909409585055822,5.952162905972265,5.996268784782922,6.0417272214877915,6.0762541049360586,6.1119089774686195,6.148691839085474,6.186602689786624,6.215396982297853,6.245131980844461,6.27580768542645,6.307424096043818,6.331437595045677,null,6.298912749744397,6.325279803024363,6.345306276468271,6.365987012364667,6.387322010713551,6.409311271514923,6.426012695933268,6.443259753856713,6.461052445285259,6.884107893751314,6.902446218684959,7.2552606379143425,7.54949633412747,7.794879289606219,7.999520655743761,8.170184867742243,8.170185540601446,8.170185540601446,7.8179581048717095,7.573411692681191,7.279665521525064,7.075721805152976,6.830747097574852,6.660664702682653,6.456363801953327,6.314520642640256,6.144140367666347,6.025847808012153,5.8837562264451915,5.785104097309689,5.785103424450487,5.785103424450487,5.826504187472717,5.86925750838916,5.9133633871998175,5.958821823904687,5.993348707352954,6.029003579885514,6.06578644150237,6.103697292203519,6.132491584714748,6.162226583261357,6.192902287843346,6.224518698460714,6.2485321974625725,6.273330214557133,6.298912749744397,null,6.296846619999265,6.318181618348149,6.340170879149521,6.356872303567867,6.374119361491312,6.391912052919857,6.814967501385913,6.833305826319558,6.847234268507993,6.86161775120923,6.876456274423271,7.229270693652653,7.244564257379497,7.5387999535926244,7.784182909071372,7.988824275208915,8.1594884872074,8.301816862974237,8.301817424116825,8.301817424116825,7.949589988387087,7.705043576196568,7.4112974050404405,7.207353688668354,6.96237898109023,6.792296586198031,6.587995685468705,6.446152526155633,6.275772251181724,6.157479691527532,6.015388109960569,5.916735980825066,5.79823624512918,5.715963593227671,5.715963032085084,5.757363795107315,5.800117116023759,5.844222994834415,5.889681431539286,5.924208314987553,5.959863187520113,5.9966460491369675,6.034556899838116,6.063351192349346,6.093086190895955,6.123761895477943,6.155378306095312,6.17939180509717,6.204189822191731,6.2297723573789945,6.256139410658961,6.276165884102869,6.296846619999265,null,6.2605207905154385,6.2825100513168115,6.299211475735157,6.316458533658602,6.334251225087147,6.757306673553202,6.775644998486848,6.789573440675284,6.8039569233765205,6.818795446590562,7.171609865819945,7.1869034295467875,7.198519295172206,7.210514649715288,7.222889493176035,7.517125189389162,7.529879521767573,7.775262477246321,7.979903843383863,8.150568055382347,8.292896431149186,8.411593645469704,8.411594113444286,8.059366677714548,7.8148202655240295,7.5210740943679015,7.317130377995814,7.07215567041769,6.902073275525492,6.697772374796166,6.555929215483094,6.385548940509185,6.267256380854993,6.125164799288029,6.026512670152528,5.908012934456641,5.825740282555131,5.726915375371046,5.658302672226955,5.658302204252375,5.658302204252375,5.699702967274605,5.742456288191049,5.786562167001706,5.832020603706575,5.866547487154842,5.902202359687403,5.938985221304257,5.976896072005408,6.005690364516637,6.035425363063245,6.066101067645234,6.097717478262602,6.121730977264461,6.146528994359021,6.172111529546285,6.198478582826251,6.21850505627016,6.2391857921665554,6.2605207905154385,null],"y":[21.900701775420234,21.561318755078997,21.561318755078997,21.561320156480026,21.987243946827345,22.252920229906273,22.252920229906273,22.252918828505244,22.16252796429106,22.07369483403883,21.986419437748552,21.900701775420234,null,21.918115325291346,21.858052915209484,21.518669894868246,21.280864037955354,21.280864037955354,21.280865019917773,21.706788810265092,21.97246509334402,22.270910112311945,22.457069620514485,22.457069620514485,22.457068638552062,22.366677774337877,22.277844644085647,22.190569247795374,22.104851585467053,22.04151466042013,21.97926924036156,21.918115325291346,null,21.956720576155245,21.913105178304615,21.870254598560738,21.828168836923606,21.488785816582368,21.250979959669472,21.084349273416475,21.084349273416475,21.084349961478047,21.510273751825366,21.775950034904294,22.07439505387222,22.26055456207476,22.469675140369137,22.600117203516774,22.600117203516774,22.600116515455202,22.509725651241016,22.420892520988783,22.33361712469851,22.247899462370192,22.184562537323266,22.1223171172647,22.061163202194486,22.00110079211262,21.956720576155245,null,21.970488319482655,21.928402557845523,21.89730531769747,21.866743985990194,21.836718562723696,21.80722904789798,21.467846027556742,21.230040170643846,21.063409484390846,20.946651276827794,20.946651276827794,20.946651758952893,21.372575549300212,21.63825183237914,21.936696851347065,22.122856359549605,22.331976937843983,22.46241900099162,22.60894989776251,22.700350718502214,22.700350718502214,22.70035023637712,22.609959372162933,22.5211262419107,22.433850845620427,22.34813318329211,22.284796258245187,22.222550838186613,22.1613969231164,22.10133451303454,22.05695429707716,22.013338899226532,21.970488319482655,null,21.967539137502115,21.936977805794843,21.90695238252835,21.87746286770263,21.855673015536194,21.834258674689853,21.81321984516361,21.79255652695746,21.45317350661622,21.215367649703325,21.048736963450327,20.931978755887272,20.8501662197939,20.8501662197939,20.850166557619204,21.276090347966523,21.54176663104545,21.840211650013376,22.026371158215916,22.235491736510294,22.36593379965793,22.51246469642882,22.60386551716853,22.70653979190325,22.77058439400707,22.77058439400707,22.770584056181768,22.680193191967582,22.591360061715353,22.504084665425076,22.41836700309676,22.355030078049836,22.292784657991266,22.23163074292105,22.17156833283919,22.12718811688181,22.08357271903118,22.0407221392873,21.998636377650175,21.967539137502115,null,21.95616525618984,21.92667574136413,21.904885889197686,21.88347154835135,21.862432718825104,21.841769400618954,21.826501239998443,21.811496200353062,21.79675428168282,21.457371261341578,21.442892463646466,21.205086606733573,21.038455920480573,20.92169771291752,20.839885176824147,20.782559090703693,20.782559090703693,20.782559327418056,21.208483117765375,21.474159400844304,21.77260441981223,21.95876392801477,22.167884506309147,22.298326569456783,22.444857466227674,22.53625828696738,22.638932561702102,22.702977163805926,22.774921080922493,22.819797166557628,22.819797166557628,22.819796929843264,22.729406065629078,22.64057293537685,22.553297539086575,22.467579876758254,22.404242951711332,22.341997531652762,22.280843616582548,22.220781206500686,22.17640099054331,22.13278559269268,22.0899350129488,22.04784925131167,22.016752011163614,21.98619067945634,21.95616525618984,null,21.917955034238332,21.896916204712085,21.876252886505938,21.860984725885423,21.845979686240042,21.8312377675698,21.49185474722856,21.477375949533446,21.46667754153356,21.45616350253628,21.44583383254162,21.20802797562872,21.197882674636666,21.03125198838367,20.914493780820614,20.832681244727244,20.77535515860679,20.73518674057683,20.73518674057683,20.735186906442706,21.161110696790022,21.426786979868954,21.725231998836875,21.911391507039415,22.120512085333793,22.250954148481433,22.39748504525232,22.488885865992028,22.591560140726752,22.655604742830576,22.727548659947143,22.772424745582278,22.822835885309814,22.85428058159612,22.85428058159612,22.76388955151606,22.67505642126383,22.587781024973555,22.502063362645238,22.438726437598312,22.376481017539746,22.31532710246953,22.255264692387666,22.21088447643029,22.16726907857966,22.12441849883578,22.08233273719865,22.051235497050598,22.020674165343323,21.990648742076825,21.96115922725111,21.93936937508467,21.917955034238332,null,21.921078801009486,21.900415482803336,21.88514732218282,21.870142282537444,21.855400363867197,21.51601734352596,21.501538545830847,21.490840137830958,21.48032609883368,21.469996428839018,21.23219057192612,21.222045270934064,21.214548890945878,21.207181698412647,21.19994369333438,21.033313007081375,21.026204189458063,20.90944598189501,20.827633445801638,20.770307359681187,20.730138941651227,20.701992910477227,20.701992910477227,21.127916817046852,21.39359310012578,21.692038119093702,21.878197627296245,22.08731820559062,22.21776026873826,22.364291165509147,22.45569198624886,22.55836626098358,22.6224108630874,22.69435478020397,22.739230865839108,22.789642005566645,22.821086701852952,22.856409813388726,22.87844312824995,22.87844312824995,22.878443012027645,22.78805214781346,22.69921901756123,22.611943621270957,22.526225958942636,22.46288903389571,22.400643613837143,22.33948969876693,22.279427288685067,22.23504707272769,22.191431674877062,22.14858109513318,22.10649533349605,22.075398093347996,22.04483676164072,22.014811338374223,21.985321823548507,21.96353197138207,21.94211763053573,21.921078801009486,null],"z":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,null,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,null,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,2.0,null,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,3.0,null,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,4.0,null,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,5.0,null,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,6.0,null,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,7.0,null],"type":"scatter3d"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"scene":{"camera":{"eye":{"x":0.9396926207859086,"y":-1.6275953626987474,"z":0.6840402866513374}},"xaxis":{"title":{"text":"Benzene mole fraction [%]"}},"yaxis":{"title":{"text":"H2 mole fraction [%]"}},"zaxis":{"title":{"text":"Time step k"}},"aspectmode":"cube"},"margin":{"l":0,"r":0,"t":40,"b":0},"legend":{"x":0.01,"y":0.99},"width":850,"height":650,"title":{"text":"DMA-MR achievable output funnels: three mapping methods"}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('6cfb2190-01c8-4fc6-86bf-a646f5f63a16');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># dOI of each method against the same DOS</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">))</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">k_max</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">res</span><span class="p">),</span> <span class="n">mark</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">comparison</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="p">[</span><span class="s1">&#39;o-&#39;</span><span class="p">,</span> <span class="s1">&#39;s--&#39;</span><span class="p">,</span> <span class="s1">&#39;^--&#39;</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">steps</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="s1">&#39;dOI&#39;</span><span class="p">],</span> <span class="n">mark</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time step $k$ [min]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;dOI [%]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Dynamic Operability Index by mapping method&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Computational cost: n-step </span><span class="si">{</span><span class="n">t_nstep</span><span class="si">:</span><span class="s1">.0f</span><span class="si">}</span><span class="s1"> s, &#39;</span>
+      <span class="sa">f</span><span class="s1">&#39;linear </span><span class="si">{</span><span class="n">t_linear</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> s, nonlinear projection </span><span class="si">{</span><span class="n">t_nonlinear</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1"> s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/7b09942d0b708649c76ec4a4ab51bd9d5cc8e454acf1d3a6db39032c86dd3dc8.png" src="../_images/7b09942d0b708649c76ec4a4ab51bd9d5cc8e454acf1d3a6db39032c86dd3dc8.png" />
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Computational cost: n-step 41 s, linear 0.4 s, nonlinear projection 0.5 s
+</pre></div>
+</div>
+</div>
+</div>
+<p>The overlay and the dOI curves show what each simplification costs:</p>
+<ul class="simple">
+<li><p>The <strong>linear projection</strong> is essentially free once the model is identified, but inherits the LTI fit’s limits: it overestimates early operability (the first-order lags respond immediately, while the real reactor has a transport delay) and under-reaches the high-benzene corner where the gain nonlinearity matters.</p></li>
+<li><p>The <strong>nonlinear projection</strong> on the surrogate recovers the funnel’s nonlinear gain directions at the same negligible cost, but its two-state dynamics give thinner transient slices and a conservative dOI.</p></li>
+<li><p>The <strong>n-step method on the full model</strong> is the reference: every state is propagated exactly, at two orders of magnitude more computation and with no state funnel.</p></li>
+</ul>
+<p>The three are complementary: use the linear model for fast online funnels and recovery-horizon estimates, verify against the full-model n-step funnel offline, and bring in a nonlinear surrogate when the gain nonlinearity over the AIS is too strong for an LTI fit.</p>
+</section>
+<section id="conclusions">
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h2>
+<p><strong>Key Results:</strong></p>
+<ul class="simple">
+<li><p>All three dynamic operability mapping methods were applied to the same DMA-MR problem; the projection methods required reduced models (an identified 4-state LTI and a 2-state nonlinear surrogate), since state-polytope propagation is intractable for the 160-state rigorous model.</p></li>
+<li><p>The full-model n-step funnel (reference) costs about <span class="math notranslate nohighlight">\(40\)</span> s; both projection methods run in under a second after a one-time identification cost of about <span class="math notranslate nohighlight">\(20\)</span> s.</p></li>
+<li><p>The linear method overestimates the dOI at early times and misses the nonlinear gain directions; the nonlinear surrogate captures the funnel shape better but is conservative in area; the differences are directly visible in the overlaid funnels.</p></li>
+</ul>
+<p><strong>Workflow Summary:</strong></p>
+<ol class="arabic simple">
+<li><p>Map the reference funnel with <code class="docutils literal notranslate"><span class="pre">dynamic_operability(...,</span> <span class="pre">method='nstep')</span></code> on the rigorous model.</p></li>
+<li><p>Identify an LTI model from step tests and map the funnel through the matrices interface (linear projection).</p></li>
+<li><p>Fit a low-order nonlinear surrogate (steady-state gain map + identified dynamics) and map the funnel with <code class="docutils literal notranslate"><span class="pre">method='projection'</span></code>.</p></li>
+<li><p>Overlay the funnels with <code class="docutils literal notranslate"><span class="pre">plot_funnel_comparison</span></code> and compare the dOI of each method.</p></li>
+</ol>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "CODES-group/opyrability",
+            ref: "main",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./examples_gallery"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mapping-the-reference-funnel-with-the-n-step-method-full-model">Mapping the reference funnel with the n-step method (full model)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#identifying-a-linear-model-from-step-tests">Identifying a linear model from step tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-a-low-order-nonlinear-surrogate-for-the-nonlinear-projection">Building a low-order nonlinear surrogate for the nonlinear projection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#comparing-the-three-funnels">Comparing the three funnels</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conclusions">Conclusions</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Victor Alves - Carnegie Mellon University.
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022-2026.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

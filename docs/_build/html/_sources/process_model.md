@@ -237,4 +237,101 @@ allocating the tube length and tube diameter values, respectively. The return
 is also a two-dimensional array, allocating the benzene production and methane
 conversion. Note that the system is numerically integrated using `jax.experimental.ode.odeint`.
 
+### Process Model Defined as a Dynamic Model for Dynamic Operability
+
+The two cases above collapse the process model to a *steady-state* map: even when
+the model contains differential equations, they are integrated internally and only
+the final outputs `y` are returned. For **dynamic operability analysis**
+{cite}`dinh23, dinh26`, the time evolution of the process matters, and the model
+must instead describe how the state advances over one sampling period. In the
+mathematical definition of $M$ at the top of this page, this corresponds to keeping
+the state equation $\dot{x}_s=f\left(x_s, u, d\right)$ alive instead of setting
+$\dot{x}_s = 0$. After time discretization, the model becomes a *step model*:
+
+```{eval-rst}
+.. math::
+	\begin{array}{l}
+	x(k+1)=f_d\left(x(k), u(k), d(k)\right) \\
+	y(k)=g\left(x(k), u(k), d(k)\right)
+	\end{array}
+```
+
+The opyrability-compatible syntax for a step model is a Python function that takes
+the current state and the inputs held over one sampling period, and returns the
+state at the next sampling instant together with the outputs:
+
+```{code-cell}
+    def step_model(x, u, d=None):
+
+        # x is the current state vector.
+        # u is a vector with the AIS variables,
+        # held constant over one sampling period.
+        # d is an optional vector with the EDS variables.
+
+        x_next = f(x, u, d)   # state at the next sampling instant
+        y      = g(x, u, d)   # outputs (AOS variables)
+
+        return x_next, y
+```
+
+The state `x` can be anything from a couple of variables to the full spatial
+profile of a discretized PDE model with hundreds of states: the high-level
+function `dynamic_operability` automatically selects a propagation method that
+is suitable for the state dimension (state-space projection for low-dimensional
+states, n-step simulation otherwise).
+
+For **linear time-invariant (LTI) systems**, the step model does not need to be
+written at all. The model can be given directly as a dictionary of discrete-time
+state-space matrices, which activates an exact and fast funnel construction based
+on Minkowski sums and affine transformations {cite}`dinh26`:
+
+```python
+# x(k+1) = A x(k) + B u(k) (+ B_d d(k))
+# y(k)   = C x(k)
+
+model = {'A': A, 'B': B, 'C': C}   # optionally also 'B_d': B_d
+
+results = dynamic_operability(model, x0, AIS_bounds, DOS=DOS_bounds)
+```
+
+Identified models are usually expressed in deviation variables around the
+nominal operating point. Supplying the nominal values in the model dictionary
+(`'u_ref'`, `'y_ref'`, and optionally `'d_ref'`) lets the AIS, DOS, and EDS
+bounds be given directly in absolute engineering units: deviations are formed
+internally and the nominal output values are added back to the results.
+
+Both model forms are consumed by the same two high-level functions:
+`dynamic_operability`, which maps the dynamic achievable output funnel and
+evaluates the dynamic Operability Index (dOI) in a single call, and
+`dynamic_operability_scenarios`, which intersects funnels across disturbance
+scenarios to quantify the outputs achievable regardless of the disturbance
+realization. The
+[dynamic DMA-MR](examples_gallery/dynamic_dma_mr.ipynb) example illustrates the
+nonlinear step-model case with a 160-state reactor model, and the
+[HYPER](examples_gallery/dynamic_hyper.ipynb) example illustrates the LTI
+matrices case with funnels constructed in about a second over a 20-step horizon.
+
+#### Choosing a dynamic mapping method
+
+The three mapping methods are not competitors but a workflow: screen with the
+linear method, refine with the nonlinear projection on a reduced model when
+gain nonlinearity matters, and verify against the rigorous model with the
+n-step method. The
+[methods comparison](examples_gallery/dynamic_methods_comparison.ipynb)
+example demonstrates all three on the same problem. As a selection guide:
+
+| The question being asked | Method | Model it runs on |
+|---|---|---|
+| Is the control structure and input authority adequate? What prediction horizon does the controller need? | Linear projection | Identified LTI (`identify_lti_step_tests` builds one from step tests) |
+| What can be guaranteed under Gaussian disturbances, online? | Linear projection + `update_dynamic_funnel` + `gaussian_robust_funnel` | Identified LTI |
+| Does gain nonlinearity over a wide AIS change the verdict? | Nonlinear projection (`method='projection'`) | Reduced nonlinear model (a few states) |
+| Is this design dynamically operable according to the rigorous model? | n-step simulation (`method='nstep'`) | Full first-principles model (any state dimension) |
+| How much accuracy does a reduced model lose? | `plot_funnel_comparison` | All of the above |
+
+All methods share the same assumptions: inputs held constant between sampling
+instants (zero-order hold) at a fixed time step, a stable process (so the
+funnel converges to a time-invariant set), and full state knowledge (no state
+estimator). The results are controller-independent by construction: they
+quantify what the process can do, not what a particular controller will do.
+
 

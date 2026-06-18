@@ -1,13 +1,12 @@
 
-
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Surrogate-Based Operability Analysis of a Membrane Reactor &#8212; Opyrability&#39;s documentation.</title>
   
@@ -17,58 +16,60 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css?v=8cd3d715" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/cmu.css?v=cf4c8d3f" />
   
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
-  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/clipboard.min.js"></script>
-    <script src="../_static/copybutton.js"></script>
-    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script src="../_static/design-tabs.js"></script>
-    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
-const thebe_selector = ".thebe,.cell"
-const thebe_selector_input = "pre"
-const thebe_selector_output = ".output, .cell_output"
-</script>
-    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples_gallery/gp_surrogate_dma-mr';</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -84,19 +85,8 @@ const thebe_selector_output = ".output, .cell_output"
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -104,7 +94,6 @@ const thebe_selector_output = ".output, .cell_output"
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -112,8 +101,8 @@ const thebe_selector_output = ".output, .cell_output"
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -131,7 +120,8 @@ const thebe_selector_output = ".output, .cell_output"
       
         
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -161,17 +151,24 @@ const thebe_selector_output = ".output, .cell_output"
     
     
     <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
-    <script>document.write(`<img src="../_static/opyrability_logo.png" class="logo__image only-dark" alt="Opyrability's documentation. - Home"/>`);</script>
+    <img src="../_static/opyrability_logo.png" class="logo__image only-dark pst-js-only" alt="Opyrability's documentation. - Home"/>
   
   
 </a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../intro.html">
-                    Opyrability Documentation  
+                    Opyrability Documentation 
                 </a>
             </li>
         </ul>
@@ -196,9 +193,14 @@ const thebe_selector_output = ".output, .cell_output"
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -217,9 +219,9 @@ const thebe_selector_output = ".output, .cell_output"
   
     <div class="header-article-items__start">
       
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
   <span class="fa-solid fa-bars"></span>
-</label></div>
+</button></div>
       
     </div>
   
@@ -244,14 +246,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://mybinder.org/v2/gh/CODES-group/opyrability/main?urlpath=tree/docs/examples_gallery/gp_surrogate_dma-mr.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onBinder"
+   title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_binder.svg">
+    <img alt="Binder logo" src="../_static/images/logo_binder.svg">
   </span>
 <span class="btn__text-container">Binder</span>
 </a>
@@ -262,14 +264,14 @@ const thebe_selector_output = ".output, .cell_output"
       
       <li><a href="https://colab.research.google.com/github/CODES-group/opyrability/blob/main/docs/examples_gallery/gp_surrogate_dma-mr.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
-   title="Launch onColab"
+   title="Launch on Colab"
    data-bs-placement="left" data-bs-toggle="tooltip"
 >
   
 
 <span class="btn__icon-container">
   
-    <img src="../_static/images/logo_colab.png">
+    <img alt="Colab logo" src="../_static/images/logo_colab.png">
   </span>
 <span class="btn__text-container">Colab</span>
 </a>
@@ -395,7 +397,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
   title="Fullscreen mode"
   data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
@@ -409,27 +411,19 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
 
 
-<script>
-document.write(`
-  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
-</label>
+</button>
 </div></div>
       
     </div>
@@ -470,12 +464,12 @@ document.write(`
                 <article class="bd-article">
                   
   <section id="surrogate-based-operability-analysis-of-a-membrane-reactor">
-<h1>Surrogate-Based Operability Analysis of a Membrane Reactor<a class="headerlink" href="#surrogate-based-operability-analysis-of-a-membrane-reactor" title="Permalink to this heading">#</a></h1>
+<h1>Surrogate-Based Operability Analysis of a Membrane Reactor<a class="headerlink" href="#surrogate-based-operability-analysis-of-a-membrane-reactor" title="Link to this heading">#</a></h1>
 <p>Author: Rafael Heilbuth, Federal University of Uberlândia (PhD Student)</p>
 <p>This notebook demonstrates how surrogate models (here, <strong>Gaussian Process (GP)</strong> regression) can replace computationally expensive first-principles models for process operability analysis.</p>
 <p>Operability calculations require many model evaluations. Particularly <strong>inverse mapping</strong>, which solves numerous optimization problems to find designs achieving a desired output specification. When each model evaluation is computationally expensive, a validated surrogate enables rapid exploration of different DOS specifications or constraint scenarios.</p>
-<p>We use the <strong>Direct Methane Aromatization Membrane Reactor (DMA-MR)</strong> as our case study, inspired by <span id="id1">[<a class="reference internal" href="../bibliography.html#id37" title="Victor Alves, Vitor Gazzaneo, and Fernando V. Lima. A machine learning-based process operability framework using gaussian processes. Computers &amp; Chemical Engineering, 163:107835, 2022. URL: https://www.sciencedirect.com/science/article/pii/S0098135422001557, doi:10.1016/j.compchemeng.2022.107835.">2</a>]</span>.</p>
-<p>For details on the first-principles model equations, see the <a class="reference internal" href="membrane_reactor.html"><span class="doc std std-doc">Membrane Reactor example</span></a> in this gallery.</p>
+<p>We use the <strong>Direct Methane Aromatization Membrane Reactor (DMA-MR)</strong> as our case study, inspired by <span id="id1">[<a class="reference internal" href="../bibliography.html#id37" title="Victor Alves, Vitor Gazzaneo, and Fernando V. Lima. A machine learning-based process operability framework using gaussian processes. Computers &amp; Chemical Engineering, 163:107835, 2022. URL: https://www.sciencedirect.com/science/article/abs/pii/S0098135422001739, doi:10.1016/j.compchemeng.2022.107835.">2</a>]</span>.</p>
+<p>For details on the first-principles model equations, see the <a class="reference internal" href="membrane_reactor.html"><span class="std std-doc">Membrane Reactor example</span></a> in this gallery.</p>
 <p><strong>Variables:</strong></p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -494,7 +488,7 @@ document.write(`
 </table>
 </div>
 <section id="first-principles-model">
-<h2>First-Principles Model<a class="headerlink" href="#first-principles-model" title="Permalink to this heading">#</a></h2>
+<h2>First-Principles Model<a class="headerlink" href="#first-principles-model" title="Link to this heading">#</a></h2>
 <p>We first define the rigorous DMA-MR model that serves as our “ground truth” for generating training data. The model integrates a system of ODEs representing mole balances in a shell-and-tube membrane reactor.</p>
 <p>With the stage set, let’s start by importing some JAX modules since we will be building an automatic differentiation-based process model.</p>
 <div class="cell docutils container">
@@ -626,7 +620,7 @@ document.write(`
 </div>
 </section>
 <section id="training-data-generation">
-<h2>Training Data Generation<a class="headerlink" href="#training-data-generation" title="Permalink to this heading">#</a></h2>
+<h2>Training Data Generation<a class="headerlink" href="#training-data-generation" title="Link to this heading">#</a></h2>
 <p>To train a surrogate, we need input-output data from the first-principles model. We use <strong>Latin Hypercube Sampling (LHS)</strong> to efficiently cover the input space with 2000 samples.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -716,7 +710,7 @@ Test set: 200 samples
 </div>
 </section>
 <section id="gp-model-training-validation">
-<h2>GP Model Training &amp; Validation<a class="headerlink" href="#gp-model-training-validation" title="Permalink to this heading">#</a></h2>
+<h2>GP Model Training &amp; Validation<a class="headerlink" href="#gp-model-training-validation" title="Link to this heading">#</a></h2>
 <p>We train separate GP models for each output using scikit-learn. Inputs are standardized (Z-score) and we use a small regularization parameter since the training data is noise-free.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -760,7 +754,7 @@ Test set: 200 samples
 </div>
 </section>
 <section id="jax-wrapper-for-surrogate-model">
-<h2>JAX Wrapper for Surrogate Model<a class="headerlink" href="#jax-wrapper-for-surrogate-model" title="Permalink to this heading">#</a></h2>
+<h2>JAX Wrapper for Surrogate Model<a class="headerlink" href="#jax-wrapper-for-surrogate-model" title="Link to this heading">#</a></h2>
 <p>To use <code class="docutils literal notranslate"><span class="pre">ad=True</span></code> in opyrability’s NLP solver, we wrap the GP in a JAX-compatible function for automatic differentiation.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -803,7 +797,7 @@ Test set: 200 samples
 </div>
 </section>
 <section id="inverse-mapping-comparison">
-<h2>Inverse Mapping Comparison<a class="headerlink" href="#inverse-mapping-comparison" title="Permalink to this heading">#</a></h2>
+<h2>Inverse Mapping Comparison<a class="headerlink" href="#inverse-mapping-comparison" title="Link to this heading">#</a></h2>
 <p>We now perform <strong>NLP-based inverse mapping</strong> to find the design region (DIS*) that achieves a desired output specification.</p>
 <p><strong>Desired Output Set (DOS):</strong></p>
 <ul class="simple">
@@ -944,7 +938,7 @@ This program contains Ipopt, a library for large-scale nonlinear optimization.
 </div>
 </section>
 <section id="results-comparison">
-<h2>Results Comparison<a class="headerlink" href="#results-comparison" title="Permalink to this heading">#</a></h2>
+<h2>Results Comparison<a class="headerlink" href="#results-comparison" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate mean design values from DIS*</span>
@@ -992,7 +986,7 @@ Computational Time:
 </div>
 </section>
 <section id="operability-index-evaluation">
-<h2>Operability Index Evaluation<a class="headerlink" href="#operability-index-evaluation" title="Permalink to this heading">#</a></h2>
+<h2>Operability Index Evaluation<a class="headerlink" href="#operability-index-evaluation" title="Link to this heading">#</a></h2>
 <p>Finally, we calculate the <strong>Operability Index (OI)</strong> using multimodel representation. This measures what fraction of the DOS is achievable given the AIS constraints.</p>
 <p>Let’s import opyrability’s multimodel approach and OI evaluation modules:</p>
 <div class="cell docutils container">
@@ -1089,7 +1083,7 @@ OPERABILITY INDEX COMPARISON
 </div>
 </section>
 <section id="conclusions">
-<h2>Conclusions<a class="headerlink" href="#conclusions" title="Permalink to this heading">#</a></h2>
+<h2>Conclusions<a class="headerlink" href="#conclusions" title="Link to this heading">#</a></h2>
 <p>This example demonstrates that validated GP surrogates can reliably replace computationally expensive first-principles models for operability analysis.</p>
 <p><strong>Key Results:</strong></p>
 <ul class="simple">
@@ -1145,14 +1139,16 @@ OPERABILITY INDEX COMPARISON
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> Contents
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-principles-model">First-Principles Model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-data-generation">Training Data Generation</a></li>
@@ -1176,7 +1172,7 @@ OPERABILITY INDEX COMPARISON
   <div class="footer-item">
     
 <p class="component-author">
-By Victor Alves et al., Control, Optimization and Design for Energy and Sustainability (CODES) Group.
+By Victor Alves - Carnegie Mellon University.
 </p>
 
   </div>
@@ -1186,7 +1182,7 @@ By Victor Alves et al., Control, Optimization and Design for Energy and Sustaina
 
   <p class="copyright">
     
-      © Copyright 2022-2025.
+      © Copyright 2022-2026.
       <br/>
     
   </p>
@@ -1210,8 +1206,8 @@ By Victor Alves et al., Control, Optimization and Design for Energy and Sustaina
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
   </footer>
