@@ -17,14 +17,15 @@
 
 ![](opyrability_overview.PNG)
 
-opyrability is developed by the Control, Optimization and Design for Energy and Sustainability (CODES) Group at West Virginia University 
-under the supervision of Dr. Fernando V. Lima.
-
 Check out the table of contents below to understand the basics of process operability
 and find examples on how to use the package!
 
 ```{tableofcontents}
 ```
+
+# Authors and Development History
+
+opyrability is developed and maintained by [Victor Alves](https://victor-alves.com) at Carnegie Mellon University. Its development began in the [Control, Optimization and Design for Energy and Sustainability (CODES) Group](https://fernandolima.faculty.wvu.edu/) at West Virginia University by Victor Alves and San Dinh.
 
 # Citing us
 

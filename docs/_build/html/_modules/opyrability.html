@@ -142,8 +142,14 @@
   
   
   
+    
+    
+      
+    
+    
+    <img src="../_static/opyrability_logo.png" class="logo__image only-light" alt="Opyrability's documentation. - Home"/>
+    <img src="../_static/opyrability_logo.png" class="logo__image only-dark pst-js-only" alt="Opyrability's documentation. - Home"/>
   
-    <p class="title logo__title">Opyrability's documentation.</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -374,7 +380,6 @@
 
 <span class="c1"># Polytopic calculations</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">polytope</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pc</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">polytope.polytope</span><span class="w"> </span><span class="kn">import</span> <span class="n">_get_patch</span>
 
 <span class="c1"># Plots</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -396,9 +401,49 @@
 <span class="n">EDGES_WIDTH</span> <span class="o">=</span> <span class="mf">0.25</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_patch</span><span class="p">(</span><span class="n">poly</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Build a filled matplotlib patch for a 2D polytope.</span>
+
+<span class="sd">    Self-contained replacement for ``polytope.polytope._get_patch``. Older</span>
+<span class="sd">    ``polytope`` releases (for example 0.2.4, still current on some</span>
+<span class="sd">    conda-forge channels) construct the patch with a positional ``closed``</span>
+<span class="sd">    argument, ``matplotlib.patches.Polygon(V, True, ...)``. Recent matplotlib</span>
+<span class="sd">    makes ``closed`` keyword-only, so that positional call raises a</span>
+<span class="sd">    ``TypeError``. Vendoring the helper keeps ``plot=True`` working on any</span>
+<span class="sd">    combination of polytope and matplotlib versions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    poly : polytope.Polytope</span>
+<span class="sd">        The 2D polytope to render.</span>
+<span class="sd">    **kwargs</span>
+<span class="sd">        Keyword arguments forwarded to ``matplotlib.patches.Polygon``</span>
+<span class="sd">        (for example ``color``, ``linestyle``, ``alpha``).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    matplotlib.patches.Polygon</span>
+<span class="sd">        The filled polygon patch, drawn with ``zorder=0`` so it sits behind</span>
+<span class="sd">        other artists.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Vertices are ordered by polar angle about their centroid, which yields a</span>
+<span class="sd">    non-self-intersecting boundary for a convex polytope.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">pc</span><span class="o">.</span><span class="n">extreme</span><span class="p">(</span><span class="n">poly</span><span class="p">)</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">V</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">V</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">V</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">angles</span><span class="p">)</span>
+    <span class="n">patch</span> <span class="o">=</span> <span class="n">mpatches</span><span class="o">.</span><span class="n">Polygon</span><span class="p">(</span><span class="n">V</span><span class="p">[</span><span class="n">order</span><span class="p">,</span> <span class="p">:],</span> <span class="n">closed</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="n">patch</span><span class="o">.</span><span class="n">set_zorder</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">patch</span>
+
+
 <div class="viewcode-block" id="multimodel_rep">
 <a class="viewcode-back" href="../api.html#opyrability.multimodel_rep">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">multimodel_rep</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span> 
+<span class="k">def</span><span class="w"> </span><span class="nf">multimodel_rep</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]],</span>
                   <span class="n">bounds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> 
                   <span class="n">resolution</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                   <span class="n">polytopic_trace</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;simplices&#39;</span><span class="p">,</span>
