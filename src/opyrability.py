@@ -49,7 +49,6 @@ from pounce import minimize as pounce_minimize
 
 # Polytopic calculations
 import polytope as pc
-from polytope.polytope import _get_patch
 
 # Plots
 import matplotlib.pyplot as plt
@@ -71,7 +70,47 @@ EDGES_COLORS = '#000000'
 EDGES_WIDTH = 0.25
 
 
-def multimodel_rep(model: Callable[...,Union[float,np.ndarray]], 
+def _get_patch(poly, **kwargs):
+    '''
+    Build a filled matplotlib patch for a 2D polytope.
+
+    Self-contained replacement for ``polytope.polytope._get_patch``. Older
+    ``polytope`` releases (for example 0.2.4, still current on some
+    conda-forge channels) construct the patch with a positional ``closed``
+    argument, ``matplotlib.patches.Polygon(V, True, ...)``. Recent matplotlib
+    makes ``closed`` keyword-only, so that positional call raises a
+    ``TypeError``. Vendoring the helper keeps ``plot=True`` working on any
+    combination of polytope and matplotlib versions.
+
+    Parameters
+    ----------
+    poly : polytope.Polytope
+        The 2D polytope to render.
+    **kwargs
+        Keyword arguments forwarded to ``matplotlib.patches.Polygon``
+        (for example ``color``, ``linestyle``, ``alpha``).
+
+    Returns
+    -------
+    matplotlib.patches.Polygon
+        The filled polygon patch, drawn with ``zorder=0`` so it sits behind
+        other artists.
+
+    Notes
+    -----
+    Vertices are ordered by polar angle about their centroid, which yields a
+    non-self-intersecting boundary for a convex polytope.
+    '''
+    V = pc.extreme(poly)
+    center = V.mean(axis=0)
+    angles = np.arctan2(V[:, 1] - center[1], V[:, 0] - center[0])
+    order = np.argsort(angles)
+    patch = mpatches.Polygon(V[order, :], closed=True, **kwargs)
+    patch.set_zorder(0)
+    return patch
+
+
+def multimodel_rep(model: Callable[...,Union[float,np.ndarray]],
                   bounds: np.ndarray, 
                   resolution: np.ndarray,
                   polytopic_trace: str = 'simplices',
