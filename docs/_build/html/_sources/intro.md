@@ -1,14 +1,14 @@
 # Opyrability Documentation ![PyPI - Version](https://img.shields.io/pypi/v/opyrability)
 
 
-
+<!-- 
 ![PyPI - Downloads](https://img.shields.io/pypi/dm/opyrability) ![GitHub License](https://img.shields.io/github/license/codes-group/opyrability) [![DOI](https://joss.theoj.org/papers/10.21105/joss.05966/status.svg)](https://doi.org/10.21105/joss.05966)
 
 ![GitHub forks](https://img.shields.io/github/forks/codes-group/opyrability)
-![GitHub Repo stars](https://img.shields.io/github/stars/codes-group/opyrability)
+![GitHub Repo stars](https://img.shields.io/github/stars/codes-group/opyrability) -->
 
 
-
+[![PyPI Downloads](https://static.pepy.tech/badge/opyrability)](https://pepy.tech/projects/opyrability) ![GitHub forks](https://img.shields.io/github/forks/codes-group/opyrability) ![GitHub Repo stars](https://img.shields.io/github/stars/CODES-group/opyrability) ![GitHub top language](https://img.shields.io/github/languages/top/codes-group/opyrability) ![Website](https://img.shields.io/website?url=https%3A%2F%2Fcodes-group.github.io%2Fopyrability%2F) ![GitHub License](https://img.shields.io/github/license/codes-group/opyrability) [![DOI](https://joss.theoj.org/papers/10.21105/joss.05966/status.svg)](https://doi.org/10.21105/joss.05966)
 
 
 
