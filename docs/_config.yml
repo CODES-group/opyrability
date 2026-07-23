@@ -51,6 +51,11 @@ repository:
   path_to_book: docs  # Optional path to your book, relative to the repository root
   branch: main  # Which branch of the repository should be used when creating links (optional)
 
+# The MARP slide deck source lives under _static (served as a static file),
+# so it must never be built as a documentation page.
+exclude_patterns:
+- _static/slides/opyrability_2_0.md
+
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:

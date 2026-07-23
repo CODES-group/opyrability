@@ -5,6 +5,7 @@ format: jb-book
 root: intro
 chapters:
 - file: installation
+- file: whats_new_2_0
 - file: operability_overview
 - file: algorithms
 - file: api

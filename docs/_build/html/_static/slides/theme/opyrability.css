@@ -1,0 +1,186 @@
+/* @theme opyrability */
+
+/*
+ * opyrability 2.0 slide theme.
+ * Carnegie Red brand (matches docs/_static/cmu.css) with plot-palette accents
+ * from src/opyrability.py. System fonts only, so the built deck needs no
+ * network access when presented.
+ */
+
+@import 'default';
+
+:root {
+  --cmu-red: #C41230;
+  --cmu-red-dark: #8A0C22;
+  --cmu-red-tint: #f7d6dc;
+  --ink: #1a1a1a;
+  --muted: #5f5f5f;
+  --panel: #f7f5f5;
+
+  /* echoes of the operability plots */
+  --as-green: #1cff1c;
+  --intersect-blue: #0000cc;
+  --ds-grey: #7f7f7f;
+
+  font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+section {
+  background: #ffffff;
+  color: var(--ink);
+  font-size: 25px;
+  line-height: 1.45;
+  padding: 56px 72px 72px;
+}
+
+h1 {
+  color: var(--cmu-red);
+  font-size: 44px;
+  margin: 0 0 0.35em;
+  padding-bottom: 0.15em;
+  border-bottom: 4px solid var(--cmu-red);
+}
+
+h2 {
+  color: var(--cmu-red-dark);
+  font-size: 32px;
+  margin: 0.2em 0 0.4em;
+}
+
+h3 {
+  color: var(--ink);
+  font-size: 26px;
+}
+
+a { color: var(--cmu-red); text-decoration: none; }
+a:hover { color: var(--cmu-red-dark); text-decoration: underline; }
+strong { color: var(--cmu-red-dark); }
+
+ul, ol { margin: 0.2em 0; }
+li { margin: 0.28em 0; }
+
+code {
+  font-family: "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+:not(pre) > code {
+  color: #9c1228;
+  background: var(--panel);
+  padding: 0.08em 0.32em;
+  border-radius: 5px;
+  font-size: 0.92em;
+}
+pre {
+  background: #f7f7f8;
+  border-left: 5px solid var(--cmu-red);
+  border-radius: 6px;
+  font-size: 20px;
+  line-height: 1.4;
+  padding: 0.8em 1em;
+}
+
+blockquote {
+  border-left: 5px solid var(--cmu-red-tint);
+  color: var(--muted);
+  font-style: normal;
+}
+
+table { font-size: 21px; }
+th { background: var(--cmu-red); color: #fff; }
+tr:nth-child(even) { background: var(--panel); }
+
+img { border-radius: 6px; }
+
+/* two-up layout: text beside a figure */
+.columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: center;
+}
+.columns.wide-right { grid-template-columns: 1fr 1.4fr; }
+.columns.wide-left { grid-template-columns: 1.4fr 1fr; }
+
+/* a large statistic */
+.bignum {
+  color: var(--cmu-red);
+  font-size: 128px;
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -2px;
+}
+.sub { color: var(--muted); font-size: 22px; }
+
+/* small colored chips echoing the operability sets */
+.chip {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 999px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+.chip.as { background: #16a34a; }
+.chip.ds { background: var(--ds-grey); }
+.chip.oi { background: var(--intersect-blue); }
+
+footer { color: var(--muted); font-size: 15px; }
+section.lead footer, section.divider footer { color: rgba(255, 255, 255, 0.72); }
+section::after {
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ---- Title slide ---- */
+section.lead {
+  background: linear-gradient(135deg, var(--cmu-red) 0%, var(--cmu-red-dark) 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: left;
+}
+section.lead h1 {
+  color: #fff;
+  border-bottom: none;
+  font-size: 66px;
+  margin-bottom: 0.15em;
+}
+section.lead h2 {
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 400;
+  font-size: 30px;
+}
+section.lead p, section.lead li { color: rgba(255, 255, 255, 0.9); }
+section.lead a { color: #fff; text-decoration: underline; }
+section.lead code {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+}
+section.lead::after { color: rgba(255, 255, 255, 0.7); }
+
+/* ---- Section dividers ---- */
+section.divider {
+  background: var(--cmu-red);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+section.divider h1 {
+  color: #fff;
+  border-bottom: none;
+  font-size: 58px;
+}
+section.divider p { color: rgba(255, 255, 255, 0.88); font-size: 24px; }
+section.divider .bignum { color: #fff; }
+section.divider::after { color: rgba(255, 255, 255, 0.7); }
+
+/* ---- Dark stat slide ---- */
+section.invert { background: #17181a; color: #f2f2f2; }
+section.invert h1 { color: #ff6b81; border-bottom-color: #ff6b81; }
+section.invert .bignum { color: #ff6b81; }
+section.invert .sub { color: #b8b8b8; }
+section.invert::after { color: #888; }
