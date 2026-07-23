@@ -54,7 +54,7 @@ Map inputs to reachable outputs, score operability, and invert targets back to d
 
 ---
 
-# Adoption - 
+# Adoption :)
 
 <span class="bignum" style="font-size:58px;">37k+</span> &nbsp; <span class="sub">PyPI downloads and counting, used across the northern and southern hemispheres.</span>
 
