@@ -15,7 +15,7 @@ math: katex
 
 # ![w:560](assets/opyrability_logo.png) 2.0
 
-### Dynamic operability, new NLP solvers, brand new tools for design, models, and skills for coding agents
+### Dynamic operability, a new NLP solver, brand new tools for design, models, and skills for coding agents
 
 <div style="font-size:32px;margin-top:14px;line-height:1.45;">
 Victor Alves<br>
@@ -54,7 +54,7 @@ Map inputs to reachable outputs, score operability, and invert targets back to d
 
 ---
 
-# Adoption - 
+# Adoption :)
 
 <span class="bignum" style="font-size:58px;">37k+</span> &nbsp; <span class="sub">PyPI downloads and counting, used across the northern and southern hemispheres.</span>
 

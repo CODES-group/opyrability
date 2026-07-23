@@ -1,6 +1,13 @@
 # What's new in 2.0
 
-A slide deck about Opyrability's 2.0 adds: dynamic operability (dynamic funnels and the dynamic Operability Index), simpler installation, a new nonlinear programming solver (Pounce), design ranking and intensification using process operability principles, several examples using models built in different platforms, and a guide for using opyrability from your coding agent.
+A slide deck about Opyrability's 2.0 additions: 
+
+- dynamic operability (dynamic funnels and the dynamic Operability Index)
+- simpler installation
+- a new nonlinear programming solver (Pounce)
+- design ranking and intensification using process operability principles
+- several examples using models built in different platforms
+- a guide for using opyrability from your coding agent
 
 Use the arrow keys to move through the deck below, press `f` for full screen, or open it in a new tab with the link.
 
