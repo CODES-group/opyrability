@@ -12,7 +12,7 @@ opyrability is developed and maintained by [Victor Alves](https://victor-alves.c
 Authors:
 - [Victor Alves](https://github.com/victoraalves)
 - [San Dinh](https://github.com/sanqdinh)
-- [Jonh Kitchin](https://github.com/jkitchin)
+- [John Kitchin](https://github.com/jkitchin)
 - [Vitor Gazzaneo](https://www.linkedin.com/in/vitor-gazzaneo/)
 - [Juan C. Carrasco](https://www.linkedin.com/in/juancarlos-carrasco-moraga-1649b269/)
 - [Fernando V. Lima](https://github.com/fvlima-codes)
